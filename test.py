@@ -13,6 +13,7 @@ class Definition:
         self.test_type = ""
         self.deck_filename = ""
         self.f06csv_args = ""
+        self.reference_value = 0.0
         self.percent_threshold = 0.0
         self.percent_allow = 0.0
         self.diff_threshold = 0.0
@@ -40,10 +41,11 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
             definition.f06csv_args = definition_fields_str[2]
-            definition.percent_threshold = float(definition_fields_str[3])
-            definition.percent_allow = float(definition_fields_str[4])
-            definition.diff_threshold = float(definition_fields_str[5])
-            definition.diff_allow = float(definition_fields_str[6])
+            definition.reference_value = float(definition_fields_str[3]) if definition_fields_str[3] != "" else 0.0
+            definition.percent_threshold = float(definition_fields_str[4])
+            definition.percent_allow = float(definition_fields_str[5])
+            definition.diff_threshold = float(definition_fields_str[6])
+            definition.diff_allow = float(definition_fields_str[7])
             result.append(definition)
     
     return result
@@ -135,14 +137,21 @@ def run_case_f06magic(mystran_path: Path,
     reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".f06").resolve()
 
     # Convert f06csv args to f06magic
-    extraction_lines = f06csv_args_to_magic(test_case.f06csv_args, name="only extraction")
+    extraction_name = test_case.f06csv_args
+    extraction_lines = f06csv_args_to_magic(test_case.f06csv_args, name=extraction_name)
     
     # Make script for f06magic
     script = f"""
 [files]
 test_file = \"{test_f06_path}\"
-reference_file = \"{reference_f06_path}\"
+"""
 
+    if test_case.test_type == "mys" or test_case.test_type == "msc":
+        script = script + f"""
+reference_file = \"{reference_f06_path}\"
+"""
+
+    script = script + f"""
 {extraction_lines}
 
 [[criteria]]
@@ -150,16 +159,35 @@ name = \"only criteria\"
 max_difference = {str(test_case.diff_allow)}
 max_ratio = {str(test_case.percent_allow)}
 threshold = {str(test_case.percent_threshold)}
+"""
 
+    if test_case.test_type == "mys" or test_case.test_type == "msc":
+        script = script + f"""
 [[comparison]]
 name = \"{test_case.deck_filename}\"
 reference_f06 = \"reference_file\"
 test_f06 = \"test_file\"
-extractions = [
-    \"only extraction\"
-]
+extraction = \"{extraction_name}\"
 criteria = \"only criteria\"
 """
+
+    if test_case.test_type == "chk":
+
+        # todo difference error too.
+        # Convert % error to [min,max] range.
+        fraction_tolerance = test_case.percent_allow - 1
+        difference_tolerance = fraction_tolerance * test_case.reference_value
+        range_min = test_case.reference_value - difference_tolerance
+        range_max = test_case.reference_value + difference_tolerance
+    
+        script = script + f"""
+[[check]]
+name = \"{test_case.deck_filename}\"
+file = \"test_file\"
+extraction = \"{extraction_name}\"
+all_in_range = [{range_min}, {range_max}]
+        """
+
     #todo two thresholds
 
     # Escape \ to \\ for TOML
@@ -210,7 +238,7 @@ def main():
     with open(output_path, "w") as output_file:
         for test_case in test_cases:
             match test_case.test_type:
-                case "mys":
+                case "mys" | "chk":
                     if run_case_f06magic(mystran_path, decks_dir, reference_mystran_dir, working_dir, f06magic_path, output_file, test_case):
                         success += 1
                 case "msc":
