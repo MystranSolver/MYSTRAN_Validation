@@ -1,0 +1,162 @@
+   424093210
+
+ MYSTRAN Version 14.01    Sep 19 2022 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  4/24/2026 at  9:32:10.661 The input file is bar_13.DAT                                                                                                                                                                                                                                                      
+
+
+ >> LINK  0 BEGIN
+
+
+ID test,CONTN                                                                                                                                                                                                                                                   
+SOL 101                                                                                                                                                                                                                                                         
+CEND                                                                                                                                                                                                                                                            
+  TITLE = Static                                                                                                                                                                                                                                                
+  ECHO = NONE                                                                                                                                                                                                                                                   
+  DISPLACEMENT(PRINT) = ALL                                                                                                                                                                                                                                     
+  SPCFORCE(PRINT) = ALL                                                                                                                                                                                                                                         
+  OLOAD(PRINT) = ALL                                                                                                                                                                                                                                            
+  FORCE(PRINT,CORNER) = ALL                                                                                                                                                                                                                                     
+  STRESS(PRINT,CORNER) = ALL                                                                                                                                                                                                                                    
+  SPC = 1                                                                                                                                                                                                                                                       
+  LOAD = 1                                                                                                                                                                                                                                                      
+BEGIN BULK                                                                                                                                                                                                                                                      
+ *INFORMATION: MAT1 ENTRY        1 HAD FIELD FOR G  BLANK. MYSTRAN CALCULATED G  =  2.631579E+04
+
+
+ *WARNING    : BANDIT DID NOT RUN SUCCESSFULLY. THIS IS A NON-CRITICAL OPTIMIZATION. IT QUIT WITH ERROR =        4
+               CHECK FILE BANDIT.OUT IN THE DIRECTORY WHERE MYSTRAN.EXE RESIDES
+               SINCE FIELD 4 OF PARAM GRIDSEQ = N, MYSTRAN WILL DEFAULT TO GRID SEQUENCING BASED ON GRID NUMERICAL ORDER.
+               (THIS WAS EITHER ENTERED ON A BULK DATA PARAM GRIDSEQ ENTRY OR IS THE DEFAULT. SEE MYSTRAN DOCUMENTATION)
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  2.30E-03 MB MEMORY FROM ARRAY STF3
+
+               DEALLOCATED  4.80E-05 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  2.30E-03 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =            0
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =            0
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            = -1.739873E-15 Based on U'*(K*U - P)/(U'*P)
+
+
+ >> LINK  3 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  1.669507E+01  1.920436E+01 -4.457658E+00 -9.534173E-02  7.946561E-02 -9.696745E-03
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                     A P P L I E D    F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              2        0  2.500000E+03  1.750000E+03  7.500000E+02  0.0           0.0           0.0         
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0 -2.500000E+03 -1.750000E+03 -7.500000E+02  4.687500E+05 -7.500000E+05  1.875000E+05
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                       E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                                             F O R   E L E M E N T   T Y P E   B A R      
+                 Element       Bend-Moment End A           Bend-Moment End B              - Shear -              Axial         Torque
+                    ID       Plane 1       Plane 2       Plane 1       Plane 2      Plane 1       Plane 2        Force
+                       1  7.727080E+05  4.687500E+05 -6.815064E+03  7.500000E+03  2.500000E+03  1.479270E+03  1.198650E+03  2.405317E+04
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    7.727080E+05  4.687500E+05 -6.815064E+03  7.500000E+03  2.500000E+03  1.479270E+03  1.198650E+03  2.405317E+04
+                MIN* :    7.727080E+05  4.687500E+05 -6.815064E+03  7.500000E+03  2.500000E+03  1.479270E+03  1.198650E+03  2.405317E+04
+
+                ABS* :    7.727080E+05  4.687500E+05  6.815064E+03  7.500000E+03  2.500000E+03  1.479270E+03  1.198650E+03  2.405317E+04
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+             E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                          F O R   E L E M E N T   T Y P E   B A R      
+  Element      SA1           SA2           SA3           SA4          Axial         SA-Max        SA-Min      M.S.-T
+     ID        SB1           SB2           SB3           SB4          Stress        SB-Max        SB-Min      M.S.-C
+
+        1  9.588013E+02 -1.161297E+02 -9.588013E+02  1.161297E+02  6.514400E+00  9.653157E+02 -9.522869E+02                          
+           2.001081E+00  1.148167E+01 -2.001081E+00 -1.148167E+01                1.799606E+01 -4.967266E+00                          
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- ---------
+ MAX* :    9.588013E+02 -1.161297E+02 -9.588013E+02  1.161297E+02  6.514400E+00  9.653157E+02 -9.522869E+02 -1.00E+00
+ MAX* :    2.001081E+00  1.148167E+01 -2.001081E+00 -1.148167E+01  6.514400E+00  1.799606E+01 -4.967266E+00 -1.00E+00
+
+ MIN* :    9.588013E+02 -1.161297E+02 -9.588013E+02  1.161297E+02  6.514400E+00  9.653157E+02 -9.522869E+02 -1.00E+00
+ MIN* :    2.001081E+00  1.148167E+01 -2.001081E+00 -1.148167E+01  6.514400E+00  1.799606E+01 -4.967266E+00 -1.00E+00
+
+ ABS* :    9.588013E+02  1.161297E+02  9.588013E+02  1.161297E+02  6.514400E+00  9.653157E+02  9.522869E+02  1.00E+00
+ ABS* :    2.001081E+00  1.148167E+01  2.001081E+00  1.148167E+01  6.514400E+00  1.799606E+01  4.967266E+00  1.00E+00
+ *for output set
+
+ >> LINK  9 END
+
+    Total CPU time =  3.12E-02 seconds
+
+ >> MYSTRAN END    :  4/24/2026 at  9:32:10.865

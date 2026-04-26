@@ -1,0 +1,1351 @@
+   424123027
+
+ MYSTRAN Version 15.1.3   Dec 20 2023 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  4/24/2026 at 12:30:27.471 The input file is SB-BAR-10-BUCKLING-CF-LOAD-LAN-3D.DAT                                                                                                                                                                                                                           
+
+
+ >> LINK  0 BEGIN
+
+
+ID BAR BUCKLING                                                                                                                                                                                                                                                 
+SOL 5                                                                                                                                                                                                                                                           
+CEND                                                                                                                                                                                                                                                            
+TITLE = EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                              
+SUBTI = 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                     
+DISP          = ALL                                                                                                                                                                                                                                             
+ECHO          = UNSORT                                                                                                                                                                                                                                          
+ELFORCE(BOTH) = ALL                                                                                                                                                                                                                                             
+GPFORCE       = ALL                                                                                                                                                                                                                                             
+MPCFORCE      = ALL                                                                                                                                                                                                                                             
+OLOAD         = ALL                                                                                                                                                                                                                                             
+SPCFORCE      = ALL                                                                                                                                                                                                                                             
+STRESS        = ALL                                                                                                                                                                                                                                             
+ELDATA(0,PRINT) = ALL                                                                                                                                                                                                                                           
+ELDATA(1,PRINT) = ALL                                                                                                                                                                                                                                           
+ELDATA(2,PRINT) = ALL                                                                                                                                                                                                                                           
+ELDATA(3,PRINT) = ALL                                                                                                                                                                                                                                           
+ELDATA(4,PRINT) = ALL                                                                                                                                                                                                                                           
+ELDATA(5,PRINT) = ALL                                                                                                                                                                                                                                           
+SUBCASE 1                                                                                                                                                                                                                                                       
+  LOAD = 10                                                                                                                                                                                                                                                     
+SUBCASE 2                                                                                                                                                                                                                                                       
+  METHOD = 20                                                                                                                                                                                                                                                   
+BEGIN BULK                                                                                                                                                                                                                                                      
+$                                                                                                                                                                                                                                                               
+CORD2R  99      0        0.      0.      0.     -3.      3.      0.     +C1                                                                                                                                                                                     
++C1      3.      3.      3.                                                                                                                                                                                                                                     
+$                                                                                                                                                                                                                                                               
+FORCE   10      11      99      -1.     1.      0.      0.                                                                                                                                                                                                      
+$                                                                                                                                                                                                                                                               
+EIGRL   20                      2                       10.     MAX     +E1                                                                                                                                                                                     
++E1             DGB                                                                                                                                                                                                                                             
+$                                                                                                                                                                                                                                                               
+GRDSET          99                                                                                                                                                                                                                                              
+*                                                                                                                                                                                                                                                               
+GRID     1                0.     0.      0.             123456                                                                                                                                                                                                  
+GRID     1                0.     0.      0.             123456                                                                                                                                                                                                  
+GRID     2               10.     0.      0.                                                                                                                                                                                                                     
+GRID     3               20.     0.      0.                                                                                                                                                                                                                     
+GRID     4               30.     0.      0.                                                                                                                                                                                                                     
+GRID     5               40.     0.      0.                                                                                                                                                                                                                     
+GRID     6               50.     0.      0.                                                                                                                                                                                                                     
+GRID     7               60.     0.      0.                                                                                                                                                                                                                     
+GRID     8               70.     0.      0.                                                                                                                                                                                                                     
+GRID     9               80.     0.      0.                                                                                                                                                                                                                     
+GRID    10               90.     0.      0.                                                                                                                                                                                                                     
+GRID    11              100.     0.      0.                                                                                                                                                                                                                     
+$                                                                                                                                                                                                                                                               
+CBAR     1      1        1       2      0.      1.      0.                                                                                                                                                                                                      
+CBAR     2      1        2       3      0.      1.      0.                                                                                                                                                                                                      
+CBAR     3      1        3       4      0.      1.      0.                                                                                                                                                                                                      
+CBAR     4      1        4       5      0.      1.      0.                                                                                                                                                                                                      
+CBAR     5      1        5       6      0.      1.      0.                                                                                                                                                                                                      
+CBAR     6      1        6       7      0.      1.      0.                                                                                                                                                                                                      
+CBAR     7      1        7       8      0.      1.      0.                                                                                                                                                                                                      
+CBAR     8      1        8       9      0.      1.      0.                                                                                                                                                                                                      
+CBAR     9      1        9      10      0.      1.      0.                                                                                                                                                                                                      
+CBAR    10      1       10      11      0.      1.      0.                                                                                                                                                                                                      
+$                                                                                                                                                                                                                                                               
+PBAR*   1               1               .500            .041666666666667*                                                                                                                                                                                       
+*       104.16666666667                                                                                                                                                                                                                                         
+$                                                                                                                                                                                                                                                               
+MAT1    1       10.+6           .33     0.1     20.-6   0.                                                                                                                                                                                                      
+ *INFORMATION: MAT1 ENTRY        1 HAD FIELD FOR G  BLANK. MYSTRAN CALCULATED G  =  3.759398E+06
+$                                                                                                                                                                                                                                                               
+PARAM   SOLLIB   BANDED                                                                                                                                                                                                                                         
+PARAM   POST     -1                                                                                                                                                                                                                                             
+DEBUG   200     1                                                                                                                                                                                                                                               
+$                                                                                                                                                                                                                                                               
+ENDDATA                                                                                                                                                                                                                                                         
+
+
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  2.30E-02 MB MEMORY FROM ARRAY STF3
+
+
+ *INFORMATION: AUTOSPC Summary, Stage 1 after identification of AUTOSPC's at the grid level                                                 
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            4
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =            6
+                                                                                        ------------
+                       Total number of DOF's identified in this stage                 =           10
+
+               DEALLOCATED  2.64E-04 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  2.30E-02 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            4
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =            6
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =           10
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ *INFORMATION: MAXIMUM DIAGONAL TERM IN MATRIX         KLL                            =  5.555556E+08 Occurs in row/col no.       40
+ *INFORMATION: MINIMUM DIAGONAL TERM IN MATRIX         KLL                            =  1.700000E+05 Occurs in row/col no.       47
+ *INFORMATION: RATIO OF MAX TO MIN DIAGONALS IN MATRIX         KLL                    =  3.267974E+03
+
+ *INFORMATION: THE MAXIMUM ABSOLUTE VALUE OF THE RATIO OF MATRIX DIAGONAL TO FACTOR DIAG FOR MATRIX KLL =   1.111285E+06
+               THIS IS FOR ROW AND COL IN THE MATRIX FOR GRID POINT       11 COMP   3. THE CALLING SUBR WAS: LINK3                          
+
+
+ In DPBTRS calling DTBSV with j =            1
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            = -5.409935E-15 Based on U'*(K*U - P)/(U'*P)
+
+ In DPBTRS calling DTBSV with j =            1
+ *WARNING    : CANNOT CALCULATE EPSILON ERROR ESTIMATE FOR INTERNAL SUBCASE NUMBER        2
+               THE DOT PRODUCT OF DISPL AND LOAD VECTORS                     =    0.000000E+00 CANNOT BE INVERTED.
+               IT IS TOO SMALL COMPARED TO MACHINE SAFE MINIMUM (MACH_SFMIN) =    2.225074-308
+
+
+ >> LINK  3 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR SUBCASE        1
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0 -1.154701E-06 -1.154701E-06 -1.154701E-06  0.0          -3.801692E-18 -7.577662E-18
+              3        0 -2.309401E-06 -2.309401E-06 -2.309401E-06  0.0          -7.441732E-18 -1.483724E-17
+              4        0 -3.464102E-06 -3.464102E-06 -3.464102E-06  0.0          -1.075431E-17 -2.144716E-17
+              5        0 -4.618802E-06 -4.618802E-06 -4.618802E-06  0.0          -1.359892E-17 -2.712769E-17
+              6        0 -5.773503E-06 -5.773503E-06 -5.773503E-06  3.142675E-17  1.567764E-17  0.0         
+              7        0 -6.928203E-06 -6.928203E-06 -6.928203E-06  3.234722E-17  1.613839E-17  0.0         
+              8        0 -8.082904E-06 -8.082904E-06 -8.082904E-06  3.090959E-17  1.542091E-17  0.0         
+              9        0 -9.237604E-06 -9.237604E-06 -9.237604E-06  3.422276E-17  1.708160E-17  0.0         
+             10        0 -1.039230E-05 -1.039230E-05 -1.039230E-05  3.415918E-17  1.705156E-17  0.0         
+             11        0 -1.154701E-05 -1.154701E-05 -1.154701E-05  3.093609E-17  1.543915E-17  0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           0.0           3.422276E-17  1.708160E-17  0.0         
+                MIN* :   -1.154701E-05 -1.154701E-05 -1.154701E-05  0.0          -1.359892E-17 -2.712769E-17
+
+                ABS* :    1.154701E-05  1.154701E-05  1.154701E-05  3.422276E-17  1.708160E-17  2.712769E-17
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                                     A P P L I E D    F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+             11        0 -5.773503E-01 -5.773503E-01 -5.773503E-01  0.0           0.0           0.0         
+
+
+ OUTPUT FOR SUBCASE        1
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  5.773503E-01  5.773503E-01  5.773503E-01 -6.456372E-13  9.706190E-13 -3.249818E-13
+              2        0  0.0           0.0           0.0          -9.331610E-16  0.0           0.0         
+              3        0  0.0           0.0           0.0          -6.027617E-15  0.0           0.0         
+              4        0  0.0           0.0           0.0           2.767546E-14  0.0           0.0         
+              5        0  0.0           0.0           0.0           1.062338E-14  0.0           0.0         
+              6        0  0.0           0.0           0.0           0.0           0.0          -1.101884E-13
+              7        0  0.0           0.0           0.0           0.0           0.0          -7.146289E-14
+              8        0  0.0           0.0           0.0           0.0           0.0           1.023123E-13
+              9        0  0.0           0.0           0.0           0.0           0.0          -1.586756E-13
+             10        0  0.0           0.0           0.0           0.0           0.0          -1.069561E-13
+             11        0  0.0           0.0           0.0           0.0           0.0           9.872658E-14
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    5.773503E-01  5.773503E-01  5.773503E-01  2.767546E-14  9.706190E-13  1.023123E-13
+                MIN* :    0.0           0.0           0.0          -6.456372E-13  0.0          -3.249818E-13
+
+                ABS* :    5.773503E-01  5.773503E-01  5.773503E-01  6.456372E-13  9.706190E-13  3.249818E-13
+                *for output set
+                         ------------- ------------- ------------- ------------- ------------- -------------
+     SPC FORCE TOTALS:    5.773503E-01  5.773503E-01  5.773503E-01 -6.142991E-13  9.706190E-13 -5.712259E-13
+     (for output set)
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   2.767546E-14   0.000000E+00   1.586756E-13
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   3.133807E-14   0.000000E+00  -2.462441E-13
+     (for output set)
+
+
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+
+
+                                           G R I D   P O I N T   F O R C E   B A L A N C E
+                                             (in global coordinate system at each grid)
+
+                                FORCE BALANCE FOR GRID POINT        1 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                5.773503E-01  5.773503E-01  5.773503E-01 -6.456372E-13  9.706190E-13 -3.249818E-13
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         1 -5.773503E-01 -5.773503E-01 -5.773503E-01  6.511457E-13 -9.747081E-13  3.235624E-13
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -5.551115E-16  1.110223E-16  0.000000E+00  5.508506E-15 -4.089086E-15 -1.419420E-15
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        2 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00 -9.331610E-16  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         1  5.773503E-01  5.773503E-01  5.773503E-01 -5.577336E-13  8.115788E-13 -2.538451E-13
+ BAR      ELEM         2 -5.773503E-01 -5.773503E-01 -5.773503E-01  5.594485E-13 -7.983111E-13  2.388626E-13
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00 -2.220446E-16  1.776357E-15  7.816827E-16  1.326769E-14 -1.498253E-14
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        3 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00 -6.027617E-15  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         2  5.773503E-01  5.773503E-01  5.773503E-01 -4.547378E-13  6.250963E-13 -1.703585E-13
+ BAR      ELEM         3 -5.773503E-01 -5.773503E-01 -5.773503E-01  4.565208E-13 -6.152242E-13  1.587034E-13
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  7.771561E-16 -1.110223E-16  5.551115E-16 -4.244641E-15  9.872102E-15 -1.165508E-14
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        4 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  2.767546E-14  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         3  5.773503E-01  5.773503E-01  5.773503E-01 -3.484035E-13  4.437983E-13 -9.539484E-14
+ BAR      ELEM         4 -5.773503E-01 -5.773503E-01 -5.773503E-01  3.400336E-13 -4.228405E-13  8.280688E-14
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -6.994405E-15 -5.551115E-16  5.218048E-15  1.930558E-14  2.095784E-14 -1.258796E-14
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        5 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  1.062338E-14  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         4  5.773503E-01  5.773503E-01  5.773503E-01 -1.981548E-13  1.801588E-13  1.799599E-14
+ BAR      ELEM         5 -5.773503E-01 -5.773503E-01 -5.773503E-01  1.878256E-13 -1.634312E-13 -2.439444E-14
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  2.331468E-15 -3.330669E-16  1.221245E-15  2.941954E-16  1.672763E-14 -6.398445E-15
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        6 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -1.101884E-13
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         5  5.773503E-01  5.773503E-01  5.773503E-01 -3.670683E-14 -7.262124E-14  1.093281E-13
+ BAR      ELEM         6 -5.773503E-01 -5.773503E-01 -5.773503E-01  6.141384E-14 -5.326710E-14 -8.146741E-15
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  4.884981E-15  2.220446E-16 -5.107026E-15  2.470700E-14 -1.258883E-13 -9.007034E-15
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        7 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -7.146289E-14
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         6  5.773503E-01  5.773503E-01  5.773503E-01  5.878864E-14 -1.247229E-13  6.593426E-14
+ BAR      ELEM         7 -5.773503E-01 -5.773503E-01 -5.773503E-01 -2.315765E-14  8.386161E-15  1.477149E-14
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -2.331468E-15 -1.665335E-15 -4.107825E-15  3.563099E-14 -1.163367E-13  9.242863E-15
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        8 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  1.023123E-13
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         7  5.773503E-01  5.773503E-01  5.773503E-01  1.289734E-13 -1.760737E-13  4.710029E-14
+ BAR      ELEM         8 -5.773503E-01 -5.773503E-01 -5.773503E-01 -6.953101E-14  2.364766E-13 -1.669456E-13
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -4.107825E-15  5.551115E-16 -1.632028E-14  5.944239E-14  6.040294E-14 -1.753304E-14
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        9 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -1.586756E-13
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         8  5.773503E-01  5.773503E-01  5.773503E-01  7.745227E-14 -3.335874E-13  2.561351E-13
+ BAR      ELEM         9 -5.773503E-01 -5.773503E-01 -5.773503E-01 -6.220550E-14  1.500405E-13 -8.783500E-14
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  2.664535E-14  1.443290E-15  0.000000E+00  1.524677E-14 -1.835469E-13  9.624451E-15
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT       10 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -1.069561E-13
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         9  5.773503E-01  5.773503E-01  5.773503E-01  6.197232E-14 -9.301671E-14  3.104439E-14
+ BAR      ELEM        10 -5.773503E-01 -5.773503E-01 -5.773503E-01 -4.151548E-14 -4.410903E-14  8.562452E-14
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -8.104628E-15 -2.220446E-15 -3.663736E-15  2.045684E-14 -1.371257E-13  9.712792E-15
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT       11 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE           -5.773503E-01 -5.773503E-01 -5.773503E-01  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  9.872658E-14
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM        10  5.773503E-01  5.773503E-01  5.773503E-01  3.324757E-14  7.495599E-14 -1.082036E-13
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -3.108624E-15  7.771561E-16  2.220446E-15  3.324757E-14  7.495599E-14 -9.476978E-15
+ (should all be 0)
+
+
+
+
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                  E L E M   N O D A L   F O R C E S   I N   G L O B A L   C O O R D S
+                                               F O R   E L E M E N T   T Y P E   B A R      
+      Element     Grid         T1            T2            T3            R1            R2            R3
+         ID      Point
+              1        1  5.773503E-01  5.773503E-01  5.773503E-01 -6.511457E-13  9.747081E-13 -3.235624E-13
+                       2 -5.773503E-01 -5.773503E-01 -5.773503E-01  5.577336E-13 -8.115788E-13  2.538451E-13
+
+              2        2  5.773503E-01  5.773503E-01  5.773503E-01 -5.594485E-13  7.983111E-13 -2.388626E-13
+                       3 -5.773503E-01 -5.773503E-01 -5.773503E-01  4.547378E-13 -6.250963E-13  1.703585E-13
+
+              3        3  5.773503E-01  5.773503E-01  5.773503E-01 -4.565208E-13  6.152242E-13 -1.587034E-13
+                       4 -5.773503E-01 -5.773503E-01 -5.773503E-01  3.484035E-13 -4.437983E-13  9.539484E-14
+
+              4        4  5.773503E-01  5.773503E-01  5.773503E-01 -3.400336E-13  4.228405E-13 -8.280688E-14
+                       5 -5.773503E-01 -5.773503E-01 -5.773503E-01  1.981548E-13 -1.801588E-13 -1.799599E-14
+
+              5        5  5.773503E-01  5.773503E-01  5.773503E-01 -1.878256E-13  1.634312E-13  2.439444E-14
+                       6 -5.773503E-01 -5.773503E-01 -5.773503E-01  3.670683E-14  7.262124E-14 -1.093281E-13
+
+              6        6  5.773503E-01  5.773503E-01  5.773503E-01 -6.141384E-14  5.326710E-14  8.146741E-15
+                       7 -5.773503E-01 -5.773503E-01 -5.773503E-01 -5.878864E-14  1.247229E-13 -6.593426E-14
+
+              7        7  5.773503E-01  5.773503E-01  5.773503E-01  2.315765E-14 -8.386161E-15 -1.477149E-14
+                       8 -5.773503E-01 -5.773503E-01 -5.773503E-01 -1.289734E-13  1.760737E-13 -4.710029E-14
+
+              8        8  5.773503E-01  5.773503E-01  5.773503E-01  6.953101E-14 -2.364766E-13  1.669456E-13
+                       9 -5.773503E-01 -5.773503E-01 -5.773503E-01 -7.745227E-14  3.335874E-13 -2.561351E-13
+
+              9        9  5.773503E-01  5.773503E-01  5.773503E-01  6.220550E-14 -1.500405E-13  8.783500E-14
+                      10 -5.773503E-01 -5.773503E-01 -5.773503E-01 -6.197232E-14  9.301671E-14 -3.104439E-14
+
+             10       10  5.773503E-01  5.773503E-01  5.773503E-01  4.151548E-14  4.410903E-14 -8.562452E-14
+                      11 -5.773503E-01 -5.773503E-01 -5.773503E-01 -3.324757E-14 -7.495599E-14  1.082036E-13
+
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    5.773503E-01  5.773503E-01  5.773503E-01  5.577336E-13  9.747081E-13  2.538451E-13
+                MIN* :   -5.773503E-01 -5.773503E-01 -5.773503E-01 -6.511457E-13 -8.115788E-13 -3.235624E-13
+
+                ABS* :    5.773503E-01  5.773503E-01  5.773503E-01  6.511457E-13  9.747081E-13  3.235624E-13
+                * for output set
+
+
+ OUTPUT FOR SUBCASE        1
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                                       E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                                             F O R   E L E M E N T   T Y P E   B A R      
+                 Element       Bend-Moment End A           Bend-Moment End B              - Shear -              Axial         Torque
+                    ID       Plane 1       Plane 2       Plane 1       Plane 2      Plane 1       Plane 2        Force
+ OUTPUT FOR SUBCASE        1
+                       1 -2.316364E-13  1.193769E-12 -2.148816E-13  9.939769E-13 -1.675479E-15  1.997918E-14 -1.000000E+00  0.000000E+00
+                       2 -2.266884E-13  9.777274E-13 -2.010865E-13  7.655835E-13 -2.560193E-15  2.121439E-14 -1.000000E+00  0.000000E+00
+                       3 -2.105886E-13  7.534927E-13 -1.789041E-13  5.435397E-13 -3.168451E-15  2.099530E-14 -1.000000E+00  0.000000E+00
+                       4 -1.818868E-13  5.178717E-13 -1.528417E-13  2.206486E-13 -2.904507E-15  2.972231E-14 -1.000000E+00  0.000000E+00
+                       5 -1.500622E-13  2.001615E-13 -1.032623E-13 -8.894249E-14 -4.679997E-15  2.891040E-14 -1.000000E+00  0.000000E+00
+                       6 -4.918676E-14  6.523860E-14 -5.052712E-15 -1.527537E-13 -4.413404E-15  2.179923E-14 -1.000000E+00  0.000000E+00
+                       7  2.681995E-14 -1.027091E-14  5.789304E-14 -2.156453E-13 -3.107308E-15  2.053744E-14 -1.000000E+00  0.000000E+00
+                       8 -6.888253E-14 -2.896235E-13 -1.263478E-13 -4.085594E-13  5.746531E-15  1.189359E-14 -1.000000E+00  0.000000E+00
+                       9 -1.812279E-14 -1.837613E-13  2.186935E-14 -1.139217E-13 -3.999215E-15 -6.983960E-15 -1.000000E+00  0.000000E+00
+                      10  8.990156E-14  5.402231E-14  1.000211E-13  9.180196E-14 -1.011950E-15 -3.777965E-15 -1.000000E+00  0.000000E+00
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    8.990156E-14  1.193769E-12  1.000211E-13  9.939769E-13  5.746531E-15  2.972231E-14 -1.000000E+00  0.000000E+00
+                MIN* :   -2.316364E-13 -2.896235E-13 -2.148816E-13 -4.085594E-13 -4.679997E-15 -6.983960E-15 -1.000000E+00  0.000000E+00
+
+                ABS* :    2.316364E-13  1.193769E-12  2.148816E-13  9.939769E-13  5.746531E-15  2.972231E-14  1.000000E+00  0.000000E+00
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+             E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                          F O R   E L E M E N T   T Y P E   B A R      
+  Element      SA1           SA2           SA3           SA4          Axial         SA-Max        SA-Min      M.S.-T
+     ID        SB1           SB2           SB3           SB4          Stress        SB-Max        SB-Min      M.S.-C
+
+        1  0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00                          
+           0.0           0.0           0.0           0.0                        -2.000000E+00 -2.000000E+00                          
+
+        2  0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00                          
+           0.0           0.0           0.0           0.0                        -2.000000E+00 -2.000000E+00                          
+
+        3  0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00                          
+           0.0           0.0           0.0           0.0                        -2.000000E+00 -2.000000E+00                          
+
+        4  0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00                          
+           0.0           0.0           0.0           0.0                        -2.000000E+00 -2.000000E+00                          
+
+        5  0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00                          
+           0.0           0.0           0.0           0.0                        -2.000000E+00 -2.000000E+00                          
+
+        6  0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00                          
+           0.0           0.0           0.0           0.0                        -2.000000E+00 -2.000000E+00                          
+
+        7  0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00                          
+           0.0           0.0           0.0           0.0                        -2.000000E+00 -2.000000E+00                          
+
+        8  0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00                          
+           0.0           0.0           0.0           0.0                        -2.000000E+00 -2.000000E+00                          
+
+        9  0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00                          
+           0.0           0.0           0.0           0.0                        -2.000000E+00 -2.000000E+00                          
+
+       10  0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00                          
+           0.0           0.0           0.0           0.0                        -2.000000E+00 -2.000000E+00                          
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- ---------
+ MAX* :    0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00 -1.00E+00
+ MAX* :    0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00 -1.00E+00
+
+ MIN* :    0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00 -1.00E+00
+ MIN* :    0.0           0.0           0.0           0.0          -2.000000E+00 -2.000000E+00 -2.000000E+00 -1.00E+00
+
+ ABS* :    0.0           0.0           0.0           0.0           2.000000E+00  2.000000E+00  2.000000E+00  1.00E+00
+ ABS* :    0.0           0.0           0.0           0.0           2.000000E+00  2.000000E+00  2.000000E+00  1.00E+00
+ *for output set
+
+ >> LINK  9 END
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  2.30E-02 MB MEMORY FROM ARRAY STF3
+               DEALLOCATED  2.64E-04 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  2.30E-02 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+ *INFORMATION: MAX DIAGONAL TERM IN THE KGGD MATRIX IS =  0.00E+00 WHICH IS TOO SMALL FOR CALCULATION OF MATRIX STATS
+               IN SUBR GET_MATRIX_DIAG_STATS          
+ *INFORMATION: MAX DIAGONAL TERM IN THE KNND MATRIX IS =  0.00E+00 WHICH IS TOO SMALL FOR CALCULATION OF MATRIX STATS
+               IN SUBR GET_MATRIX_DIAG_STATS          
+ *INFORMATION: MAX DIAGONAL TERM IN THE KAAD MATRIX IS =  0.00E+00 WHICH IS TOO SMALL FOR CALCULATION OF MATRIX STATS
+               IN SUBR GET_MATRIX_DIAG_STATS          
+ *INFORMATION: MAX DIAGONAL TERM IN THE KLLD MATRIX IS =  0.00E+00 WHICH IS TOO SMALL FOR CALCULATION OF MATRIX STATS
+               IN SUBR GET_MATRIX_DIAG_STATS          
+
+ >> LINK  2 END
+
+
+ >> LINK  4 BEGIN
+
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+
+
+ >> LINK  4 END
+
+
+ >> LINK  5 BEGIN
+
+
+                           E I G E N V A L U E   A N A L Y S I S   S U M M A R Y   (LANCZOS  Mode 2 DGB, Shift eigen =  1.00E+01)
+                                                                      (BANDED solution)
+
+                                NUMBER OF EIGENVALUES EXTRACTED  . . . . . .         2
+
+                                LARGEST OFF-DIAGONAL GENERALIZED MASS TERM    -1.3E-11 (Vecs renormed to 1.0 for max value)
+
+                                                                       . . .         2
+                                          MODE PAIR . . . . . . . . . .
+                                                                       . . .         1
+
+                                NUMBER OF OFF DIAGONAL GENERALIZED MASS
+                                TERMS FAILING CRITERION OF  1.0E-04. . . . .         0
+
+
+
+                                            R E A L   E I G E N V A L U E S
+                                           (subcase 1 buckling load factors)
+
+                                         MODE  EXTRACTION      EIGENVALUE
+                                        NUMBER   ORDER
+
+                                             1       1        1.028085E+02
+                                             2       2        9.253381E+02
+
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0 -6.155830E-03  1.231166E-02 -6.155830E-03  0.0           2.128055E-03  4.256111E-03
+              3        0 -2.447174E-02  4.894348E-02 -2.447174E-02  0.0           4.203711E-03  8.407422E-03
+              4        0 -5.449674E-02  1.089935E-01 -5.449674E-02  0.0           6.175858E-03  1.235172E-02
+              5        0 -9.549150E-02  1.909830E-01 -9.549150E-02  0.0           7.995934E-03  1.599187E-02
+              6        0 -1.464466E-01  2.928932E-01 -1.464466E-01 -1.923825E-02 -9.619124E-03  0.0         
+              7        0 -2.061074E-01  4.122147E-01 -2.061074E-01 -2.201092E-02 -1.100546E-02  0.0         
+              8        0 -2.730048E-01  5.460095E-01 -2.730048E-01 -2.424161E-02 -1.212080E-02  0.0         
+              9        0 -3.454915E-01  6.909830E-01 -3.454915E-01 -2.587539E-02 -1.293769E-02  0.0         
+             10        0 -4.217828E-01  8.435655E-01 -4.217828E-01 -2.687203E-02 -1.343601E-02  0.0         
+             11        0 -5.000000E-01  1.000000E+00 -5.000000E-01 -2.720699E-02 -1.360350E-02  0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           1.000000E+00  0.0           0.0           7.995934E-03  1.599187E-02
+                MIN* :   -5.000000E-01  0.0          -5.000000E-01 -2.720699E-02 -1.360350E-02  0.0         
+
+                ABS* :    5.000000E-01  1.000000E+00  5.000000E-01  2.720699E-02  1.360350E-02  1.599187E-02
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0 -6.158362E-04  1.231672E-03 -6.158362E-04 -1.775573E-03  1.498638E-15  1.775573E-03
+              2        0  0.0           0.0           0.0           3.494756E-05  0.0           0.0         
+              3        0  0.0           0.0           0.0           6.903460E-05  0.0           0.0         
+              4        0  0.0           0.0           0.0           1.014218E-04  0.0           0.0         
+              5        0  0.0           0.0           0.0           1.313116E-04  0.0           0.0         
+              6        0  0.0           0.0           0.0           0.0           0.0          -1.579681E-04
+              7        0  0.0           0.0           0.0           0.0           0.0          -1.807349E-04
+              8        0  0.0           0.0           0.0           0.0           0.0          -1.990515E-04
+              9        0  0.0           0.0           0.0           0.0           0.0          -2.124667E-04
+             10        0  0.0           0.0           0.0           0.0           0.0          -2.206502E-04
+             11        0  0.0           0.0           0.0           0.0           0.0          -1.117003E-04
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           1.231672E-03  0.0           1.313116E-04  1.498638E-15  1.775573E-03
+                MIN* :   -6.158362E-04  0.0          -6.158362E-04 -1.775573E-03  0.0          -2.206502E-04
+
+                ABS* :    6.158362E-04  1.231672E-03  6.158362E-04  1.775573E-03  1.498638E-15  1.775573E-03
+                *for output set
+                         ------------- ------------- ------------- ------------- ------------- -------------
+     SPC FORCE TOTALS:   -6.158362E-04  1.231672E-03 -6.158362E-04 -1.438857E-03  1.498638E-15  6.930011E-04
+     (for output set)
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   1.313116E-04   0.000000E+00   2.206502E-04
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   3.367156E-04   0.000000E+00  -1.082572E-03
+     (for output set)
+
+
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+
+
+                                           G R I D   P O I N T   F O R C E   B A L A N C E
+                                             (in global coordinate system at each grid)
+
+                                FORCE BALANCE FOR GRID POINT        1 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE               -6.158362E-04  1.231672E-03 -6.158362E-04 -1.775573E-03  1.498638E-15  1.775573E-03
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         1 -6.331317E-02  1.266264E-01 -6.331318E-02 -8.921729E+01  3.149931E-07  8.921729E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -6.392901E-02  1.278580E-01 -6.392902E-02 -8.921906E+01  3.149931E-07  8.921906E+01
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        2 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  3.494756E-05  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         1  6.331317E-02 -1.266264E-01  6.331318E-02  8.812067E+01 -2.507906E-07 -8.812067E+01
+ BAR      ELEM         2 -1.883805E-01  3.767611E-01 -1.883806E-01 -8.811708E+01  2.666365E-07  8.811708E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -1.250674E-01  2.501347E-01 -1.250674E-01  3.627846E-03  1.584593E-08 -3.592915E-03
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        3 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  6.903460E-05  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         2  1.883805E-01 -3.767611E-01  1.883806E-01  8.485423E+01 -2.245651E-07 -8.485423E+01
+ BAR      ELEM         3 -3.088094E-01  6.176187E-01 -3.088094E-01 -8.484713E+01  2.162659E-07  8.484713E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -1.204288E-01  2.408576E-01 -1.204288E-01  7.166378E-03 -8.299194E-09 -7.097335E-03
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        4 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  1.014218E-04  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         3  3.088094E-01 -6.176187E-01  3.088094E-01  7.949840E+01 -1.542101E-07 -7.949840E+01
+ BAR      ELEM         4 -4.216343E-01  8.432686E-01 -4.216343E-01 -7.948797E+01  1.632396E-07  7.948797E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -1.128249E-01  2.256498E-01 -1.128249E-01  1.052843E-02  9.029523E-09 -1.042702E-02
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        5 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  1.313116E-04  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         4  4.216343E-01 -8.432686E-01  4.216343E-01  7.218505E+01 -1.293346E-07 -7.218505E+01
+ BAR      ELEM         5 -5.240771E-01  1.048154E+00 -5.240772E-01 -7.217155E+01  1.238756E-07  7.217155E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -1.024429E-01  2.048857E-01 -1.024429E-01  1.363127E-02 -5.459025E-09 -1.349995E-02
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        6 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -1.579681E-04
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         5  5.240771E-01 -1.048154E+00  5.240772E-01  6.309427E+01 -8.917392E-08 -6.309427E+01
+ BAR      ELEM         6 -6.136155E-01  1.227231E+00 -6.136155E-01 -6.307803E+01  1.150231E-07  6.307803E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -8.953835E-02  1.790767E-01 -8.953835E-02  1.624044E-02  2.584922E-08 -1.639843E-02
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        7 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -1.807349E-04
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         6  6.136155E-01 -1.227231E+00  6.136155E-01  5.244990E+01 -7.235422E-08 -5.244990E+01
+ BAR      ELEM         7 -6.880446E-01  1.376089E+00 -6.880446E-01 -5.243132E+01  5.057713E-08  5.243132E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -7.442911E-02  1.488582E-01 -7.442910E-02  1.858110E-02 -2.177709E-08 -1.876181E-02
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        8 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -1.990515E-04
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         7  6.880446E-01 -1.376089E+00  6.880446E-01  4.051403E+01 -3.499678E-08 -4.051403E+01
+ BAR      ELEM         8 -7.455318E-01  1.491064E+00 -7.455318E-01 -4.049357E+01  3.635416E-08  4.049357E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -5.748716E-02  1.149743E-01 -5.748716E-02  2.046417E-02  1.357379E-09 -2.066323E-02
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        9 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -2.124667E-04
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         8  7.455318E-01 -1.491064E+00  7.455318E-01  2.758058E+01 -1.351478E-08 -2.758058E+01
+ BAR      ELEM         9 -7.846615E-01  1.569323E+00 -7.846615E-01 -2.755874E+01  2.761972E-08  2.755874E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -3.912970E-02  7.825939E-02 -3.912970E-02  2.184336E-02  1.410494E-08 -2.205584E-02
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT       10 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -2.206502E-04
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         9  7.846615E-01 -1.569323E+00  7.846615E-01  1.396800E+01  1.062297E-09 -1.396800E+01
+ BAR      ELEM        10 -8.044702E-01  1.608940E+00 -8.044702E-01 -1.394532E+01  1.770495E-10  1.394532E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -1.980873E-02  3.961745E-02 -1.980872E-02  2.268471E-02  1.239346E-09 -2.290536E-02
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT       11 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -1.117003E-04
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM        10  8.044702E-01 -1.608940E+00  8.044702E-01  1.148374E-02  4.603286E-09 -1.148375E-02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  8.044702E-01 -1.608940E+00  8.044702E-01  1.148374E-02  4.603286E-09 -1.159545E-02
+ (should all be 0)
+
+
+
+
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                  E L E M   N O D A L   F O R C E S   I N   G L O B A L   C O O R D S
+                                               F O R   E L E M E N T   T Y P E   B A R      
+      Element     Grid         T1            T2            T3            R1            R2            R3
+         ID      Point
+              1        1  6.331317E-02 -1.266264E-01  6.331318E-02  8.921729E+01 -3.149931E-07 -8.921729E+01
+                       2 -6.331317E-02  1.266264E-01 -6.331318E-02 -8.812067E+01  2.507906E-07  8.812067E+01
+
+              2        2  1.883805E-01 -3.767611E-01  1.883806E-01  8.811708E+01 -2.666365E-07 -8.811708E+01
+                       3 -1.883805E-01  3.767611E-01 -1.883806E-01 -8.485423E+01  2.245651E-07  8.485423E+01
+
+              3        3  3.088094E-01 -6.176187E-01  3.088094E-01  8.484713E+01 -2.162659E-07 -8.484713E+01
+                       4 -3.088094E-01  6.176187E-01 -3.088094E-01 -7.949840E+01  1.542101E-07  7.949840E+01
+
+              4        4  4.216343E-01 -8.432686E-01  4.216343E-01  7.948797E+01 -1.632396E-07 -7.948797E+01
+                       5 -4.216343E-01  8.432686E-01 -4.216343E-01 -7.218505E+01  1.293346E-07  7.218505E+01
+
+              5        5  5.240771E-01 -1.048154E+00  5.240772E-01  7.217155E+01 -1.238756E-07 -7.217155E+01
+                       6 -5.240771E-01  1.048154E+00 -5.240772E-01 -6.309427E+01  8.917392E-08  6.309427E+01
+
+              6        6  6.136155E-01 -1.227231E+00  6.136155E-01  6.307803E+01 -1.150231E-07 -6.307803E+01
+                       7 -6.136155E-01  1.227231E+00 -6.136155E-01 -5.244990E+01  7.235422E-08  5.244990E+01
+
+              7        7  6.880446E-01 -1.376089E+00  6.880446E-01  5.243132E+01 -5.057713E-08 -5.243132E+01
+                       8 -6.880446E-01  1.376089E+00 -6.880446E-01 -4.051403E+01  3.499678E-08  4.051403E+01
+
+              8        8  7.455318E-01 -1.491064E+00  7.455318E-01  4.049357E+01 -3.635416E-08 -4.049357E+01
+                       9 -7.455318E-01  1.491064E+00 -7.455318E-01 -2.758058E+01  1.351478E-08  2.758058E+01
+
+              9        9  7.846615E-01 -1.569323E+00  7.846615E-01  2.755874E+01 -2.761972E-08 -2.755874E+01
+                      10 -7.846615E-01  1.569323E+00 -7.846615E-01 -1.396800E+01 -1.062297E-09  1.396800E+01
+
+             10       10  8.044702E-01 -1.608940E+00  8.044702E-01  1.394532E+01 -1.770495E-10 -1.394532E+01
+                      11 -8.044702E-01  1.608940E+00 -8.044702E-01 -1.148374E-02 -4.603286E-09  1.148375E-02
+
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    8.044702E-01  1.608940E+00  8.044702E-01  8.921729E+01  2.507906E-07  8.812067E+01
+                MIN* :   -8.044702E-01 -1.608940E+00 -8.044702E-01 -8.812067E+01 -3.149931E-07 -8.921729E+01
+
+                ABS* :    8.044702E-01  1.608940E+00  8.044702E-01  8.921729E+01  3.149931E-07  8.921729E+01
+                * for output set
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                                       E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                                             F O R   E L E M E N T   T Y P E   B A R      
+                 Element       Bend-Moment End A           Bend-Moment End B              - Shear -              Axial         Torque
+                    ID       Plane 1       Plane 2       Plane 1       Plane 2      Plane 1       Plane 2        Force
+ OUTPUT FOR EIGENVECTOR        1
+                       1  1.261723E+02 -3.857862E-07  1.246214E+02 -3.071545E-07  1.550850E-01 -7.863176E-09  1.892150E-09  0.000000E+00
+                       2  1.246164E+02 -3.265617E-07  1.200020E+02 -2.750350E-07  4.614362E-01 -5.152671E-09  1.789801E-09  0.000000E+00
+                       3  1.199920E+02 -2.648706E-07  1.124277E+02 -1.888680E-07  7.564254E-01 -7.600257E-09  1.692223E-09  0.000000E+00
+                       4  1.124130E+02 -1.999269E-07  1.020851E+02 -1.584019E-07  1.032789E+00 -4.152494E-09  1.599415E-09  0.000000E+00
+                       5  1.020660E+02 -1.517160E-07  8.922877E+01 -1.092153E-07  1.283722E+00 -4.250073E-09  1.929013E-09  0.000000E+00
+                       6  8.920580E+01 -1.408740E-07  7.417535E+01 -8.861546E-08  1.503045E+00 -5.225854E-09  2.400857E-09  0.000000E+00
+                       7  7.414908E+01 -6.194408E-08  5.729549E+01 -4.286213E-08  1.685358E+00 -1.908196E-09  2.865763E-09  0.000000E+00
+                       8  5.726655E+01 -4.452457E-08  3.900483E+01 -1.655215E-08  1.826172E+00 -2.797242E-09  1.804112E-09  0.000000E+00
+                       9  3.897394E+01 -3.382711E-08  1.975374E+01  1.301043E-09  1.922020E+00 -3.512815E-09 -6.938894E-11  0.000000E+00
+                      10  1.972166E+01 -2.168404E-10  1.624047E-02  5.637851E-09  1.970541E+00 -5.854692E-10  5.551115E-11  0.000000E+00
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    1.261723E+02 -2.168404E-10  1.246214E+02  5.637851E-09  1.970541E+00 -5.854692E-10  2.865763E-09  0.000000E+00
+                MIN* :    1.972166E+01 -3.857862E-07  1.624047E-02 -3.071545E-07  1.550850E-01 -7.863176E-09 -6.938894E-11  0.000000E+00
+
+                ABS* :    1.261723E+02  3.857862E-07  1.246214E+02  3.071545E-07  1.970541E+00  7.863176E-09  2.865763E-09  0.000000E+00
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+             E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                          F O R   E L E M E N T   T Y P E   B A R      
+  Element      SA1           SA2           SA3           SA4          Axial         SA-Max        SA-Min      M.S.-T
+     ID        SB1           SB2           SB3           SB4          Stress        SB-Max        SB-Min      M.S.-C
+
+        1  0.0           0.0           0.0           0.0           3.784299E-09  3.784299E-09  3.784299E-09                          
+           0.0           0.0           0.0           0.0                         3.784299E-09  3.784299E-09                          
+
+        2  0.0           0.0           0.0           0.0           3.579602E-09  3.579602E-09  3.579602E-09                          
+           0.0           0.0           0.0           0.0                         3.579602E-09  3.579602E-09                          
+
+        3  0.0           0.0           0.0           0.0           3.384446E-09  3.384446E-09  3.384446E-09                          
+           0.0           0.0           0.0           0.0                         3.384446E-09  3.384446E-09                          
+
+        4  0.0           0.0           0.0           0.0           3.198830E-09  3.198830E-09  3.198830E-09                          
+           0.0           0.0           0.0           0.0                         3.198830E-09  3.198830E-09                          
+
+        5  0.0           0.0           0.0           0.0           3.858025E-09  3.858025E-09  3.858025E-09                          
+           0.0           0.0           0.0           0.0                         3.858025E-09  3.858025E-09                          
+
+        6  0.0           0.0           0.0           0.0           4.801715E-09  4.801715E-09  4.801715E-09                          
+           0.0           0.0           0.0           0.0                         4.801715E-09  4.801715E-09                          
+
+        7  0.0           0.0           0.0           0.0           5.731526E-09  5.731526E-09  5.731526E-09                          
+           0.0           0.0           0.0           0.0                         5.731526E-09  5.731526E-09                          
+
+        8  0.0           0.0           0.0           0.0           3.608225E-09  3.608225E-09  3.608225E-09                          
+           0.0           0.0           0.0           0.0                         3.608225E-09  3.608225E-09                          
+
+        9  0.0           0.0           0.0           0.0          -1.387779E-10 -1.387779E-10 -1.387779E-10                          
+           0.0           0.0           0.0           0.0                        -1.387779E-10 -1.387779E-10                          
+
+       10  0.0           0.0           0.0           0.0           1.110223E-10  1.110223E-10  1.110223E-10                          
+           0.0           0.0           0.0           0.0                         1.110223E-10  1.110223E-10                          
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- ---------
+ MAX* :    0.0           0.0           0.0           0.0           5.731526E-09  5.731526E-09  5.731526E-09  1.00E+10
+ MAX* :    0.0           0.0           0.0           0.0           5.731526E-09  5.731526E-09  5.731526E-09  1.00E+10
+
+ MIN* :    0.0           0.0           0.0           0.0          -1.387779E-10 -1.387779E-10 -1.387779E-10  1.00E+10
+ MIN* :    0.0           0.0           0.0           0.0          -1.387779E-10 -1.387779E-10 -1.387779E-10  1.00E+10
+
+ ABS* :    0.0           0.0           0.0           0.0           5.731526E-09  5.731526E-09  5.731526E-09  1.00E+10
+ ABS* :    0.0           0.0           0.0           0.0           5.731526E-09  5.731526E-09  5.731526E-09  1.00E+10
+ *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0 -2.741714E-02  5.483429E-02 -2.741714E-02  0.0           9.321155E-03  1.864231E-02
+              3        0 -1.036920E-01  2.073840E-01 -1.036920E-01  0.0           1.661042E-02  3.322084E-02
+              4        0 -2.121976E-01  4.243953E-01 -2.121976E-01  0.0           2.027883E-02  4.055766E-02
+              5        0 -3.292812E-01  6.585625E-01 -3.292812E-01  0.0           1.952672E-02  3.905344E-02
+              6        0 -4.294201E-01  8.588403E-01 -4.294201E-01 -2.903608E-02 -1.451804E-02  0.0         
+              7        0 -4.907853E-01  9.815706E-01 -4.907853E-01 -1.268923E-02 -6.344616E-03  0.0         
+              8        0 -5.000000E-01  1.000000E+00 -5.000000E-01  6.423702E-03  3.211851E-03  0.0         
+              9        0 -4.550555E-01  9.101110E-01 -4.550555E-01  2.413635E-02  1.206818E-02  0.0         
+             10        0 -3.657491E-01  7.314982E-01 -3.657491E-01  3.658759E-02  1.829380E-02  0.0         
+             11        0 -2.515485E-01  5.030970E-01 -2.515485E-01  4.106322E-02  2.053161E-02  0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           1.000000E+00  0.0           4.106322E-02  2.053161E-02  4.055766E-02
+                MIN* :   -5.000000E-01  0.0          -5.000000E-01 -2.903608E-02 -1.451804E-02  0.0         
+
+                ABS* :    5.000000E-01  1.000000E+00  5.000000E-01  4.106322E-02  2.053161E-02  4.055766E-02
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0 -2.751900E-03  5.503800E-03 -2.751900E-03 -7.855840E-03 -3.914837E-15  7.855840E-03
+              2        0  0.0           0.0           0.0           1.359626E-03  0.0           0.0         
+              3        0  0.0           0.0           0.0           2.422871E-03  0.0           0.0         
+              4        0  0.0           0.0           0.0           2.957962E-03  0.0           0.0         
+              5        0  0.0           0.0           0.0           2.848256E-03  0.0           0.0         
+              6        0  0.0           0.0           0.0           0.0           0.0          -2.117667E-03
+              7        0  0.0           0.0           0.0           0.0           0.0          -9.254544E-04
+              8        0  0.0           0.0           0.0           0.0           0.0           4.684952E-04
+              9        0  0.0           0.0           0.0           0.0           0.0           1.760319E-03
+             10        0  0.0           0.0           0.0           0.0           0.0           2.668416E-03
+             11        0  0.0           0.0           0.0           0.0           0.0           1.497417E-03
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           5.503800E-03  0.0           2.957962E-03  0.0           7.855840E-03
+                MIN* :   -2.751900E-03  0.0          -2.751900E-03 -7.855840E-03 -3.914837E-15 -2.117667E-03
+
+                ABS* :    2.751900E-03  5.503800E-03  2.751900E-03  7.855840E-03  3.914837E-15  7.855840E-03
+                *for output set
+                         ------------- ------------- ------------- ------------- ------------- -------------
+     SPC FORCE TOTALS:   -2.751900E-03  5.503800E-03 -2.751900E-03  1.732874E-03 -3.914837E-15  1.120737E-02
+     (for output set)
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   2.957962E-03   0.000000E+00   2.668416E-03
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   9.588715E-03   0.000000E+00   3.351525E-03
+     (for output set)
+
+
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+
+
+                                           G R I D   P O I N T   F O R C E   B A L A N C E
+                                             (in global coordinate system at each grid)
+
+                                FORCE BALANCE FOR GRID POINT        1 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE               -2.751900E-03  5.503800E-03 -2.751900E-03 -7.855840E-03 -3.914837E-15  7.855840E-03
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         1 -2.546438E+00  5.092876E+00 -2.546438E+00 -4.104343E+02  1.640068E-07  4.104343E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -2.549190E+00  5.098380E+00 -2.549190E+00 -4.104421E+02  1.640068E-07  4.104421E+02
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        2 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  1.359626E-03  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         1  2.546438E+00 -5.092876E+00  2.546438E+00  3.663287E+02  3.327940E-07 -3.663287E+02
+ BAR      ELEM         2 -7.084224E+00  1.416845E+01 -7.084224E+00 -3.650705E+02  2.883546E-07  3.650705E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -4.537786E+00  9.075571E+00 -4.537786E+00  1.259473E+00  6.211486E-07 -1.258114E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        3 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  2.422871E-03  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         2  7.084224E+00 -1.416845E+01  7.084224E+00  2.423682E+02 -5.647288E-07 -2.423682E+02
+ BAR      ELEM         3 -1.007774E+01  2.015548E+01 -1.007774E+01 -2.401262E+02  1.653642E-07  2.401262E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -2.993517E+00  5.987035E+00 -2.993517E+00  2.244398E+00 -3.993646E-07 -2.241974E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        4 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  2.957962E-03  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         3  1.007774E+01 -2.015548E+01  1.007774E+01  6.557462E+01  1.556265E-07 -6.557462E+01
+ BAR      ELEM         4 -1.087444E+01  2.174888E+01 -1.087444E+01 -6.283751E+01  2.784398E-07  6.283751E+01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -7.967013E-01  1.593403E+00 -7.967013E-01  2.740072E+00  4.340663E-07 -2.737115E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        5 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  2.848256E-03  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         4  1.087444E+01 -2.174888E+01  1.087444E+01 -1.255134E+02 -1.470691E-07  1.255134E+02
+ BAR      ELEM         5 -9.300657E+00  1.860131E+01 -9.300657E+00  1.281490E+02  1.005051E-07 -1.281490E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  1.573785E+00 -3.147570E+00  1.573785E+00  2.638448E+00 -4.656401E-08 -2.635600E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        6 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -2.117667E-03
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         5  9.300657E+00 -1.860131E+01  9.300657E+00 -2.892411E+02  9.371819E-08  2.892411E+02
+ BAR      ELEM         6 -5.699450E+00  1.139890E+01 -5.699450E+00  2.912006E+02  7.452602E-07 -2.912006E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  3.601207E+00 -7.202414E+00  3.601207E+00  1.959557E+00  8.389784E-07 -1.961676E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        7 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00 -9.254544E-04
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         6  5.699450E+00 -1.139890E+01  5.699450E+00 -3.899180E+02 -2.040200E-07  3.899180E+02
+ BAR      ELEM         7 -8.558372E-01  1.711674E+00 -8.558372E-01  3.907744E+02 -6.489748E-07 -3.907744E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  4.843613E+00 -9.687226E+00  4.843613E+00  8.563589E-01 -8.529949E-07 -8.572835E-01
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        8 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  4.684952E-04
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         7  8.558372E-01 -1.711674E+00  8.558372E-01 -4.055979E+02  3.486989E-07  4.055979E+02
+ BAR      ELEM         8  4.174337E+00 -8.348674E+00  4.174337E+00  4.051644E+02  2.643644E-07 -4.051644E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  5.030174E+00 -1.006035E+01  5.030174E+00 -4.335168E-01  6.130633E-07  4.339847E-01
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        9 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  1.760319E-03
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         8 -4.174337E+00  8.348674E+00 -4.174337E+00 -3.328627E+02  2.104381E-07  3.328627E+02
+ BAR      ELEM         9  8.294560E+00 -1.658912E+01  8.294560E+00  3.312338E+02  2.967939E-07 -3.312338E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  4.120223E+00 -8.240446E+00  4.120223E+00 -1.628891E+00  5.072320E-07  1.630651E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT       10 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  2.668416E-03
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM         9 -8.294560E+00  1.658912E+01 -8.294560E+00 -1.875678E+02 -4.240925E-07  1.875678E+02
+ BAR      ELEM        10  1.060668E+01 -2.121335E+01  1.060668E+01  1.850987E+02  9.914771E-09 -1.850987E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  2.312117E+00 -4.624235E+00  2.312117E+00 -2.469187E+00 -4.141777E-07  2.471856E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT       11 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  1.497417E-03
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM        10 -1.060668E+01  2.121335E+01 -1.060668E+01 -1.385617E+00  8.693129E-08  1.385616E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -1.060668E+01  2.121335E+01 -1.060668E+01 -1.385617E+00  8.693129E-08  1.387114E+00
+ (should all be 0)
+
+
+
+
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                  E L E M   N O D A L   F O R C E S   I N   G L O B A L   C O O R D S
+                                               F O R   E L E M E N T   T Y P E   B A R      
+      Element     Grid         T1            T2            T3            R1            R2            R3
+         ID      Point
+              1        1  2.546438E+00 -5.092876E+00  2.546438E+00  4.104343E+02 -1.640068E-07 -4.104343E+02
+                       2 -2.546438E+00  5.092876E+00 -2.546438E+00 -3.663287E+02 -3.327940E-07  3.663287E+02
+
+              2        2  7.084224E+00 -1.416845E+01  7.084224E+00  3.650705E+02 -2.883546E-07 -3.650705E+02
+                       3 -7.084224E+00  1.416845E+01 -7.084224E+00 -2.423682E+02  5.647288E-07  2.423682E+02
+
+              3        3  1.007774E+01 -2.015548E+01  1.007774E+01  2.401262E+02 -1.653642E-07 -2.401262E+02
+                       4 -1.007774E+01  2.015548E+01 -1.007774E+01 -6.557462E+01 -1.556265E-07  6.557462E+01
+
+              4        4  1.087444E+01 -2.174888E+01  1.087444E+01  6.283751E+01 -2.784398E-07 -6.283751E+01
+                       5 -1.087444E+01  2.174888E+01 -1.087444E+01  1.255134E+02  1.470691E-07 -1.255134E+02
+
+              5        5  9.300657E+00 -1.860131E+01  9.300657E+00 -1.281490E+02 -1.005051E-07  1.281490E+02
+                       6 -9.300657E+00  1.860131E+01 -9.300657E+00  2.892411E+02 -9.371819E-08 -2.892411E+02
+
+              6        6  5.699450E+00 -1.139890E+01  5.699450E+00 -2.912006E+02 -7.452602E-07  2.912006E+02
+                       7 -5.699450E+00  1.139890E+01 -5.699450E+00  3.899180E+02  2.040200E-07 -3.899180E+02
+
+              7        7  8.558372E-01 -1.711674E+00  8.558372E-01 -3.907744E+02  6.489748E-07  3.907744E+02
+                       8 -8.558372E-01  1.711674E+00 -8.558372E-01  4.055979E+02 -3.486989E-07 -4.055979E+02
+
+              8        8 -4.174337E+00  8.348674E+00 -4.174337E+00 -4.051644E+02 -2.643644E-07  4.051644E+02
+                       9  4.174337E+00 -8.348674E+00  4.174337E+00  3.328627E+02 -2.104381E-07 -3.328627E+02
+
+              9        9 -8.294560E+00  1.658912E+01 -8.294560E+00 -3.312338E+02 -2.967939E-07  3.312338E+02
+                      10  8.294560E+00 -1.658912E+01  8.294560E+00  1.875678E+02  4.240925E-07 -1.875678E+02
+
+             10       10 -1.060668E+01  2.121335E+01 -1.060668E+01 -1.850987E+02 -9.914771E-09  1.850987E+02
+                      11  1.060668E+01 -2.121335E+01  1.060668E+01  1.385617E+00 -8.693129E-08 -1.385616E+00
+
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    1.087444E+01  2.174888E+01  1.087444E+01  4.104343E+02  6.489748E-07  4.051644E+02
+                MIN* :   -1.087444E+01 -2.174888E+01 -1.087444E+01 -4.051644E+02 -7.452602E-07 -4.104343E+02
+
+                ABS* :    1.087444E+01  2.174888E+01  1.087444E+01  4.104343E+02  7.452602E-07  4.104343E+02
+                * for output set
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+                                                       E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                                             F O R   E L E M E N T   T Y P E   B A R      
+                 Element       Bend-Moment End A           Bend-Moment End B              - Shear -              Axial         Torque
+                    ID       Plane 1       Plane 2       Plane 1       Plane 2      Plane 1       Plane 2        Force
+ OUTPUT FOR EIGENVECTOR        2
+                       1  5.804417E+02 -2.008665E-07  5.180670E+02  4.075877E-07  6.237474E+00 -6.084543E-08 -5.117434E-10  0.000000E+00
+                       2  5.162877E+02 -3.531608E-07  3.427604E+02 -6.916487E-07  1.735273E+01  3.384879E-08 -6.990936E-10  0.000000E+00
+                       3  3.395898E+02 -2.025290E-07  9.273652E+01  1.906027E-07  2.468532E+01 -3.931317E-08 -1.092876E-09  0.000000E+00
+                       4  8.886565E+01 -3.410177E-07 -1.775027E+02 -1.801221E-07  2.663683E+01 -1.608956E-08 -1.831868E-09  0.000000E+00
+                       5 -1.812300E+02 -1.230931E-07 -4.090486E+02  1.147809E-07  2.278186E+01 -2.378740E-08 -4.440892E-10  0.000000E+00
+                       6 -4.118199E+02 -9.127537E-07 -5.514273E+02 -2.498725E-07  1.396074E+01 -6.628812E-08  1.193490E-09  0.000000E+00
+                       7 -5.526384E+02  7.948286E-07 -5.736020E+02  4.270672E-07  2.096364E+00  3.677614E-08  9.436896E-10  0.000000E+00
+                       8 -5.729889E+02 -3.237789E-07 -4.707390E+02  2.577329E-07 -1.022500E+01 -5.815118E-08 -3.053113E-10  0.000000E+00
+                       9 -4.684354E+02 -3.634968E-07 -2.652610E+02 -5.194051E-07 -2.031744E+01  1.559083E-08  3.053113E-10  0.000000E+00
+                      10 -2.617690E+02 -1.214306E-08 -1.959558E+00  1.064687E-07 -2.598095E+01 -1.186117E-08 -4.024558E-10  0.000000E+00
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    5.804417E+02  7.948286E-07  5.180670E+02  4.270672E-07  2.663683E+01  3.677614E-08  1.193490E-09  0.000000E+00
+                MIN* :   -5.729889E+02 -9.127537E-07 -5.736020E+02 -6.916487E-07 -2.598095E+01 -6.628812E-08 -1.831868E-09  0.000000E+00
+
+                ABS* :    5.804417E+02  9.127537E-07  5.736020E+02  6.916487E-07  2.663683E+01  6.628812E-08  1.831868E-09  0.000000E+00
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ EULER BUCKLING OF A CANTILEVERED-FREE BEAM                                                                                                                                                                                                                      
+ 10 CBAR ELEMENTS IN 3D SPACE (NOT ALLIGNED WITH ANY AXIS), END LOAD                                                                                                                                                                                             
+
+             E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                          F O R   E L E M E N T   T Y P E   B A R      
+  Element      SA1           SA2           SA3           SA4          Axial         SA-Max        SA-Min      M.S.-T
+     ID        SB1           SB2           SB3           SB4          Stress        SB-Max        SB-Min      M.S.-C
+
+        1  0.0           0.0           0.0           0.0          -1.023487E-09 -1.023487E-09 -1.023487E-09                          
+           0.0           0.0           0.0           0.0                        -1.023487E-09 -1.023487E-09                          
+
+        2  0.0           0.0           0.0           0.0          -1.398187E-09 -1.398187E-09 -1.398187E-09                          
+           0.0           0.0           0.0           0.0                        -1.398187E-09 -1.398187E-09                          
+
+        3  0.0           0.0           0.0           0.0          -2.185752E-09 -2.185752E-09 -2.185752E-09                          
+           0.0           0.0           0.0           0.0                        -2.185752E-09 -2.185752E-09                          
+
+        4  0.0           0.0           0.0           0.0          -3.663736E-09 -3.663736E-09 -3.663736E-09                          
+           0.0           0.0           0.0           0.0                        -3.663736E-09 -3.663736E-09                          
+
+        5  0.0           0.0           0.0           0.0          -8.881784E-10 -8.881784E-10 -8.881784E-10                          
+           0.0           0.0           0.0           0.0                        -8.881784E-10 -8.881784E-10                          
+
+        6  0.0           0.0           0.0           0.0           2.386980E-09  2.386980E-09  2.386980E-09                          
+           0.0           0.0           0.0           0.0                         2.386980E-09  2.386980E-09                          
+
+        7  0.0           0.0           0.0           0.0           1.887379E-09  1.887379E-09  1.887379E-09                          
+           0.0           0.0           0.0           0.0                         1.887379E-09  1.887379E-09                          
+
+        8  0.0           0.0           0.0           0.0          -6.106227E-10 -6.106227E-10 -6.106227E-10                          
+           0.0           0.0           0.0           0.0                        -6.106227E-10 -6.106227E-10                          
+
+        9  0.0           0.0           0.0           0.0           6.106227E-10  6.106227E-10  6.106227E-10                          
+           0.0           0.0           0.0           0.0                         6.106227E-10  6.106227E-10                          
+
+       10  0.0           0.0           0.0           0.0          -8.049117E-10 -8.049117E-10 -8.049117E-10                          
+           0.0           0.0           0.0           0.0                        -8.049117E-10 -8.049117E-10                          
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- ---------
+ MAX* :    0.0           0.0           0.0           0.0           2.386980E-09  2.386980E-09  2.386980E-09  1.00E+10
+ MAX* :    0.0           0.0           0.0           0.0           2.386980E-09  2.386980E-09  2.386980E-09  1.00E+10
+
+ MIN* :    0.0           0.0           0.0           0.0          -3.663736E-09 -3.663736E-09 -3.663736E-09  1.00E+10
+ MIN* :    0.0           0.0           0.0           0.0          -3.663736E-09 -3.663736E-09 -3.663736E-09  1.00E+10
+
+ ABS* :    0.0           0.0           0.0           0.0           3.663736E-09  3.663736E-09  3.663736E-09  1.00E+10
+ ABS* :    0.0           0.0           0.0           0.0           3.663736E-09  3.663736E-09  3.663736E-09  1.00E+10
+ *for output set
+
+ >> LINK  9 END
+
+    Total CPU time =  9.38E-02 seconds
+
+ >> MYSTRAN END    :  4/24/2026 at 12:30:27.701

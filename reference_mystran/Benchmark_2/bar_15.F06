@@ -1,0 +1,233 @@
+   424093211
+
+ MYSTRAN Version 14.01    Sep 19 2022 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  4/24/2026 at  9:32:11. 83 The input file is bar_15.DAT                                                                                                                                                                                                                                                      
+
+
+ >> LINK  0 BEGIN
+
+
+ID test,CONTN                                                                                                                                                                                                                                                   
+SOL 101                                                                                                                                                                                                                                                         
+CEND                                                                                                                                                                                                                                                            
+  TITLE = Static                                                                                                                                                                                                                                                
+  ECHO = NONE                                                                                                                                                                                                                                                   
+  DISPLACEMENT(PRINT) = ALL                                                                                                                                                                                                                                     
+  SPCFORCE(PRINT) = ALL                                                                                                                                                                                                                                         
+  OLOAD(PRINT) = ALL                                                                                                                                                                                                                                            
+  FORCE(PRINT,CORNER) = ALL                                                                                                                                                                                                                                     
+  STRESS(PRINT,CORNER) = ALL                                                                                                                                                                                                                                    
+  SPC = 1                                                                                                                                                                                                                                                       
+  LOAD = 1                                                                                                                                                                                                                                                      
+BEGIN BULK                                                                                                                                                                                                                                                      
+ *INFORMATION: MAT1 ENTRY        1 HAD FIELD FOR G  BLANK. MYSTRAN CALCULATED G  =  2.631579E+04
+
+
+ *WARNING    : BANDIT DID NOT RUN SUCCESSFULLY. THIS IS A NON-CRITICAL OPTIMIZATION. IT QUIT WITH ERROR =        4
+               CHECK FILE BANDIT.OUT IN THE DIRECTORY WHERE MYSTRAN.EXE RESIDES
+               SINCE FIELD 4 OF PARAM GRIDSEQ = N, MYSTRAN WILL DEFAULT TO GRID SEQUENCING BASED ON GRID NUMERICAL ORDER.
+               (THIS WAS EITHER ENTERED ON A BULK DATA PARAM GRIDSEQ ENTRY OR IS THE DEFAULT. SEE MYSTRAN DOCUMENTATION)
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  1.38E-02 MB MEMORY FROM ARRAY STF3
+
+
+ *INFORMATION: AUTOSPC Summary, Stage 1 after identification of AUTOSPC's at the grid level                                                 
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            1
+                       Number of DOF's identified for AUTOSPC in component  2         =            1
+                       Number of DOF's identified for AUTOSPC in component  3         =            1
+                       Number of DOF's identified for AUTOSPC in component  4         =            1
+                       Number of DOF's identified for AUTOSPC in component  5         =            1
+                       Number of DOF's identified for AUTOSPC in component  6         =            1
+                                                                                        ------------
+                       Total number of DOF's identified in this stage                 =            6
+
+               DEALLOCATED  1.68E-04 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  1.38E-02 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            1
+                       Number of DOF's identified for AUTOSPC in component  2         =            1
+                       Number of DOF's identified for AUTOSPC in component  3         =            1
+                       Number of DOF's identified for AUTOSPC in component  4         =            1
+                       Number of DOF's identified for AUTOSPC in component  5         =            1
+                       Number of DOF's identified for AUTOSPC in component  6         =            1
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =            6
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            = -4.656083E-13 Based on U'*(K*U - P)/(U'*P)
+
+
+ >> LINK  3 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0 -3.005520E+01  3.431054E+01 -2.846343E+01 -3.489306E-01 -3.067140E-01  4.212360E-02
+              3        0 -9.459779E+01  9.481369E+01 -7.880795E+01 -4.578234E-01 -4.420513E-01  1.019854E-01
+              4        0 -4.012341E+01  4.573813E+01  8.777538E+00 -3.857082E-01 -3.710241E-01 -5.153162E-03
+              5        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              6        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              7        0 -1.001298E+02  1.316358E+02  5.431944E+00 -5.788596E-01 -5.004806E-01  1.714283E-01
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           1.316358E+02  8.777538E+00  0.0           0.0           1.714283E-01
+                MIN* :   -1.001298E+02  0.0          -7.880795E+01 -5.788596E-01 -5.004806E-01 -5.153162E-03
+
+                ABS* :    1.001298E+02  1.316358E+02  7.880795E+01  5.788596E-01  5.004806E-01  1.714283E-01
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                     A P P L I E D    F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              2        0 -2.420000E+03  1.720000E+03  5.000000E+02  0.0           0.0           0.0         
+              3        0  1.250000E+03  2.500000E+03  7.500000E+02  0.0           0.0           0.0         
+              4        0 -2.420000E+03  1.720000E+03  5.000000E+02  0.0           0.0           0.0         
+              7        0  1.250000E+03  2.500000E+03  7.500000E+02  0.0           0.0           0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    1.250000E+03  2.500000E+03  7.500000E+02  0.0           0.0           0.0         
+                MIN* :   -2.420000E+03  0.0           0.0           0.0           0.0           0.0         
+
+                ABS* :    2.420000E+03  2.500000E+03  7.500000E+02  0.0           0.0           0.0         
+                *for output set
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ APPLIED FORCE TOTALS:   -2.340000E+03  8.440000E+03  2.500000E+03  0.0           0.0           0.0         
+   (for output set)
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  2.618339E+02 -6.281812E+03 -3.992344E+03  3.763352E+05  2.802415E+05 -1.017821E+05
+              6        0  2.078166E+03 -2.158188E+03  1.492344E+03  2.459929E+05  7.669303E+05  5.704590E+05
+                         ------------- ------------- ------------- ------------- ------------- -------------
+     SPC FORCE TOTALS:    2.340000E+03 -8.440000E+03 -2.500000E+03  6.223281E+05  1.047172E+06  4.686770E+05
+     (for output set)
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+     (for output set)
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                       E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                                             F O R   E L E M E N T   T Y P E   B A R      
+                 Element       Bend-Moment End A           Bend-Moment End B              - Shear -              Axial         Torque
+                    ID       Plane 1       Plane 2       Plane 1       Plane 2      Plane 1       Plane 2        Force
+                       1 -6.482264E+04  4.648405E+05 -2.332235E+05  5.167377E+04  8.624609E+02  2.116023E+03  7.088522E+03 -1.012151E+05
+                       2 -7.834888E+04  9.573963E+04 -1.439252E+05  1.110430E+05  3.358474E+02 -7.837589E+01  4.118259E+03 -2.509108E+04
+                       3  1.391041E+05 -5.246846E+04 -1.493949E+05  5.571731E+04  1.702624E+03 -6.384761E+02 -1.738972E+03 -1.075718E+05
+                       4  1.619908E+05 -9.586386E+03 -1.106844E+05  3.908703E+04  6.466746E+02 -1.154335E+02  2.538307E+03 -1.883727E+04
+                       5  1.122695E+05  1.095919E+05 -5.627581E+04 -5.466840E+04  7.438608E+02  7.249494E+02 -3.354599E+03  1.525047E+05
+                       6 -1.744119E+05  5.764646E+04 -9.543712E+05 -1.098535E+05  3.271594E+03  7.025904E+02  8.170038E+01  2.263317E+05
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    1.619908E+05  4.648405E+05 -5.627581E+04  1.110430E+05  3.271594E+03  2.116023E+03  7.088522E+03  2.263317E+05
+                MIN* :   -1.744119E+05 -5.246846E+04 -9.543712E+05 -1.098535E+05  3.358474E+02 -6.384761E+02 -3.354599E+03 -1.075718E+05
+
+                ABS* :    1.744119E+05  4.648405E+05  9.543712E+05  1.110430E+05  3.271594E+03  2.116023E+03  7.088522E+03  2.263317E+05
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+             E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                          F O R   E L E M E N T   T Y P E   B A R      
+  Element      SA1           SA2           SA3           SA4          Axial         SA-Max        SA-Min      M.S.-T
+     ID        SB1           SB2           SB3           SB4          Stress        SB-Max        SB-Min      M.S.-C
+
+        1  1.297287E+03  1.491755E+03 -1.297287E+03 -1.491755E+03  3.544261E+01  1.527198E+03 -1.456312E+03                          
+          -1.948140E+02  5.048565E+02  1.948140E+02 -5.048565E+02                5.402991E+02 -4.694139E+02                          
+
+        2  1.696955E+02  4.047421E+02 -1.696955E+02 -4.047421E+02  2.059130E+01  4.253334E+02 -3.841509E+02                          
+           1.172412E+02  5.490167E+02 -1.172412E+02 -5.490167E+02                5.696080E+02 -5.284254E+02                          
+
+        3  5.125076E+01 -3.660615E+02 -5.125076E+01  3.660615E+02 -8.694861E+00  3.573666E+02 -3.747563E+02                          
+          -5.694049E+01  3.912443E+02  5.694049E+01 -3.912443E+02                3.825494E+02 -3.999392E+02                          
+
+        4  2.142270E+02 -2.717453E+02 -2.142270E+02  2.717453E+02  1.269154E+01  2.844369E+02 -2.590538E+02                          
+          -4.876550E+01  2.832876E+02  4.876550E+01 -2.832876E+02                2.959792E+02 -2.705961E+02                          
+
+        5  4.971798E+02  1.603714E+02 -4.971798E+02 -1.603714E+02 -1.677299E+01  4.804068E+02 -5.139528E+02                          
+          -2.484189E+02 -7.959145E+01  2.484189E+02  7.959145E+01                2.316459E+02 -2.651919E+02                          
+
+        6 -8.867856E+01  4.345572E+02  8.867856E+01 -4.345572E+02  4.085019E-01  4.349657E+02 -4.341487E+02                          
+          -1.761117E+03  1.101996E+03  1.761117E+03 -1.101996E+03                1.761526E+03 -1.760709E+03                          
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- ---------
+ MAX* :    1.297287E+03  1.491755E+03  8.867856E+01  3.660615E+02  3.544261E+01  1.527198E+03 -2.590538E+02 -1.00E+00
+ MAX* :    1.172412E+02  1.101996E+03  1.761117E+03  7.959145E+01  3.544261E+01  1.761526E+03 -2.651919E+02 -1.00E+00
+
+ MIN* :   -8.867856E+01 -3.660615E+02 -1.297287E+03 -1.491755E+03 -1.677299E+01  2.844369E+02 -1.456312E+03 -1.00E+00
+ MIN* :   -1.761117E+03 -7.959145E+01 -1.172412E+02 -1.101996E+03 -1.677299E+01  2.316459E+02 -1.760709E+03 -1.00E+00
+
+ ABS* :    1.297287E+03  1.491755E+03  1.297287E+03  1.491755E+03  3.544261E+01  1.527198E+03  1.456312E+03  1.00E+00
+ ABS* :    1.761117E+03  1.101996E+03  1.761117E+03  1.101996E+03  3.544261E+01  1.761526E+03  1.760709E+03  1.00E+00
+ *for output set
+
+ >> LINK  9 END
+
+    Total CPU time =  4.69E-02 seconds
+
+ >> MYSTRAN END    :  4/24/2026 at  9:32:11.275

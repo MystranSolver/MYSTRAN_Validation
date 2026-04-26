@@ -1,0 +1,195 @@
+   424093211
+
+ MYSTRAN Version 14.01    Sep 19 2022 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  4/24/2026 at  9:32:11.758 The input file is bush_03.DAT                                                                                                                                                                                                                                                     
+
+
+ >> LINK  0 BEGIN
+
+
+ID test,CONTN                                                                                                                                                                                                                                                   
+SOL 101                                                                                                                                                                                                                                                         
+CEND                                                                                                                                                                                                                                                            
+  TITLE = Static                                                                                                                                                                                                                                                
+  ECHO = NONE                                                                                                                                                                                                                                                   
+  DISPLACEMENT(PRINT) = ALL                                                                                                                                                                                                                                     
+  SPCFORCE(PRINT) = ALL                                                                                                                                                                                                                                         
+  OLOAD(PRINT) = ALL                                                                                                                                                                                                                                            
+  MPCFORCE(PRINT) = ALL                                                                                                                                                                                                                                         
+  GPFORCE(PRINT) = ALL                                                                                                                                                                                                                                          
+  FORCE(PRINT,CORNER) = ALL                                                                                                                                                                                                                                     
+  STRESS(PRINT,CORNER) = ALL                                                                                                                                                                                                                                    
+  SPC = 1                                                                                                                                                                                                                                                       
+  LOAD = 1                                                                                                                                                                                                                                                      
+BEGIN BULK                                                                                                                                                                                                                                                      
+
+
+ *WARNING    : BANDIT DID NOT RUN SUCCESSFULLY. THIS IS A NON-CRITICAL OPTIMIZATION. IT QUIT WITH ERROR =        4
+               CHECK FILE BANDIT.OUT IN THE DIRECTORY WHERE MYSTRAN.EXE RESIDES
+               SINCE FIELD 4 OF PARAM GRIDSEQ = N, MYSTRAN WILL DEFAULT TO GRID SEQUENCING BASED ON GRID NUMERICAL ORDER.
+               (THIS WAS EITHER ENTERED ON A BULK DATA PARAM GRIDSEQ ENTRY OR IS THE DEFAULT. SEE MYSTRAN DOCUMENTATION)
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+
+
+               DEALLOCATED  2.30E-03 MB MEMORY FROM ARRAY STF3
+
+               DEALLOCATED  4.80E-05 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  2.30E-03 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =            0
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =            0
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            =  1.677028E-13 Based on U'*(K*U - P)/(U'*P)
+
+
+ >> LINK  3 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0 -1.688941E+01  2.450486E+01 -1.091741E+01 -1.147534E+00 -5.807039E-01  4.638104E-01
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                     A P P L I E D    F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              2        0 -1.200000E+03  3.000000E+02  7.500000E+02  0.0           0.0           0.0         
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  1.200000E+03 -3.000000E+02 -7.500000E+02 -7.560000E+03  5.436000E+04 -3.384000E+04
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+
+
+                                           G R I D   P O I N T   F O R C E   B A L A N C E
+                                             (in global coordinate system at each grid)
+
+                                FORCE BALANCE FOR GRID POINT        1 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                1.200000E+03 -3.000000E+02 -7.500000E+02 -7.560000E+03  5.436000E+04 -3.384000E+04
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+ BUSH     ELEM         1 -1.200000E+03  3.000000E+02  7.500000E+02  7.560000E+03 -5.436000E+04  3.384000E+04
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  4.547474E-13  1.136868E-13 -1.136868E-13  1.864464E-09  7.275958E-12 -4.656613E-10
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        2 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE           -1.200000E+03  3.000000E+02  7.500000E+02  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+ BUSH     ELEM         1  1.200000E+03 -3.000000E+02 -7.500000E+02  8.440111E-10 -2.328306E-10 -4.656613E-10
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -2.273737E-13 -8.367351E-11  1.466560E-11  8.440111E-10 -2.328306E-10 -4.656613E-10
+ (should all be 0)
+
+
+
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+                                        E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                             F O R   E L E M E N T   T Y P E   B U S H    
+                 Element      Force         Force         Force        Moment        Moment        Moment
+                    ID         XE            YE            ZE            XE            YE            ZE
+                       1 -1.141044E+03  8.824545E+02  1.085898E+02 -1.189815E+04 -1.830381E+04  2.372197E+04
+                          ------------- ------------- ------------- ------------- ------------- ------------- 
+                MAX* :   -1.141044E+03  8.824545E+02  1.085898E+02 -1.189815E+04 -1.830381E+04  2.372197E+04
+                MIN* :   -1.141044E+03  8.824545E+02  1.085898E+02 -1.189815E+04 -1.830381E+04  2.372197E+04
+
+                ABS* :    1.141044E+03  8.824545E+02  1.085898E+02  1.189815E+04  1.830381E+04  2.372197E+04
+                *for output set
+
+
+
+
+ OUTPUT FOR SUBCASE        1
+ Static                                                                                                                                                                                                                                                          
+
+           E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                        F O R   E L E M E N T   T Y P E   B U S H    
+                     Element   Stress-1      Stress-2      Stress-3      Stress-4      Stress-5      Stress-6
+                        ID
+                          1 -4.106532E+04  2.717272E+05 -1.791895E+05 -1.189815E+04 -4.228189E+06 -6.360249E+06
+
+
+ >> LINK  9 END
+
+    Total CPU time =  4.69E-02 seconds
+
+ >> MYSTRAN END    :  4/24/2026 at  9:32:11.844

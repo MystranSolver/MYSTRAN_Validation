@@ -1,0 +1,1067 @@
+   424123020
+
+ MYSTRAN Version 15.1.3   Dec 20 2023 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  4/24/2026 at 12:30:20.695 The input file is EB-BAR-CC-GIV.DAT                                                                                                                                                                                                                                               
+
+
+ >> LINK  0 BEGIN
+
+
+ID BAR                                                                                                                                                                                                                                                          
+SOL 3                                                                                                                                                                                                                                                           
+CEND                                                                                                                                                                                                                                                            
+TITLE  = BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                    
+SUBT   = FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                           
+SPC    = 1                                                                                                                                                                                                                                                      
+METHOD = 1                                                                                                                                                                                                                                                      
+DISP          = ALL                                                                                                                                                                                                                                             
+ECHO          = UNSORT                                                                                                                                                                                                                                          
+ELFORCE(BOTH) = ALL                                                                                                                                                                                                                                             
+GPFORCE       = ALL                                                                                                                                                                                                                                             
+MEFFMASS      = ALL                                                                                                                                                                                                                                             
+MPCFORCE      = ALL                                                                                                                                                                                                                                             
+MPFACTOR      = ALL                                                                                                                                                                                                                                             
+SPCFORCE      = ALL                                                                                                                                                                                                                                             
+STRESS        = ALL                                                                                                                                                                                                                                             
+BEGIN BULK                                                                                                                                                                                                                                                      
+$                                                                                                                                                                                                                                                               
+EIGR    1       GIV                             4                       +E1                                                                                                                                                                                     
++E1     POINT   5       3                                                                                                                                                                                                                                       
+$                                                                                                                                                                                                                                                               
+GRDSET                                                  12 4 6                                                                                                                                                                                                  
+$                                                                                                                                                                                                                                                               
+GRID    1                 0.    0.      0.                                                                                                                                                                                                                      
+GRID    2                25.    0.      0.                                                                                                                                                                                                                      
+GRID    3                50.    0.      0.                                                                                                                                                                                                                      
+GRID    4                75.    0.      0.                                                                                                                                                                                                                      
+GRID    5               100.    0.      0.                                                                                                                                                                                                                      
+$                                                                                                                                                                                                                                                               
+CBAR    102     25      1       2       0.      0.      1.                                                                                                                                                                                                      
+CBAR    203     25      2       3       0.      0.      1.                                                                                                                                                                                                      
+CBAR    304     25      3       4       0.      0.      1.                                                                                                                                                                                                      
+CBAR    405     25      4       5       0.      0.      1.                                                                                                                                                                                                      
+$                                                                                                                                                                                                                                                               
+PBAR    25      20      .1      .1      .1      .1                                                                                                                                                                                                              
+$                                                                                                                                                                                                                                                               
+MAT1    20      10.+06          .3      .1                                                                                                                                                                                                                      
+ *INFORMATION: MAT1 ENTRY       20 HAD FIELD FOR G  BLANK. MYSTRAN CALCULATED G  =  3.846154E+06
+$                                                                                                                                                                                                                                                               
+SPC1    1       35      1                                                                                                                                                                                                                                       
+$                                                                                                                                                                                                                                                               
+PARAM   ART_MASS Y      0.      1.E-6                                                                                                                                                                                                                           
+$                                                                                                                                                                                                                                                               
+PARAM   SOLLIB   BANDED                                                                                                                                                                                                                                         
+PARAM   GRDPNT   0                                                                                                                                                                                                                                              
+PARAM   POST     -1                                                                                                                                                                                                                                             
+PARAM   WTMASS   .002591                                                                                                                                                                                                                                        
+$                                                                                                                                                                                                                                                               
+DEBUG   185     1                                                       Get modes even if no mass                                                                                                                                                               
+DEBUG   192     2                                                       GPFO summary                                                                                                                                                                            
+DEBUG   200     1                                                       ANS                                                                                                                                                                                     
+$                                                                                                                                                                                                                                                               
+ENDDATA                                                                                                                                                                                                                                                         
+
+
+
+
+       O U T P U T   F R O M   T H E   G R I D   P O I N T   W E I G H T   G E N E R A T O R   F O R   O V E R A L L   M O D E L
+                                             (reference point is basic coord system origin)
+
+                                                      Total mass =  1.000000E+00
+
+                                                             X             Y             Z
+                                       C.G. location :  5.000000E+01  0.000000E+00  0.000000E+00
+                                        (relative to reference point in basic coordinate system)
+
+
+                             6x6 Rigid body mass matrix - about reference point in basic coordinate system
+                      ***                                                                                     ***
+                      *  1.000000E+00  0.000000E+00  0.000000E+00  *  0.000000E+00  0.000000E+00 -0.000000E+00  *
+                      *  0.000000E+00  1.000000E+00  0.000000E+00  * -0.000000E+00  0.000000E+00  5.000000E+01  *
+                      *  0.000000E+00  0.000000E+00  1.000000E+00  *  0.000000E+00 -5.000000E+01  0.000000E+00  *
+                      *  ************  ************  ************  *  ************  ************  ************  *
+                      *  0.000000E+00  0.000000E+00  0.000000E+00  *  0.000000E+00  0.000000E+00  0.000000E+00  *
+                      *  0.000000E+00  0.000000E+00  0.000000E+00  *  0.000000E+00  3.437500E+03  0.000000E+00  *
+                      *  0.000000E+00  0.000000E+00  0.000000E+00  *  0.000000E+00  0.000000E+00  3.437500E+03  *
+                      ***                                                                                     ***
+
+
+                                    M.O.I. matrix - about reference point in basic coordinate system
+                                             ***                                        ***
+                                             *  0.000000E+00  0.000000E+00  0.000000E+00  *
+                                             *  0.000000E+00  3.437500E+03  0.000000E+00  *
+                                             *  0.000000E+00  0.000000E+00  3.437500E+03  *
+                                             ***                                        ***
+
+
+                                  M.O.I. matrix - about above c.g. location in basic coordinate system
+                                             ***                                        ***
+                                             *  0.000000E+00  0.000000E+00  0.000000E+00  *
+                                             *  0.000000E+00  9.375000E+02  0.000000E+00  *
+                                             *  0.000000E+00  0.000000E+00  9.375000E+02  *
+                                             ***                                        ***
+
+
+                                     M.O.I. matrix - about above c.g. location in principal directions
+                                             ***                                        ***
+                                             *  0.000000E+00  0.000000E+00  0.000000E+00  *
+                                             *  0.000000E+00  9.375000E+02  0.000000E+00  *
+                                             *  0.000000E+00  0.000000E+00  9.375000E+02  *
+                                             ***                                        ***
+
+
+                                     Transformation from basic coordinates to principal directions
+                                             ***                                        ***
+                                             *  1.000000E+00  0.000000E+00  0.000000E+00  *
+                                             * -0.000000E+00  1.000000E+00  0.000000E+00  *
+                                             *  0.000000E+00  0.000000E+00  1.000000E+00  *
+                                             ***                                        ***
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  9.22E-03 MB MEMORY FROM ARRAY STF3
+
+               DEALLOCATED  1.20E-04 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  9.22E-03 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =            0
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =            0
+
+
+ >> LINK  2 END
+
+
+ >> LINK  4 BEGIN
+
+
+ >> LINK  4 END
+
+
+ >> LINK  5 BEGIN
+
+
+                           E I G E N V A L U E   A N A L Y S I S   S U M M A R Y   (GIV     )
+(BANDED solution)
+
+                                NUMBER OF EIGENVALUES EXTRACTED  . . . . . .         4
+
+                                LARGEST OFF-DIAGONAL GENERALIZED MASS TERM    -2.4E-19 (Vecs renormed to 1.0 at grid-comp       5-3)
+
+                                                                       . . .         3
+                                          MODE PAIR . . . . . . . . . .
+                                                                       . . .         1
+
+                                NUMBER OF OFF DIAGONAL GENERALIZED MASS
+                                TERMS FAILING CRITERION OF  1.0E-04. . . . .         0
+
+
+
+                                            R E A L   E I G E N V A L U E S
+    MODE  EXTRACTION      EIGENVALUE           RADIANS              CYCLES            GENERALIZED         GENERALIZED        
+   NUMBER   ORDER                                                                        MASS              STIFFNESS
+
+        1       1        4.509067E+03        6.714959E+01        1.068719E+01        6.800571E-04        3.066423E+00
+        2       2        1.557785E+05        3.946879E+02        6.281653E+01        9.499997E-04        1.479896E+02
+        3       3        1.092406E+06        1.045182E+03        1.663460E+02        2.094704E-03        2.288268E+03
+        4       4        3.318753E+06        1.821744E+03        2.899396E+02        1.147843E-02        3.809406E+04
+
+
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  0.0           0.0           9.586856E-02  0.0          -7.186983E-03  0.0         
+              3        0  0.0           0.0           3.359532E-01  0.0          -1.156646E-02  0.0         
+              4        0  0.0           0.0           6.540799E-01  0.0          -1.353256E-02  0.0         
+              5        0  0.0           0.0           1.000000E+00  0.0          -1.398892E-02  0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           1.000000E+00  0.0           0.0           0.0         
+                MIN* :    0.0           0.0           0.0           0.0          -1.398892E-02  0.0         
+
+                ABS* :    0.0           0.0           1.000000E+00  0.0           1.398892E-02  0.0         
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0          -4.632020E+00  0.0           3.453796E+02  0.0         
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+
+
+                                           G R I D   P O I N T   F O R C E   B A L A N C E
+                                             (in global coordinate system at each grid)
+
+                                FORCE BALANCE FOR GRID POINT        1 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00 -4.632020E+00  0.000000E+00  3.453796E+02  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM       102  0.000000E+00  0.000000E+00  4.632020E+00  0.000000E+00 -3.453796E+02  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        2 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  2.800079E-01  0.000000E+00 -8.396547E-08  0.000000E+00
+ BAR      ELEM       102  0.000000E+00  0.000000E+00 -4.632020E+00  0.000000E+00  2.295791E+02  0.000000E+00
+ BAR      ELEM       203  0.000000E+00  0.000000E+00  4.352012E+00  0.000000E+00 -2.295791E+02  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00 -2.664535E-15  0.000000E+00 -2.319211E-11  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        3 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  9.812348E-01  0.000000E+00 -1.351308E-07  0.000000E+00
+ BAR      ELEM       203  0.000000E+00  0.000000E+00 -4.352012E+00  0.000000E+00  1.207788E+02  0.000000E+00
+ BAR      ELEM       304  0.000000E+00  0.000000E+00  3.370777E+00  0.000000E+00 -1.207788E+02  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00 -1.113687E-10  0.000000E+00  5.528022E-12  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        4 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  1.910403E+00  0.000000E+00 -1.581008E-07  0.000000E+00
+ BAR      ELEM       304  0.000000E+00  0.000000E+00 -3.370777E+00  0.000000E+00  3.650935E+01  0.000000E+00
+ BAR      ELEM       405  0.000000E+00  0.000000E+00  1.460374E+00  0.000000E+00 -3.650935E+01  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  4.701395E-11  0.000000E+00  4.875744E-11  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        5 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  1.460374E+00  0.000000E+00 -1.634325E-07  0.000000E+00
+ BAR      ELEM       405  0.000000E+00  0.000000E+00 -1.460374E+00  0.000000E+00  1.634312E-07  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00 -7.771783E-12  0.000000E+00 -1.313907E-12  0.000000E+00
+ (should all be 0)
+
+
+                                      Max abs values of force imbalance totals from above grids
+
+                               T1            T2            T3            R1            R2            R3
+
+ Max abs imbal any grid:  0.000000E+00  0.000000E+00  1.113687E-10  0.000000E+00  4.875744E-11  0.000000E+00
+ Max abs force any grid:  0.000000E+00  0.000000E+00  4.632020E+00  0.000000E+00  3.453796E+02  0.000000E+00
+ as % of max abs force :                                  2.40E-09%                   1.41E-11%              
+ Occurs at grid*       :         1             1             3             1             4             1
+ (*for output set)
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                  E L E M   N O D A L   F O R C E S   I N   G L O B A L   C O O R D S
+                                               F O R   E L E M E N T   T Y P E   B A R      
+      Element     Grid         T1            T2            T3            R1            R2            R3
+         ID      Point
+            102        1  0.0           0.0          -4.632020E+00  0.0           3.453796E+02  0.0         
+                       2  0.0           0.0           4.632020E+00  0.0          -2.295791E+02  0.0         
+
+            203        2  0.0           0.0          -4.352012E+00  0.0           2.295791E+02  0.0         
+                       3  0.0           0.0           4.352012E+00  0.0          -1.207788E+02  0.0         
+
+            304        3  0.0           0.0          -3.370777E+00  0.0           1.207788E+02  0.0         
+                       4  0.0           0.0           3.370777E+00  0.0          -3.650935E+01  0.0         
+
+            405        4  0.0           0.0          -1.460374E+00  0.0           3.650935E+01  0.0         
+                       5  0.0           0.0           1.460374E+00  0.0          -1.634312E-07  0.0         
+
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           4.632020E+00  0.0           3.453796E+02  0.0         
+                MIN* :    0.0           0.0          -4.632020E+00  0.0          -2.295791E+02  0.0         
+
+                ABS* :    0.0           0.0           4.632020E+00  0.0           3.453796E+02  0.0         
+                * for output set
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                       E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                                             F O R   E L E M E N T   T Y P E   B A R      
+                 Element       Bend-Moment End A           Bend-Moment End B              - Shear -              Axial         Torque
+                    ID       Plane 1       Plane 2       Plane 1       Plane 2      Plane 1       Plane 2        Force
+                     102  3.453796E+02  0.000000E+00  2.295791E+02  0.000000E+00  4.632020E+00  0.000000E+00  0.000000E+00  0.000000E+00
+                     203  2.295791E+02  0.000000E+00  1.207788E+02  0.000000E+00  4.352012E+00  0.000000E+00  0.000000E+00  0.000000E+00
+                     304  1.207788E+02  0.000000E+00  3.650935E+01  0.000000E+00  3.370777E+00  0.000000E+00  0.000000E+00  0.000000E+00
+                     405  3.650935E+01  0.000000E+00  1.634285E-07  0.000000E+00  1.460374E+00  0.000000E+00  0.000000E+00  0.000000E+00
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    3.453796E+02  0.000000E+00  2.295791E+02  0.000000E+00  4.632020E+00  0.000000E+00  0.000000E+00  0.000000E+00
+                MIN* :    3.650935E+01  0.000000E+00  1.634285E-07  0.000000E+00  1.460374E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+                ABS* :    3.453796E+02  0.000000E+00  2.295791E+02  0.000000E+00  4.632020E+00  0.000000E+00  0.000000E+00  0.000000E+00
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+             E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                          F O R   E L E M E N T   T Y P E   B A R      
+  Element      SA1           SA2           SA3           SA4          Axial         SA-Max        SA-Min      M.S.-T
+     ID        SB1           SB2           SB3           SB4          Stress        SB-Max        SB-Min      M.S.-C
+
+      102  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      203  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      304  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      405  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- ---------
+ MAX* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ MAX* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+
+ MIN* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ MIN* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+
+ ABS* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ ABS* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  0.0           0.0          -4.544341E-01  0.0           2.526497E-02  0.0         
+              3        0  0.0           0.0          -8.281750E-01  0.0          -1.678897E-03  0.0         
+              4        0  0.0           0.0          -2.724529E-01  0.0          -4.038712E-02  0.0         
+              5        0  0.0           0.0           1.000000E+00  0.0          -5.615361E-02  0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           1.000000E+00  0.0           2.526497E-02  0.0         
+                MIN* :    0.0           0.0          -8.281750E-01  0.0          -5.615361E-02  0.0         
+
+                ABS* :    0.0           0.0           1.000000E+00  0.0           5.615361E-02  0.0         
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           1.064616E+02  0.0          -2.341369E+03  0.0         
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+
+
+                                           G R I D   P O I N T   F O R C E   B A L A N C E
+                                             (in global coordinate system at each grid)
+
+                                FORCE BALANCE FOR GRID POINT        1 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  1.064616E+02  0.000000E+00 -2.341369E+03  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM       102  0.000000E+00  0.000000E+00 -1.064616E+02  0.000000E+00  2.341369E+03  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        2 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00 -4.585492E+01  0.000000E+00  1.019750E-05  0.000000E+00
+ BAR      ELEM       102  0.000000E+00  0.000000E+00  1.064616E+02  0.000000E+00  3.201712E+02  0.000000E+00
+ BAR      ELEM       203  0.000000E+00  0.000000E+00 -6.060669E+01  0.000000E+00 -3.201712E+02  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  1.504930E-11  0.000000E+00  2.808065E-11  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        3 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00 -8.356746E+01  0.000000E+00 -6.776403E-07  0.000000E+00
+ BAR      ELEM       203  0.000000E+00  0.000000E+00  6.060669E+01  0.000000E+00  1.835339E+03  0.000000E+00
+ BAR      ELEM       304  0.000000E+00  0.000000E+00  2.296076E+01  0.000000E+00 -1.835339E+03  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  5.929905E-10  0.000000E+00 -2.819434E-11  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        4 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00 -2.749201E+01  0.000000E+00 -1.630114E-05  0.000000E+00
+ BAR      ELEM       304  0.000000E+00  0.000000E+00 -2.296076E+01  0.000000E+00  1.261319E+03  0.000000E+00
+ BAR      ELEM       405  0.000000E+00  0.000000E+00  5.045278E+01  0.000000E+00 -1.261319E+03  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00 -2.196003E-10  0.000000E+00 -1.557510E-10  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        5 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  5.045278E+01  0.000000E+00 -2.266485E-05  0.000000E+00
+ BAR      ELEM       405  0.000000E+00  0.000000E+00 -5.045278E+01  0.000000E+00  2.266482E-05  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  9.670487E-12  0.000000E+00 -2.534241E-11  0.000000E+00
+ (should all be 0)
+
+
+                                      Max abs values of force imbalance totals from above grids
+
+                               T1            T2            T3            R1            R2            R3
+
+ Max abs imbal any grid:  0.000000E+00  0.000000E+00  5.929905E-10  0.000000E+00  1.557510E-10  0.000000E+00
+ Max abs force any grid:  0.000000E+00  0.000000E+00  1.064616E+02  0.000000E+00  2.341369E+03  0.000000E+00
+ as % of max abs force :                                  5.57E-10%                   6.65E-12%              
+ Occurs at grid*       :         1             1             3             1             4             1
+ (*for output set)
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                  E L E M   N O D A L   F O R C E S   I N   G L O B A L   C O O R D S
+                                               F O R   E L E M E N T   T Y P E   B A R      
+      Element     Grid         T1            T2            T3            R1            R2            R3
+         ID      Point
+            102        1  0.0           0.0           1.064616E+02  0.0          -2.341369E+03  0.0         
+                       2  0.0           0.0          -1.064616E+02  0.0          -3.201712E+02  0.0         
+
+            203        2  0.0           0.0           6.060669E+01  0.0           3.201712E+02  0.0         
+                       3  0.0           0.0          -6.060669E+01  0.0          -1.835339E+03  0.0         
+
+            304        3  0.0           0.0          -2.296076E+01  0.0           1.835339E+03  0.0         
+                       4  0.0           0.0           2.296076E+01  0.0          -1.261319E+03  0.0         
+
+            405        4  0.0           0.0          -5.045278E+01  0.0           1.261319E+03  0.0         
+                       5  0.0           0.0           5.045278E+01  0.0          -2.266482E-05  0.0         
+
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           1.064616E+02  0.0           1.835339E+03  0.0         
+                MIN* :    0.0           0.0          -1.064616E+02  0.0          -2.341369E+03  0.0         
+
+                ABS* :    0.0           0.0           1.064616E+02  0.0           2.341369E+03  0.0         
+                * for output set
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                       E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                                             F O R   E L E M E N T   T Y P E   B A R      
+                 Element       Bend-Moment End A           Bend-Moment End B              - Shear -              Axial         Torque
+                    ID       Plane 1       Plane 2       Plane 1       Plane 2      Plane 1       Plane 2        Force
+                     102 -2.341369E+03  0.000000E+00  3.201712E+02  0.000000E+00 -1.064616E+02  0.000000E+00  0.000000E+00  0.000000E+00
+                     203  3.201712E+02  0.000000E+00  1.835339E+03  0.000000E+00 -6.060669E+01  0.000000E+00  0.000000E+00  0.000000E+00
+                     304  1.835339E+03  0.000000E+00  1.261319E+03  0.000000E+00  2.296076E+01  0.000000E+00  0.000000E+00  0.000000E+00
+                     405  1.261319E+03  0.000000E+00  2.266482E-05  0.000000E+00  5.045278E+01  0.000000E+00  0.000000E+00  0.000000E+00
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    1.835339E+03  0.000000E+00  1.835339E+03  0.000000E+00  5.045278E+01  0.000000E+00  0.000000E+00  0.000000E+00
+                MIN* :   -2.341369E+03  0.000000E+00  2.266482E-05  0.000000E+00 -1.064616E+02  0.000000E+00  0.000000E+00  0.000000E+00
+
+                ABS* :    2.341369E+03  0.000000E+00  1.835339E+03  0.000000E+00  1.064616E+02  0.000000E+00  0.000000E+00  0.000000E+00
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+             E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                          F O R   E L E M E N T   T Y P E   B A R      
+  Element      SA1           SA2           SA3           SA4          Axial         SA-Max        SA-Min      M.S.-T
+     ID        SB1           SB2           SB3           SB4          Stress        SB-Max        SB-Min      M.S.-C
+
+      102  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      203  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      304  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      405  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- ---------
+ MAX* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ MAX* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+
+ MIN* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ MIN* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+
+ ABS* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ ABS* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        3
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  0.0           0.0           1.197016E+00  0.0          -2.890484E-02  0.0         
+              3        0  0.0           0.0           3.081911E-01  0.0           7.863642E-02  0.0         
+              4        0  0.0           0.0          -1.098175E+00  0.0          -1.021800E-02  0.0         
+              5        0  0.0           0.0           1.000000E+00  0.0          -1.207815E-01  0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           1.197016E+00  0.0           7.863642E-02  0.0         
+                MIN* :    0.0           0.0          -1.098175E+00  0.0          -1.207815E-01  0.0         
+
+                ABS* :    0.0           0.0           1.197016E+00  0.0           1.207815E-01  0.0         
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        3
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0          -6.418216E+02  0.0           9.178964E+03  0.0         
+
+
+ OUTPUT FOR EIGENVECTOR        3
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+
+
+                                           G R I D   P O I N T   F O R C E   B A L A N C E
+                                             (in global coordinate system at each grid)
+
+                                FORCE BALANCE FOR GRID POINT        1 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00 -6.418216E+02  0.000000E+00  9.178964E+03  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM       102  0.000000E+00  0.000000E+00  6.418216E+02  0.000000E+00 -9.178964E+03  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        2 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  8.470157E+02  0.000000E+00 -8.181297E-05  0.000000E+00
+ BAR      ELEM       102  0.000000E+00  0.000000E+00 -6.418216E+02  0.000000E+00 -6.866577E+03  0.000000E+00
+ BAR      ELEM       203  0.000000E+00  0.000000E+00 -2.051941E+02  0.000000E+00  6.866577E+03  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00 -9.595169E-11  0.000000E+00 -4.001777E-11  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        3 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  2.180779E+02  0.000000E+00  2.225745E-04  0.000000E+00
+ BAR      ELEM       203  0.000000E+00  0.000000E+00  2.051941E+02  0.000000E+00 -1.736724E+03  0.000000E+00
+ BAR      ELEM       304  0.000000E+00  0.000000E+00 -4.232721E+02  0.000000E+00  1.736724E+03  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00 -4.762910E-10  0.000000E+00  1.500666E-11  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        4 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00 -7.770752E+02  0.000000E+00 -2.892129E-05  0.000000E+00
+ BAR      ELEM       304  0.000000E+00  0.000000E+00  4.232721E+02  0.000000E+00  8.845078E+03  0.000000E+00
+ BAR      ELEM       405  0.000000E+00  0.000000E+00  3.538031E+02  0.000000E+00 -8.845078E+03  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  5.917400E-11  0.000000E+00  1.036824E-10  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        5 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  3.538031E+02  0.000000E+00 -3.418629E-04  0.000000E+00
+ BAR      ELEM       405  0.000000E+00  0.000000E+00 -3.538031E+02  0.000000E+00  3.418629E-04  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  3.950618E-11  0.000000E+00  5.712604E-11  0.000000E+00
+ (should all be 0)
+
+
+                                      Max abs values of force imbalance totals from above grids
+
+                               T1            T2            T3            R1            R2            R3
+
+ Max abs imbal any grid:  0.000000E+00  0.000000E+00  4.762910E-10  0.000000E+00  1.036824E-10  0.000000E+00
+ Max abs force any grid:  0.000000E+00  0.000000E+00  8.470157E+02  0.000000E+00  9.178964E+03  0.000000E+00
+ as % of max abs force :                                  5.62E-11%                   1.13E-12%              
+ Occurs at grid*       :         1             1             3             1             4             1
+ (*for output set)
+
+
+ OUTPUT FOR EIGENVECTOR        3
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                  E L E M   N O D A L   F O R C E S   I N   G L O B A L   C O O R D S
+                                               F O R   E L E M E N T   T Y P E   B A R      
+      Element     Grid         T1            T2            T3            R1            R2            R3
+         ID      Point
+            102        1  0.0           0.0          -6.418216E+02  0.0           9.178964E+03  0.0         
+                       2  0.0           0.0           6.418216E+02  0.0           6.866577E+03  0.0         
+
+            203        2  0.0           0.0           2.051941E+02  0.0          -6.866577E+03  0.0         
+                       3  0.0           0.0          -2.051941E+02  0.0           1.736724E+03  0.0         
+
+            304        3  0.0           0.0           4.232721E+02  0.0          -1.736724E+03  0.0         
+                       4  0.0           0.0          -4.232721E+02  0.0          -8.845078E+03  0.0         
+
+            405        4  0.0           0.0          -3.538031E+02  0.0           8.845078E+03  0.0         
+                       5  0.0           0.0           3.538031E+02  0.0          -3.418629E-04  0.0         
+
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           6.418216E+02  0.0           9.178964E+03  0.0         
+                MIN* :    0.0           0.0          -6.418216E+02  0.0          -8.845078E+03  0.0         
+
+                ABS* :    0.0           0.0           6.418216E+02  0.0           9.178964E+03  0.0         
+                * for output set
+
+
+ OUTPUT FOR EIGENVECTOR        3
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                       E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                                             F O R   E L E M E N T   T Y P E   B A R      
+                 Element       Bend-Moment End A           Bend-Moment End B              - Shear -              Axial         Torque
+                    ID       Plane 1       Plane 2       Plane 1       Plane 2      Plane 1       Plane 2        Force
+                     102  9.178964E+03  0.000000E+00 -6.866577E+03  0.000000E+00  6.418216E+02  0.000000E+00  0.000000E+00  0.000000E+00
+                     203 -6.866577E+03  0.000000E+00 -1.736724E+03  0.000000E+00 -2.051941E+02  0.000000E+00  0.000000E+00  0.000000E+00
+                     304 -1.736724E+03  0.000000E+00  8.845078E+03  0.000000E+00 -4.232721E+02  0.000000E+00  0.000000E+00  0.000000E+00
+                     405  8.845078E+03  0.000000E+00  3.418629E-04  0.000000E+00  3.538031E+02  0.000000E+00  0.000000E+00  0.000000E+00
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    9.178964E+03  0.000000E+00  8.845078E+03  0.000000E+00  6.418216E+02  0.000000E+00  0.000000E+00  0.000000E+00
+                MIN* :   -6.866577E+03  0.000000E+00 -6.866577E+03  0.000000E+00 -4.232721E+02  0.000000E+00  0.000000E+00  0.000000E+00
+
+                ABS* :    9.178964E+03  0.000000E+00  8.845078E+03  0.000000E+00  6.418216E+02  0.000000E+00  0.000000E+00  0.000000E+00
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        3
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+             E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                          F O R   E L E M E N T   T Y P E   B A R      
+  Element      SA1           SA2           SA3           SA4          Axial         SA-Max        SA-Min      M.S.-T
+     ID        SB1           SB2           SB3           SB4          Stress        SB-Max        SB-Min      M.S.-C
+
+      102  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      203  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      304  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      405  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- ---------
+ MAX* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ MAX* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+
+ MIN* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ MIN* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+
+ ABS* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ ABS* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        4
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  0.0           0.0          -2.686733E+00  0.0          -6.941269E-02  0.0         
+              3        0  0.0           0.0           2.647239E+00  0.0          -4.001791E-02  0.0         
+              4        0  0.0           0.0          -1.730332E+00  0.0           1.147161E-01  0.0         
+              5        0  0.0           0.0           1.000000E+00  0.0          -2.211780E-01  0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           2.647239E+00  0.0           1.147161E-01  0.0         
+                MIN* :    0.0           0.0          -2.686733E+00  0.0          -2.211780E-01  0.0         
+
+                ABS* :    0.0           0.0           2.686733E+00  0.0           2.211780E-01  0.0         
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        4
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           2.729773E+03  0.0          -3.134565E+04  0.0         
+
+
+ OUTPUT FOR EIGENVECTOR        4
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+
+
+                                           G R I D   P O I N T   F O R C E   B A L A N C E
+                                             (in global coordinate system at each grid)
+
+                                FORCE BALANCE FOR GRID POINT        1 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  2.729773E+03  0.000000E+00 -3.134565E+04  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BAR      ELEM       102  0.000000E+00  0.000000E+00 -2.729773E+03  0.000000E+00  3.134565E+04  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        2 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00 -5.775730E+03  0.000000E+00 -5.968720E-04  0.000000E+00
+ BAR      ELEM       102  0.000000E+00  0.000000E+00  2.729773E+03  0.000000E+00  3.689867E+04  0.000000E+00
+ BAR      ELEM       203  0.000000E+00  0.000000E+00  3.045957E+03  0.000000E+00 -3.689867E+04  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00 -3.619789E-10  0.000000E+00 -3.055902E-10  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        3 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  5.690828E+03  0.000000E+00 -3.441095E-04  0.000000E+00
+ BAR      ELEM       203  0.000000E+00  0.000000E+00 -3.045957E+03  0.000000E+00 -3.925025E+04  0.000000E+00
+ BAR      ELEM       304  0.000000E+00  0.000000E+00 -2.644871E+03  0.000000E+00  3.925025E+04  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00 -1.964509E-09  0.000000E+00  5.093170E-11  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        4 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00 -3.719732E+03  0.000000E+00  9.864313E-04  0.000000E+00
+ BAR      ELEM       304  0.000000E+00  0.000000E+00  2.644871E+03  0.000000E+00  2.687153E+04  0.000000E+00
+ BAR      ELEM       405  0.000000E+00  0.000000E+00  1.074861E+03  0.000000E+00 -2.687153E+04  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  2.037268E-10  0.000000E+00  2.874003E-10  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        5 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ INERTIA FORCE (-Mgg*Üg)  0.000000E+00  0.000000E+00  1.074861E+03  0.000000E+00 -1.901885E-03  0.000000E+00
+ BAR      ELEM       405  0.000000E+00  0.000000E+00 -1.074861E+03  0.000000E+00  1.901885E-03  0.000000E+00
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  0.000000E+00  0.000000E+00  1.871285E-10  0.000000E+00 -1.660924E-11  0.000000E+00
+ (should all be 0)
+
+
+                                      Max abs values of force imbalance totals from above grids
+
+                               T1            T2            T3            R1            R2            R3
+
+ Max abs imbal any grid:  0.000000E+00  0.000000E+00  1.964509E-09  0.000000E+00  3.055902E-10  0.000000E+00
+ Max abs force any grid:  0.000000E+00  0.000000E+00  5.775730E+03  0.000000E+00  3.925025E+04  0.000000E+00
+ as % of max abs force :                                  3.40E-11%                   7.79E-13%              
+ Occurs at grid*       :         1             1             3             1             2             1
+ (*for output set)
+
+
+ OUTPUT FOR EIGENVECTOR        4
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                  E L E M   N O D A L   F O R C E S   I N   G L O B A L   C O O R D S
+                                               F O R   E L E M E N T   T Y P E   B A R      
+      Element     Grid         T1            T2            T3            R1            R2            R3
+         ID      Point
+            102        1  0.0           0.0           2.729773E+03  0.0          -3.134565E+04  0.0         
+                       2  0.0           0.0          -2.729773E+03  0.0          -3.689867E+04  0.0         
+
+            203        2  0.0           0.0          -3.045957E+03  0.0           3.689867E+04  0.0         
+                       3  0.0           0.0           3.045957E+03  0.0           3.925025E+04  0.0         
+
+            304        3  0.0           0.0           2.644871E+03  0.0          -3.925025E+04  0.0         
+                       4  0.0           0.0          -2.644871E+03  0.0          -2.687153E+04  0.0         
+
+            405        4  0.0           0.0          -1.074861E+03  0.0           2.687153E+04  0.0         
+                       5  0.0           0.0           1.074861E+03  0.0          -1.901885E-03  0.0         
+
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           3.045957E+03  0.0           3.925025E+04  0.0         
+                MIN* :    0.0           0.0          -3.045957E+03  0.0          -3.925025E+04  0.0         
+
+                ABS* :    0.0           0.0           3.045957E+03  0.0           3.925025E+04  0.0         
+                * for output set
+
+
+ OUTPUT FOR EIGENVECTOR        4
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+                                                       E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                                             F O R   E L E M E N T   T Y P E   B A R      
+                 Element       Bend-Moment End A           Bend-Moment End B              - Shear -              Axial         Torque
+                    ID       Plane 1       Plane 2       Plane 1       Plane 2      Plane 1       Plane 2        Force
+                     102 -3.134565E+04  0.000000E+00  3.689867E+04  0.000000E+00 -2.729773E+03  0.000000E+00  0.000000E+00  0.000000E+00
+                     203  3.689867E+04  0.000000E+00 -3.925025E+04  0.000000E+00  3.045957E+03  0.000000E+00  0.000000E+00  0.000000E+00
+                     304 -3.925025E+04  0.000000E+00  2.687153E+04  0.000000E+00 -2.644871E+03  0.000000E+00  0.000000E+00  0.000000E+00
+                     405  2.687153E+04  0.000000E+00  1.901885E-03  0.000000E+00  1.074861E+03  0.000000E+00  0.000000E+00  0.000000E+00
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    3.689867E+04  0.000000E+00  3.689867E+04  0.000000E+00  3.045957E+03  0.000000E+00  0.000000E+00  0.000000E+00
+                MIN* :   -3.925025E+04  0.000000E+00 -3.925025E+04  0.000000E+00 -2.729773E+03  0.000000E+00  0.000000E+00  0.000000E+00
+
+                ABS* :    3.925025E+04  0.000000E+00  3.925025E+04  0.000000E+00  3.045957E+03  0.000000E+00  0.000000E+00  0.000000E+00
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        4
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+
+             E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                          F O R   E L E M E N T   T Y P E   B A R      
+  Element      SA1           SA2           SA3           SA4          Axial         SA-Max        SA-Min      M.S.-T
+     ID        SB1           SB2           SB3           SB4          Stress        SB-Max        SB-Min      M.S.-C
+
+      102  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      203  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      304  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+
+      405  0.0           0.0           0.0           0.0           0.0           0.0           0.0                                   
+           0.0           0.0           0.0           0.0                         0.0           0.0                                   
+          ------------- ------------- ------------- ------------- ------------- ------------- ------------- ---------
+ MAX* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ MAX* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+
+ MIN* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ MIN* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+
+ ABS* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ ABS* :    0.0           0.0           0.0           0.0           0.0           0.0           0.0           1.00E+10
+ *for output set
+
+------------------------------------------------------------------------------------------------------------------------------------
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                 
+
+                                        M O D A L   P A R T I C I P A T I O N   F A C T O R S
+                                             (dimensionless, in coordinate sys        0)
+                                        Reference point is the basic coordinate system origin
+
+             MODE     CYCLES          T1            T2            T3            R1            R2            R3
+              NUM
+                1  1.068719E+01  0.000000E+00  0.000000E+00 -1.510561E+00  0.000000E+00  1.126327E+02  0.000000E+00
+                2  6.281653E+01  0.000000E+00  0.000000E+00  7.193859E-01  0.000000E+00 -1.582118E+01  0.000000E+00
+                3  1.663460E+02  0.000000E+00  0.000000E+00 -2.804836E-01  0.000000E+00  4.011315E+00  0.000000E+00
+                4  2.899396E+02  0.000000E+00  0.000000E+00  7.165876E-02  0.000000E+00 -8.228489E-01  0.000000E+00
+
+------------------------------------------------------------------------------------------------------------------------------------
+ BAR WITH 4 ELEMENTS                                                                                                                                                                                                                                             
+ FIXED BASE EIGENVALUES - GIV                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                 
+
+                                  E F F E C T I V E   M O D A L   M A S S E S   O R   W E I G H T S
+                                                   (in coordinate system        0)
+                                     Units are same as units for mass input in the Bulk Data Deck
+                                        Reference point is the basic coordinate system origin
+
+             MODE     CYCLES          T1            T2            T3            R1            R2            R3
+              NUM
+                1  1.068719E+01  0.000000E+00  0.000000E+00  5.989004E-01  0.000000E+00  3.329715E+03  0.000000E+00
+                2  6.281653E+01  0.000000E+00  0.000000E+00  1.897492E-01  0.000000E+00  9.177695E+01  0.000000E+00
+                3  1.663460E+02  0.000000E+00  0.000000E+00  6.360191E-02  0.000000E+00  1.300855E+01  0.000000E+00
+                4  2.899396E+02  0.000000E+00  0.000000E+00  2.274854E-02  0.000000E+00  2.999543E+00  0.000000E+00
+                                 ------------  ------------  ------------  ------------  ------------  ------------
+                 Sum all modes:  0.000000E+00  0.000000E+00  8.750000E-01  0.000000E+00  3.437500E+03  0.000000E+00
+              Total model mass:  1.000000E+00  1.000000E+00  1.000000E+00  0.000000E+00  3.437500E+03  3.437500E+03
+        Modes % of total mass*:         0.00%         0.00%        87.50%                     100.00%         0.00%
+
+ *If all modes are calculated the % of total mass should be 100% of the free mass (i.e. not counting mass at constrained DOF's).
+  Percentages are only printed for components that have finite model mass.
+                                                               -----
+
+ >> LINK  9 END
+
+    Total CPU time =  6.25E-02 seconds
+
+ >> MYSTRAN END    :  4/24/2026 at 12:30:20.985

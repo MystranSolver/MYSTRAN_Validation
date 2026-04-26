@@ -1,0 +1,384 @@
+   424093213
+
+ MYSTRAN Version 14.01    Sep 19 2022 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  4/24/2026 at  9:32:13.706 The input file is case_0002.DAT                                                                                                                                                                                                                                                   
+
+
+ >> LINK  0 BEGIN
+
+
+ID BEAM,CONTN                                                                                                                                                                                                                                                   
+SOL 101                                                                                                                                                                                                                                                         
+TIME 10000                                                                                                                                                                                                                                                      
+CEND                                                                                                                                                                                                                                                            
+  TITLE = ANALYSE                                                                                                                                                                                                                                               
+  SUBTITLE = TEST                                                                                                                                                                                                                                               
+  LABEL = TEST                                                                                                                                                                                                                                                  
+  ECHO = NONE                                                                                                                                                                                                                                                   
+  DISPLACEMENT(PRINT) = ALL                                                                                                                                                                                                                                     
+  SPCFORCE(PRINT) = ALL                                                                                                                                                                                                                                         
+  OLOAD(PRINT) = ALL                                                                                                                                                                                                                                            
+  MPCFORCE(PRINT) = ALL                                                                                                                                                                                                                                         
+  GPFORCE(PRINT) = ALL                                                                                                                                                                                                                                          
+  FORCE(PRINT,CORNER) = ALL                                                                                                                                                                                                                                     
+  STRESS(PRINT,CORNER) = ALL                                                                                                                                                                                                                                    
+SUBCASE 1                                                                                                                                                                                                                                                       
+  SUBTITLE = SPC - Force                                                                                                                                                                                                                                        
+  SPC = 1                                                                                                                                                                                                                                                       
+  LOAD = 1                                                                                                                                                                                                                                                      
+SUBCASE 2                                                                                                                                                                                                                                                       
+  SUBTITLE = SPC - Mass                                                                                                                                                                                                                                         
+  SPC = 1                                                                                                                                                                                                                                                       
+  LOAD = 2                                                                                                                                                                                                                                                      
+BEGIN BULK                                                                                                                                                                                                                                                      
+
+
+ *WARNING    : BANDIT DID NOT RUN SUCCESSFULLY. THIS IS A NON-CRITICAL OPTIMIZATION. IT QUIT WITH ERROR =        4
+               CHECK FILE BANDIT.OUT IN THE DIRECTORY WHERE MYSTRAN.EXE RESIDES
+               SINCE FIELD 4 OF PARAM GRIDSEQ = N, MYSTRAN WILL DEFAULT TO GRID SEQUENCING BASED ON GRID NUMERICAL ORDER.
+               (THIS WAS EITHER ENTERED ON A BULK DATA PARAM GRIDSEQ ENTRY OR IS THE DEFAULT. SEE MYSTRAN DOCUMENTATION)
+
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  2.30E-03 MB MEMORY FROM ARRAY STF3
+
+               DEALLOCATED  7.20E-05 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  2.30E-03 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =            0
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =            0
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            =  8.297182E-16 Based on U'*(K*U - P)/(U'*P)
+
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        2 EPSILON ERROR ESTIMATE            =  2.805105E-14 Based on U'*(K*U - P)/(U'*P)
+
+
+ >> LINK  3 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR SUBCASE        1
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Force                                                                                                                                                                                                                                                     
+ TEST                                                                                                                                                                                                                                                            
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              3        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              7        0  1.902382E+00  9.152592E-01 -1.513841E-02 -1.415441E-01  2.884259E-01  4.810811E-02
+              9        0  1.319944E+01  6.223164E+00  1.400303E+00 -1.415441E-01  2.884259E-01  4.810811E-02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    1.319944E+01  6.223164E+00  1.400303E+00  0.0           2.884259E-01  4.810811E-02
+                MIN* :    0.0           0.0          -1.513841E-02 -1.415441E-01  0.0           0.0         
+
+                ABS* :    1.319944E+01  6.223164E+00  1.400303E+00  1.415441E-01  2.884259E-01  4.810811E-02
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Force                                                                                                                                                                                                                                                     
+ TEST                                                                                                                                                                                                                                                            
+
+                                                     A P P L I E D    F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              9        0  1.780000E+03  7.500000E+02 -8.750000E+02  0.0           0.0           0.0         
+
+
+ OUTPUT FOR SUBCASE        1
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Force                                                                                                                                                                                                                                                     
+ TEST                                                                                                                                                                                                                                                            
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              3        0 -1.780000E+03 -7.500000E+02  8.750000E+02  2.875000E+04 -8.900000E+04 -1.780000E+04
+
+
+ OUTPUT FOR SUBCASE        1
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Force                                                                                                                                                                                                                                                     
+ TEST                                                                                                                                                                                                                                                            
+
+                                                          M P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              7        0  1.780000E+03  7.500000E+02 -8.750000E+02 -1.937500E+04  6.675000E+04  1.780000E+04
+              9        0 -1.780000E+03 -7.500000E+02  8.750000E+02 -1.164153E-10 -4.074536E-10 -1.455192E-11
+                         ------------- ------------- ------------- ------------- ------------- -------------
+     MPC FORCE TOTALS:    0.0           0.0           0.0          -1.937500E+04  6.675000E+04  1.780000E+04
+     (for output set)
+
+
+ OUTPUT FOR SUBCASE        1
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Force                                                                                                                                                                                                                                                     
+ TEST                                                                                                                                                                                                                                                            
+
+
+
+                                           G R I D   P O I N T   F O R C E   B A L A N C E
+                                             (in global coordinate system at each grid)
+
+                                FORCE BALANCE FOR GRID POINT        3 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE               -1.780000E+03 -7.500000E+02  8.750000E+02  2.875000E+04 -8.900000E+04 -1.780000E+04
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BUSH     ELEM         3  1.780000E+03  7.500000E+02 -8.750000E+02 -2.875000E+04  8.900000E+04  1.780000E+04
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -1.818989E-12  1.455192E-11 -2.160050E-12 -4.365575E-11  8.731149E-11  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        7 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                1.780000E+03  7.500000E+02 -8.750000E+02 -1.937500E+04  6.675000E+04  1.780000E+04
+ BUSH     ELEM         3 -1.780000E+03 -7.500000E+02  8.750000E+02  1.937500E+04 -6.675000E+04 -1.780000E+04
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  1.818989E-12 -1.455192E-11  2.160050E-12 -2.910383E-11 -5.820766E-11  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        9 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            1.780000E+03  7.500000E+02 -8.750000E+02  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE               -1.780000E+03 -7.500000E+02  8.750000E+02 -1.164153E-10 -4.074536E-10 -1.455192E-11
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -5.456968E-12  0.000000E+00  0.000000E+00 -1.164153E-10 -4.074536E-10 -1.455192E-11
+ (should all be 0)
+
+
+
+
+ OUTPUT FOR SUBCASE        1
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Force                                                                                                                                                                                                                                                     
+ TEST                                                                                                                                                                                                                                                            
+
+                                        E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                             F O R   E L E M E N T   T Y P E   B U S H    
+                 Element      Force         Force         Force        Moment        Moment        Moment
+                    ID         XE            YE            ZE            XE            YE            ZE
+                       3  1.780000E+03  7.500000E+02 -8.750000E+02 -2.406250E+04  7.787500E+04  1.780000E+04
+                          ------------- ------------- ------------- ------------- ------------- ------------- 
+                MAX* :    1.780000E+03  7.500000E+02 -8.750000E+02 -2.406250E+04  7.787500E+04  1.780000E+04
+                MIN* :    1.780000E+03  7.500000E+02 -8.750000E+02 -2.406250E+04  7.787500E+04  1.780000E+04
+
+                ABS* :    1.780000E+03  7.500000E+02  8.750000E+02  2.406250E+04  7.787500E+04  1.780000E+04
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Force                                                                                                                                                                                                                                                     
+ TEST                                                                                                                                                                                                                                                            
+
+           E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                        F O R   E L E M E N T   T Y P E   B U S H    
+                     Element   Stress-1      Stress-2      Stress-3      Stress-4      Stress-5      Stress-6
+                        ID
+                          3  3.395752E+04  2.242660E+04 -8.750000E+02 -2.406250E+04  7.240625E+04 -1.223662E+05
+
+
+ OUTPUT FOR SUBCASE        2
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Mass                                                                                                                                                                                                                                                      
+ TEST                                                                                                                                                                                                                                                            
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              3        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              7        0  2.100529E-02  0.0           0.0           0.0           3.184676E-03  5.311892E-04
+              9        0  1.457425E-01  0.0           0.0           0.0           3.184676E-03  5.311892E-04
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    1.457425E-01  0.0           0.0           0.0           3.184676E-03  5.311892E-04
+                MIN* :    0.0           0.0           0.0           0.0           0.0           0.0         
+
+                ABS* :    1.457425E-01  0.0           0.0           0.0           3.184676E-03  5.311892E-04
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        2
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Mass                                                                                                                                                                                                                                                      
+ TEST                                                                                                                                                                                                                                                            
+
+                                                     A P P L I E D    F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              9        0  1.965400E+01  0.0           0.0           0.0           0.0           0.0         
+
+
+ OUTPUT FOR SUBCASE        2
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Mass                                                                                                                                                                                                                                                      
+ TEST                                                                                                                                                                                                                                                            
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              3        0 -1.965400E+01  0.0           0.0           0.0          -9.827000E+02 -1.965400E+02
+
+
+ OUTPUT FOR SUBCASE        2
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Mass                                                                                                                                                                                                                                                      
+ TEST                                                                                                                                                                                                                                                            
+
+                                                          M P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              7        0  1.965400E+01  0.0           0.0           0.0           7.370250E+02  1.965400E+02
+              9        0 -1.965400E+01  0.0           0.0           0.0           4.206413E-12  1.904255E-12
+                         ------------- ------------- ------------- ------------- ------------- -------------
+     MPC FORCE TOTALS:    0.0           0.0           0.0           0.0           7.370250E+02  1.965400E+02
+     (for output set)
+
+
+ OUTPUT FOR SUBCASE        2
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Mass                                                                                                                                                                                                                                                      
+ TEST                                                                                                                                                                                                                                                            
+
+
+
+                                           G R I D   P O I N T   F O R C E   B A L A N C E
+                                             (in global coordinate system at each grid)
+
+                                FORCE BALANCE FOR GRID POINT        3 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE               -1.965400E+01  0.000000E+00  0.000000E+00  0.000000E+00 -9.827000E+02 -1.965400E+02
+ MPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ BUSH     ELEM         3  1.965400E+01  0.000000E+00  0.000000E+00  0.000000E+00  9.827000E+02  1.965400E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -3.268497E-13  0.000000E+00  0.000000E+00  0.000000E+00 -6.821210E-13  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        7 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE                1.965400E+01  0.000000E+00  0.000000E+00  0.000000E+00  7.370250E+02  1.965400E+02
+ BUSH     ELEM         3 -1.965400E+01  0.000000E+00  0.000000E+00  0.000000E+00 -7.370250E+02 -1.965400E+02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                :  3.268497E-13  0.000000E+00  0.000000E+00  0.000000E+00 -1.591616E-12  0.000000E+00
+ (should all be 0)
+
+
+                                FORCE BALANCE FOR GRID POINT        9 IN GLOBAL COORD SYSTEM        0
+
+                               T1            T2            T3            R1            R2            R3
+
+ APPLIED FORCE            1.965400E+01  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ SPC FORCE                0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ MPC FORCE               -1.965400E+01  0.000000E+00  0.000000E+00  0.000000E+00  4.206413E-12  1.904255E-12
+                         ------------- ------------- ------------- ------------- ------------- -------------
+ TOTALS                : -2.664535E-13  0.000000E+00  0.000000E+00  0.000000E+00  4.206413E-12  1.904255E-12
+ (should all be 0)
+
+
+
+
+ OUTPUT FOR SUBCASE        2
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Mass                                                                                                                                                                                                                                                      
+ TEST                                                                                                                                                                                                                                                            
+
+                                        E L E M E N T   E N G I N E E R I N G   F O R C E S
+                                             F O R   E L E M E N T   T Y P E   B U S H    
+                 Element      Force         Force         Force        Moment        Moment        Moment
+                    ID         XE            YE            ZE            XE            YE            ZE
+                       3  1.965400E+01  0.000000E+00  0.000000E+00  0.000000E+00  8.598625E+02  1.965400E+02
+                          ------------- ------------- ------------- ------------- ------------- ------------- 
+                MAX* :    1.965400E+01  0.000000E+00  0.000000E+00  0.000000E+00  8.598625E+02  1.965400E+02
+                MIN* :    1.965400E+01  0.000000E+00  0.000000E+00  0.000000E+00  8.598625E+02  1.965400E+02
+
+                ABS* :    1.965400E+01  0.000000E+00  0.000000E+00  0.000000E+00  8.598625E+02  1.965400E+02
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        2
+ ANALYSE                                                                                                                                                                                                                                                         
+ SPC - Mass                                                                                                                                                                                                                                                      
+ TEST                                                                                                                                                                                                                                                            
+
+           E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                        F O R   E L E M E N T   T Y P E   B U S H    
+                     Element   Stress-1      Stress-2      Stress-3      Stress-4      Stress-5      Stress-6
+                        ID
+                          3  3.749444E+02  0.000000E+00  0.000000E+00  0.000000E+00  8.598625E+02  1.965400E+02
+
+ >> LINK  9 END
+
+    Total CPU time =  6.25E-02 seconds
+
+ >> MYSTRAN END    :  4/24/2026 at  9:32:13.828

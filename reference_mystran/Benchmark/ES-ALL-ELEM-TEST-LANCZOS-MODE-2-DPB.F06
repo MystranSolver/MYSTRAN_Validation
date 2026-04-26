@@ -1,0 +1,420 @@
+   424123024
+
+ MYSTRAN Version 15.1.3   Dec 20 2023 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  4/24/2026 at 12:30:24.264 The input file is ES-ALL-ELEM-TEST-LANCZOS-MODE-2-DPB.DAT                                                                                                                                                                                                                         
+
+
+ >> LINK  0 BEGIN
+
+
+ID PLATE,STATICS                                                                                                                                                                                                                                                
+SOL 3                                                                                                                                                                                                                                                           
+CEND                                                                                                                                                                                                                                                            
+TITLE  = TEST OF ALL ELEMENTS                                                                                                                                                                                                                                   
+SUBTI  = TRUSS SUPPORTED SHELF                                                                                                                                                                                                                                  
+LABEL  = EIGENVALUES                                                                                                                                                                                                                                            
+SPC    = 998                                                                                                                                                                                                                                                    
+METHOD = 1                                                                                                                                                                                                                                                      
+DISP          = ALL                                                                                                                                                                                                                                             
+ECHO          = UNSORT                                                                                                                                                                                                                                          
+$COMMENTED OUT DUE TO BENCHMARK ISSUE: ELFORCE(BOTH) = ALL                                                                                                                                                                                                      
+$COMMENTED OUT DUE TO BENCHMARK ISSUE: GPFORCE       = ALL                                                                                                                                                                                                      
+MEFFMASS      = ALL                                                                                                                                                                                                                                             
+MPCFORCE      = ALL                                                                                                                                                                                                                                             
+$COMMENTED OUT DUE TO BENCHMARK ISSUE: MPFACTOR      = ALL                                                                                                                                                                                                      
+OLOAD         = ALL                                                                                                                                                                                                                                             
+$COMMENTED OUT DUE TO BENCHMARK ISSUE: SPCFORCE      = ALL                                                                                                                                                                                                      
+$COMMENTED OUT DUE TO BENCHMARK ISSUE: STRESS        = ALL                                                                                                                                                                                                      
+BEGIN BULK                                                                                                                                                                                                                                                      
+$                                                                                                                                                                                                                                                               
+EIGRL   1                       2                       -1.     MASS                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+EIGR    2       GIV                             4                       +E1                                                                                                                                                                                     
++E1     POINT   1023    3                                                                                                                                                                                                                                       
+$                                                                                                                                                                                                                                                               
+EIGR    3       INV                     1       1                       +E1                                                                                                                                                                                     
++E1     POINT   1023    3                                                                                                                                                                                                                                       
+$                                                                                                                                                                                                                                                               
+EIGR    4       MGIV                    1       4                       +E1                                                                                                                                                                                     
++E1     POINT   1023    3                                                                                                                                                                                                                                       
+$                                                                                                                                                                                                                                                               
+GRID    1011              0.      0.      0.                                                                                                                                                                                                                    
+GRID    1012             50.      0.      0.                                                                                                                                                                                                                    
+GRID    1013            100.      0.      0.                            1                                                                                                                                                                                       
+$                                                                                                                                                                                                                                                               
+GRID    1021              0.     50.      0.                                                                                                                                                                                                                    
+GRID    1022             50.     50.      0.                                                                                                                                                                                                                    
+GRID    1023            100.     50.      0.                            1                                                                                                                                                                                       
+$                                                                                                                                                                                                                                                               
+GRID    1031              0.    100.      0.                                                                                                                                                                                                                    
+GRID    1032             50.    100.      0.                                                                                                                                                                                                                    
+GRID    1033            100.    100.      0.                            1                                                                                                                                                                                       
+$                                                                                                                                                                                                                                                               
+GRID    1041              0.      0.    -50.                                                                                                                                                                                                                    
+GRID    1042             50.      0.    -50.                                                                                                                                                                                                                    
+GRID    1043            100.      0.    -50.                            1                                                                                                                                                                                       
+$                                                                                                                                                                                                                                                               
+GRID    1051             50.     50.     20.            123456                                                                                                                                                                                                  
+$                                                                                                                                                                                                                                                               
+CQUAD4  11      91      1011    1012    1022    1021                                                                                                                                                                                                            
+CQUAD4  12      91      1012    1013    1023    1022                                                                                                                                                                                                            
+CTRIA3  21      91      1021    1022    1032                                                                                                                                                                                                                    
+CTRIA3  22      91      1031    1021    1032                                                                                                                                                                                                                    
+CTRIA3  23      91      1022    1023    1032                                                                                                                                                                                                                    
+CTRIA3  24      91      1033    1032    1023                                                                                                                                                                                                                    
+$                                                                                                                                                                                                                                                               
+PSHELL  91      20      .125    20              20                                                                                                                                                                                                              
+$                                                                                                                                                                                                                                                               
+BAROR                                   0.      0.      1.                                                                                                                                                                                                      
+$                                                                                                                                                                                                                                                               
+CBAR    1121    98      1011    1021                                                                                                                                                                                                                            
+CBAR    2131    98      1021    1031                                                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+CBAR    1222    98      1012    1022                                                                                                                                                                                                                            
+CBAR    2232    98      1022    1032                                                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+CBAR    1323    98      1013    1023                                                                                                                                                                                                                            
+CBAR    2333    98      1023    1033                                                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+CBAR    1112    97      1011    1012                                                                                                                                                                                                                            
+CBAR    1213    97      1012    1013                                                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+CBAR    2122    98      1021    1022                                                                                                                                                                                                                            
+CBAR    2223    98      1022    1023                                                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+CBAR    3132    97      1031    1032                                                                                                                                                                                                                            
+CBAR    3233    97      1032    1033                                                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+CBAR    4142    97      1041    1042                                                                                                                                                                                                                            
+CBAR    4243    97      1042    1043                                                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+PBAR    97      20      2.0     2.      1.      2.5                     +PB97A                                                                                                                                                                                  
++PB97A   1.0     1.0     1.0    -1.0    -1.0    -1.0    -1.0     1.0                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+PBAR    98      20      2.0     8.      1.      2.5                     +PB97A                                                                                                                                                                                  
++PB97A   1.0     1.0     1.0    -1.0    -1.0    -1.0    -1.0     1.0                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+CROD    1141    92      1011    1041                                                                                                                                                                                                                            
+CROD    1242    92      1012    1042                                                                                                                                                                                                                            
+CROD    1343    92      1013    1043                                                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+CROD    4131    92      1041    1031                                                                                                                                                                                                                            
+CROD    4232    92      1042    1032                                                                                                                                                                                                                            
+CROD    4333    92      1043    1033                                                                                                                                                                                                                            
+$                                                                                                                                                                                                                                                               
+PROD    92      20      1.0                                                                                                                                                                                                                                     
+$                                                                                                                                                                                                                                                               
+CELAS1  58      75      1022    3       1051    3                                                                                                                                                                                                               
+$                                                                                                                                                                                                                                                               
+PELAS   75      1.5E+4          .75                                                                                                                                                                                                                             
+$                                                                                                                                                                                                                                                               
+MAT1    20      10.+06  4.+06   .25     .1                              +MAT1                                                                                                                                                                                   
++MAT1   20000.  20000.  20000.                                                                                                                                                                                                                                  
+$                                                                                                                                                                                                                                                               
+PLOAD2  1991    -.75    11      12      21      22      23      24                                                                                                                                                                                              
+FORCE   1992    1031            1000.   0.      1.      -3.                                                                                                                                                                                                     
+FORCE   1992    1032            1000.   0.      1.      -3.                                                                                                                                                                                                     
+FORCE   1992    1033            1000.   0.      1.      -3.                                                                                                                                                                                                     
+$                                                                                                                                                                                                                                                               
+SPC1    998     123     1011    1012    1013                                                                                                                                                                                                                    
+SPC1    998     12 456  1041    1042    1043                                                                                                                                                                                                                    
+$                                                                                                                                                                                                                                                               
+$ PARAM ART_MASS needed for GIV for rot DOF's                                                                                                                                                                                                                   
+$ (that have no mass otherwise)                                                                                                                                                                                                                                 
+$                                                                                                                                                                                                                                                               
+PARAM   ART_MASS Y      0.      1.E-6                                                                                                                                                                                                                           
+PARAM   SOLLIB   SPARSE                                                                                                                                                                                                                                         
+PARAM   WTMASS   .002591                                                                                                                                                                                                                                        
+$                                                                                                                                                                                                                                                               
+DEBUG   185     1                                                       Get modes even if no mass                                                                                                                                                               
+DEBUG   192     2                                                       GPFO summary                                                                                                                                                                            
+DEBUG   200     1                                                       ANS                                                                                                                                                                                     
+$                                                                                                                                                                                                                                                               
+ENDDATA                                                                                                                                                                                                                                                         
+
+
+
+
+       O U T P U T   F R O M   T H E   G R I D   P O I N T   W E I G H T   G E N E R A T O R   F O R   O V E R A L L   M O D E L
+                                             (reference point is basic coord system origin)
+
+                                                      Total mass =  3.135410E+02
+
+                                                             X             Y             Z
+                                       C.G. location :  5.000000E+01  4.441859E+01 -7.059764E+00
+                                        (relative to reference point in basic coordinate system)
+
+
+                             6x6 Rigid body mass matrix - about reference point in basic coordinate system
+                      ***                                                                                     ***
+                      *  3.135410E+02  0.000000E+00  0.000000E+00  *  0.000000E+00 -2.213525E+03 -1.392705E+04  *
+                      *  0.000000E+00  3.135410E+02  0.000000E+00  *  2.213525E+03  0.000000E+00  1.567705E+04  *
+                      *  0.000000E+00  0.000000E+00  3.135410E+02  *  1.392705E+04 -1.567705E+04  0.000000E+00  *
+                      *  ************  ************  ************  *  ************  ************  ************  *
+                      *  0.000000E+00  0.000000E+00  0.000000E+00  *  1.222131E+06 -6.963525E+05  1.106763E+05  *
+                      *  0.000000E+00  0.000000E+00  0.000000E+00  * -6.963525E+05  1.331681E+06  0.000000E+00  *
+                      *  0.000000E+00  0.000000E+00  0.000000E+00  *  1.106763E+05  0.000000E+00  2.332459E+06  *
+                      ***                                                                                     ***
+
+
+                                    M.O.I. matrix - about reference point in basic coordinate system
+                                             ***                                        ***
+                                             *  1.222131E+06 -6.963525E+05  1.106763E+05  *
+                                             * -6.963525E+05  1.331681E+06  0.000000E+00  *
+                                             *  1.106763E+05  0.000000E+00  2.332459E+06  *
+                                             ***                                        ***
+
+
+                                  M.O.I. matrix - about above c.g. location in basic coordinate system
+                                             ***                                        ***
+                                             *  5.878844E+05  3.492460E-10 -4.365575E-11  *
+                                             *  3.492460E-10  5.322010E+05 -9.832169E+04  *
+                                             * -4.365575E-11 -9.832169E+04  9.299868E+05  *
+                                             ***                                        ***
+
+
+                                     M.O.I. matrix - about above c.g. location in principal directions
+                                             ***                                        ***
+                                             *  5.092256E+05 -2.584939E-26 -2.910383E-11  *
+                                             *  2.326445E-25  5.878844E+05  0.000000E+00  *
+                                             * -1.455192E-11  1.033976E-25  9.529622E+05  *
+                                             ***                                        ***
+
+
+                                     Transformation from basic coordinates to principal directions
+                                             ***                                        ***
+                                             * -4.197251E-15  9.737674E-01  2.275458E-01  *
+                                             *  1.000000E+00  4.011118E-15  1.280423E-15  *
+                                             * -3.341206E-16 -2.275458E-01  9.737674E-01  *
+                                             ***                                        ***
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  8.76E-02 MB MEMORY FROM ARRAY STF3
+
+               DEALLOCATED  3.12E-04 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  8.76E-02 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =            0
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =            0
+
+
+ >> LINK  2 END
+
+
+ >> LINK  4 BEGIN
+
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In DPBTRS calling DTBSV with j =            1
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+ In ARPACK_LANCZOS_EIG: type =            3
+
+
+                           E I G E N V A L U E   A N A L Y S I S   S U M M A R Y   (LANCZOS  Mode 2 DPB, Shift eigen = -1.00E+00)
+                                                                      (SPARSE solution)
+
+                                NUMBER OF EIGENVALUES EXTRACTED  . . . . . .         2
+
+                                LARGEST OFF-DIAGONAL GENERALIZED MASS TERM    -4.4E-11 (Vecs renormed to 1.0 for gen masses)
+
+                                                                       . . .         2
+                                          MODE PAIR . . . . . . . . . .
+                                                                       . . .         1
+
+                                NUMBER OF OFF DIAGONAL GENERALIZED MASS
+                                TERMS FAILING CRITERION OF  1.0E-04. . . . .         0
+
+
+
+                                            R E A L   E I G E N V A L U E S
+    MODE  EXTRACTION      EIGENVALUE           RADIANS              CYCLES            GENERALIZED         GENERALIZED        
+   NUMBER   ORDER                                                                        MASS              STIFFNESS
+
+        1       1        4.689177E+04        2.165451E+02        3.446422E+01        1.000000E+00        4.689177E+04
+        2       2        6.110502E+04        2.471943E+02        3.934219E+01        1.000000E+00        6.110502E+04
+
+
+
+
+ >> LINK  4 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR EIGENVECTOR        1
+ TEST OF ALL ELEMENTS                                                                                                                                                                                                                                            
+ TRUSS SUPPORTED SHELF                                                                                                                                                                                                                                           
+ EIGENVALUES                                                                                                                                                                                                                                                     
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+           1011        0  0.0           0.0           0.0          -6.753332E-02 -4.838854E-03 -3.551135E-05
+           1012        0  0.0           0.0           0.0           7.630387E-17 -5.473821E-04 -1.663675E-05
+           1013        0  0.0           0.0           0.0           6.753332E-02 -4.838854E-03 -3.551135E-05
+
+           1021        0  7.506398E-03  1.413818E-02 -2.388404E+00 -4.008690E-03 -4.558538E-02 -2.917018E-04
+           1022        0  7.384154E-03  2.788026E-17  2.265638E-15  3.118187E-18 -4.751364E-02 -2.722060E-04
+           1023        0  7.506398E-03 -1.413818E-02  2.388404E+00  4.008690E-03 -4.558538E-02 -2.917018E-04
+
+           1031        0  2.836128E-02  2.458118E-02 -4.017580E-01  5.973032E-02 -1.200091E-02 -4.920399E-04
+           1032        0  2.579016E-02  4.255408E-17  3.756498E-16 -6.823327E-17 -8.518786E-03 -4.663027E-04
+           1033        0  2.836128E-02 -2.458118E-02  4.017580E-01 -5.973032E-02 -1.200091E-02 -4.920399E-04
+
+           1041        0  0.0           0.0          -2.890421E-02  0.0           0.0           0.0         
+           1042        0  0.0           0.0           3.815194E-17  0.0           0.0           0.0         
+           1043        0  0.0           0.0           2.890421E-02  0.0           0.0           0.0         
+
+           1051        0  0.0           0.0           0.0           0.0           0.0           0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    2.836128E-02  2.458118E-02  2.388404E+00  6.753332E-02  0.0           0.0         
+                MIN* :    0.0          -2.458118E-02 -2.388404E+00 -6.753332E-02 -4.751364E-02 -4.920399E-04
+
+                ABS* :    2.836128E-02  2.458118E-02  2.388404E+00  6.753332E-02  4.751364E-02  4.920399E-04
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        2
+ TEST OF ALL ELEMENTS                                                                                                                                                                                                                                            
+ TRUSS SUPPORTED SHELF                                                                                                                                                                                                                                           
+ EIGENVALUES                                                                                                                                                                                                                                                     
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+           1011        0  0.0           0.0           0.0           6.623657E-02  5.106410E-03 -6.943147E-06
+           1012        0  0.0           0.0           0.0           2.350269E-02 -7.851878E-19 -9.874146E-19
+           1013        0  0.0           0.0           0.0           6.623657E-02 -5.106410E-03  6.943147E-06
+
+           1021        0 -2.622245E-04 -8.443375E-03  2.315458E+00  3.772996E-03  4.583440E-02  4.350606E-05
+           1022        0  2.161884E-16 -4.330514E-03  7.107734E-01  9.883297E-04  1.716944E-16 -2.937911E-18
+           1023        0  2.622245E-04 -8.443375E-03  2.315458E+00  3.772996E-03 -4.583440E-02 -4.350606E-05
+
+           1031        0 -3.132834E-03 -1.787520E-02  3.781555E-01 -5.882567E-02  1.258288E-02  1.806485E-04
+           1032        0  3.978285E-16 -7.977477E-03  9.739322E-02 -2.125802E-02  3.475765E-17 -1.393708E-18
+           1033        0  3.132834E-03 -1.787520E-02  3.781555E-01 -5.882567E-02 -1.258288E-02 -1.806485E-04
+
+           1041        0  0.0           0.0           2.819404E-02  0.0           0.0           0.0         
+           1042        0  0.0           0.0           7.150897E-03  0.0           0.0           0.0         
+           1043        0  0.0           0.0           2.819404E-02  0.0           0.0           0.0         
+
+           1051        0  0.0           0.0           0.0           0.0           0.0           0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    3.132834E-03  0.0           2.315458E+00  6.623657E-02  4.583440E-02  1.806485E-04
+                MIN* :   -3.132834E-03 -1.787520E-02  0.0          -5.882567E-02 -4.583440E-02 -1.806485E-04
+
+                ABS* :    3.132834E-03  1.787520E-02  2.315458E+00  6.623657E-02  4.583440E-02  1.806485E-04
+                *for output set
+------------------------------------------------------------------------------------------------------------------------------------
+ TEST OF ALL ELEMENTS                                                                                                                                                                                                                                            
+ TRUSS SUPPORTED SHELF                                                                                                                                                                                                                                           
+ EIGENVALUES                                                                                                                                                                                                                                                     
+
+                                  E F F E C T I V E   M O D A L   M A S S E S   O R   W E I G H T S
+                                                   (in coordinate system        0)
+                                     Units are same as units for mass input in the Bulk Data Deck
+                                        Reference point is the basic coordinate system origin
+
+             MODE     CYCLES          T1            T2            T3            R1            R2            R3
+              NUM
+                1  3.446422E+01  2.468959E-02  1.821276E-27  1.159547E-27  0.000000E+00  5.405849E+00  0.000000E+00
+                2  3.934219E+01  3.189012E-27  8.719979E-03  1.112779E+02  0.000000E+00  8.483993E-29  0.000000E+00
+                                 ------------  ------------  ------------  ------------  ------------  ------------
+                 Sum all modes:  2.468959E-02  8.719979E-03  1.112779E+02  0.000000E+00  5.405849E+00  0.000000E+00
+              Total model mass:  3.135410E+02  3.135410E+02  3.135410E+02  1.222131E+06  1.331681E+06  2.332459E+06
+        Modes % of total mass*:         0.01%         0.00%        35.49%         0.00%         0.00%         0.00%
+
+ *If all modes are calculated the % of total mass should be 100% of the free mass (i.e. not counting mass at constrained DOF's).
+  Percentages are only printed for components that have finite model mass.
+                                                               -----
+
+ >> LINK  9 END
+
+    Total CPU time =  3.12E-02 seconds
+
+ >> MYSTRAN END    :  4/24/2026 at 12:30:24.380
