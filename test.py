@@ -109,29 +109,34 @@ def run_program(program_path: Path,
         
 
 def run_case(mystran_path: Path,
-             decks_dir: Path,
-             reference_mystran_dir: Path,
-             reference_msc_dir: Path,
-             working_dir: Path,
-             f06magic_path: Path,
+             root_dir: Path,
              output_file: io.TextIOWrapper,
-             test_case: Definition) -> bool:
+             test_case: Definition,
+             previous_deck_filename: str) -> bool:
     """Run one test case comparing to a reference f06 and return True for pass or False for fail."""
 
-    deck_path = decks_dir / test_case.deck_filename
+    working_dir = (root_dir / "working").resolve()
+
+    deck_path = root_dir / "decks" / test_case.deck_filename
     deck_stem = deck_path.stem
 
-    # Clear working directory
-    if not clear_working_directory(working_dir):
-        return False
+    # If it's the same deck as the previous test, reuse the .f06 to save time.
+    if test_case.deck_filename != previous_deck_filename:
     
-    # Copy deck to working directory
-    working_deck_filename_str = shutil.copyfile(deck_path, working_dir / deck_path.name)
-    
-    # Run Mystran
-    if run_program(mystran_path, [working_deck_filename_str], working_dir, output_file, output_file) != 0:
-        print(f"{test_case.deck_filename} ERROR: from mystran. FAIL")
-        return False
+        # Clear working directory
+        if not clear_working_directory(working_dir):
+            return False
+
+        # Copy deck to working directory
+        working_deck_filename_str = shutil.copyfile(deck_path, working_dir / deck_path.name)
+        
+        # Run Mystran
+        with open(os.devnull, "w") as null_output:
+            if run_program(mystran_path, [working_deck_filename_str], working_dir, null_output, null_output) != 0:
+                print(f"{test_case.deck_filename} ERROR: from mystran. FAIL")
+                return False
+
+
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".f06").resolve()
 
@@ -139,9 +144,9 @@ def run_case(mystran_path: Path,
     if test_case.test_type == "mys" or test_case.test_type == "msc":
 
         if test_case.test_type == "mys":
-            reference_dir = reference_mystran_dir
+            reference_dir = (root_dir / "reference_mystran").resolve()
         elif test_case.test_type == "msc":
-            reference_dir = reference_msc_dir
+            reference_dir = (root_dir / "reference_msc").resolve()
         reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".f06").resolve()
 
         # Convert f06csv args to f06magic
@@ -193,7 +198,7 @@ criteria = \"only criteria\"
         return False
 
     # Run f06magic
-    fail_count = run_program(f06magic_path, args, working_dir, output_file, output_file)
+    fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
     pass_fail = "PASS" if fail_count == 0 else "FAILED"
     print(f"{pass_fail}\t{fail_count}\t{test_case.deck_filename}")
 
@@ -202,9 +207,9 @@ criteria = \"only criteria\"
 
 def main():
 
-    print("==================")
-    print("Mystran test suite")
-    print("==================")
+    print("========================")
+    print("Mystran validation suite")
+    print("========================")
 
     # Get Mystran binary path from command line
     if len(sys.argv) > 1:
@@ -214,30 +219,27 @@ def main():
         sys.exit(1)
 
     root_dir = Path(__file__).resolve().parent
-    decks_dir = (root_dir / "decks").resolve()
-    working_dir = (root_dir / "working").resolve()
-    reference_msc_dir = (root_dir / "reference_msc").resolve()
-    reference_mystran_dir = (root_dir / "reference_mystran").resolve()
-    f06magic_path = (root_dir / "f06magic.exe").resolve()
     definitions_path = (root_dir / "cases.txt").resolve()
     output_path = (root_dir / "run_output.txt").resolve()
-
 
     print()
 
     test_cases = read_definitions(definitions_path)
 
-    success = 0
+    fails = 0
     count = len(test_cases)
+
+    previous_deck_filename = ""
 
     with open(output_path, "w") as output_file:
         for test_case in test_cases:
-            if run_case(mystran_path, decks_dir, reference_mystran_dir, reference_msc_dir, working_dir, f06magic_path, output_file, test_case):
-                success += 1
+            if not run_case(mystran_path, root_dir, output_file, test_case, previous_deck_filename):
+                fails += 1
+            previous_deck_filename = test_case.deck_filename
 
     print()
-    exit_code = 0 if success == count and count > 0 else 1
-    print(f"{success}/{count} passed -> {"PASS" if exit_code == 0 else "FAIL"}.")
+    exit_code = 0 if fails == 0 and count > 0 else 1
+    print(f"{fails}/{count} failed -> {"PASS" if exit_code == 0 else "FAIL"}.")
     print()
 
     # Return exit code 0 for pass and 1 for fail

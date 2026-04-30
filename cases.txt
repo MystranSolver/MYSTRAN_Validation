@@ -1,10 +1,16 @@
 # Each line describes one test case.
-# Fields are semi-colon delimited and are:
+# Fields are semi-colon delimited.
+# White space between fields is ignored.
+# Blank lines and white-space-only lines are ignored.
+# Comment lines begin with # and are ignored.
+#
+# Fields:
+#
 #  [1] Test type.
 #    mys means use reference solution in reference_mystran directory.
 #    msc means use reference solution in reference_msc directory.
 #    chk means filter for a single value using oneliner format in field [3] and use reference value in field [4].
-#  [2] Deck filename
+#  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
 #  [3] For test types mys and msc:
 #       F06csv filters
 #       eg: -b=1 -g=1,3,7
@@ -19,9 +25,7 @@
 #  [6] Difference threshold
 #  [7] Difference tolerance
 #  [8] Comment. Optional. Ignored.
-# White space between fields is ignored.
-# Blank and white-space-only lines are ignored.
-# Comment lines begin with # and are ignored.
+
 
 
 # Force on tri3 and quad4.
