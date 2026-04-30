@@ -12,8 +12,7 @@ class Definition:
     def __init__(self):
         self.test_type = ""
         self.deck_filename = ""
-        self.f06csv_args = ""
-        self.reference_value = 0.0
+        self.filter_string = ""
         self.percent_threshold = 0.0
         self.percent_allow = 0.0
         self.diff_threshold = 0.0
@@ -40,27 +39,26 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
             definition = Definition()
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
-            definition.f06csv_args = definition_fields_str[2]
-            definition.reference_value = float(definition_fields_str[3]) if definition_fields_str[3] != "" else 0.0
-            definition.percent_threshold = float(definition_fields_str[4])
-            definition.percent_allow = float(definition_fields_str[5])
-            definition.diff_threshold = float(definition_fields_str[6])
-            definition.diff_allow = float(definition_fields_str[7])
+            definition.filter_string = definition_fields_str[2]
+            definition.percent_threshold = float(definition_fields_str[3])
+            definition.percent_allow = float(definition_fields_str[4])
+            definition.diff_threshold = float(definition_fields_str[5])
+            definition.diff_allow = float(definition_fields_str[6])
             result.append(definition)
     
     return result
 
 
-def clear_working_directory(path: str) -> bool:
+def clear_working_directory(path: Path) -> bool:
     
     # Safety check to avoid clearing the wrong directory.
     if not str(path).endswith("working"):
         print(f"  ERROR: Directory '{path}' not called 'working'.")
         return False
 
-    if not os.path.exists(path):
-        print(f"  ERROR: Directory '{path}' does not exist.")
-        return False
+    # Create working directory if it doesn't exist.
+    # Helpful because being normally empty, it doesn't get into the Git repo.
+    path.mkdir(exist_ok=True)
 
     if not os.path.isdir(path):
         print(f"  ERROR: '{path}' is not a directory.")
@@ -122,7 +120,7 @@ def run_case_f06magic(mystran_path: Path,
     deck_stem = deck_path.stem
 
     # Clear working directory
-    if not clear_working_directory(str(working_dir)):
+    if not clear_working_directory(working_dir):
         return False
     
     # Copy deck to working directory
@@ -134,71 +132,54 @@ def run_case_f06magic(mystran_path: Path,
         return False
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".f06").resolve()
-    reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".f06").resolve()
 
-    # Convert f06csv args to f06magic
-    extraction_name = test_case.f06csv_args
-    extraction_lines = f06csv_args_to_magic(test_case.f06csv_args, name=extraction_name)
-    
-    # Make script for f06magic
-    script = f"""
-[files]
-test_file = \"{test_f06_path}\"
-"""
 
     if test_case.test_type == "mys" or test_case.test_type == "msc":
-        script = script + f"""
+
+        reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".f06").resolve()
+
+        # Convert f06csv args to f06magic
+        extraction_name = test_case.filter_string
+        extraction_lines = f06csv_args_to_magic(test_case.filter_string, name=extraction_name)
+        
+        # Make script for f06magic
+        script = f"""
+[files]
+test_file = \"{test_f06_path}\"
 reference_file = \"{reference_f06_path}\"
-"""
-
-    script = script + f"""
 {extraction_lines}
-
 [[criteria]]
 name = \"only criteria\"
 max_difference = {str(test_case.diff_allow)}
 max_ratio = {str(test_case.percent_allow)}
 threshold = {str(test_case.percent_threshold)}
-"""
-
-    if test_case.test_type == "mys" or test_case.test_type == "msc":
-        script = script + f"""
 [[comparison]]
 name = \"{test_case.deck_filename}\"
 reference_f06 = \"reference_file\"
 test_f06 = \"test_file\"
 extraction = \"{extraction_name}\"
 criteria = \"only criteria\"
-"""
-
-    if test_case.test_type == "chk":
-
-        # todo difference error too.
-        # Convert % error to [min,max] range.
-        fraction_tolerance = test_case.percent_allow - 1
-        difference_tolerance = fraction_tolerance * test_case.reference_value
-        range_min = test_case.reference_value - difference_tolerance
-        range_max = test_case.reference_value + difference_tolerance
-    
-        script = script + f"""
-[[check]]
-name = \"{test_case.deck_filename}\"
-file = \"test_file\"
-extraction = \"{extraction_name}\"
-all_in_range = [{range_min}, {range_max}]
         """
 
-    #todo two thresholds
+        #todo two thresholds
 
-    # Escape \ to \\ for TOML
-    script = script.replace("\\", "\\\\")
-    f06magic_script_path = working_dir / "f06magic_script.toml"
-    with open(f06magic_script_path, "w") as script_file:
-        script_file.write(script)
+        # Escape \ to \\ for TOML
+        script = script.replace("\\", "\\\\")
+        f06magic_script_path = working_dir / "f06magic_script.toml"
+        with open(f06magic_script_path, "w") as script_file:
+            script_file.write(script)
+
+        args = [f06magic_script_path]
+
+    else:
+    
+        args = ['--oneliner',
+                test_case.filter_string,
+                test_f06_path
+               ]
 
     # Run f06magic
-    args = []
-    args.append(f06magic_script_path)
+    
     if not run_program(f06magic_path, args, working_dir, output_file, None):
         return False
 

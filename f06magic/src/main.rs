@@ -8,26 +8,74 @@
 #![allow(clippy::needless_return)]
 #![allow(dead_code)]
 
+pub(crate) mod oneliner;
 pub(crate) mod script;
 pub(crate) mod utils;
 
 use std::error::Error;
 use std::path::Path;
+use std::process::ExitCode;
 
+use clap::Parser;
+use f06::prelude::*;
 use toml::de::Error as TomlError;
 
+use crate::oneliner::{
+  OnelinerOutcome, error_exit_code, parse_oneliner, run_oneliner,
+};
 use crate::script::Script;
 
+/// f06magic command-line interface.
+#[derive(Parser, Debug)]
+#[command(version, about)]
+struct Cli {
+  /// Path to a TOML script (default mode), or to an F06 file when
+  /// `--oneliner` is supplied.
+  path: Option<String>,
+  /// List the row/column index types accepted by every block (or only the
+  /// requested block type) and exit. Useful when authoring a script.
+  #[arg(
+    long,
+    value_name = "BLOCK",
+    num_args = 0..=1,
+    default_missing_value = ""
+  )]
+  indices: Option<String>,
+  /// Run a single PASS/FAIL check against the F06 file at <PATH>.
+  ///
+  /// Spec format (must be quoted on the shell):
+  ///
+  ///   subcase <N> <block> <row> <col> <A> <to|delta> <B>
+  ///
+  /// `to` is an inclusive range; `delta` is `[A - B, A + B]` (B >= 0).
+  ///
+  /// Prints PASS/FAIL/ERROR on stdout and the value (or error) on stderr.
+  /// Exit codes (oneliner): 0 PASS, 1 FAIL, 2 extraction error,
+  /// 3 spec parse error, 4 F06 parse error.
+  ///
+  /// Exit codes (script mode): number of failed checks/comparisons
+  /// (0 means all passed), or 255 (-1) on a general failure such as a
+  /// TOML parse error or F06 parse error.
+  #[arg(long, value_name = "SPEC", conflicts_with = "indices")]
+  oneliner: Option<String>,
+}
+
 /// Runs a script in a given path and outputs results.
-fn run_script<P: AsRef<Path>>(path: P) -> Result<(), Box<dyn Error>> {
+///
+/// Returns the number of failed checks/comparisons on success. A "fail" is
+/// any comparison whose flagged set is non-empty, plus each per-(file,
+/// extraction) check pair whose flagged set is non-empty.
+fn run_script<P: AsRef<Path>>(path: P) -> Result<usize, Box<dyn Error>> {
   let contents = std::fs::read_to_string(path)?;
   let try_script: Result<Script, TomlError> = toml::from_str(&contents);
   let script = try_script?.prepare()?;
+  let mut fails: usize = 0;
   for comp in script.comparisons.keys() {
     let res = script.run_comparison(comp)?;
     let pass = if res.flagged.is_empty() {
       "PASSED"
     } else {
+      fails += 1;
       "FAILED"
     };
     println!("==> {comp}: {pass}");
@@ -41,6 +89,7 @@ fn run_script<P: AsRef<Path>>(path: P) -> Result<(), Box<dyn Error>> {
       let pass = if rp.flagged.is_empty() {
         "PASSED"
       } else {
+        fails += 1;
         "FAILED"
       };
       let a = rp.flagged.len();
@@ -54,15 +103,89 @@ fn run_script<P: AsRef<Path>>(path: P) -> Result<(), Box<dyn Error>> {
   if script.checks.is_empty() {
     println!("no checks in script");
   }
-  return Ok(());
+  return Ok(fails);
 }
 
-fn main() {
-  if let Some(p) = std::env::args().nth(1) {
-    if let Err(e) = run_script(p) {
-      eprintln!("{e}");
+/// Prints the row/column index reference for one or all block types.
+fn print_indices(filter: &str) {
+  let mut printed = 0usize;
+  for bt in BlockType::all() {
+    if !filter.is_empty()
+      && !bt.snake_case_name().eq_ignore_ascii_case(filter)
+      && !bt.short_name().eq_ignore_ascii_case(filter)
+    {
+      continue;
     }
-  } else {
-    eprintln!("No script supplied!");
+    print!("{}", bt.describe_indices());
+    println!();
+    printed += 1;
+  }
+  if printed == 0 {
+    eprintln!("no block type matched \"{filter}\"");
+  }
+}
+
+fn main() -> ExitCode {
+  let cli = Cli::parse();
+  if let Some(filter) = cli.indices.as_deref() {
+    print_indices(filter);
+    return ExitCode::SUCCESS;
+  }
+  if let Some(spec_str) = cli.oneliner.as_deref() {
+    let path = match cli.path.as_deref() {
+      Some(p) => p,
+      None => {
+        eprintln!("--oneliner requires an F06 file path");
+        println!("ERROR");
+        return ExitCode::from(3);
+      }
+    };
+    let spec = match parse_oneliner(spec_str) {
+      Ok(s) => s,
+      Err(e) => {
+        eprintln!("{e}");
+        println!("ERROR");
+        return ExitCode::from(error_exit_code(&e) as u8);
+      }
+    };
+    return match run_oneliner(&spec, path) {
+      Ok((outcome, value)) => {
+        eprintln!("{value}");
+        match outcome {
+          OnelinerOutcome::Pass => {
+            println!("PASS");
+            ExitCode::SUCCESS
+          }
+          OnelinerOutcome::Fail => {
+            println!("FAIL");
+            ExitCode::from(1)
+          }
+        }
+      }
+      Err(e) => {
+        eprintln!("{e}");
+        println!("ERROR");
+        ExitCode::from(error_exit_code(&e) as u8)
+      }
+    };
+  }
+  match cli.path {
+    Some(p) => match run_script(p) {
+      Ok(fails) => {
+        // Exit code is the number of failures, capped at 254 so it does not
+        // collide with the general-failure code (255 / -1).
+        return ExitCode::from(fails.min(254) as u8);
+      }
+      Err(e) => {
+        eprintln!("{e}");
+        // General failure: TOML parse error, F06 parse error, missing file,
+        // etc. Exits with -1 (255 as u8).
+        return ExitCode::from(255);
+      }
+    },
+    None => {
+      eprintln!("No script supplied!");
+      return ExitCode::from(255);
+    }
   }
 }
