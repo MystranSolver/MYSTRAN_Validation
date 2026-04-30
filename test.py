@@ -40,7 +40,10 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
             definition.filter_string = definition_fields_str[2]
+
+            definition.reference_value = float(definition_fields_str[3])
             definition.percent_threshold = float(definition_fields_str[3])
+
             definition.percent_allow = float(definition_fields_str[4])
             definition.diff_threshold = float(definition_fields_str[5])
             definition.diff_allow = float(definition_fields_str[6])
@@ -173,8 +176,11 @@ criteria = \"only criteria\"
 
     else:
     
+        range_min = test_case.reference_value * (1 - test_case.percent_allow/100)
+        range_max = test_case.reference_value * (1 + test_case.percent_allow/100)
+    
         args = ['--oneliner',
-                test_case.filter_string,
+                test_case.filter_string + " " + str(range_min) + " to " + str(range_max),
                 test_f06_path
                ]
 

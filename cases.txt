@@ -10,9 +10,12 @@
 #       eg: -b=1 -g=1,3,7
 #       f06csv flags like -H are not allowed.
 #      For test type chk:
-#       oneliner argument for f06magic's --oneliner parameter.
-#  [4] Ratio threshold
-#  [5] Ratio tolerance
+#       oneliner argument for f06magic's --oneliner parameter but excluding the range at the end.
+#  [4] For test types mys and msc:
+#        Ratio threshold
+#      For test type chk:
+#        Reference value
+#  [5] Percent tolerance. Pass if 100 * abs(test/ref - 1) <= [Percent tolerance]
 #  [6] Difference threshold
 #  [7] Difference tolerance
 #  [8] Comment. Optional. Ignored.
@@ -20,7 +23,20 @@
 # Blank and white-space-only lines are ignored.
 # Comment lines begin with # and are ignored.
 
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 1 tx 1.23 to 1.24       ;    0.0;    1.0;    0.0;    0.0; "example chk with oneliner"
+
+# Force on tri3 and quad4.
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 29 tx       ;    3.15e-9;    2.0;    0.0;    0.0; "quad thin"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 1 tx       ;    3.15e-9;    2.0;    0.0;    0.0; "quad"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 15 tx       ;    3.15e-9;    2.0;    0.0;    0.0; "quad"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 5 tx       ;    3.15e-9;    4.0;    0.0;    0.0; "tri/quad"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 24 tx       ;    3.15e-9;    3.0;    0.0;    0.0; "tri"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 2 tx       ;    3.15e-9;    2.0;    0.0;    0.0; "tri"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 29 ty       ;    -3.15e-9;    0.3;    0.0;    0.0; "quad thin"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 1 ty       ;    -3.15e-9;    0.3;    0.0;    0.0; "quad"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 15 ty       ;    -3.15e-9;    0.3;    0.0;    0.0; "quad"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 5 ty       ;    -3.15e-9;    0.5;    0.0;    0.0; "tri/quad"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 24 ty       ;    -3.15e-9;    4;    0.0;    0.0; "tri"
+chk;    vic_shell_element_force.DAT;   subcase 1 displacements 2 ty       ;    -3.15e-9;    8;    0.0;    0.0; "tri"
 
 mys;    Benchmark/EB-ALL-ELEM-TEST-GIV.DAT;                            ;    0.0;    1.0;    0.0;    0.0;    "Original main benchmark set"
 mys;    Benchmark/EB-ALL-ELEM-TEST-INV.DAT;                            ;    0.0;    1.0;    0.0;    0.0;    "Original main benchmark set"
