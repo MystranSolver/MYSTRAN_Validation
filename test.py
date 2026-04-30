@@ -13,6 +13,7 @@ class Definition:
         self.test_type = ""
         self.deck_filename = ""
         self.filter_string = ""
+        self.reference_value = 0.0
         self.percent_threshold = 0.0
         self.percent_allow = 0.0
         self.diff_threshold = 0.0
@@ -76,23 +77,23 @@ def clear_working_directory(path: Path) -> bool:
     
     return True
 
+
 def run_program(program_path: Path,
                 args: list[str],
                 working_dir: Path,
                 our_output: io.TextIOWrapper,
-                std_output: io.TextIOWrapper) -> bool:
+                std_output: io.TextIOWrapper) -> int:
 
     name = program_path.stem
 
     cmd = [str(program_path)] 
     cmd = cmd + args
 
-    our_output.write(f"=== Running ===\n")
+    our_output.write(f"************************\n")
     our_output.write(f"{program_path}")
     for arg in args:
         our_output.write(f" {arg}")
     our_output.write("\n")
-    our_output.write(f"===============\n")
     our_output.flush()
 
     try:
@@ -102,21 +103,19 @@ def run_program(program_path: Path,
                        stderr=std_output)
         
     except subprocess.CalledProcessError as e:
-        return False
+        return e.returncode
 
-    return True
-    
- 
-
+    return 0
         
 
-def run_case_f06magic(mystran_path: Path,
-                      decks_dir: Path,
-                      reference_dir: Path,
-                      working_dir: Path,
-                      f06magic_path: Path,
-                      output_file: io.TextIOWrapper,
-                      test_case: Definition) -> bool:
+def run_case(mystran_path: Path,
+             decks_dir: Path,
+             reference_mystran_dir: Path,
+             reference_msc_dir: Path,
+             working_dir: Path,
+             f06magic_path: Path,
+             output_file: io.TextIOWrapper,
+             test_case: Definition) -> bool:
     """Run one test case comparing to a reference f06 and return True for pass or False for fail."""
 
     deck_path = decks_dir / test_case.deck_filename
@@ -130,7 +129,7 @@ def run_case_f06magic(mystran_path: Path,
     working_deck_filename_str = shutil.copyfile(deck_path, working_dir / deck_path.name)
     
     # Run Mystran
-    if not run_program(mystran_path, [working_deck_filename_str], working_dir, output_file, output_file):
+    if run_program(mystran_path, [working_deck_filename_str], working_dir, output_file, output_file) != 0:
         print(f"{test_case.deck_filename} ERROR: from mystran. FAIL")
         return False
 
@@ -139,6 +138,10 @@ def run_case_f06magic(mystran_path: Path,
 
     if test_case.test_type == "mys" or test_case.test_type == "msc":
 
+        if test_case.test_type == "mys":
+            reference_dir = reference_mystran_dir
+        elif test_case.test_type == "msc":
+            reference_dir = reference_msc_dir
         reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".f06").resolve()
 
         # Convert f06csv args to f06magic
@@ -174,7 +177,8 @@ criteria = \"only criteria\"
 
         args = [f06magic_script_path]
 
-    else:
+
+    elif test_case.test_type == "chk":
     
         range_min = test_case.reference_value * (1 - test_case.percent_allow/100)
         range_max = test_case.reference_value * (1 + test_case.percent_allow/100)
@@ -184,12 +188,16 @@ criteria = \"only criteria\"
                 test_f06_path
                ]
 
-    # Run f06magic
-    
-    if not run_program(f06magic_path, args, working_dir, output_file, None):
+    else:
+        print(f"ERROR: {test_case.test_type} is invalid.\t{test_case.deck_filename}")
         return False
 
-    return True
+    # Run f06magic
+    fail_count = run_program(f06magic_path, args, working_dir, output_file, output_file)
+    pass_fail = "PASS" if fail_count == 0 else "FAILED"
+    print(f"{pass_fail}\t{fail_count}\t{test_case.deck_filename}")
+
+    return fail_count == 0
 
 
 def main():
@@ -224,15 +232,8 @@ def main():
 
     with open(output_path, "w") as output_file:
         for test_case in test_cases:
-            match test_case.test_type:
-                case "mys" | "chk":
-                    if run_case_f06magic(mystran_path, decks_dir, reference_mystran_dir, working_dir, f06magic_path, output_file, test_case):
-                        success += 1
-                case "msc":
-                    if run_case_f06magic(mystran_path, decks_dir, reference_msc_dir, working_dir, f06magic_path, output_file, test_case):
-                        success += 1
-                case _:
-                    print(f"{test_case.deck_filename} ERROR: Invalid test type: {test_case.test_type}. FAIL")
+            if run_case(mystran_path, decks_dir, reference_mystran_dir, reference_msc_dir, working_dir, f06magic_path, output_file, test_case):
+                success += 1
 
     print()
     exit_code = 0 if success == count and count > 0 else 1
@@ -241,7 +242,6 @@ def main():
 
     # Return exit code 0 for pass and 1 for fail
     sys.exit(exit_code)
-   
 
 
 if __name__ == "__main__":
