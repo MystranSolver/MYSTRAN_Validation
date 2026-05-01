@@ -18,11 +18,9 @@ class Definition:
         self.deck_filename = ""
         self.filter_string = ""
         self.reference_value = 0.0
-        self.percent_threshold = 0.0
-        self.percent_allow = 0.0
-        self.diff_threshold = 0.0
-        self.diff_allow = 0.0
-
+        self.threshold = 0.0
+        self.comparison_type = "percent"
+        self.tolerance = 0.0
 
 def read_definitions(definitions_path: Path) -> list[Definition]:
 
@@ -45,13 +43,15 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
             definition.filter_string = definition_fields_str[2]
-
             definition.reference_value = float(definition_fields_str[3])
-            definition.percent_threshold = float(definition_fields_str[3])
+            definition.threshold = float(definition_fields_str[3])
 
-            definition.percent_allow = float(definition_fields_str[4])
-            definition.diff_threshold = float(definition_fields_str[5])
-            definition.diff_allow = float(definition_fields_str[6])
+            if "%" in definition_fields_str[4]:
+                definition.comparison_type = "percent"
+            else:
+                definition.comparison_type = "difference"
+            definition.tolerance = float(definition_fields_str[4].replace("%",""))
+
             result.append(definition)
     
     return result
@@ -183,9 +183,19 @@ reference_file = \"{reference_f06_path}\"
 {extraction_lines}
 [[criteria]]
 name = \"only criteria\"
-max_difference = {str(test_case.diff_allow)}
-max_ratio = {str(test_case.percent_allow)}
-threshold = {str(test_case.percent_threshold)}
+        """
+# todo max_ratio is not the same kind of test as percent. Even scaling by 100 can't make it the same.
+        if test_case.comparison_type == "percent":
+            script = script + f"""
+max_ratio = {str(test_case.tolerance)}
+threshold = {str(test_case.threshold)}
+            """
+        elif test_case.comparison_type == "difference":
+            script = script + f"""
+max_difference = {str(test_case.tolerance)}
+            """
+        
+        script = script + f"""
 [[comparison]]
 name = \"{test_case.deck_filename}\"
 reference_f06 = \"reference_file\"
@@ -207,8 +217,8 @@ criteria = \"only criteria\"
 
     elif test_case.test_type == "chk":
     
-        range_min = test_case.reference_value * (1 - test_case.percent_allow/100)
-        range_max = test_case.reference_value * (1 + test_case.percent_allow/100)
+        range_min = test_case.reference_value * (1 - test_case.tolerance/100)
+        range_max = test_case.reference_value * (1 + test_case.tolerance/100)
     
         args = ['--oneliner',
                 test_case.filter_string + " " + str(range_min) + " to " + str(range_max),
