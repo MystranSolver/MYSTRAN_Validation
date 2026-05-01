@@ -194,6 +194,8 @@ threshold = {str(test_case.threshold)}
             script = script + f"""
 max_difference = {str(test_case.tolerance)}
             """
+        else:
+            print("ERROR 986251")
         
         script = script + f"""
 [[comparison]]
@@ -203,8 +205,6 @@ test_f06 = \"test_file\"
 extraction = \"{extraction_name}\"
 criteria = \"only criteria\"
         """
-
-        #todo two thresholds
 
         # Escape \ to \\ for TOML
         script = script.replace("\\", "\\\\")
@@ -216,12 +216,16 @@ criteria = \"only criteria\"
 
 
     elif test_case.test_type == "chk":
-    
-        range_min = test_case.reference_value * (1 - test_case.tolerance/100)
-        range_max = test_case.reference_value * (1 + test_case.tolerance/100)
+
+        if test_case.comparison_type == "percent":
+            difference_tolerance = abs(test_case.reference_value * test_case.tolerance/100)
+        elif test_case.comparison_type == "difference":
+            difference_tolerance = test_case.tolerance
+        else:
+            print("ERROR 862621")
     
         args = ['--oneliner',
-                test_case.filter_string + " " + str(range_min) + " to " + str(range_max),
+                test_case.filter_string + " " + str(test_case.reference_value) + " delta " + str(difference_tolerance),
                 test_f06_path
                ]
 
