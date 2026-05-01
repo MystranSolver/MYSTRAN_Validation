@@ -8,6 +8,10 @@ import io
 from pathlib import Path
 from f06csv_to_magic import f06csv_args_to_magic
 
+# Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
+# Error messages with explanations are for errors in test case definitions/usage.
+
+
 class Definition:
     def __init__(self):
         self.test_type = ""
@@ -53,27 +57,47 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
     return result
 
 
-def clear_working_directory(path: Path) -> bool:
+def clear_fails_directory(path: Path) -> bool:
     
     # Safety check to avoid clearing the wrong directory.
-    if not str(path).endswith("working"):
-        print(f"  ERROR: Directory '{path}' not called 'working'.")
+    if path.stem != "fails":
+        print("ERROR 235476")
         return False
 
-    # Create working directory if it doesn't exist.
-    # Helpful because being normally empty, it doesn't get into the Git repo.
+    # Create fails directory if it doesn't exist.
     path.mkdir(exist_ok=True)
 
     if not os.path.isdir(path):
-        print(f"  ERROR: '{path}' is not a directory.")
+        print("ERROR 222476")
+        return False
+
+    # Delete only the expected file type (f06) to reduce blast radius of a bug.
+    for item_path in path.rglob("*.f06"):
+        if item_path.is_file():
+            item_path.unlink()
+    
+    return True
+
+
+def clear_working_directory(path: Path) -> bool:
+    
+    # Safety check to avoid clearing the wrong directory.
+    if path.stem != "working":
+        print("ERROR 911875")
+        return False
+
+    # Create working directory if it doesn't exist.
+    path.mkdir(exist_ok=True)
+
+    if not os.path.isdir(path):
+        print("ERROR 911279")
         return False
 
     for item in os.listdir(path):
-        item_path = os.path.join(path, item)
-        if os.path.isfile(item_path) or os.path.islink(item_path):
-            os.remove(item_path)
-        # Don't delete subdirectories to reduce blast radius of 
-        # clearing the wrong directory and there shouldn't be any.
+        item_path = path / item
+        # Don't delete subdirectories or symlinks to reduce blast radius of a bug.
+        if item_path.is_file():
+            item_path.unlink()
     
     return True
 
@@ -110,6 +134,7 @@ def run_program(program_path: Path,
 
 def run_case(mystran_path: Path,
              root_dir: Path,
+             fails_dir: Path,
              output_file: io.TextIOWrapper,
              test_case: Definition,
              previous_deck_filename: str) -> bool:
@@ -132,10 +157,7 @@ def run_case(mystran_path: Path,
         
         # Run Mystran
         with open(os.devnull, "w") as null_output:
-            if run_program(mystran_path, [working_deck_filename_str], working_dir, null_output, null_output) != 0:
-                print(f"{test_case.deck_filename} ERROR: from mystran. FAIL")
-                return False
-
+            run_program(mystran_path, [working_deck_filename_str], working_dir, null_output, null_output)
 
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".f06").resolve()
@@ -148,7 +170,7 @@ def run_case(mystran_path: Path,
         elif test_case.test_type == "msc":
             reference_dir = (root_dir / "reference_msc").resolve()
         reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".f06").resolve()
-
+ 
         # Convert f06csv args to f06magic
         extraction_name = test_case.filter_string
         extraction_lines = f06csv_args_to_magic(test_case.filter_string, name=extraction_name)
@@ -202,6 +224,14 @@ criteria = \"only criteria\"
     pass_fail = "PASS" if fail_count == 0 else "FAILED"
     print(f"{pass_fail}\t{fail_count}\t{test_case.deck_filename}")
 
+    # Save a copy of failed f06 for inspecting after.
+    if fail_count != 0:
+        destination = (fails_dir / test_case.deck_filename).with_suffix(".f06").resolve()
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        # Don't overwrite anything to reduce damage caused by wrong-path bugs.
+        if not os.path.exists(destination):
+            shutil.copyfile(test_f06_path, destination)
+
     return fail_count == 0
 
 
@@ -218,9 +248,14 @@ def main():
         print(f"ERROR: No command line argument. Use the path to the mystran binary.")
         sys.exit(1)
 
+
     root_dir = Path(__file__).resolve().parent
+    fails_dir = root_dir / "fails"
     definitions_path = (root_dir / "cases.txt").resolve()
     output_path = (root_dir / "run_output.txt").resolve()
+
+    # Clear any fail outputs from the previous run.
+    clear_fails_directory(fails_dir)
 
     print()
 
@@ -233,7 +268,7 @@ def main():
 
     with open(output_path, "w") as output_file:
         for test_case in test_cases:
-            if not run_case(mystran_path, root_dir, output_file, test_case, previous_deck_filename):
+            if not run_case(mystran_path, root_dir, fails_dir, output_file, test_case, previous_deck_filename):
                 fails += 1
             previous_deck_filename = test_case.deck_filename
 
