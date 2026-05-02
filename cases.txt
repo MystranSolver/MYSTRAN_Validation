@@ -26,20 +26,34 @@
 #  [6] Comment. Optional. Ignored.
 
 
+# strain = 30000 / 1.75213260650635 / 50000000000.0 = 3.4243983461752066e-07
+# -strain * 0.4 = -1.3697593384700827e-07
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 8 ty;       3.4243983461752066e-07;     2e-5%
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 4 ty;       3.4243983461752066e-07;     2e-5%
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 27 ty;      3.4243983461752066e-07;     2e-5%
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 12 ty;      3.4243983461752066e-07;     2e-5%
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 5 tz;      -1.3697593384700827e-07;     0.0001%
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 7 tz;      -1.3697593384700827e-07;     0.0001%
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 13 tz;     -1.3697593384700827e-07;     0.0002%
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 28 tz;     -1.3697593384700827e-07;     0.0001%
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 15 tz;     -1.3697593384700827e-07;     0.0001%
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 3 tz;       0;                          0.0000000000001
+chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 19 tz;      0;                          0.0000000000001
 
-# Force on tri3 and quad4.
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 29 tx       ;    3.15e-9;    2%; quad thin
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 1 tx       ;    3.15e-9;    2%;  quad
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 15 tx       ;    3.15e-9;    2%; quad
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 5 tx       ;    3.15e-9;    4%;  tri/quad
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 24 tx       ;    3.15e-9;    3%; tri
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 2 tx       ;    3.15e-9;    2%;  tri
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 29 ty       ;    -3.15e-9;    0.3%;quad thin
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 1 ty       ;    -3.15e-9;    0.3%; quad
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 15 ty       ;    -3.15e-9;    0.3%;quad
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 5 ty       ;    -3.15e-9;    0.5%; tri/quad
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 24 ty       ;    -3.15e-9;    4%;  tri
-chk;    vic_shell_element_force.DAT;   subcase 1 displacements 2 ty       ;    -3.15e-9;    8%;   tri
+# strain = 30000 / 1.75213260650635 / 50000000000.0 = 3.4243983461752066e-07
+# -strain * 0.4 = -1.3697593384700827e-07
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 8 ty;       3.4243983461752066e-07;     2e-5%
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 4 ty;       3.4243983461752066e-07;     2e-5%
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 27 ty;      3.4243983461752066e-07;     2e-5%
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 12 ty;      3.4243983461752066e-07;     2e-5%
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 5 tz;      -1.3697593384700827e-07;     0.0001%
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 7 tz;      -1.3697593384700827e-07;     0.0001%
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 23 tz;     -1.3697593384700827e-07;     0.0001%
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 12 tz;     -1.3697593384700827e-07;     0.0001%
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 17 tz;     -1.3697593384700827e-07;     0.0001%
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 3 tz;       0;                          0.0000000000001
+chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 28 tz;      0;                          0.0000000000001
+
 
 mys;    Benchmark/EB-ALL-ELEM-TEST-GIV.DAT;                            ;    0.0;    0.0;    Original main benchmark set
 mys;    Benchmark/EB-ALL-ELEM-TEST-INV.DAT;                            ;    0.0;    0.0;    Original main benchmark set
