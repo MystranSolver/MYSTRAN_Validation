@@ -10,6 +10,7 @@
 #    mys means use reference solution in reference_mystran directory.
 #    msc means use reference solution in reference_msc directory.
 #    chk means filter for a single value using oneliner format in field [3] and use reference value in field [4].
+#    pth means filter for a single value using path format in field [3] and use reference value in field [4].
 #  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
 #  [3] For test types mys and msc:
 #       F06csv filters
@@ -17,9 +18,11 @@
 #       f06csv flags like -H are not allowed.
 #      For test type chk:
 #       oneliner argument for f06magic's --oneliner parameter but excluding the range at the end.
+#      For test type pth:
+#       / delimited path within the f06 file.
 #  [4] For test types mys and msc:
 #        Threshold for percent tolerance. Ignore (pass) pairs where the absolute value of the reference value is less than this.
-#      For test type chk:
+#      For test type chk and pth:
 #        Reference value
 #  [5] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
 #      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
@@ -27,7 +30,7 @@
 
 
 
-# tree path versions
+# tree path form
 
 pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;        3.4243983461752066e-07;     2e-5%
 pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;        3.4243983461752066e-07;     2e-5%
@@ -54,7 +57,7 @@ pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/3/TZ;       0;           
 pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/28/TZ;      0;                          0.0000000000001
 
 
-# f06magic check versions
+# f06magic oneliner form
 
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 8 ty;       3.4243983461752066e-07;     2e-5%
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 4 ty;       3.4243983461752066e-07;     2e-5%

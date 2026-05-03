@@ -75,11 +75,24 @@ def tree_get(tree, path_string : str):
     return current_node
     
 
-def print_tree(tree, indent=0):
+def write_tree(tree, file, indent=0, parent_key=""):
     for key, value in tree.items():
         if isinstance(value, dict):
-            print("  " * indent + str(key))
-            print_tree(value, indent + 1)
+            file.write("  " * indent + str(key) + "\n")
+            print_tree(value, file, indent + 1, key)
         else:
-            print("  " * indent + str(key) + " = " + str(value))
+            file.write("  " * indent + str(key) + " = " + str(value) + "\n")
 
+def write_structure_dense(tree, file, prefix="", parent_key=""):
+    is_first = True
+    for key, value in tree.items():
+        # Only show the first GID and EID as an example because there could be a lot.
+        if (not is_first) and (parent_key == "GID" or parent_key == "EID"):
+            file.write(prefix + "...\n")
+            break
+        is_first = False
+
+        file.write(prefix + str(key) + "\n")
+
+        if isinstance(value, dict):
+            write_structure_dense(value, file, prefix + str(key) + "/", key)

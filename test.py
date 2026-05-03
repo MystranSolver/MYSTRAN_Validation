@@ -9,6 +9,7 @@ from pathlib import Path
 from f06csv_to_magic import f06csv_args_to_magic
 from f06tree import read_f06_tree
 from f06tree import tree_get
+from f06tree import write_structure_dense
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
 # Error messages with explanations are for errors in test case definitions/usage.
@@ -164,6 +165,7 @@ def run_case(mystran_path: Path,
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".f06").resolve()
 
+    result_message = ""
 
     if test_case.test_type == "mys" or test_case.test_type == "msc":
 
@@ -242,16 +244,26 @@ criteria = \"only criteria\"
         test_value = tree_get(tree, test_case.filter_string)
 
         fail_count = 0 # Default
-        if test_case.comparison_type == "percent":
-            if 100 * abs(test_value / test_case.reference_value - 1) > test_case.tolerance:
-                fail_count = 1
-                print(f"Is {str(test_value)}, should be {str(test_case.reference_value)}+/-{str(test_case.tolerance)}%")
-        elif test_case.comparison_type == "difference":
-            if abs(test_value - test_case.reference_value) > test_case.tolerance:
-                fail_count = 1
-                print(f"Is {str(test_value)}, should be {str(test_case.reference_value)}+/-{str(test_case.tolerance)}")
+        
+        if test_value is None:
+            fail_count = 1
+            result_message = f"No value at {test_case.filter_string}"
+            output_file.write(f"************************\n")
+            output_file.write(f"{test_f06_path}\n")
+            output_file.write(f"Requested path: {test_case.filter_string}\n")
+            output_file.write(f"Available paths existing in f06 file:\n")
+            write_structure_dense(tree, output_file)
         else:
-            print("ERROR 862621")
+            if test_case.comparison_type == "percent":
+                if 100 * abs(test_value / test_case.reference_value - 1) > test_case.tolerance:
+                    fail_count = 1
+                    result_message = f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}%"
+            elif test_case.comparison_type == "difference":
+                if abs(test_value - test_case.reference_value) > test_case.tolerance:
+                    fail_count = 1
+                    result_message = f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}"
+            else:
+                print("ERROR 862621")
 
     else:
         print(f"ERROR: {test_case.test_type} is invalid.\t{test_case.deck_filename}")
@@ -259,7 +271,7 @@ criteria = \"only criteria\"
 
 
     pass_fail = "PASS" if fail_count == 0 else "FAILED"
-    print(f"{pass_fail}\t{fail_count}\t{test_case.deck_filename}")
+    print(f"{pass_fail}\t{fail_count}\t{test_case.deck_filename} {result_message}")
         
     # Save a copy of failed f06 for inspecting after.
     if fail_count != 0:
