@@ -25,6 +25,9 @@ class Definition:
         self.comparison_type = "percent"
         self.tolerance = 0.0
 
+    def tolerance_suffix(self):
+        return "%" if self.comparison_type == "percent" else ""        
+
 def read_definitions(definitions_path: Path) -> list[Definition]:
 
     # Read a line for each test case definition
@@ -65,14 +68,14 @@ def clear_fails_directory(path: Path) -> bool:
     # Safety check to avoid clearing the wrong directory.
     if path.stem != "fails":
         print("ERROR 235476")
-        return False
+        sys.exit(1)
 
     # Create fails directory if it doesn't exist.
     path.mkdir(exist_ok=True)
 
     if not os.path.isdir(path):
         print("ERROR 222476")
-        return False
+        sys.exit(1)
 
     # Delete only the expected file type (f06) to reduce blast radius of a bug.
     for item_path in path.rglob("*.f06"):
@@ -94,7 +97,7 @@ def clear_working_directory(path: Path) -> bool:
 
     if not os.path.isdir(path):
         print("ERROR 911279")
-        return False
+        sys.exit(1)
 
     for item in os.listdir(path):
         item_path = path / item
@@ -116,7 +119,6 @@ def run_program(program_path: Path,
     cmd = [str(program_path)] 
     cmd = cmd + args
 
-    our_output.write(f"************************\n")
     our_output.write(f"{program_path}")
     for arg in args:
         our_output.write(f" {arg}")
@@ -135,13 +137,151 @@ def run_program(program_path: Path,
     return 0
         
 
+def test_f06csv(root_dir: Path,
+                working_dir: Path,
+                test_f06_path: Path,
+                output_file: io.TextIOWrapper,
+                test_case: Definition) -> int:
+
+
+    if test_case.test_type == "mys":
+        reference_dir = (root_dir / "reference_mystran").resolve()
+    elif test_case.test_type == "msc":
+        reference_dir = (root_dir / "reference_msc").resolve()
+    reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".f06").resolve()
+
+    # Convert f06csv args to f06magic
+    extraction_name = test_case.filter_string
+    extraction_lines = f06csv_args_to_magic(test_case.filter_string, name=extraction_name)
+    
+    # Make script for f06magic
+    script = f"""
+[files]
+test_file = \"{test_f06_path}\"
+reference_file = \"{reference_f06_path}\"
+{extraction_lines}
+[[criteria]]
+name = \"only criteria\"
+    """
+# todo max_ratio is not the same kind of test as percent. Even scaling by 100 can't make it the same.
+    if test_case.comparison_type == "percent":
+        script = script + f"""
+max_ratio = {str(test_case.tolerance)}
+threshold = {str(test_case.threshold)}
+        """
+    elif test_case.comparison_type == "difference":
+        script = script + f"""
+max_difference = {str(test_case.tolerance)}
+        """
+    else:
+        print("ERROR 986251")
+        sys.exit(1)
+    
+    script = script + f"""
+[[comparison]]
+name = \"{test_case.deck_filename}\"
+reference_f06 = \"reference_file\"
+test_f06 = \"test_file\"
+extraction = \"{extraction_name}\"
+criteria = \"only criteria\"
+    """
+
+    # Escape \ to \\ for TOML
+    script = script.replace("\\", "\\\\")
+    f06magic_script_path = working_dir / "f06magic_script.toml"
+    with open(f06magic_script_path, "w") as script_file:
+        script_file.write(script)
+
+    args = [f06magic_script_path]
+
+    # Run f06magic
+    fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
+
+    return fail_count
+
+
+def test_f06magic_oneliner(root_dir: Path,
+                           working_dir: Path,
+                           test_f06_path: Path,
+                           output_file: io.TextIOWrapper,
+                           test_case: Definition) -> int:
+
+    if test_case.comparison_type == "percent":
+        difference_tolerance = abs(test_case.reference_value * test_case.tolerance/100)
+    elif test_case.comparison_type == "difference":
+        difference_tolerance = test_case.tolerance
+    else:
+        print("ERROR 862621")
+        sys.exit(1)
+
+    args = ['--oneliner',
+            test_case.filter_string + " " + str(test_case.reference_value) + " delta " + str(difference_tolerance),
+            test_f06_path
+           ]
+
+    # Run f06magic
+    fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
+
+    return fail_count
+
+
+def test_path(root_dir: Path,
+              working_dir: Path,
+              test_f06_path: Path,
+              output_file: io.TextIOWrapper,
+              test_case: Definition) -> int:
+
+    tree = read_f06_tree(test_f06_path)
+    test_values = tree_get(tree, test_case.filter_string)
+
+    fail_count = 0
+    comparison_count = 0
+    worst_error = 0
+
+    # Do the same comparison on each value separately.
+    for test_value in test_values:
+        comparison_count += 1
+
+        if test_value is None:
+            fail_count += 1
+            output_file.write(f"No value at path: {test_case.filter_string}\n")
+            output_file.write(f"Available paths existing in f06 file:\n")
+            write_structure_dense(tree, output_file)
+        else:
+            
+            if test_case.comparison_type == "percent":
+                error = 100 * abs(test_value / test_case.reference_value - 1)
+            elif test_case.comparison_type == "difference":
+                error = abs(test_value - test_case.reference_value)
+            else:
+                print("ERROR 862621")
+                sys.exit(1)
+
+            if error > test_case.tolerance:
+                worst_error = max(error, worst_error)
+                fail_count += 1
+                pass_fail = "FAILED"
+            else:
+                pass_fail = "PASS"
+            output_file.write(f"{pass_fail}\tError = {error:.2g}{test_case.tolerance_suffix()}\tTolerance = {test_case.tolerance}{test_case.tolerance_suffix()}\tTest = {test_value}\tReference = {test_case.reference_value:.9g}\n")
+
+    if worst_error > 0:
+        message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}"
+    else:
+        message = ""
+
+    return fail_count, comparison_count, message
+
+
 def run_case(mystran_path: Path,
              root_dir: Path,
              fails_dir: Path,
              output_file: io.TextIOWrapper,
              test_case: Definition,
              previous_deck_filename: str) -> bool:
-    """Run one test case comparing to a reference f06 and return True for pass or False for fail."""
+    """Run one test case return True for pass or False for fail."""
+
+    output_file.write(f"******\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
 
     working_dir = (root_dir / "working").resolve()
 
@@ -162,123 +302,35 @@ def run_case(mystran_path: Path,
         with open(os.devnull, "w") as null_output:
             run_program(mystran_path, [working_deck_filename_str], working_dir, null_output, null_output)
 
-
     test_f06_path = (working_dir / deck_stem).with_suffix(".f06").resolve()
 
     if test_case.test_type == "mys" or test_case.test_type == "msc":
 
-        if test_case.test_type == "mys":
-            reference_dir = (root_dir / "reference_mystran").resolve()
-        elif test_case.test_type == "msc":
-            reference_dir = (root_dir / "reference_msc").resolve()
-        reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".f06").resolve()
- 
-        # Convert f06csv args to f06magic
-        extraction_name = test_case.filter_string
-        extraction_lines = f06csv_args_to_magic(test_case.filter_string, name=extraction_name)
-        
-        # Make script for f06magic
-        script = f"""
-[files]
-test_file = \"{test_f06_path}\"
-reference_file = \"{reference_f06_path}\"
-{extraction_lines}
-[[criteria]]
-name = \"only criteria\"
-        """
-# todo max_ratio is not the same kind of test as percent. Even scaling by 100 can't make it the same.
-        if test_case.comparison_type == "percent":
-            script = script + f"""
-max_ratio = {str(test_case.tolerance)}
-threshold = {str(test_case.threshold)}
-            """
-        elif test_case.comparison_type == "difference":
-            script = script + f"""
-max_difference = {str(test_case.tolerance)}
-            """
+        fail_count = test_f06csv(root_dir, working_dir, test_f06_path, output_file, test_case)
+        message = ""
+        if fail_count == 254:
+            # 254 is the maximum that f06magic can report through the exit code.
+            count_suffix = "+"
         else:
-            print("ERROR 986251")
-        
-        script = script + f"""
-[[comparison]]
-name = \"{test_case.deck_filename}\"
-reference_f06 = \"reference_file\"
-test_f06 = \"test_file\"
-extraction = \"{extraction_name}\"
-criteria = \"only criteria\"
-        """
-
-        # Escape \ to \\ for TOML
-        script = script.replace("\\", "\\\\")
-        f06magic_script_path = working_dir / "f06magic_script.toml"
-        with open(f06magic_script_path, "w") as script_file:
-            script_file.write(script)
-
-        args = [f06magic_script_path]
-
-        # Run f06magic
-        fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
+            count_suffix = ""
 
     elif test_case.test_type == "chk":
 
-        if test_case.comparison_type == "percent":
-            difference_tolerance = abs(test_case.reference_value * test_case.tolerance/100)
-        elif test_case.comparison_type == "difference":
-            difference_tolerance = test_case.tolerance
-        else:
-            print("ERROR 862621")
-            return False
-    
-        args = ['--oneliner',
-                test_case.filter_string + " " + str(test_case.reference_value) + " delta " + str(difference_tolerance),
-                test_f06_path
-               ]
-
-        # Run f06magic
-        fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
+        fail_count = test_f06magic_oneliner(root_dir, working_dir, test_f06_path, output_file, test_case)
+        message = ""
+        count_suffix = ""
 
     elif test_case.test_type == "pth":
 
-        tree = read_f06_tree(test_f06_path)
-        test_values = tree_get(tree, test_case.filter_string)
-
-        fail_count = 0 # Default
-
-        output_file.write(f"************************\n")
-        output_file.write(f"{test_f06_path}\n")
-
-        # Do the same comparison on each value separately.
-        for test_value in test_values:
-
-#todo showow  PASS/FAIL for each individual test. Maybe? OR at least show test count and individual fails.
-        
-            if test_value is None:
-                fail_count += 1
-                output_file.write(f"No value at path: {test_case.filter_string}\n")
-                output_file.write(f"Available paths existing in f06 file:\n")
-                write_structure_dense(tree, output_file)
-            else:
-                if test_case.comparison_type == "percent":
-                    if 100 * abs(test_value / test_case.reference_value - 1) > test_case.tolerance:
-                        fail_count += 1
-                        output_file.write(f"FAIL: {test_case.filter_string}\n")
-                        output_file.write(f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}%\n")
-                elif test_case.comparison_type == "difference":
-                    if abs(test_value - test_case.reference_value) > test_case.tolerance:
-                        fail_count += 1
-                        output_file.write(f"FAIL: {test_case.filter_string}\n")
-                        output_file.write(f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}\n")
-                else:
-                    print("ERROR 862621")
-                    return False
-
+        fail_count, comparison_count, message = test_path(root_dir, working_dir, test_f06_path, output_file, test_case)
+        count_suffix = "/" + str(comparison_count)
+  
     else:
         print(f"ERROR: {test_case.test_type} is invalid.\t{test_case.deck_filename}")
         return False
 
-
     pass_fail = "PASS" if fail_count == 0 else "FAILED"
-    print(f"{pass_fail}\t{fail_count}\t{test_case.deck_filename}")
+    print(f"{pass_fail}\t{fail_count}{count_suffix}\t{test_case.deck_filename}\t{message}")
         
     # Save a copy of failed f06 for inspecting after.
     if fail_count != 0:
