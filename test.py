@@ -7,6 +7,8 @@ import os
 import io
 from pathlib import Path
 from f06csv_to_magic import f06csv_args_to_magic
+from f06tree import read_f06_tree
+from f06tree import tree_get
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
 # Error messages with explanations are for errors in test case definitions/usage.
@@ -214,6 +216,8 @@ criteria = \"only criteria\"
 
         args = [f06magic_script_path]
 
+        # Run f06magic
+        fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
 
     elif test_case.test_type == "chk":
 
@@ -229,15 +233,34 @@ criteria = \"only criteria\"
                 test_f06_path
                ]
 
+        # Run f06magic
+        fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
+
+    elif test_case.test_type == "pth":
+
+        tree = read_f06_tree(test_f06_path)
+        test_value = tree_get(tree, test_case.filter_string)
+
+        fail_count = 0 # Default
+        if test_case.comparison_type == "percent":
+            if 100 * abs(test_value / test_case.reference_value - 1) > test_case.tolerance:
+                fail_count = 1
+                print(f"Is {str(test_value)}, should be {str(test_case.reference_value)}+/-{str(test_case.tolerance)}%")
+        elif test_case.comparison_type == "difference":
+            if abs(test_value - test_case.reference_value) > test_case.tolerance:
+                fail_count = 1
+                print(f"Is {str(test_value)}, should be {str(test_case.reference_value)}+/-{str(test_case.tolerance)}")
+        else:
+            print("ERROR 862621")
+
     else:
         print(f"ERROR: {test_case.test_type} is invalid.\t{test_case.deck_filename}")
         return False
 
-    # Run f06magic
-    fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
+
     pass_fail = "PASS" if fail_count == 0 else "FAILED"
     print(f"{pass_fail}\t{fail_count}\t{test_case.deck_filename}")
-
+        
     # Save a copy of failed f06 for inspecting after.
     if fail_count != 0:
         destination = (fails_dir / test_case.deck_filename).with_suffix(".f06").resolve()

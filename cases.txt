@@ -26,8 +26,36 @@
 #  [6] Comment. Optional. Ignored.
 
 
-# strain = 30000 / 1.75213260650635 / 50000000000.0 = 3.4243983461752066e-07
-# -strain * 0.4 = -1.3697593384700827e-07
+
+# tree path versions
+
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;        3.4243983461752066e-07;     2e-5%
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;        3.4243983461752066e-07;     2e-5%
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/27/TY;       3.4243983461752066e-07;     2e-5%
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/12/TY;       3.4243983461752066e-07;     2e-5%
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/5/TZ;       -1.3697593384700827e-07;     0.0001%
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/7/TZ;       -1.3697593384700827e-07;     0.0001%
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/13/TZ;      -1.3697593384700827e-07;     0.0002%
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/28/TZ;      -1.3697593384700827e-07;     0.0001%
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/15/TZ;      -1.3697593384700827e-07;     0.0001%
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/3/TZ;        0;                          0.0000000000001
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/19/TZ;       0;                          0.0000000000001
+
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/8/TY;       3.4243983461752066e-07;     2e-5%
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/4/TY;       3.4243983461752066e-07;     2e-5%
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/27/TY;      3.4243983461752066e-07;     2e-5%
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/12/TY;      3.4243983461752066e-07;     2e-5%
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/5/TZ;      -1.3697593384700827e-07;     0.0001%
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/7/TZ;      -1.3697593384700827e-07;     0.0001%
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/23/TZ;     -1.3697593384700827e-07;     0.0001%
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/12/TZ;     -1.3697593384700827e-07;     0.0001%
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/17/TZ;     -1.3697593384700827e-07;     0.0001%
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/3/TZ;       0;                          0.0000000000001
+pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/28/TZ;      0;                          0.0000000000001
+
+
+# f06magic check versions
+
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 8 ty;       3.4243983461752066e-07;     2e-5%
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 4 ty;       3.4243983461752066e-07;     2e-5%
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 27 ty;      3.4243983461752066e-07;     2e-5%
@@ -40,8 +68,6 @@ chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 15 tz;     -1.3697593384
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 3 tz;       0;                          0.0000000000001
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 19 tz;      0;                          0.0000000000001
 
-# strain = 30000 / 1.75213260650635 / 50000000000.0 = 3.4243983461752066e-07
-# -strain * 0.4 = -1.3697593384700827e-07
 chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 8 ty;       3.4243983461752066e-07;     2e-5%
 chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 4 ty;       3.4243983461752066e-07;     2e-5%
 chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 27 ty;      3.4243983461752066e-07;     2e-5%
@@ -54,6 +80,8 @@ chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 17 tz;     -1.3697593384
 chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 3 tz;       0;                          0.0000000000001
 chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 28 tz;      0;                          0.0000000000001
 
+
+# f06csv compatible tests
 
 mys;    Benchmark/EB-ALL-ELEM-TEST-GIV.DAT;                            ;    0.0;    0.0;    Original main benchmark set
 mys;    Benchmark/EB-ALL-ELEM-TEST-INV.DAT;                            ;    0.0;    0.0;    Original main benchmark set
