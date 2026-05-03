@@ -62,13 +62,30 @@ def tree_get(tree, path_string : str):
     path = path_string.split("/")
 
     # Iterate over lists of multiple node names.
-    # todo
-
     result = []
-    
-    result.append(tree_get_one(tree, path))
+    for path in expand_lists(path):
+        result.append(tree_get_one(tree, path))
     
     return result
+
+
+def expand_lists(path, expanded_paths=None):
+    # Convert eg: 
+    # ["A","B","1,2,3","D"]
+    # to
+    # [["A","B","1","D"], ["A","B","2","D"], ["A","B","3","D"]]
+
+    # Initialize inside function because same list persists across calls otherwise.
+    if expanded_paths is None:
+        expanded_paths = []
+
+    for i, element in enumerate(path):
+        if "," in str(element):
+            for value in element.split(","):
+                expand_lists(path[:i] + [value.strip()] + path[i+1:], expanded_paths)
+            return expanded_paths
+    expanded_paths.append(path)
+    return expanded_paths
 
 
 def tree_get_one(tree, path):

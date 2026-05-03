@@ -165,8 +165,6 @@ def run_case(mystran_path: Path,
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".f06").resolve()
 
-    result_message = ""
-
     if test_case.test_type == "mys" or test_case.test_type == "msc":
 
         if test_case.test_type == "mys":
@@ -229,6 +227,7 @@ criteria = \"only criteria\"
             difference_tolerance = test_case.tolerance
         else:
             print("ERROR 862621")
+            return False
     
         args = ['--oneliner',
                 test_case.filter_string + " " + str(test_case.reference_value) + " delta " + str(difference_tolerance),
@@ -245,28 +244,33 @@ criteria = \"only criteria\"
 
         fail_count = 0 # Default
 
+        output_file.write(f"************************\n")
+        output_file.write(f"{test_f06_path}\n")
+
         # Do the same comparison on each value separately.
         for test_value in test_values:
+
+#todo showow  PASS/FAIL for each individual test. Maybe? OR at least show test count and individual fails.
         
             if test_value is None:
-                fail_count = 1
-                result_message = f"No value at {test_case.filter_string}"
-                output_file.write(f"************************\n")
-                output_file.write(f"{test_f06_path}\n")
-                output_file.write(f"Requested path: {test_case.filter_string}\n")
+                fail_count += 1
+                output_file.write(f"No value at path: {test_case.filter_string}\n")
                 output_file.write(f"Available paths existing in f06 file:\n")
                 write_structure_dense(tree, output_file)
             else:
                 if test_case.comparison_type == "percent":
                     if 100 * abs(test_value / test_case.reference_value - 1) > test_case.tolerance:
-                        fail_count = 1
-                        result_message = f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}%"
+                        fail_count += 1
+                        output_file.write(f"FAIL: {test_case.filter_string}\n")
+                        output_file.write(f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}%\n")
                 elif test_case.comparison_type == "difference":
                     if abs(test_value - test_case.reference_value) > test_case.tolerance:
-                        fail_count = 1
-                        result_message = f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}"
+                        fail_count += 1
+                        output_file.write(f"FAIL: {test_case.filter_string}\n")
+                        output_file.write(f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}\n")
                 else:
                     print("ERROR 862621")
+                    return False
 
     else:
         print(f"ERROR: {test_case.test_type} is invalid.\t{test_case.deck_filename}")
@@ -274,7 +278,7 @@ criteria = \"only criteria\"
 
 
     pass_fail = "PASS" if fail_count == 0 else "FAILED"
-    print(f"{pass_fail}\t{fail_count}\t{test_case.deck_filename} {result_message}")
+    print(f"{pass_fail}\t{fail_count}\t{test_case.deck_filename}")
         
     # Save a copy of failed f06 for inspecting after.
     if fail_count != 0:
@@ -304,7 +308,7 @@ def main():
     root_dir = Path(__file__).resolve().parent
     fails_dir = root_dir / "fails"
     definitions_path = (root_dir / "cases.txt").resolve()
-    output_path = (root_dir / "run_output.txt").resolve()
+    output_path = (root_dir / "output.txt").resolve()
 
     # Clear any fail outputs from the previous run.
     clear_fails_directory(fails_dir)
