@@ -30,6 +30,8 @@
 
 
 
+
+
 # tree path form
 
 pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;        3.4243983461752066e-07;     2e-5%
@@ -56,6 +58,10 @@ pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/17/TZ;     -1.36975933847
 pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/3/TZ;       0;                          0.0000000000001
 pth;    vic/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/28/TZ;      0;                          0.0000000000001
 
+
+# testing path errors that should fail
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/27/TY/h;       3.4243983461752066e-07;     2e-5%
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/12;       3.4243983461752066e-07;     2e-5%
 
 # f06magic oneliner form
 

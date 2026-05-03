@@ -241,29 +241,32 @@ criteria = \"only criteria\"
     elif test_case.test_type == "pth":
 
         tree = read_f06_tree(test_f06_path)
-        test_value = tree_get(tree, test_case.filter_string)
+        test_values = tree_get(tree, test_case.filter_string)
 
         fail_count = 0 # Default
+
+        # Do the same comparison on each value separately.
+        for test_value in test_values:
         
-        if test_value is None:
-            fail_count = 1
-            result_message = f"No value at {test_case.filter_string}"
-            output_file.write(f"************************\n")
-            output_file.write(f"{test_f06_path}\n")
-            output_file.write(f"Requested path: {test_case.filter_string}\n")
-            output_file.write(f"Available paths existing in f06 file:\n")
-            write_structure_dense(tree, output_file)
-        else:
-            if test_case.comparison_type == "percent":
-                if 100 * abs(test_value / test_case.reference_value - 1) > test_case.tolerance:
-                    fail_count = 1
-                    result_message = f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}%"
-            elif test_case.comparison_type == "difference":
-                if abs(test_value - test_case.reference_value) > test_case.tolerance:
-                    fail_count = 1
-                    result_message = f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}"
+            if test_value is None:
+                fail_count = 1
+                result_message = f"No value at {test_case.filter_string}"
+                output_file.write(f"************************\n")
+                output_file.write(f"{test_f06_path}\n")
+                output_file.write(f"Requested path: {test_case.filter_string}\n")
+                output_file.write(f"Available paths existing in f06 file:\n")
+                write_structure_dense(tree, output_file)
             else:
-                print("ERROR 862621")
+                if test_case.comparison_type == "percent":
+                    if 100 * abs(test_value / test_case.reference_value - 1) > test_case.tolerance:
+                        fail_count = 1
+                        result_message = f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}%"
+                elif test_case.comparison_type == "difference":
+                    if abs(test_value - test_case.reference_value) > test_case.tolerance:
+                        fail_count = 1
+                        result_message = f"Is {str(test_value)}, should be {str(test_case.reference_value)} +/- {str(test_case.tolerance)}"
+                else:
+                    print("ERROR 862621")
 
     else:
         print(f"ERROR: {test_case.test_type} is invalid.\t{test_case.deck_filename}")

@@ -54,25 +54,52 @@ def read_f06_tree(file_name):
     return root
 
 
+
 def tree_get(tree, path_string : str):
     current_node = tree
     
     # Convert / delimited string to list
     path = path_string.split("/")
 
-    # convert numbers to int
-    path_2 = []
-    for node in path:
-        if node[0].isdigit():
-            path_2.append(int(node))
-        else:
-            path_2.append(node)
+    # Iterate over lists of multiple node names.
+    # todo
 
-    for node in path_2:
+    result = []
+    
+    result.append(tree_get_one(tree, path))
+    
+    return result
+
+
+def tree_get_one(tree, path):
+    current_node = tree
+   
+    value = None
+
+    for node in path:
+
+        # convert numbers to int
+        if node[0].isdigit():
+            node =  int(node)
+
+        if not isinstance(current_node, dict):
+            # Fail if we reached the leaf before the end of the path.
+            value = None
+            break
+
         if not node in current_node:
-            return None
-        current_node = current_node[node]
-    return current_node
+            # Fail if a node in the path isn't present.
+            value = None
+            break
+        else:
+
+            current_node = current_node[node]
+
+            if isinstance(current_node, float):
+                # Reached leaf.
+                value = current_node
+
+    return value
     
 
 def write_tree(tree, file, indent=0, parent_key=""):
