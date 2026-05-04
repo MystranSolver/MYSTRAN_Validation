@@ -241,16 +241,29 @@ def test_f06magic_oneliner(root_dir: Path,
 
 def expand_lists(path, expanded_paths=None):
     # Convert eg: 
+    #
     # ["A","B","1,2,3","D"]
-    # to
+    #   to
     # [["A","B","1","D"], ["A","B","2","D"], ["A","B","3","D"]]
-
+    #
+    # and
+    #
+    # ["2"-"7"]
+    #   to
+    # ["2","3","4","5","6","7"]
+    
     # Initialize inside function because same list persists across calls otherwise.
     if expanded_paths is None:
         expanded_paths = []
 
     for i, element in enumerate(path):
-        if "," in str(element):
+        if "-" in str(element):
+            first = int(element.split("-")[0])
+            last = int(element.split("-")[1])
+            for value in range(first, last-1):
+                expand_lists(path[:i] + [str(value)] + path[i+1:], expanded_paths)
+            return expanded_paths
+        elif "," in str(element):
             for value in element.split(","):
                 expand_lists(path[:i] + [value.strip()] + path[i+1:], expanded_paths)
             return expanded_paths
@@ -289,10 +302,9 @@ def tree_get_transformed(tree, path, gp_transforms):
 
     result = tree_get(tree, path)
 
-    # Check if we're requesting a displacement component
+    # Transform displacement components
     if len(path) > 5 and path[2] == "DISPLACEMENTS" and path[3] == "GID":
         gid = int(path[4])
-        # Check if the requested grid point has a transformation
         if gid in gp_transforms:
 
             # Get the 3-component displacement (translation or rotation) vector
@@ -313,7 +325,7 @@ def tree_get_transformed(tree, path, gp_transforms):
             if path[5][1] == "Y": component = 1
             if path[5][1] == "Z": component = 2
             row = gp_transforms[gid][component]
-            return row[0] * x + row[1] * y + row[2] * z
+            result = row[0] * x + row[1] * y + row[2] * z
     
     return result
 
@@ -359,10 +371,12 @@ def test_path(root_dir: Path,
     comparison_count = 0
     worst_error = 0
 
+    single_paths = expand_lists(tree_path)
+
     match test_case.operation:
         case "":
 
-            for single_path in expand_lists(tree_path):
+            for single_path in single_paths:
                 comparison_count += 1
                 value = tree_get_transformed(tree, single_path, gp_transforms)
                 if value is None:
@@ -377,7 +391,7 @@ def test_path(root_dir: Path,
 
             comparison_count += 1
             value_sum = 0
-            for single_path in expand_lists(tree_path):
+            for single_path in single_paths:
                 value = tree_get_transformed(tree, single_path, gp_transforms)
                 if value is None:
                     output_file.write(f"No value at path: {"/".join(single_path)}\n")
