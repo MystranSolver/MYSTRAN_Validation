@@ -20,6 +20,7 @@ class Definition:
         self.test_type = ""
         self.deck_filename = ""
         self.filter_string = ""
+        self.operation = ""
         self.reference_value = 0.0
         self.threshold = 0.0
         self.comparison_type = "percent"
@@ -29,6 +30,15 @@ class Definition:
         return "%" if self.comparison_type == "percent" else ""        
 
 def read_definitions(definitions_path: Path) -> list[Definition]:
+
+    def read_tolerance(field):
+        nonlocal definition
+        if "%" in field:
+            definition.comparison_type = "percent"
+        else:
+            definition.comparison_type = "difference"
+        definition.tolerance = float(field.replace("%",""))
+
 
     # Read a line for each test case definition
     definitions_str = definitions_path.read_text().splitlines()
@@ -49,14 +59,18 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
             definition.filter_string = definition_fields_str[2]
-            definition.reference_value = float(definition_fields_str[3])
-            definition.threshold = float(definition_fields_str[3])
+            match definition.test_type:
+                case "mys" | "msc":
+                    definition.threshold = float(definition_fields_str[3])
+                    read_tolerance(definition_fields_str[4])
+                case "chk":
+                    definition.reference_value = float(definition_fields_str[3])
+                    read_tolerance(definition_fields_str[4])
+                case "pth":
+                    definition.operation = definition_fields_str[3]
+                    definition.reference_value = float(definition_fields_str[4])
+                    read_tolerance(definition_fields_str[5])
 
-            if "%" in definition_fields_str[4]:
-                definition.comparison_type = "percent"
-            else:
-                definition.comparison_type = "difference"
-            definition.tolerance = float(definition_fields_str[4].replace("%",""))
 
             result.append(definition)
     
@@ -311,6 +325,27 @@ def test_path(root_dir: Path,
               output_file: io.TextIOWrapper,
               test_case: Definition) -> int:
 
+    def compare(test_value):
+        nonlocal worst_error
+        nonlocal fail_count
+
+        if test_case.comparison_type == "percent":
+            error = 100 * abs(test_value / test_case.reference_value - 1)
+        elif test_case.comparison_type == "difference":
+            error = abs(test_value - test_case.reference_value)
+        else:
+            print("ERROR 862621")
+            sys.exit(1)
+
+        if error > test_case.tolerance:
+            worst_error = max(error, worst_error)
+            fail_count += 1
+            pass_fail = "FAILED"
+        else:
+            pass_fail = "PASS"
+        output_file.write(f"{pass_fail}\tError = {error:.2g}{test_case.tolerance_suffix()}\tTolerance = {test_case.tolerance}{test_case.tolerance_suffix()}\tTest = {test_value}\tReference = {test_case.reference_value:.9g}\n")
+
+
     # Read f06 file
     tree = read_f06_tree(test_f06_path)
 
@@ -324,34 +359,39 @@ def test_path(root_dir: Path,
     comparison_count = 0
     worst_error = 0
 
-    for single_path in expand_lists(tree_path):
+    match test_case.operation:
+        case "":
 
-        test_value = tree_get_transformed(tree, single_path, gp_transforms)
-    
-        comparison_count += 1
+            for single_path in expand_lists(tree_path):
+                comparison_count += 1
+                value = tree_get_transformed(tree, single_path, gp_transforms)
+                if value is None:
+                    fail_count += 1
+                    output_file.write(f"No value at path: {"/".join(single_path)}\n")
+                    output_file.write(f"Available paths existing in f06 file:\n")
+                    write_structure_dense(tree, output_file)
+                else:
+                    compare(value)
 
-        if test_value is None:
-            fail_count += 1
-            output_file.write(f"No value at path: {test_case.filter_string}\n")
-            output_file.write(f"Available paths existing in f06 file:\n")
-            write_structure_dense(tree, output_file)
-        else:
-            
-            if test_case.comparison_type == "percent":
-                error = 100 * abs(test_value / test_case.reference_value - 1)
-            elif test_case.comparison_type == "difference":
-                error = abs(test_value - test_case.reference_value)
-            else:
-                print("ERROR 862621")
-                sys.exit(1)
+        case "SUM":
 
-            if error > test_case.tolerance:
-                worst_error = max(error, worst_error)
+            comparison_count += 1
+            value_sum = 0
+            for single_path in expand_lists(tree_path):
+                value = tree_get_transformed(tree, single_path, gp_transforms)
+                if value is None:
+                    output_file.write(f"No value at path: {"/".join(single_path)}\n")
+                    output_file.write(f"Available paths existing in f06 file:\n")
+                    write_structure_dense(tree, output_file)
+                    value_sum = None
+                    break
+                else:
+                   value_sum += value
+            if value_sum is None:
                 fail_count += 1
-                pass_fail = "FAILED"
             else:
-                pass_fail = "PASS"
-            output_file.write(f"{pass_fail}\tError = {error:.2g}{test_case.tolerance_suffix()}\tTolerance = {test_case.tolerance}{test_case.tolerance_suffix()}\tTest = {test_value}\tReference = {test_case.reference_value:.9g}\n")
+                compare(value_sum)
+
     
    
     if worst_error > 0:
@@ -371,7 +411,13 @@ def run_case(mystran_path: Path,
              previous_deck_filename: str) -> bool:
     """Run one test case return True for pass or False for fail."""
 
-    output_file.write(f"******\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
+    match test_case.test_type:
+        case "mys" | "msc":
+            output_file.write(f"******\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
+        case "chk":
+            output_file.write(f"******\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
+        case "pth":
+            output_file.write(f"******\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.operation}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
 
     working_dir = (root_dir / "working").resolve()
 
