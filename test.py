@@ -303,7 +303,10 @@ def tree_get_transformed(tree, path, gp_transforms):
     result = tree_get(tree, path)
 
     # Transform displacement components
-    if len(path) > 5 and path[2] == "DISPLACEMENTS" and path[3] == "GID":
+    if len(path) > 5 \
+    and path[0] == "SC" \
+    and (path[2] == "DISPLACEMENTS" or path[2] == "SPCFORCES") \
+    and path[3] == "GID":
         gid = int(path[4])
         if gid in gp_transforms:
 

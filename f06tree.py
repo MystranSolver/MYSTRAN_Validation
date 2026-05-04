@@ -78,7 +78,7 @@ def tree_get(tree, path):
    
     value = None
 
-    for node in path:
+    for index, node in enumerate(path):
 
         # convert numbers to int
         if node[0].isdigit():
@@ -90,9 +90,17 @@ def tree_get(tree, path):
             break
 
         if not node in current_node:
-            # Fail if a node in the path isn't present.
-            value = None
-            break
+            # Some types of missing node represent zero values.
+            
+            # /SC/#/SPCFORCES/GID/#/##
+            #                     ^--- not present.
+            if index == 4 and len(path) == 6 and path[0] == "SC" and path[2] == "SPCFORCES" and path[3] == "GID":
+                value = 0.0
+                break
+            else:
+                # Otherwise, fail if a node in the path isn't present.
+                value = None
+                break
         else:
 
             current_node = current_node[node]
