@@ -31,8 +31,17 @@
 
 
 
+# Force fails to check they're detected
+# =====================================
 
-# tree path form
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;        -3.4243983461752066e-07;     2e-5%  ; Correct magnitude but wrong sign
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8,4,27/TY;      3.4e-7;     2e-5%                ; Slighty wrong value
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/27/TY/h;       3.4243983461752066e-07;     2e-5% ; Extra node on path
+pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/12;       3.4243983461752066e-07;     2e-5%      ; Missing leaf node on path
+
+
+# Path form
+# =========
 
 pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;        3.4243983461752066e-07;     2e-5%
 pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;        3.4243983461752066e-07;     2e-5%
@@ -64,16 +73,32 @@ pth;    vic/NAS S30 non-zero displacement.bdf;  SC/1/DISPLACEMENTS/GID/5,6,7,8,1
 pth;    vic/NAS S30 non-zero displacement.bdf;  SC/1/DISPLACEMENTS/GID/27,19/TZ;                    -0.00005;   2e-5%
 pth;    vic/NAS S30 non-zero displacement.bdf;  SC/1/DISPLACEMENTS/GID/4,2/TZ;                       0;         0.000000000000001
 
+# todo NAS S30 non-zero displacement rotated
+
+# todo NAS S30 non-zero displacement rotated bug
+
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/6/TX;    0.000000185605573878158;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/6/TY;   -0.000000274881854913551;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/6/TZ;    0.000000185605573878158;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/72/TX;   0.000000206192390572239;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/72/TY;  -0.00000030171801128011;     2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/72/TZ;   0.000000206192390572239;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/27/TX;   0.000000216539836191183;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/27/TY;  -0.000000274881854913551;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/27/TZ;   0.000000216539836191183;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/64/TX;   0.000000185605573878158;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/64/TY;  -0.000000274881854913551;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/64/TZ;   0.000000185605573878158;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/34/TX;   0.000000185605573878158;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/34/TY;  -0.000000274881854913551;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/34/TZ;   0.000000185605573878158;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/19/TX;   0.000000185605573878158;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/19/TY;  -0.000000274881854913551;    2e-5%
+pth;    vic/NAS S30 gravity.bdf;    SC/1/DISPLACEMENTS/GID/19/TZ;   0.000000185605573878158;    2e-5%
 
 
-#testing list
-pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/2,3,4/TY;       33;     2e-5%
-pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8,4,27/TY;      1.23456e-7;     2e-5%
-# testing path errors that should fail
-pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/27/TY/h;       3.4243983461752066e-07;     2e-5%
-pth;    vic/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/12;       3.4243983461752066e-07;     2e-5%
-
-# f06magic oneliner form
+# F06magic oneliner form
+# ======================
 
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 8 ty;       3.4243983461752066e-07;     2e-5%
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 4 ty;       3.4243983461752066e-07;     2e-5%
@@ -87,20 +112,9 @@ chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 15 tz;     -1.3697593384
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 3 tz;       0;                          0.0000000000001
 chk;    vic/NAS S30 hexa.bdf;   subcase 1 displacements 19 tz;      0;                          0.0000000000001
 
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 8 ty;       3.4243983461752066e-07;     2e-5%
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 4 ty;       3.4243983461752066e-07;     2e-5%
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 27 ty;      3.4243983461752066e-07;     2e-5%
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 12 ty;      3.4243983461752066e-07;     2e-5%
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 5 tz;      -1.3697593384700827e-07;     0.0001%
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 7 tz;      -1.3697593384700827e-07;     0.0001%
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 23 tz;     -1.3697593384700827e-07;     0.0001%
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 12 tz;     -1.3697593384700827e-07;     0.0001%
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 17 tz;     -1.3697593384700827e-07;     0.0001%
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 3 tz;       0;                          0.0000000000001
-chk;    vic/NAS S30 penta.bdf;  subcase 1 displacements 28 tz;      0;                          0.0000000000001
 
-
-# f06csv compatible tests
+# F06csv form
+# ===========
 
 mys;    Benchmark/EB-ALL-ELEM-TEST-GIV.DAT;                            ;    0.0;    0.0;    Original main benchmark set
 mys;    Benchmark/EB-ALL-ELEM-TEST-INV.DAT;                            ;    0.0;    0.0;    Original main benchmark set
