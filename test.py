@@ -225,21 +225,75 @@ def test_f06magic_oneliner(root_dir: Path,
     return fail_count
 
 
+def expand_lists(path, expanded_paths=None):
+    # Convert eg: 
+    # ["A","B","1,2,3","D"]
+    # to
+    # [["A","B","1","D"], ["A","B","2","D"], ["A","B","3","D"]]
+
+    # Initialize inside function because same list persists across calls otherwise.
+    if expanded_paths is None:
+        expanded_paths = []
+
+    for i, element in enumerate(path):
+        if "," in str(element):
+            for value in element.split(","):
+                expand_lists(path[:i] + [value.strip()] + path[i+1:], expanded_paths)
+            return expanded_paths
+    expanded_paths.append(path)
+    return expanded_paths
+
+
+def read_gp_transforms(filepath: str) -> dict:
+
+    # Example a line in the file:
+    # 5, 0.8660254037844, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254037844
+    # First number if grid point. Other 6 are transformation matrix.
+
+    try:
+        with open(filepath, 'r') as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        return {}
+
+    result = {}
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        values = [v.strip() for v in line.split(',')]
+        key = int(values[0])
+        floats = [float(v) for v in values[1:10]]
+        result[key] = [floats[0:3], floats[3:6], floats[6:9]]
+    return result
+
+
 def test_path(root_dir: Path,
               working_dir: Path,
               test_f06_path: Path,
+              deck_path: Path,
               output_file: io.TextIOWrapper,
               test_case: Definition) -> int:
 
+    # Read f06 file
     tree = read_f06_tree(test_f06_path)
-    test_values = tree_get(tree, test_case.filter_string)
+
+    # Read grid point transformations file
+    gp_transforms = read_gp_transforms(deck_path.with_suffix(".gptransform"))
+
+    # Convert path from "/" delimited string to list
+    tree_path = test_case.filter_string.split("/")
 
     fail_count = 0
     comparison_count = 0
     worst_error = 0
 
-    # Do the same comparison on each value separately.
-    for test_value in test_values:
+    for single_path in expand_lists(tree_path):
+
+        test_value = tree_get(tree, single_path)
+
+        # todo transform displacement/etc using gp_transforms
+    
         comparison_count += 1
 
         if test_value is None:
@@ -264,13 +318,15 @@ def test_path(root_dir: Path,
             else:
                 pass_fail = "PASS"
             output_file.write(f"{pass_fail}\tError = {error:.2g}{test_case.tolerance_suffix()}\tTolerance = {test_case.tolerance}{test_case.tolerance_suffix()}\tTest = {test_value}\tReference = {test_case.reference_value:.9g}\n")
-
+    
+   
     if worst_error > 0:
         message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}"
     else:
         message = ""
 
     return fail_count, comparison_count, message
+   
 
 
 def run_case(mystran_path: Path,
@@ -322,7 +378,7 @@ def run_case(mystran_path: Path,
 
     elif test_case.test_type == "pth":
 
-        fail_count, comparison_count, message = test_path(root_dir, working_dir, test_f06_path, output_file, test_case)
+        fail_count, comparison_count, message = test_path(root_dir, working_dir, test_f06_path, deck_path, output_file, test_case)
         count_suffix = "/" + str(comparison_count)
   
     else:
