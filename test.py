@@ -248,7 +248,7 @@ def read_gp_transforms(filepath: str) -> dict:
 
     # Example a line in the file:
     # 5, 0.8660254037844, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254037844
-    # First number if grid point. Other 6 are transformation matrix.
+    # First number is grid point. Other 6 are transformation matrix.
 
     try:
         with open(filepath, 'r') as f:
@@ -265,6 +265,42 @@ def read_gp_transforms(filepath: str) -> dict:
         key = int(values[0])
         floats = [float(v) for v in values[1:10]]
         result[key] = [floats[0:3], floats[3:6], floats[6:9]]
+    return result
+    
+
+def tree_get_transformed(tree, path, gp_transforms):
+    # Extract a value from the f06 tree.
+    # If it's a kind that's stored in displacement coordinates and we have a 
+    # transformation matrix available, then transform it to basic coordinates.
+
+    result = tree_get(tree, path)
+
+    # Check if we're requesting a displacement component
+    if len(path) > 5 and path[2] == "DISPLACEMENTS" and path[3] == "GID":
+        gid = int(path[4])
+        # Check if the requested grid point has a transformation
+        if gid in gp_transforms:
+
+            # Get the 3-component displacement (translation or rotation) vector
+            if path[5][0] == "T":
+                x_path = path.copy(); x_path[5] = "TX"; x = tree_get(tree, x_path)
+                y_path = path.copy(); y_path[5] = "TY"; y = tree_get(tree, y_path)
+                z_path = path.copy(); z_path[5] = "TZ"; z = tree_get(tree, z_path)
+            elif path[5][0] == "R":
+                x_path = path.copy(); x_path[5] = "RX"; x = tree_get(tree, x_path)
+                y_path = path.copy(); y_path[5] = "RY"; y = tree_get(tree, y_path)
+                z_path = path.copy(); z_path[5] = "RZ"; z = tree_get(tree, z_path)
+            else:
+                print("ERROR 672525")
+                sys.exit(1)
+
+            # Transform it but only calculate the requested component
+            if path[5][1] == "X": component = 0
+            if path[5][1] == "Y": component = 1
+            if path[5][1] == "Z": component = 2
+            row = gp_transforms[gid][component]
+            return row[0] * x + row[1] * y + row[2] * z
+    
     return result
 
 
@@ -290,9 +326,7 @@ def test_path(root_dir: Path,
 
     for single_path in expand_lists(tree_path):
 
-        test_value = tree_get(tree, single_path)
-
-        # todo transform displacement/etc using gp_transforms
+        test_value = tree_get_transformed(tree, single_path, gp_transforms)
     
         comparison_count += 1
 
