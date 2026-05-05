@@ -45,6 +45,7 @@
 #  [4] Operation:
 #       - Blank: Compare the value to the reference value. If there are multiple values, compare each one independently.
 #       - SUM: Compare the sum of multiple values to the reference value.
+#       - DIFF: Compare the difference between exactly two values to the reference value.
 #       - NORM: Compare the L2 norm of multiple values to the reference value. Reduces to absolute value for a single value.
 #  [5] Reference value
 #  [6] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
@@ -185,6 +186,31 @@ pth;    vic/NAS S30 solid orthotropic rotated.bdf;  SC/1/DISPLACEMENTS/GID/115/T
 pth;    vic/NAS S30 solid orthotropic rotated.bdf;  SC/1/DISPLACEMENTS/GID/127/TX,TY,TZ;NORM;   5e-5;   2e-5%
 pth;    vic/NAS S30 solid orthotropic rotated.bdf;  SC/1/DISPLACEMENTS/GID/135/TX,TY,TZ;NORM;   5e-5;   2e-5%
 pth;    vic/NAS S30 solid orthotropic rotated.bdf;  SC/1/DISPLACEMENTS/GID/143/TX,TY,TZ;NORM;   5e-5;   2e-5%
+
+pth;    vic/NAS S30 solid thermal stress.bdf;  SC/1/DISPLACEMENTS/GID/7/TX;;    0.36;   2e-5%
+pth;    vic/NAS S30 solid thermal stress.bdf;  SC/1/DISPLACEMENTS/GID/42/TY;;   0.72;   2e-5%
+pth;    vic/NAS S30 solid thermal stress.bdf;  SC/1/DISPLACEMENTS/GID/7/TZ;;    0.36;   2e-5%
+pth;    vic/NAS S30 solid thermal stress.bdf;  SC/1/DISPLACEMENTS/GID/33/TX;;   0.4;    2e-5%
+pth;    vic/NAS S30 solid thermal stress.bdf;  SC/1/DISPLACEMENTS/GID/33/TY;;   0.4;    2e-5%
+pth;    vic/NAS S30 solid thermal stress.bdf;  SC/1/DISPLACEMENTS/GID/33/TZ;;   0.4;    2e-5%
+pth;    vic/NAS S30 solid thermal stress.bdf;  SC/1/DISPLACEMENTS/GID/54/TX,TY,TZ;    NORM;   0;  0.000000000000001
+pth;    vic/NAS S30 solid thermal stress.bdf;  SC/1/DISPLACEMENTS/GID/63/TY;;  -0.2;    2%
+pth;    vic/NAS S30 solid thermal stress.bdf;  SC/1/DISPLACEMENTS/GID/72/TY;;  -0.32;   0.8%
+pth;    vic/NAS S30 solid thermal stress.bdf;  SC/1/DISPLACEMENTS/GID/70/TY;;   0;      0.000001
+
+pth;    vic/NAS S30 solid thermal stress orthotropic ring.bdf;  SC/1/DISPLACEMENTS/GID/344/TX;;     0.057;  0.07%
+pth;    vic/NAS S30 solid thermal stress orthotropic ring.bdf;  SC/1/DISPLACEMENTS/GID/158/TY;;    -0.057;  0.07%
+pth;    vic/NAS S30 solid thermal stress orthotropic ring.bdf;  SC/1/DISPLACEMENTS/GID/198/TZ;;     0.009;  2e-5%
+pth;    vic/NAS S30 solid thermal stress orthotropic ring.bdf;  SC/1/DISPLACEMENTS/GID/225/TZ;;     0.0045; 2e-5%
+pth;    vic/NAS S30 solid thermal stress orthotropic ring.bdf;  SC/1/DISPLACEMENTS/GID/239,237/TX;  DIFF;   0.0075; 0.3%
+pth;    vic/NAS S30 solid thermal stress orthotropic ring.bdf;  SC/1/DISPLACEMENTS/GID/135,121/TY;  DIFF;   0.0075; 0.3%
+
+pth;    vic/NAS S30 solid thermal stress orthotropic 6 shapes.bdf;  SC/1/DISPLACEMENTS/GID/6,32,40,48,55,64/TX;;    0.192;  2e-5%
+pth;    vic/NAS S30 solid thermal stress orthotropic 6 shapes.bdf;  SC/1/DISPLACEMENTS/GID/6,32,40,48,55,64/TY;;   -0.072;  2e-5%
+pth;    vic/NAS S30 solid thermal stress orthotropic 6 shapes.bdf;  SC/1/DISPLACEMENTS/GID/6,32,40,48,55,64/TZ;;    0.48;   2e-5%
+
+
+
 
 
 # F06magic oneliner form

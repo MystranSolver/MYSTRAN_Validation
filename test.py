@@ -390,6 +390,7 @@ def test_path(root_dir: Path,
                 value = tree_get_transformed(parsed_f06, single_path, gp_transforms, output_file)
                 if value is None:
                     fail_count += 1
+                    output_file.write(f"FAIL\n")
                 else:
                     compare(value)
 
@@ -406,8 +407,24 @@ def test_path(root_dir: Path,
                    value_sum += value
             if value_sum is None:
                 fail_count += 1
+                output_file.write(f"FAIL\n")
             else:
                 compare(value_sum)
+
+        case "DIFF":
+
+            comparison_count += 1
+            value_sum = 0
+            if len(single_paths) != 2:
+                fail_count += 1
+                output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
+            else:
+                value1 = tree_get_transformed(parsed_f06, single_paths[0], gp_transforms, output_file)
+                value2 = tree_get_transformed(parsed_f06, single_paths[1], gp_transforms, output_file)
+                if value1 is None or value2 is None:
+                    fail_count += 1
+                    output_file.write(f"FAIL\n")
+                compare(value1 - value2)
 
         case "NORM":
 
@@ -422,9 +439,14 @@ def test_path(root_dir: Path,
                    value_squared_sum += value**2
             if value_squared_sum is None:
                 fail_count += 1
+                output_file.write(f"FAIL\n")
             else:
                 compare(math.sqrt(value_squared_sum))
     
+        case _:
+        
+            fail_count +=1
+            output_file.write(f"FAIL. Invalid operation\n")
    
     if worst_error > 0:
         message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}"
