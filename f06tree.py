@@ -73,8 +73,8 @@ def read_f06_tree(file_name):
     return root
 
 
-def tree_get(tree, path):
-    current_node = tree
+def tree_get(parsed_f06, path):
+    current_node = parsed_f06
    
     value = None
 
@@ -112,8 +112,8 @@ def tree_get(tree, path):
     return value
     
 
-def write_tree(tree, file, indent=0, parent_key=""):
-    for key, value in tree.items():
+def write_tree(parsed_f06, file, indent=0, parent_key=""):
+    for key, value in parsed_f06.items():
         if isinstance(value, dict):
             file.write("  " * indent + str(key) + "\n")
             print_tree(value, file, indent + 1, key)
@@ -121,16 +121,16 @@ def write_tree(tree, file, indent=0, parent_key=""):
             file.write("  " * indent + str(key) + " = " + str(value) + "\n")
 
 
-def write_structure_dense(tree, file, prefix="", parent_key=""):
+def write_structure_dense(parsed_f06, file, prefix="", parent_key=""):
     is_first = True
-    for key, value in tree.items():
+    for key, value in parsed_f06.items():
         # Only show the first GID and EID as an example because there could be a lot.
         if (not is_first) and (parent_key == "GID" or parent_key == "EID"):
             file.write(prefix + "...\n")
             break
         is_first = False
 
-        file.write(prefix + str(key) + "\n")
-
         if isinstance(value, dict):
             write_structure_dense(value, file, prefix + str(key) + "/", key)
+        else:
+            file.write(prefix + str(key) + "\n")

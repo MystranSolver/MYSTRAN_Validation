@@ -5,6 +5,7 @@ import sys
 import shutil
 import os
 import io
+import math
 from pathlib import Path
 from f06csv_to_magic import f06csv_args_to_magic
 from f06tree import read_f06_tree
@@ -295,12 +296,12 @@ def read_gp_transforms(filepath: str) -> dict:
     return result
     
 
-def tree_get_transformed(tree, path, gp_transforms):
+def tree_get_transformed(parsed_f06, path, gp_transforms, output_file : io.TextIOWrapper):
     # Extract a value from the f06 tree.
     # If it's a kind that's stored in displacement coordinates and we have a 
     # transformation matrix available, then transform it to basic coordinates.
 
-    result = tree_get(tree, path)
+    result = tree_get(parsed_f06, path)
 
     # Transform displacement components
     if len(path) > 5 \
@@ -312,13 +313,13 @@ def tree_get_transformed(tree, path, gp_transforms):
 
             # Get the 3-component displacement (translation or rotation) vector
             if path[5][0] == "T":
-                x_path = path.copy(); x_path[5] = "TX"; x = tree_get(tree, x_path)
-                y_path = path.copy(); y_path[5] = "TY"; y = tree_get(tree, y_path)
-                z_path = path.copy(); z_path[5] = "TZ"; z = tree_get(tree, z_path)
+                x_path = path.copy(); x_path[5] = "TX"; x = tree_get(parsed_f06, x_path)
+                y_path = path.copy(); y_path[5] = "TY"; y = tree_get(parsed_f06, y_path)
+                z_path = path.copy(); z_path[5] = "TZ"; z = tree_get(parsed_f06, z_path)
             elif path[5][0] == "R":
-                x_path = path.copy(); x_path[5] = "RX"; x = tree_get(tree, x_path)
-                y_path = path.copy(); y_path[5] = "RY"; y = tree_get(tree, y_path)
-                z_path = path.copy(); z_path[5] = "RZ"; z = tree_get(tree, z_path)
+                x_path = path.copy(); x_path[5] = "RX"; x = tree_get(parsed_f06, x_path)
+                y_path = path.copy(); y_path[5] = "RY"; y = tree_get(parsed_f06, y_path)
+                z_path = path.copy(); z_path[5] = "RZ"; z = tree_get(parsed_f06, z_path)
             else:
                 print("ERROR 672525")
                 sys.exit(1)
@@ -329,6 +330,11 @@ def tree_get_transformed(tree, path, gp_transforms):
             if path[5][1] == "Z": component = 2
             row = gp_transforms[gid][component]
             result = row[0] * x + row[1] * y + row[2] * z
+    
+    if result is None:
+        output_file.write(f"No value at path: {"/".join(path)}\n")
+        output_file.write(f"Available paths existing in f06 file:\n")
+        write_structure_dense(parsed_f06, output_file)
     
     return result
 
@@ -362,7 +368,7 @@ def test_path(root_dir: Path,
 
 
     # Read f06 file
-    tree = read_f06_tree(test_f06_path)
+    parsed_f06 = read_f06_tree(test_f06_path)
 
     # Read grid point transformations file
     gp_transforms = read_gp_transforms(deck_path.with_suffix(".gptransform"))
@@ -381,12 +387,9 @@ def test_path(root_dir: Path,
 
             for single_path in single_paths:
                 comparison_count += 1
-                value = tree_get_transformed(tree, single_path, gp_transforms)
+                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, output_file)
                 if value is None:
                     fail_count += 1
-                    output_file.write(f"No value at path: {"/".join(single_path)}\n")
-                    output_file.write(f"Available paths existing in f06 file:\n")
-                    write_structure_dense(tree, output_file)
                 else:
                     compare(value)
 
@@ -395,11 +398,8 @@ def test_path(root_dir: Path,
             comparison_count += 1
             value_sum = 0
             for single_path in single_paths:
-                value = tree_get_transformed(tree, single_path, gp_transforms)
+                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, output_file)
                 if value is None:
-                    output_file.write(f"No value at path: {"/".join(single_path)}\n")
-                    output_file.write(f"Available paths existing in f06 file:\n")
-                    write_structure_dense(tree, output_file)
                     value_sum = None
                     break
                 else:
@@ -409,6 +409,21 @@ def test_path(root_dir: Path,
             else:
                 compare(value_sum)
 
+        case "NORM":
+
+            comparison_count += 1
+            value_squared_sum = 0
+            for single_path in single_paths:
+                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, output_file)
+                if value is None:
+                    value_squared_sum = None
+                    break
+                else:
+                   value_squared_sum += value**2
+            if value_squared_sum is None:
+                fail_count += 1
+            else:
+                compare(math.sqrt(value_squared_sum))
     
    
     if worst_error > 0:
