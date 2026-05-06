@@ -261,7 +261,7 @@ def expand_lists(path, expanded_paths=None):
         if "-" in str(element):
             first = int(element.split("-")[0])
             last = int(element.split("-")[1])
-            for value in range(first, last-1):
+            for value in range(first, last+1):
                 expand_lists(path[:i] + [str(value)] + path[i+1:], expanded_paths)
             return expanded_paths
         elif "," in str(element):

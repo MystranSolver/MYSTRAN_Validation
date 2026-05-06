@@ -70,6 +70,66 @@ def read_f06_tree(file_name):
                 set(gid_node, "RY", number(line, 82, 13))
                 set(gid_node, "RZ", number(line, 96, 13))
 
+        elif "E L E M E N T   S T R E S S E S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
+            line = get_next_line()
+            if "F O R   E L E M E N T   T Y P E   H E X A" in line \
+            or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
+            or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
+                subcase = int(number(peek_line_delta(-3), 21, 8))
+                eids_node = ensure_path(root, ["SC", subcase, "STRESS_SOLID","EID"])
+                get_next_line()
+                get_next_line()
+                corner = 0
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---") or len(line.strip()) == 0:
+                        break
+                    if line[11:11+6] == "CENTER":
+                        eid = int(number(line, 2,8))
+                        eid_node = ensure_path(eids_node, [eid])
+                        corner =0
+                        corner_node = ensure_path(eid_node, ["CENTER"])
+                    elif line[11:11+3] == "GRD":
+                        corner += 1
+                        corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    set(corner_node, "XX", number(line, 29, 13))
+                    set(corner_node, "YY", number(line, 43, 13))
+                    set(corner_node, "ZZ", number(line, 57, 13))
+                    set(corner_node, "XY", number(line, 71, 13))
+                    set(corner_node, "YZ", number(line, 85, 13))
+                    set(corner_node, "ZX", number(line, 99, 13))
+                    set(corner_node, "VM", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
+
+        elif "E L E M E N T   S T R A I N S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
+            line = get_next_line()
+            if "F O R   E L E M E N T   T Y P E   H E X A" in line \
+            or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
+            or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
+                subcase = int(number(peek_line_delta(-3), 21, 8))
+                eids_node = ensure_path(root, ["SC", subcase, "STRAIN_SOLID","EID"])
+                get_next_line()
+                get_next_line()
+                corner = 0
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---") or len(line.strip()) == 0:
+                        break
+                    if line[11:11+6] == "CENTER":
+                        eid = int(number(line, 2,8))
+                        eid_node = ensure_path(eids_node, [eid])
+                        corner =0
+                        corner_node = ensure_path(eid_node, ["CENTER"])
+                    elif line[11:11+3] == "GRD":
+                        corner += 1
+                        corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    set(corner_node, "XX", number(line, 29, 13))
+                    set(corner_node, "YY", number(line, 43, 13))
+                    set(corner_node, "ZZ", number(line, 57, 13))
+                    set(corner_node, "XY", number(line, 71, 13))
+                    set(corner_node, "YZ", number(line, 85, 13))
+                    set(corner_node, "ZX", number(line, 99, 13))
+                    set(corner_node, "VM", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
+
     return root
 
 
@@ -125,7 +185,7 @@ def write_structure_dense(parsed_f06, file, prefix="", parent_key=""):
     is_first = True
     for key, value in parsed_f06.items():
         # Only show the first GID and EID as an example because there could be a lot.
-        if (not is_first) and (parent_key == "GID" or parent_key == "EID"):
+        if (not is_first) and (parent_key == "GID" or parent_key == "EID" or parent_key == "CORNER"):
             file.write(prefix + "...\n")
             break
         is_first = False
