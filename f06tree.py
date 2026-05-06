@@ -130,6 +130,43 @@ def read_f06_tree(file_name):
                     set(corner_node, "ZX", number(line, 99, 13))
                     set(corner_node, "VM", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
+        elif "E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
+            line = get_next_line()
+            if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
+            or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
+                subcase = int(number(peek_line_delta(-3), 21, 8))
+                eids_node = ensure_path(root, ["SC", subcase, "STRESS_QUAD","EID"])
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                corner = 0
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---"):
+                        break
+                    if line[11:11+6] == "CENTER":
+                        eid = int(number(line, 2,8))
+                        eid_node = ensure_path(eids_node, [eid])
+                        corner =0
+                        corner_node = ensure_path(eid_node, ["CENTER"])
+                    elif line[11:11+3] == "GRD":
+                        corner += 1
+                        corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    else:
+                        # Skip the blank lines between corners
+                        continue
+                    set(corner_node, "ZX", number(line, 121, 12))
+                    set(corner_node, "YZ", number(line, 134, 12))
+                    z1_node = ensure_path(corner_node, ["Z1"])
+                    set(z1_node, "XX", number(line, 35, 12))
+                    set(z1_node, "YY", number(line, 48, 12))
+                    set(z1_node, "XY", number(line, 61, 12))
+                    line = get_next_line()
+                    z2_node = ensure_path(corner_node, ["Z2"])
+                    set(z2_node, "XX", number(line, 35, 12))
+                    set(z2_node, "YY", number(line, 48, 12))
+                    set(z2_node, "XY", number(line, 61, 12))
+
     return root
 
 
