@@ -21,7 +21,7 @@ Compares values from the f06 file to a reference value defined on the same line.
 Values are identified by hierarchical paths, which can lead to one or multiple values. Examples:
 - `SC/1/DISPLACEMENTS/GID/8/TY` One value
 - `SC/1/SPCFORCES/GID/10-90/TX` A range of 81 grid point IDs.
-- `SC/1/SOLIDSTRESSES/EID/4/CENTER/XY,YZ,ZX`   A list of three stress components.
+- `SC/1/SOLIDSTRESSES/EID/4/CORNER/0/XY,YZ,ZX`   A list of three center stress components.
 - `SC/1/SOLIDSTRAINS/EID/1,5/CORNER/1-6/XX` Both a list of 2 element IDs and a set of 6 corner numbers, giving 12 values.
 
 #### Criterion
@@ -36,6 +36,9 @@ You can apply an operation before comparing to the reference value:
 
 #### Grid point transformations
 Displacements and SPC forces can be transformed by matrices supplied in a separate file per input deck.
+
+#### Shell angles
+Shell stress can be rotated by an angle about the z axis. Specify the rotation angles in a separate file per input deck.
 
 #### Missing rows
 Mystran sometimes omits rows with all zero values from the f06 file. These are treated as zero instead of errors at specific paths, such as `/SC/*/SPCFORCES/GID/#/*`.

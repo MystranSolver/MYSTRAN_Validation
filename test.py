@@ -290,16 +290,53 @@ def read_gp_transforms(filepath: str) -> dict:
         if not line:
             continue
         values = [v.strip() for v in line.split(',')]
-        key = int(values[0])
+        gid = int(values[0])
         floats = [float(v) for v in values[1:10]]
-        result[key] = [floats[0:3], floats[3:6], floats[6:9]]
+        result[gid] = [floats[0:3], floats[3:6], floats[6:9]]
     return result
-    
 
-def tree_get_transformed(parsed_f06, path, gp_transforms, output_file : io.TextIOWrapper):
+
+def read_shell_angles(filepath: str) -> dict:
+
+    # Example a line in the file:
+    # 3, -0.785398163397448, -0.785398163397448, -0.785398163397448, -0.785398163397448, -0.785398163397448
+    # The first number is elemend ID.
+    # The 2nd to 6th numbers are angles to rotates the the shell stresses, strains, and engineering forces by.
+    # The 1st angle is for the center value, angles 2-5 are for corners 1-4 respectively.
+    # Only the center value is used for tria elements.
+
+    try:
+        with open(filepath, 'r') as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        return {}
+
+    result = {}
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        values = [v.strip() for v in line.split(',')]
+        eid = int(values[0])
+        result[eid] = [float(v) for v in values[1:7]]
+    return result
+        
+
+def rotate_2D_rank2_tensor(xx, yy, xy, angle, shear_factor, component):
+    match component:
+        case "XX": return (xx + yy) / 2 + (xx - yy) / 2 * math.cos(2*angle) - xy * math.sin(2*angle)
+        case "YY": return (xx + yy) / 2 - (xx - yy) / 2 * math.cos(2*angle) + xy * math.sin(2*angle)
+        case "XY": return                ((xx - yy) / 2 * math.sin(2*angle) + xy * math.cos(2*angle)) * shear_factor
+
+
+def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_file : io.TextIOWrapper):
     # Extract a value from the f06 tree.
+    #
     # If it's a kind that's stored in displacement coordinates and we have a 
     # transformation matrix available, then transform it to basic coordinates.
+    #
+    # If it's a shell stress, strain or engineering force and we have shell angles 
+    # available then rotate it by those angles.
 
     result = tree_get(parsed_f06, path)
 
@@ -310,7 +347,6 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, output_file : io.TextI
     and path[3] == "GID":
         gid = int(path[4])
         if gid in gp_transforms:
-
             # Get the 3-component displacement (translation or rotation) vector
             if path[5][0] == "T":
                 x_path = path.copy(); x_path[5] = "TX"; x = tree_get(parsed_f06, x_path)
@@ -330,6 +366,37 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, output_file : io.TextI
             if path[5][1] == "Z": component = 2
             row = gp_transforms[gid][component]
             result = row[0] * x + row[1] * y + row[2] * z
+
+    # Transform shell stress, strain, and engineering forces
+
+    if len(path) > 6 \
+    and path[0] == "SC" \
+    and (path[2] == "QUADSTRESSES" or path[2] == "TRIASTRESSES") \
+    and path[3] == "EID" \
+    and path[5] == "CORNER":
+        eid = int(path[4])
+        if eid in shell_angles:
+            corner = int(path[6])
+            angle = shell_angles[eid][corner]
+            if len(path) > 7 and (path[7] == "YZ" or path[7] == "ZX"):
+                # Transverse shear stress:
+                # SC/#/QUADSTRESSES,TRIASTRESSES/EID/#/CORNER/#/YZ,ZX
+                x_path = path.copy(); x_path[7] = "ZX"; x = tree_get(parsed_f06, x_path)
+                y_path = path.copy(); y_path[7] = "YZ"; y = tree_get(parsed_f06, y_path)
+                if path[7] == "ZX":
+                    result = x * math.cos(angle) - y * math.sin(angle)
+                else:
+                    result = x * math.sin(angle) + y * math.cos(angle)
+            elif len(path) > 8 and (path[8] == "XX" or path[8] == "YY" or path[8] == "XY"):
+                # In-layer stress:
+                # SC/#/QUADSTRESSES,TRIASTRESSES/EID/#/CORNER/#/Z#/XX,YY,XY
+                xx_path = path.copy(); xx_path[8] = "XX"; xx = tree_get(parsed_f06, xx_path)
+                yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get(parsed_f06, yy_path)
+                xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get(parsed_f06, xy_path)
+                result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[8])
+    
+    # todo strain and engineering forces
+    
     
     if result is None:
         output_file.write(f"No value at path: {"/".join(path)}\n")
@@ -373,6 +440,9 @@ def test_path(root_dir: Path,
     # Read grid point transformations file
     gp_transforms = read_gp_transforms(deck_path.with_suffix(".gptransform"))
 
+    # Read shell angles file
+    shell_angles = read_shell_angles(deck_path.with_suffix(".shellangles"))
+
     # Convert path from "/" delimited string to list
     tree_path = test_case.filter_string.split("/")
 
@@ -387,7 +457,7 @@ def test_path(root_dir: Path,
 
             for single_path in single_paths:
                 comparison_count += 1
-                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, output_file)
+                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
                 if value is None:
                     fail_count += 1
                     output_file.write(f"FAIL\n")
@@ -399,7 +469,7 @@ def test_path(root_dir: Path,
             comparison_count += 1
             value_sum = 0
             for single_path in single_paths:
-                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, output_file)
+                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
                 if value is None:
                     value_sum = None
                     break
@@ -419,8 +489,8 @@ def test_path(root_dir: Path,
                 fail_count += 1
                 output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
             else:
-                value1 = tree_get_transformed(parsed_f06, single_paths[0], gp_transforms, output_file)
-                value2 = tree_get_transformed(parsed_f06, single_paths[1], gp_transforms, output_file)
+                value1 = tree_get_transformed(parsed_f06, single_paths[0], gp_transforms, shell_angles, output_file)
+                value2 = tree_get_transformed(parsed_f06, single_paths[1], gp_transforms, shell_angles, output_file)
                 if value1 is None or value2 is None:
                     fail_count += 1
                     output_file.write(f"FAIL\n")
@@ -431,7 +501,7 @@ def test_path(root_dir: Path,
             comparison_count += 1
             value_squared_sum = 0
             for single_path in single_paths:
-                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, output_file)
+                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
                 if value is None:
                     value_squared_sum = None
                     break

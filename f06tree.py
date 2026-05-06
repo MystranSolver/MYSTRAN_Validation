@@ -79,7 +79,7 @@ def read_f06_tree(file_name):
                 eids_node = ensure_path(root, ["SC", subcase, "SOLIDSTRESSES","EID"])
                 get_next_line()
                 get_next_line()
-                corner = 0
+                corner = None
                 while True:
                     line = get_next_line()
                     if line.strip().startswith("---") or len(line.strip()) == 0:
@@ -88,10 +88,9 @@ def read_f06_tree(file_name):
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [eid])
                         corner =0
-                        corner_node = ensure_path(eid_node, ["CENTER"])
                     elif line[11:11+3] == "GRD":
                         corner += 1
-                        corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    corner_node = ensure_path(eid_node, ["CORNER", corner])
                     set(corner_node, "XX", number(line, 29, 13))
                     set(corner_node, "YY", number(line, 43, 13))
                     set(corner_node, "ZZ", number(line, 57, 13))
@@ -109,7 +108,7 @@ def read_f06_tree(file_name):
                 eids_node = ensure_path(root, ["SC", subcase, "SOLIDSTRAINS","EID"])
                 get_next_line()
                 get_next_line()
-                corner = 0
+                corner = None
                 while True:
                     line = get_next_line()
                     if line.strip().startswith("---") or len(line.strip()) == 0:
@@ -118,10 +117,9 @@ def read_f06_tree(file_name):
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [eid])
                         corner =0
-                        corner_node = ensure_path(eid_node, ["CENTER"])
                     elif line[11:11+3] == "GRD":
                         corner += 1
-                        corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    corner_node = ensure_path(eid_node, ["CORNER", corner])
                     set(corner_node, "XX", number(line, 29, 13))
                     set(corner_node, "YY", number(line, 43, 13))
                     set(corner_node, "ZZ", number(line, 57, 13))
@@ -139,7 +137,7 @@ def read_f06_tree(file_name):
                 get_next_line()
                 get_next_line()
                 get_next_line()
-                corner = 0
+                corner = None
                 while True:
                     line = get_next_line()
                     if line.strip().startswith("---"):
@@ -147,14 +145,13 @@ def read_f06_tree(file_name):
                     if line[11:11+6] == "CENTER":
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [eid])
-                        corner =0
-                        corner_node = ensure_path(eid_node, ["CENTER"])
+                        corner = 0
                     elif line[11:11+3] == "GRD":
                         corner += 1
-                        corner_node = ensure_path(eid_node, ["CORNER", corner])
                     else:
                         # Skip the blank lines between corners
                         continue
+                    corner_node = ensure_path(eid_node, ["CORNER", corner])
                     set(corner_node, "ZX", number(line, 121, 12))
                     set(corner_node, "YZ", number(line, 134, 12))
                     z1_node = ensure_path(corner_node, ["Z1"])
@@ -172,7 +169,7 @@ def read_f06_tree(file_name):
                 get_next_line()
                 get_next_line()
                 get_next_line()
-                corner = 0
+                corner = None
                 while True:
                     line = get_next_line()
                     if line.strip().startswith("---"):
@@ -181,7 +178,7 @@ def read_f06_tree(file_name):
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [eid])
                         corner =0
-                        corner_node = ensure_path(eid_node, ["CENTER"])
+                        corner_node = ensure_path(eid_node, ["CORNER", corner])
                         set(corner_node, "ZX", number(line, 125, 12))
                         set(corner_node, "YZ", number(line, 138, 12))
                         z1_node = ensure_path(corner_node, ["Z1"])
