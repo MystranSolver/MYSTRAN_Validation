@@ -11,6 +11,47 @@ py test.py path/to/mystran.exe
 ## Build
 Build f06magic somehow or use the included .exe file on Windows.
 
+## Features
+Each test case is described by one line in the `cases.txt` file. There are two types - individual values and bulk comparison:
+### Individual values
+
+Compares values from the f06 file to a reference value defined on the same line.
+
+#### Paths
+Values are identified by hierarchical paths, which can lead to one or multiple values. Examples:
+- `SC/1/DISPLACEMENTS/GID/8/TY` One value
+- `SC/1/SPCFORCES/GID/10-90/TX` A range of 81 grid point IDs.
+- `SC/1/STRESS_SOLID/EID/4/CENTER/XY,YZ,ZX`   A list of three stress components.
+- `SC/1/STRAIN_SOLID/EID/1,5/CORNER/1-6/XX` Both a list of 2 element IDs and a set of 6 corner numbers, giving 12 values.
+
+#### Operations
+You can apply an operation before comparing to the reference value:
+- None: Compare the value to the reference value. If there are multiple values, compare each one independently.
+- `SUM`: Sum multiple values.
+- `DIFF`: 1st value minus 2nd value.
+- `NORM`: L2 norm.
+
+#### Grid point transformations
+Displacements and SPC forces can be transformed by matrices supplied in a separate file per input deck.
+
+#### Missing rows
+Mystran sometimes omits rows with all zero values from the f06 file. These are treated as zero instead of errors at specific paths, such as `/SC/*/SPCFORCES/GID/#/*`.
+
+
+### Bulk comparison
+
+> {!WARNING]
+> Not working properly yet.
+
+Compares most values in the solution's f06 file to a reference f06 file.
+
+The reference f06 file is from either an earlier version of Mystran or MSC Nastran and is stored in the appropriate directory.
+
+Values to compare can be filtered using arguments like `-b=2 -s=1 -g=1,3,7`
+
+Uses F06magic.
+
+
 ## Directory structure
 
 * 📄 `test.py` - The main program
