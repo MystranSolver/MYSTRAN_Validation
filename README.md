@@ -24,6 +24,9 @@ Values are identified by hierarchical paths, which can lead to one or multiple v
 - `SC/1/STRESS_SOLID/EID/4/CENTER/XY,YZ,ZX`   A list of three stress components.
 - `SC/1/STRAIN_SOLID/EID/1,5/CORNER/1-6/XX` Both a list of 2 element IDs and a set of 6 corner numbers, giving 12 values.
 
+#### Criterion
+If the tolerance ends with a `%`, it means maximum percentage error allowed, otherwise it means maximum absolute difference allowed.
+
 #### Operations
 You can apply an operation before comparing to the reference value:
 - None: Compare the value to the reference value. If there are multiple values, compare each one independently.
@@ -40,7 +43,7 @@ Mystran sometimes omits rows with all zero values from the f06 file. These are t
 
 ### Bulk comparison
 
-> {!WARNING]
+> [!WARNING]
 > Not working properly yet.
 
 Compares most values in the solution's f06 file to a reference f06 file.
