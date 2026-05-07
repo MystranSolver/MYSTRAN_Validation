@@ -40,8 +40,10 @@
 #       - / delimited path within the f06 file.
 #       - Multiple values can be defined by comma-delimited lists. Eg: SC/1/DISPLACEMENTS/GID/1,3,6,8/TX,TY
 #       - Multiple values of integer path nodes can be defined by a range. Eg: SC/1/DISPLACEMENTS/GID/1-8/TX
-#       - Displacements are transformed to a different coordinate system if transformation matrices are provided in a file with
-#         the same path as the deck but the extension .gp_transform.
+#       - Displacements are transformed to a different coordinate system if transformation matrices are provided
+#         in a file with the same path as the deck but the extension .gp_transform.
+#       - Shell stresses, strains, and engineering forces are rotated if angles are provided in a file with
+#         the same path as the deck but the extension .shell_angles.
 #  [4] Operation:
 #       - Blank: Compare the value to the reference value. If there are multiple values, compare each one independently.
 #       - SUM: Compare the sum of multiple values to the reference value.
@@ -624,6 +626,147 @@ pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/2/CORN
 pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z1/XX;;        156250.0;  0.00005%; Tria3
 pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z1/XY;;       -156250.0;  0.00005%; Tria3
 pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z2/XY;;       -156250.0;  0.00005%; Tria3
+
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1/Z1/XX;;       100;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z2/XX;;       100;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z1/YY;;       200;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z2/YY;;       200;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/1/Z1/XY;;       500;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/3/Z2/XY;;       500;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/2/Z1/YY;;       120;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/4/Z2/YY;;      -120;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/3/Z1/XX;;      -120;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1/Z2/XX;;       120;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/4/YZ;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/2/YZ;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/1/ZX;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/3/ZX;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
+
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1/Z1/XX;;       100;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z2/XX;;       100;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z1/YY;;       200;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z2/YY;;       200;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/1/Z1/XY;;       500;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/3/Z2/XY;;       500;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/2/Z1/YY;;       120;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/4/Z2/YY;;      -120;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/3/Z1/XX;;      -120;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1/Z2/XX;;       120;  2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/4/YZ;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/2/YZ;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/1/ZX;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/3/ZX;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
+
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/1/CORNER/0/Z1/XX;;       100;  2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/7/CORNER/0/Z2/XX;;       100;  2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/7/CORNER/0/Z1/YY;;       200;  2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/1/CORNER/0/Z2/YY;;       200;  2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z1/XY;;       500;  2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z2/XY;;       500;  2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z1/YY;;       120;  2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z2/YY;;      -120;  2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/9/CORNER/0/Z1/XX;;         0;  0.0000000000001
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/4/CORNER/0/Z1/XX;;      -120;  2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/4/CORNER/0/Z2/XX;;       120;  2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/10/CORNER/0/Z1/YY;;        0;  0.0000000000001
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/5/CORNER/0/YZ;;         0.36;  2%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/11/CORNER/0/YZ;;        0.36;  2%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/6/CORNER/0/ZX;;         0.36;  2%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/6/CORNER/0/ZX;;         0.36;  2%; Mystran's shear stress is 1.2 * average
+
+pth;    vic/NAS S30 moment.bdf;   SC/1/DISPLACEMENTS/GID/82/RY;;         0.0003550295857988171;     0.00001%
+pth;    vic/NAS S30 moment.bdf;   SC/1/DISPLACEMENTS/GID/20/TZ;;         0.00003550295857988171;    3%
+
+pth;    vic/NAS S30 beam orientation.bdf;   SC/1/DISPLACEMENTS/GID/2/TY;;   3.199999999999999e-05;  2e-5%
+pth;    vic/NAS S30 beam orientation.bdf;   SC/1/DISPLACEMENTS/GID/2/TZ;;  -3.199999999999999e-05;  2e-5%
+pth;    vic/NAS S30 beam orientation.bdf;   SC/1/DISPLACEMENTS/GID/5/TY;;   3.199999999999999e-05;  2e-5%
+pth;    vic/NAS S30 beam orientation.bdf;   SC/1/DISPLACEMENTS/GID/5/TX,TY,TZ;  NORM;  4.525483399593903e-05;  2e-5%
+
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/2/TX;;   -0.0000165608176312248;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/4/TX;;   -0.000000596831036594607;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/6/TX;;   -0.0000556930693069307;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/8/TX;;   -0.000000733338548185232;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/10/TX;;  -0.0000340103677833169;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/11/TX;;  -0.000000833333333333333;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/14/TX;;  -0.0000278741328047572;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/16/TX;;  -0.0000234051386899846;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/18/TX;;  -0.00000046875;             0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/2/TY;;    0.00000695474777448071;    0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;;    0.000000397887357729738;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/6/TY;;    0.0000132743362831858;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;;    0.000000258863485752154;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/10/TY;;   0.0000023903269396357;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/11/TY;;   0.0000003125;              0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/14/TY;;   0.00000136304158185519;    0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/16/TY;;   0.0000156034257933231;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/18/TY;;   0.000000555555555555556;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/2/TZ;;    0.0000000277777777777778;  0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/4/TZ;;    0.00000000247574355920726; 0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/6/TZ;;    0.0000000388888888888889;  0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/8/TZ;;    0.00000000810185185185185; 0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/10/TZ;;   0.0000000268199233716475;  0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/11/TZ;;   0.00000000259259259259259; 0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/14/TZ;;   0.0000000204678362573099;  0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/16/TZ;;   0.0000000165049570613817;  0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/18/TZ;;   0.00000000259259259259259; 0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/2/RZ;;    0.000278795465681386;      0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/4/RZ;;    0.000000159154943091895;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/6/RZ;;    0.000372141243962343;      0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/8/RZ;;    0.000000197627807550041;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/10/RZ;;   0.00026361443865778;       0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/11/RZ;;   0.000000205777132714695;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/14/RZ;;   0.000192617479864868;      0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/16/RZ;;   0.00000624137031732923;    0.0001%
+pth;    vic/NAS S30 beam section shapes no shear.bdf;   SC/1/DISPLACEMENTS/GID/18/RZ;;   0.000000205777132714696;   0.0001%
+
+pth;    vic/NAS S30 beam orientation_2.bdf;   SC/1/DISPLACEMENTS/GID/2/TY;;   3.199999999999999e-05;  0.3%
+pth;    vic/NAS S30 beam orientation_2.bdf;   SC/1/DISPLACEMENTS/GID/2/TZ;;  -3.199999999999999e-05;  0.3%
+pth;    vic/NAS S30 beam orientation_2.bdf;   SC/1/DISPLACEMENTS/GID/5/TY;;   3.199999999999999e-05;  0.3%
+pth;    vic/NAS S30 beam orientation_2.bdf;   SC/1/DISPLACEMENTS/GID/5/TX,TY,TZ;  NORM;  4.525483399593903e-05;  0.3%
+
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/2/TX;;   -0.0000165608176312248;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/4/TX;;   -0.000000596831036594607;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/6/TX;;   -0.0000556930693069307;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/8/TX;;   -0.000000733338548185232;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/10/TX;;  -0.0000340103677833169;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/11/TX;;  -0.000000833333333333333;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/14/TX;;  -0.0000278741328047572;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/16/TX;;  -0.0000234051386899846;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/18/TX;;  -0.00000046875;             0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/2/TY;;    0.00000695474777448071;    0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;;    0.000000397887357729738;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/6/TY;;    0.0000132743362831858;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;;    0.000000258863485752154;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/10/TY;;   0.0000023903269396357;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/11/TY;;   0.0000003125;              0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/14/TY;;   0.00000136304158185519;    0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/16/TY;;   0.0000156034257933231;     0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/18/TY;;   0.000000555555555555556;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/2/TZ;;    0.0000000277777777777778;  0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/4/TZ;;    0.00000000247574355920726; 0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/6/TZ;;    0.0000000388888888888889;  0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/8/TZ;;    0.00000000810185185185185; 0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/10/TZ;;   0.0000000268199233716475;  0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/11/TZ;;   0.00000000259259259259259; 0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/14/TZ;;   0.0000000204678362573099;  0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/16/TZ;;   0.0000000165049570613817;  0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/18/TZ;;   0.00000000259259259259259; 0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/2/RZ;;    0.000278795465681386;      15%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/4/RZ;;    0.000000159154943091895;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/6/RZ;;    0.000372141243962343;      1%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/8/RZ;;    0.000000197627807550041;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/10/RZ;;   0.00026361443865778;       0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/11/RZ;;   0.000000205777132714695;   0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/14/RZ;;   0.000192617479864868;      3%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/16/RZ;;   0.00000624137031732923;    0.0001%
+pth;    vic/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/GID/18/RZ;;   0.000000205777132714696;   0.0001%
+
+
+
+
+
+
+
 
 
 # F06magic oneliner form
