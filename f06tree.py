@@ -191,7 +191,32 @@ def read_f06_tree(file_name):
                         set(z2_node, "YY", number(line, 51, 12))
                         set(z2_node, "XY", number(line, 64, 12))
 
-
+        elif "R E A L   E I G E N V A L U E S" in line:
+            subcase = 2
+            modes_node = ensure_path(root, ["SC", subcase, "REALEIGENVALUES","MODE"])
+            line = get_next_line()
+            buckling = "buckling" in line
+            get_next_line()
+            get_next_line()
+            if buckling:
+                get_next_line()
+                get_next_line()
+            
+            while True:
+                line = get_next_line()
+                if line.strip().startswith("---") or len(line.strip()) == 0:
+                    break
+                if buckling:
+                    mode = number(line, 39, 8)
+                    eigenvalue = number(line, 62, 13)
+                    mode_node = ensure_path(modes_node, [mode])
+                    set(mode_node, "EIGENVALUE", eigenvalue)
+                else:
+                    mode = number(line, 2, 8)
+                    cycles = number(line, 65, 13)
+                    mode_node = ensure_path(modes_node, [mode])
+                    set(mode_node, "CYCLES", cycles)
+                
 
     return root
 
