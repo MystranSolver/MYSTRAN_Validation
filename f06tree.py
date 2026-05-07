@@ -70,6 +70,26 @@ def read_f06_tree(file_name):
                 set(gid_node, "RY", number(line, 82, 13))
                 set(gid_node, "RZ", number(line, 96, 13))
 
+        if "E I G E N V E C T O R" in line:
+            subcase = 2
+            mode = int(number(peek_line_delta(-2), 25, 8))
+            gids_node = ensure_path(root, ["SC", subcase, "MODE", mode, "EIGENVECTOR", "GID"])
+            get_next_line()
+            get_next_line()
+            get_next_line()
+            while True:
+                line = get_next_line()
+                if line.strip().startswith("---") or len(line.strip()) == 0:
+                    break
+                gid = int(number(line, 8, 8))
+                gid_node = ensure_path(gids_node, [gid])
+                set(gid_node, "TX", number(line, 26, 13))
+                set(gid_node, "TY", number(line, 40, 13))
+                set(gid_node, "TZ", number(line, 54, 13))
+                set(gid_node, "RX", number(line, 68, 13))
+                set(gid_node, "RY", number(line, 82, 13))
+                set(gid_node, "RZ", number(line, 96, 13))
+
         elif "E L E M E N T   S T R E S S E S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   H E X A" in line \
@@ -207,12 +227,12 @@ def read_f06_tree(file_name):
                 if line.strip().startswith("---") or len(line.strip()) == 0:
                     break
                 if buckling:
-                    mode = number(line, 39, 8)
+                    mode = int(number(line, 39, 8))
                     eigenvalue = number(line, 62, 13)
                     mode_node = ensure_path(modes_node, [mode])
                     set(mode_node, "EIGENVALUE", eigenvalue)
                 else:
-                    mode = number(line, 2, 8)
+                    mode = int(number(line, 2, 8))
                     cycles = number(line, 65, 13)
                     mode_node = ensure_path(modes_node, [mode])
                     set(mode_node, "CYCLES", cycles)
@@ -273,7 +293,10 @@ def write_structure_dense(parsed_f06, file, prefix="", parent_key=""):
     is_first = True
     for key, value in parsed_f06.items():
         # Only show the first GID and EID as an example because there could be a lot.
-        if (not is_first) and (parent_key == "GID" or parent_key == "EID" or parent_key == "CORNER"):
+        if (not is_first) and (parent_key == "GID" \
+                            or parent_key == "EID" \
+                            or parent_key == "CORNER" \
+                            or parent_key == "MODE"):
             file.write(prefix + "...\n")
             break
         is_first = False
