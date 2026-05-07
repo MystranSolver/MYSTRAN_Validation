@@ -618,60 +618,91 @@ pth;    vic/NAS S30 corner stress strain tet4 tet10.bdf;  SC/1/SOLIDSTRESSES/EID
 pth;    vic/NAS S30 corner stress strain tet4 tet10.bdf;  SC/1/SOLIDSTRESSES/EID/37/CORNER/1/ZZ;;      0.394183948350091;  0.0001%
 pth;    vic/NAS S30 corner stress strain tet4 tet10.bdf;  SC/1/SOLIDSTRESSES/EID/37/CORNER/4/ZZ;;      1.60581605164991;   0.0001%
 
-pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1-4/Z1/XX;;      156250.0;  0.001%;  Quad4
-pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1-4/Z2/XX;;      156250.0;  0.001%;  Quad4
-pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1-4/Z2/XY;;     -156250.0;  0.001%;  Quad4
-pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1-4/Z1/XY;;     -156250.0;  0.001%;  Quad4
-pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z1/XX;;        156250.0;  0.00005%; Tria3
-pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z1/XX;;        156250.0;  0.00005%; Tria3
-pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z1/XY;;       -156250.0;  0.00005%; Tria3
-pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z2/XY;;       -156250.0;  0.00005%; Tria3
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1-4/Z1/XX;;          156250.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1/Z1,Z2/XX;  SUM;    312500.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z1,Z2/XX;  SUM;    312500.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z1,Z2/XX;  SUM;    312500.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/4/Z1,Z2/XX;  SUM;    312500.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1-4/Z2/XX;;          156250.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1-4/Z2/XY;;         -156250.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1/Z1,Z2/XY;  SUM;   -312500.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/2/Z1,Z2/XY;  SUM;   -312500.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/3/Z1,Z2/XY;  SUM;   -312500.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/4/Z1,Z2/XY;  SUM;   -312500.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1-4/Z1/XY;;         -156250.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z1/XX;;            156250.0;  0.00005%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z1/XX;;            156250.0;  0.00005%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z1,Z2/XX;  SUM;    312500.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z1/XY;;           -156250.0;  0.00005%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z1,Z2/XY;  SUM;   -312500.0;  0.001%
+pth;    vic/NAS S30 shell stress orientation.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z2/XY;;           -156250.0;  0.00005%
 
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1/Z1/XX;;       100;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z2/XX;;       100;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z1/YY;;       200;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z2/YY;;       200;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/1/Z1/XY;;       500;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/3/Z2/XY;;       500;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/2/Z1/YY;;       120;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/4/Z2/YY;;      -120;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/3/Z1/XX;;      -120;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1/Z2/XX;;       120;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/4/YZ;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/2/YZ;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/1/ZX;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
-pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/3/ZX;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1/Z1/XX;;           100;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z1,Z2/XX; SUM;    200;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z2/XX;;           100;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z1/YY;;           200;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/4/Z1,Z2/YY; SUM;    400;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z2/YY;;           200;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/1/Z1/XY;;           500;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/2/Z1,Z2/XY; SUM;    1000;   2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/3/Z2/XY;;           500;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/2/Z1/YY;;           120;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/3/Z1,Z2/YY; SUM;    0;      0
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/4/Z2/YY;;          -120;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/3/Z1/XX;;          -120;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/4/Z1,Z2/XX; SUM;    0;      0
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1/Z2/XX;;           120;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/4/YZ;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/1/YZ;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/2/YZ;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/1/ZX;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/2/ZX;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/3/ZX;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
 
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1/Z1/XX;;       100;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z2/XX;;       100;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z1/YY;;       200;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z2/YY;;       200;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/1/Z1/XY;;       500;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/3/Z2/XY;;       500;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/2/Z1/YY;;       120;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/4/Z2/YY;;      -120;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/3/Z1/XX;;      -120;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1/Z2/XX;;       120;  2e-5%
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/4/YZ;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/2/YZ;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/1/ZX;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
-pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/3/ZX;;         0.36;  2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1/Z1/XX;;           100;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z1,Z2/XX; SUM;    200;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z2/XX;;           100;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/2/Z1/YY;;           200;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/4/Z1,Z2/YY; SUM;    400;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z2/YY;;           200;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/1/Z1/XY;;           500;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/2/Z1,Z2/XY; SUM;    1000;   2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/3/Z2/XY;;           500;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/2/Z1/YY;;           120;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/3/Z1,Z2/YY; SUM;    0;      0
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/3/CORNER/4/Z2/YY;;          -120;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/3/Z1/XX;;          -120;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/4/Z1,Z2/XX; SUM;    0;      0
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/4/CORNER/1/Z2/XX;;           120;    2e-5%
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/4/YZ;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/1/YZ;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/5/CORNER/2/YZ;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/1/ZX;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/2/ZX;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components quad4_2.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/3/ZX;;              0.36;   2e-5%; Mystran's shear stress is 1.2 * average
 
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/1/CORNER/0/Z1/XX;;       100;  2e-5%
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/7/CORNER/0/Z2/XX;;       100;  2e-5%
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/7/CORNER/0/Z1/YY;;       200;  2e-5%
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/1/CORNER/0/Z2/YY;;       200;  2e-5%
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z1/XY;;       500;  2e-5%
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z2/XY;;       500;  2e-5%
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z1/YY;;       120;  2e-5%
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z2/YY;;      -120;  2e-5%
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/9/CORNER/0/Z1/XX;;         0;  0.0000000000001
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/4/CORNER/0/Z1/XX;;      -120;  2e-5%
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/4/CORNER/0/Z2/XX;;       120;  2e-5%
-pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/10/CORNER/0/Z1/YY;;        0;  0.0000000000001
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/1/CORNER/0/Z1/XX;;            100;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/1/CORNER/0/Z1,Z2/XX;  SUM;    200;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/7/CORNER/0/Z2/XX;;            100;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/7/CORNER/0/Z1/YY;;            200;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/1/CORNER/0/Z1,Z2/YY;  SUM;    400;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/1/CORNER/0/Z2/YY;;            200;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z1/XY;;            500;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/8/CORNER/0/Z1,Z2/XY;  SUM;    1000;   2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/2/CORNER/0/Z2/XY;;            500;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z1/YY;;            120;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/9/CORNER/0/Z1,Z2/YY;  SUM;    0;      0
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/3/CORNER/0/Z2/YY;;           -120;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/9/CORNER/0/Z1/XX;;            0;      0.0000000000001
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/4/CORNER/0/Z1/XX;;           -120;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/10/CORNER/0/Z1,Z2/XX; SUM;     0;     0
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/4/CORNER/0/Z2/XX;;            120;    2e-5%
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/10/CORNER/0/Z1/YY;;           0;      0.0000000000001
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/5/CORNER/0/YZ;;         0.36;  2%; Mystran's shear stress is 1.2 * average
 pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/5/CORNER/0/YZ;;         0.36;  2%; Mystran's shear stress is 1.2 * average
 pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/11/CORNER/0/YZ;;        0.36;  2%; Mystran's shear stress is 1.2 * average
 pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/6/CORNER/0/ZX;;         0.36;  2%; Mystran's shear stress is 1.2 * average
+pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/12/CORNER/0/ZX;;        0.36;  2%; Mystran's shear stress is 1.2 * average
 pth;    vic/NAS S30 shell stress components tri3.bdf;   SC/1/TRIASTRESSES/EID/6/CORNER/0/ZX;;         0.36;  2%; Mystran's shear stress is 1.2 * average
 
 pth;    vic/NAS S30 moment.bdf;   SC/1/DISPLACEMENTS/GID/82/RY;;         0.0003550295857988171;     0.00001%
