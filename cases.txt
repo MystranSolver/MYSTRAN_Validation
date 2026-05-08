@@ -6,31 +6,7 @@
 #
 # Fields:
 #
-#   f06csv form:
-#
-#  [1] Test type.
-#    "mys" means use reference solution in reference_mystran directory.
-#    "msc" means use reference solution in reference_msc directory.
-#  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
-#  [3] F06csv filters
-#       eg: -b=1 -g=1,3,7
-#       f06csv flags like -H are not allowed.
-#  [4] Threshold for percent tolerance. Ignore (pass) pairs where the absolute value of the reference value is less than this.
-#  [5] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
-#      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
-#  [6] Comment. Optional. Ignored.
-#
-#   f06magic oneliner form:
-#
-#  [1] Test type. Must be "chk".
-#  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
-#  [3] Oneliner argument for f06magic's --oneliner parameter but excluding the range at the end.
-#  [4] Reference value
-#  [5] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
-#      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
-#  [6] Comment. Optional. Ignored.
-#
-#   Tree path form:
+#   Individual values test case:
 #
 #  [1] Test type. Must be "pth".
 #  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
@@ -54,12 +30,28 @@
 #  [6] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
 #      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
 #  [7] Comment. Optional. Ignored.
+#
+#
+#   Bulk comparison test case:
+#
+#  [1] Test type.
+#    "mys" means use reference solution in reference_mystran directory.
+#    "msc" means use reference solution in reference_msc directory.
+#  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
+#  [3] F06csv filters
+#       eg: -b=1 -g=1,3,7
+#       f06csv flags like -H are not allowed.
+#  [4] Threshold for percent tolerance. Ignore (pass) pairs where the absolute value of the reference value is less than this.
+#  [5] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
+#      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
+#  [6] Comment. Optional. Ignored.
+#
 
 
 
-
-# Force fails to check they're detected
-# =====================================
+#########################################
+# Force fails to check they're detected #
+#########################################
 
 pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;;      -3.4243983461752066e-07;     2e-5%;  Correct magnitude but wrong sign
 pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8,4,27/TY;;  3.4e-7;                     2e-5%;  Slighty wrong value
@@ -67,11 +59,9 @@ pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/27/TY/h;;    3.42439834
 pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/12;;         3.4243983461752066e-07;     2e-5%;  Missing leaf node on path
 
 
-# Path form
-# =========
 
 #######################
-# VIC TEST CASE SET 1 #
+# Vic test case set 1 #
 #######################
 
 pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;;       3.4243983461752066e-07;     2e-5%
@@ -800,7 +790,7 @@ pth;    vic/1/NAS S30 beam section shapes no shear_2.bdf;   SC/1/DISPLACEMENTS/G
 
 
 #######################
-# VIC TEST CASE SET 2 #
+# Vic test case set 2 #
 #######################
 
 pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;       891.291074781042;     1%
@@ -826,24 +816,10 @@ pth;    vic/2/NAS B30 beam thermal stress.bdf;   SC/2/MODE/2/EIGENVECTOR/GID/2/T
 
 
 
-# F06magic oneliner form
-# ======================
+##############################
+# Bulk comparison test cases #
+##############################
 
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 8 ty;       3.4243983461752066e-07;     2e-5%
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 4 ty;       3.4243983461752066e-07;     2e-5%
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 27 ty;      3.4243983461752066e-07;     2e-5%
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 12 ty;      3.4243983461752066e-07;     2e-5%
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 5 tz;      -1.3697593384700827e-07;     0.0001%
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 7 tz;      -1.3697593384700827e-07;     0.0001%
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 13 tz;     -1.3697593384700827e-07;     0.0002%
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 28 tz;     -1.3697593384700827e-07;     0.0001%
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 15 tz;     -1.3697593384700827e-07;     0.0001%
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 3 tz;       0;                          0.0000000000001
-chk;    vic/1/NAS S30 hexa.bdf;   subcase 1 displacements 19 tz;      0;                          0.0000000000001
-
-
-# F06csv form
-# ===========
 
 mys;    Benchmark/EB-ALL-ELEM-TEST-GIV.DAT;                            ;    0.0;    0.0;    Original main benchmark set
 mys;    Benchmark/EB-ALL-ELEM-TEST-INV.DAT;                            ;    0.0;    0.0;    Original main benchmark set

@@ -64,9 +64,6 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
                 case "mys" | "msc":
                     definition.threshold = float(definition_fields_str[3])
                     read_tolerance(definition_fields_str[4])
-                case "chk":
-                    definition.reference_value = float(definition_fields_str[3])
-                    read_tolerance(definition_fields_str[4])
                 case "pth":
                     definition.operation = definition_fields_str[3]
                     definition.reference_value = float(definition_fields_str[4])
@@ -214,30 +211,6 @@ criteria = \"only criteria\"
 
     return fail_count
 
-
-def test_f06magic_oneliner(root_dir: Path,
-                           working_dir: Path,
-                           test_f06_path: Path,
-                           output_file: io.TextIOWrapper,
-                           test_case: Definition) -> int:
-
-    if test_case.comparison_type == "percent":
-        difference_tolerance = abs(test_case.reference_value * test_case.tolerance/100)
-    elif test_case.comparison_type == "difference":
-        difference_tolerance = test_case.tolerance
-    else:
-        print("ERROR 862621")
-        sys.exit(1)
-
-    args = ['--oneliner',
-            test_case.filter_string + " " + str(test_case.reference_value) + " delta " + str(difference_tolerance),
-            test_f06_path
-           ]
-
-    # Run f06magic
-    fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
-
-    return fail_count
 
 
 def expand_lists(path, expanded_paths=None):
@@ -578,8 +551,6 @@ def run_case(mystran_path: Path,
     match test_case.test_type:
         case "mys" | "msc":
             output_file.write(f"******\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
-        case "chk":
-            output_file.write(f"******\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
         case "pth":
             output_file.write(f"******\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.operation}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
 
@@ -613,12 +584,6 @@ def run_case(mystran_path: Path,
             count_suffix = "+"
         else:
             count_suffix = ""
-
-    elif test_case.test_type == "chk":
-
-        fail_count = test_f06magic_oneliner(root_dir, working_dir, test_f06_path, output_file, test_case)
-        message = ""
-        count_suffix = ""
 
     elif test_case.test_type == "pth":
 
