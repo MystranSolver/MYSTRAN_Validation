@@ -512,7 +512,47 @@ def test_path(root_dir: Path,
                 output_file.write(f"FAIL\n")
             else:
                 compare(math.sqrt(value_squared_sum))
-    
+
+        case "ANGLEFROMX" | "ANGLEFROMY" | "ANGLEFROMZ":
+
+            # Uses incomplete paths without the trailing DOF name.
+            # 1 grid point:
+            #   SC/2/MODE/1/EIGENVECTOR/GID/10
+            # or multiple grid points to sum:
+            #   SC/2/MODE/1/EIGENVECTOR/GID/10,13
+            # Also works for displacement and other types of vector with DOF immediately after GID.
+            comparison_count += 1
+            x_sum = 0
+            y_sum = 0
+            z_sum = 0
+            for single_path in single_paths:
+                x = tree_get_transformed(parsed_f06, single_path + ["TX"], gp_transforms, shell_angles, output_file)
+                y = tree_get_transformed(parsed_f06, single_path + ["TY"], gp_transforms, shell_angles, output_file)
+                z = tree_get_transformed(parsed_f06, single_path + ["TZ"], gp_transforms, shell_angles, output_file)
+                if x is None or y is None or z is None:
+                    x_sum = None
+                    y_sum = None
+                    z_sum = None
+                    break
+                else:
+                   x_sum += x
+                   y_sum += y
+                   z_sum += z
+            if x_sum is None:
+                fail_count += 1
+                output_file.write(f"FAIL\n")
+            else:
+                match test_case.operation[-1]:
+                    case "X": v_ref = [1.0, 0.0, 0.0]
+                    case "Y": v_ref = [0.0, 1.0, 0.0]
+                    case "Z": v_ref = [0.0, 0.0, 1.0]
+                v_mag = math.sqrt(x_sum**2 + y_sum**2 + z_sum**2)
+                v_hat = [x_sum / v_mag, y_sum / v_mag, z_sum / v_mag]
+                v_dot_ref = v_hat[0] * v_ref[0] \
+                          + v_hat[1] * v_ref[1] \
+                          + v_hat[2] * v_ref[2]
+                compare(math.acos(abs(v_dot_ref)))
+   
         case _:
         
             fail_count +=1

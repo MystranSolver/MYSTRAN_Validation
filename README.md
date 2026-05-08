@@ -55,8 +55,15 @@ values, compare each one independently.
 - `SUM`: Sum multiple values. Useful for validating reaction force balance over
 multiple nodes.
 - `DIFF`: 1st value minus 2nd value.
-- `NORM`: L2 norm. Useful for finding vector magnitude, ensuring that all of
-many values are zero, or ignoring the sign in an eigenvector.
+- `NORM`: L2 norm. Useful for finding vector magnitude, ensuring that a lot of
+values are all zero, or ignoring the sign in an eigenvector.
+- `ANGLEFROMX`: Angle of a translational DOF vector (TX, TY, TZ) from the X axis,
+ignoring the sign. The path you specify must not include the trailing `/TX`,
+`/TY`, or `/TZ`. If you specify multiple grid points, it sums them before
+calculating the angle. Useful for validating the direction of deflection of a
+mode shape.
+- `ANGLEFROMY`: The same as ANGLEFROMX except from the Y axis.
+- `ANGLEFROMZ`: The same as ANGLEFROMX except from the Z axis.
 
 #### Grid point transformations
 Displacements and SPC forces can be transformed by matrices supplied in a separate

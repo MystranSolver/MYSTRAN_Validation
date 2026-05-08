@@ -9,8 +9,8 @@
 #   f06csv form:
 #
 #  [1] Test type.
-#    mys means use reference solution in reference_mystran directory.
-#    msc means use reference solution in reference_msc directory.
+#    "mys" means use reference solution in reference_mystran directory.
+#    "msc" means use reference solution in reference_msc directory.
 #  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
 #  [3] F06csv filters
 #       eg: -b=1 -g=1,3,7
@@ -22,8 +22,7 @@
 #
 #   f06magic oneliner form:
 #
-#  [1] Test type.
-#    chk means filter for a single value using oneliner format.
+#  [1] Test type. Must be "chk".
 #  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
 #  [3] Oneliner argument for f06magic's --oneliner parameter but excluding the range at the end.
 #  [4] Reference value
@@ -33,8 +32,7 @@
 #
 #   Tree path form:
 #
-#  [1] Test type.
-#    pth means filter for a single value or subset of values using path format.
+#  [1] Test type. Must be "pth".
 #  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
 #  [3] Path:
 #       - / delimited path within the f06 file.
@@ -49,6 +47,9 @@
 #       - SUM: Compare the sum of multiple values to the reference value.
 #       - DIFF: Compare the difference between exactly two values to the reference value.
 #       - NORM: Compare the L2 norm of multiple values to the reference value. Reduces to absolute value for a single value.
+#       - ANGLEFROMX: Compare the angle between (TX,TY,TZ) and the X axis to the reference value, ignoring the sign.
+#       - ANGLEFROMY: Compare the angle between (TX,TY,TZ) and the Y axis to the reference value, ignoring the sign.
+#       - ANGLEFROMZ: Compare the angle between (TX,TY,TZ) and the Z axis to the reference value, ignoring the sign.
 #  [5] Reference value
 #  [6] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
 #      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
@@ -812,11 +813,16 @@ pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/REALEIGENVALUES/MODE/7/EIGENVA
 pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/REALEIGENVALUES/MODE/10/EIGENVALUE;;      12402.5106721199;     1%
 pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/REALEIGENVALUES/MODE/11/EIGENVALUE;;      12402.5106721199;     1%
 pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/REALEIGENVALUES/MODE/12/EIGENVALUE;;      15791.3670417430;     1%
+pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/MODE/1/EIGENVECTOR/GID/10;    ANGLEFROMZ;      0;     0
+pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/MODE/2/EIGENVECTOR/GID/11;    ANGLEFROMZ;      0;     0
+pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/MODE/5/EIGENVECTOR/GID/10;    ANGLEFROMY;      0;     0
+pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/MODE/6/EIGENVECTOR/GID/2;     ANGLEFROMY;      0;     0
+pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/MODE/12/EIGENVECTOR/GID/2;    ANGLEFROMZ;      0;     0
 
-pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/MODE/1/EIGENVECTOR/GID/10/TX,TY,TZ;   ;      0;     0   ; trying eigenvector
-pth;    vic/2/NAS B30 beam all shapes.bdf;   SC/2/MODE/1/EIGENVECTOR/GID/10/TX,TY,TZ;   ANGLEFROMZ;      0;     0
-
-
+pth;    vic/2/NAS B30 beam thermal stress.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;   0.0017134729863002348;  0.1%
+pth;    vic/2/NAS B30 beam thermal stress.bdf;   SC/2/MODE/1/EIGENVECTOR/GID/2/TZ;;         0;                      0
+pth;    vic/2/NAS B30 beam thermal stress.bdf;   SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;   0.0017134729863002348;  0.1%
+pth;    vic/2/NAS B30 beam thermal stress.bdf;   SC/2/MODE/2/EIGENVECTOR/GID/2/TZ;;         0;                      0
 
 
 
