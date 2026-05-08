@@ -22,11 +22,12 @@
 #       - Blank: Compare the value to the reference value. If there are multiple values, compare each one independently.
 #       - SUM: Compare the sum of multiple values to the reference value.
 #       - DIFF: Compare the difference between exactly two values to the reference value.
+#       - RATIO: Compare the ratio of exactly two values to the reference value.
 #       - NORM: Compare the L2 norm of multiple values to the reference value. Reduces to absolute value for a single value.
 #       - ANGLEFROMX: Compare the angle between (TX,TY,TZ) and the X axis to the reference value, ignoring the sign.
 #       - ANGLEFROMY: Compare the angle between (TX,TY,TZ) and the Y axis to the reference value, ignoring the sign.
 #       - ANGLEFROMZ: Compare the angle between (TX,TY,TZ) and the Z axis to the reference value, ignoring the sign.
-#  [5] Reference value
+#  [5] Reference value. It can be either a number or a path that leads to a single value.
 #  [6] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
 #      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
 #  [7] Comment. Optional. Ignored.
@@ -57,7 +58,7 @@ pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;;      -3.42439834
 pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8,4,27/TY;;  3.4e-7;                     2e-5%;  Slighty wrong value
 pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/27/TY/h;;    3.4243983461752066e-07;     2e-5%;  Extra node on path
 pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/12;;         3.4243983461752066e-07;     2e-5%;  Missing leaf node on path
-
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/19/TY;;      SC/1/DISPLACEMENTS/GID/2/TX;2e-5%
 
 
 #######################
@@ -813,6 +814,12 @@ pth;    vic/2/NAS B30 beam thermal stress.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIG
 pth;    vic/2/NAS B30 beam thermal stress.bdf;   SC/2/MODE/1/EIGENVECTOR/GID/2/TZ;;         0;                      0
 pth;    vic/2/NAS B30 beam thermal stress.bdf;   SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;   0.0017134729863002348;  0.1%
 pth;    vic/2/NAS B30 beam thermal stress.bdf;   SC/2/MODE/2/EIGENVECTOR/GID/2/TZ;;         0;                      0
+
+pth;    vic/2/NAS B30 quad4 column.bdf;     SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;        27.05;      4%
+pth;    vic/2/NAS B30 quad4 column.bdf;     SC/2/MODE/1/EIGENVECTOR/GID/4/TX,TZ;    RATIO;  1;          1%
+pth;    vic/2/NAS B30 quad4 column.bdf;     SC/2/REALEIGENVALUES/MODE/3/EIGENVALUE;;        283.9479;   2e-5%
+pth;    vic/2/NAS B30 quad4 column.bdf;     SC/2/MODE/3/EIGENVECTOR/GID/4/TX,TZ;    RATIO; -1;          1%
+
 
 
 

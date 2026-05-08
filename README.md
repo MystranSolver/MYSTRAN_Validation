@@ -34,6 +34,8 @@ Values are identified by hierarchical paths, which can lead to one or multiple v
 - `SC/1/SOLIDSTRESSES/EID/4/CORNER/0/XY,YZ,ZX`   A list of three center stress components.
 - `SC/1/SOLIDSTRAINS/EID/1,5/CORNER/1-6/XX` Both a list of 2 element IDs and a set of 6 corner numbers, giving 12 values.
 
+The reference value can be either a number or a path that resolves to a single value.
+
 #### Criterion
 If the tolerance ends with a `%`, it means **percentage tolerance**. This
 criterion is useful for most cases except where the reference value is
@@ -55,6 +57,7 @@ values, compare each one independently.
 - `SUM`: Sum multiple values. Useful for validating reaction force balance over
 multiple nodes.
 - `DIFF`: 1st value minus 2nd value.
+- `RATIO`: 1st value divided by 2nd value.
 - `NORM`: L2 norm. Useful for finding vector magnitude, ensuring that a lot of
 values are all zero, or ignoring the sign in an eigenvector.
 - `ANGLEFROMX`: Angle of a translational DOF vector (TX, TY, TZ) from the X axis,

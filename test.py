@@ -66,7 +66,7 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
                     read_tolerance(definition_fields_str[4])
                 case "pth":
                     definition.operation = definition_fields_str[3]
-                    definition.reference_value = float(definition_fields_str[4])
+                    definition.reference_value = definition_fields_str[4]
                     read_tolerance(definition_fields_str[5])
 
 
@@ -390,10 +390,15 @@ def test_path(root_dir: Path,
         nonlocal worst_error
         nonlocal fail_count
 
+        if "/" in test_case.reference_value:
+            reference_value = tree_get_transformed(parsed_f06, test_case.reference_value.split("/"), gp_transforms, shell_angles, output_file)
+        else:
+            reference_value = float(test_case.reference_value)
+
         if test_case.comparison_type == "percent":
-            error = 100 * abs(test_value / test_case.reference_value - 1)
+            error = 100 * abs(test_value / reference_value - 1)
         elif test_case.comparison_type == "difference":
-            error = abs(test_value - test_case.reference_value)
+            error = abs(test_value - reference_value)
         else:
             print("ERROR 862621")
             sys.exit(1)
@@ -404,7 +409,7 @@ def test_path(root_dir: Path,
             pass_fail = "FAILED"
         else:
             pass_fail = "PASS"
-        output_file.write(f"{pass_fail}\tError = {error:.2g}{test_case.tolerance_suffix()}\tTolerance = {test_case.tolerance}{test_case.tolerance_suffix()}\tTest = {test_value}\tReference = {test_case.reference_value:.9g}\n")
+        output_file.write(f"{pass_fail}\tError = {error:.2g}{test_case.tolerance_suffix()}\tTolerance = {test_case.tolerance}{test_case.tolerance_suffix()}\tTest = {test_value}\tReference = {reference_value:.9g}\n")
 
 
     # Read f06 file
@@ -457,7 +462,6 @@ def test_path(root_dir: Path,
         case "DIFF":
 
             comparison_count += 1
-            value_sum = 0
             if len(single_paths) != 2:
                 fail_count += 1
                 output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
@@ -468,6 +472,20 @@ def test_path(root_dir: Path,
                     fail_count += 1
                     output_file.write(f"FAIL\n")
                 compare(value1 - value2)
+
+        case "RATIO":
+
+            comparison_count += 1
+            if len(single_paths) != 2:
+                fail_count += 1
+                output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
+            else:
+                value1 = tree_get_transformed(parsed_f06, single_paths[0], gp_transforms, shell_angles, output_file)
+                value2 = tree_get_transformed(parsed_f06, single_paths[1], gp_transforms, shell_angles, output_file)
+                if value1 is None or value2 is None:
+                    fail_count += 1
+                    output_file.write(f"FAIL\n")
+                compare(value1 / value2)
 
         case "NORM":
 
