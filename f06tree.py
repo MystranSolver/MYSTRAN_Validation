@@ -37,7 +37,7 @@ def read_f06_tree(file_name):
 
         if "D I S P L A C E M E N T S" in line:
             subcase = int(number(peek_line_delta(-2), 21, 8))
-            gids_node = ensure_path(root, ["SC", subcase, "DISPLACEMENTS","GID"])
+            gids_node = ensure_path(root, ["SC", str(subcase), "DISPLACEMENTS","GID"])
             get_next_line()
             get_next_line()
             get_next_line()
@@ -46,7 +46,7 @@ def read_f06_tree(file_name):
                 if line.strip().startswith("---") or len(line.strip()) == 0:
                     break
                 gid = int(number(line, 8, 8))
-                gid_node = ensure_path(gids_node, [gid])
+                gid_node = ensure_path(gids_node, [str(gid)])
                 set(gid_node, "TX", number(line, 26, 13))
                 set(gid_node, "TY", number(line, 40, 13))
                 set(gid_node, "TZ", number(line, 54, 13))
@@ -56,7 +56,7 @@ def read_f06_tree(file_name):
 
         elif "S P C   F O R C E S" in line:
             subcase = int(number(peek_line_delta(-2), 21, 8))
-            gids_node = ensure_path(root, ["SC", subcase, "SPCFORCES","GID"])
+            gids_node = ensure_path(root, ["SC", str(subcase), "SPCFORCES","GID"])
             get_next_line()
             get_next_line()
             get_next_line()
@@ -65,7 +65,7 @@ def read_f06_tree(file_name):
                 if line.strip().startswith("---") or len(line.strip()) == 0:
                     break
                 gid = int(number(line, 8, 8))
-                gid_node = ensure_path(gids_node, [gid])
+                gid_node = ensure_path(gids_node, [str(gid)])
                 set(gid_node, "TX", number(line, 26, 13))
                 set(gid_node, "TY", number(line, 40, 13))
                 set(gid_node, "TZ", number(line, 54, 13))
@@ -76,7 +76,7 @@ def read_f06_tree(file_name):
         if "E I G E N V E C T O R" in line:
             subcase = 2
             mode = int(number(peek_line_delta(-2), 25, 8))
-            gids_node = ensure_path(root, ["SC", subcase, "MODE", mode, "EIGENVECTOR", "GID"])
+            gids_node = ensure_path(root, ["SC", str(subcase), "MODE", str(mode), "EIGENVECTOR", "GID"])
             get_next_line()
             get_next_line()
             get_next_line()
@@ -85,7 +85,7 @@ def read_f06_tree(file_name):
                 if line.strip().startswith("---") or len(line.strip()) == 0:
                     break
                 gid = int(number(line, 8, 8))
-                gid_node = ensure_path(gids_node, [gid])
+                gid_node = ensure_path(gids_node, [str(gid)])
                 set(gid_node, "TX", number(line, 26, 13))
                 set(gid_node, "TY", number(line, 40, 13))
                 set(gid_node, "TZ", number(line, 54, 13))
@@ -99,7 +99,7 @@ def read_f06_tree(file_name):
             if "F O R   E L E M E N T   T Y P E   H E X A" in line \
             or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
             or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "SOLIDSTRESSES","EID"])
+                eids_node = ensure_path(root, ["SC", str(subcase), "SOLIDSTRESSES","EID"])
                 get_next_line()
                 get_next_line()
                 corner = None
@@ -109,11 +109,11 @@ def read_f06_tree(file_name):
                         break
                     if line[11:11+6] == "CENTER":
                         eid = int(number(line, 2,8))
-                        eid_node = ensure_path(eids_node, [eid])
+                        eid_node = ensure_path(eids_node, [str(eid)])
                         corner =0
                     elif line[11:11+3] == "GRD":
                         corner += 1
-                    corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
                     set(corner_node, "XX", number(line, 29, 13))
                     set(corner_node, "YY", number(line, 43, 13))
                     set(corner_node, "ZZ", number(line, 57, 13))
@@ -128,7 +128,7 @@ def read_f06_tree(file_name):
             if "F O R   E L E M E N T   T Y P E   H E X A" in line \
             or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
             or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "SOLIDSTRAINS","EID"])
+                eids_node = ensure_path(root, ["SC", str(subcase), "SOLIDSTRAINS","EID"])
                 get_next_line()
                 get_next_line()
                 corner = None
@@ -138,11 +138,11 @@ def read_f06_tree(file_name):
                         break
                     if line[11:11+6] == "CENTER":
                         eid = int(number(line, 2,8))
-                        eid_node = ensure_path(eids_node, [eid])
+                        eid_node = ensure_path(eids_node, [str(eid)])
                         corner =0
                     elif line[11:11+3] == "GRD":
                         corner += 1
-                    corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
                     set(corner_node, "XX", number(line, 29, 13))
                     set(corner_node, "YY", number(line, 43, 13))
                     set(corner_node, "ZZ", number(line, 57, 13))
@@ -156,7 +156,7 @@ def read_f06_tree(file_name):
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
             or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "SHELLSTRESSES","EID"])
+                eids_node = ensure_path(root, ["SC", str(subcase), "SHELLSTRESSES","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -167,14 +167,14 @@ def read_f06_tree(file_name):
                         break
                     if line[11:11+6] == "CENTER":
                         eid = int(number(line, 2,8))
-                        eid_node = ensure_path(eids_node, [eid])
+                        eid_node = ensure_path(eids_node, [str(eid)])
                         corner = 0
                     elif line[11:11+3] == "GRD":
                         corner += 1
                     else:
                         # Skip the blank lines between corners
                         continue
-                    corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
                     set(corner_node, "ZX", number(line, 121, 12))
                     set(corner_node, "YZ", number(line, 134, 12))
                     z1_node = ensure_path(corner_node, ["Z1"])
@@ -188,7 +188,7 @@ def read_f06_tree(file_name):
                     set(z2_node, "XY", number(line, 61, 12))
 
             elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "SHELLSTRESSES","EID"])
+                eids_node = ensure_path(root, ["SC", str(subcase), "SHELLSTRESSES","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -199,9 +199,9 @@ def read_f06_tree(file_name):
                         break
                     if line[13:13+8] == "Anywhere":
                         eid = int(number(line, 2,8))
-                        eid_node = ensure_path(eids_node, [eid])
+                        eid_node = ensure_path(eids_node, [str(eid)])
                         corner =0
-                        corner_node = ensure_path(eid_node, ["CORNER", corner])
+                        corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
                         set(corner_node, "ZX", number(line, 125, 12))
                         set(corner_node, "YZ", number(line, 138, 12))
                         z1_node = ensure_path(corner_node, ["Z1"])
@@ -220,7 +220,7 @@ def read_f06_tree(file_name):
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
             or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "SHELLSTRAINS","EID"])
+                eids_node = ensure_path(root, ["SC", str(subcase), "SHELLSTRAINS","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -231,14 +231,14 @@ def read_f06_tree(file_name):
                         break
                     if line[11:11+6] == "CENTER":
                         eid = int(number(line, 2,8))
-                        eid_node = ensure_path(eids_node, [eid])
+                        eid_node = ensure_path(eids_node, [str(eid)])
                         corner = 0
                     elif line[11:11+3] == "GRD":
                         corner += 1
                     else:
                         # Skip the blank lines between corners
                         continue
-                    corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
                     set(corner_node, "ZX", number(line, 121, 12))
                     set(corner_node, "YZ", number(line, 134, 12))
                     z1_node = ensure_path(corner_node, ["Z1"])
@@ -252,7 +252,7 @@ def read_f06_tree(file_name):
                     set(z2_node, "XY", number(line, 61, 12))
 
             elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "SHELLSTRAINS","EID"])
+                eids_node = ensure_path(root, ["SC", str(subcase), "SHELLSTRAINS","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -263,9 +263,9 @@ def read_f06_tree(file_name):
                         break
                     if line[13:13+8] == "Anywhere":
                         eid = int(number(line, 2,8))
-                        eid_node = ensure_path(eids_node, [eid])
+                        eid_node = ensure_path(eids_node, [str(eid)])
                         corner =0
-                        corner_node = ensure_path(eid_node, ["CORNER", corner])
+                        corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
                         set(corner_node, "ZX", number(line, 125, 12))
                         set(corner_node, "YZ", number(line, 138, 12))
                         z1_node = ensure_path(corner_node, ["Z1"])
@@ -288,7 +288,7 @@ def read_f06_tree(file_name):
             if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
             or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
             or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "COMPOSITESTRESSES","EID"])
+                eids_node = ensure_path(root, ["SC", str(subcase), "COMPOSITESTRESSES","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -303,18 +303,17 @@ def read_f06_tree(file_name):
                         break
                     if line[1:1+8].strip() != "":
                         eid = int(number(line, 2,8))
-                        eid_node = ensure_path(eids_node, [eid])
+                        eid_node = ensure_path(eids_node, [str(eid)])
                     elif line.strip == "":
                         # Skip the blank lines between elements
                         continue
                     ply_num = int(number(line, 11,5))
-                    ply_node = ensure_path(eid_node, ["PLY", ply_num])
-                    # Stress component names are numbers because it's hard to identify them as strings!
-                    set(ply_node, 11, number(line, 17, 12))
-                    set(ply_node, 22, number(line, 30, 12))
-                    set(ply_node, 12, number(line, 43, 12))
-                    set(ply_node, 13, number(line, 59, 12))
-                    set(ply_node, 23, number(line, 73, 12))
+                    ply_node = ensure_path(eid_node, ["PLY", str(ply_num)])
+                    set(ply_node, "11", number(line, 17, 12))
+                    set(ply_node, "22", number(line, 30, 12))
+                    set(ply_node, "12", number(line, 43, 12))
+                    set(ply_node, "13", number(line, 59, 12))
+                    set(ply_node, "23", number(line, 73, 12))
 
 
         elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
@@ -323,7 +322,7 @@ def read_f06_tree(file_name):
             if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
             or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
             or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "SHELLFORCES","EID"])
+                eids_node = ensure_path(root, ["SC", str(subcase), "SHELLFORCES","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -336,9 +335,9 @@ def read_f06_tree(file_name):
                         corner += 1
                     else:
                         eid = int(number(line, 2,8))
-                        eid_node = ensure_path(eids_node, [eid])
+                        eid_node = ensure_path(eids_node, [str(eid)])
                         corner =0
-                    corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
                     set(corner_node, "NXX", number(line, 26, 13))
                     set(corner_node, "NYY", number(line, 40, 13))
                     set(corner_node, "NXY", number(line, 54, 13))
@@ -351,7 +350,7 @@ def read_f06_tree(file_name):
 
         elif "R E A L   E I G E N V A L U E S" in line:
             subcase = 2
-            modes_node = ensure_path(root, ["SC", subcase, "REALEIGENVALUES","MODE"])
+            modes_node = ensure_path(root, ["SC", str(subcase), "REALEIGENVALUES","MODE"])
             line = get_next_line()
             buckling = "buckling" in line
             get_next_line()
@@ -367,12 +366,12 @@ def read_f06_tree(file_name):
                 if buckling:
                     mode = int(number(line, 39, 8))
                     eigenvalue = number(line, 62, 13)
-                    mode_node = ensure_path(modes_node, [mode])
+                    mode_node = ensure_path(modes_node, [str(mode)])
                     set(mode_node, "EIGENVALUE", eigenvalue)
                 else:
                     mode = int(number(line, 2, 8))
                     cycles = number(line, 65, 13)
-                    mode_node = ensure_path(modes_node, [mode])
+                    mode_node = ensure_path(modes_node, [str(mode)])
                     set(mode_node, "CYCLES", cycles)
                 
 
@@ -385,10 +384,6 @@ def tree_get(parsed_f06, path, output_file : io.TextIOWrapper):
     value = None
 
     for index, node in enumerate(path):
-
-        # convert numbers to int
-        if node[0].isdigit():
-            node =  int(node)
 
         if not isinstance(current_node, dict):
             # Fail if we reached the leaf before the end of the path.
