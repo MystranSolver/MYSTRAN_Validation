@@ -1,3 +1,6 @@
+import io
+
+
 def read_f06_tree(file_name):
 
     with open(file_name, 'r') as f:
@@ -298,7 +301,7 @@ def read_f06_tree(file_name):
     return root
 
 
-def tree_get(parsed_f06, path):
+def tree_get(parsed_f06, path, output_file : io.TextIOWrapper):
     current_node = parsed_f06
    
     value = None
@@ -333,6 +336,11 @@ def tree_get(parsed_f06, path):
             if isinstance(current_node, float):
                 # Reached leaf.
                 value = current_node
+
+    if value is None:
+        output_file.write(f"No value at path: {"/".join(path)}\n")
+        output_file.write(f"Available paths existing in f06 file:\n")
+        write_structure_dense(parsed_f06, output_file)
 
     return value
     

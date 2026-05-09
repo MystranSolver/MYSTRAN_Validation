@@ -311,7 +311,7 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
     # If it's a shell stress, strain or engineering force and we have shell angles 
     # available then rotate it by those angles.
 
-    result = tree_get(parsed_f06, path)
+    result = tree_get(parsed_f06, path, output_file)
 
     # Transform displacement components
     if len(path) > 5 \
@@ -322,13 +322,13 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
         if gid in gp_transforms:
             # Get the 3-component displacement (translation or rotation) vector
             if path[5][0] == "T":
-                x_path = path.copy(); x_path[5] = "TX"; x = tree_get(parsed_f06, x_path)
-                y_path = path.copy(); y_path[5] = "TY"; y = tree_get(parsed_f06, y_path)
-                z_path = path.copy(); z_path[5] = "TZ"; z = tree_get(parsed_f06, z_path)
+                x_path = path.copy(); x_path[5] = "TX"; x = tree_get(parsed_f06, x_path, output_file)
+                y_path = path.copy(); y_path[5] = "TY"; y = tree_get(parsed_f06, y_path, output_file)
+                z_path = path.copy(); z_path[5] = "TZ"; z = tree_get(parsed_f06, z_path, output_file)
             elif path[5][0] == "R":
-                x_path = path.copy(); x_path[5] = "RX"; x = tree_get(parsed_f06, x_path)
-                y_path = path.copy(); y_path[5] = "RY"; y = tree_get(parsed_f06, y_path)
-                z_path = path.copy(); z_path[5] = "RZ"; z = tree_get(parsed_f06, z_path)
+                x_path = path.copy(); x_path[5] = "RX"; x = tree_get(parsed_f06, x_path, output_file)
+                y_path = path.copy(); y_path[5] = "RY"; y = tree_get(parsed_f06, y_path, output_file)
+                z_path = path.copy(); z_path[5] = "RZ"; z = tree_get(parsed_f06, z_path, output_file)
             else:
                 print("ERROR 672525")
                 sys.exit(1)
@@ -354,8 +354,8 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
             if len(path) > 7 and (path[7] == "YZ" or path[7] == "ZX"):
                 # Transverse shear stress:
                 # SC/#/QUADSTRESSES,TRIASTRESSES/EID/#/CORNER/#/YZ,ZX
-                x_path = path.copy(); x_path[7] = "ZX"; x = tree_get(parsed_f06, x_path)
-                y_path = path.copy(); y_path[7] = "YZ"; y = tree_get(parsed_f06, y_path)
+                x_path = path.copy(); x_path[7] = "ZX"; x = tree_get(parsed_f06, x_path, output_file)
+                y_path = path.copy(); y_path[7] = "YZ"; y = tree_get(parsed_f06, y_path, output_file)
                 if path[7] == "ZX":
                     result = x * math.cos(angle) - y * math.sin(angle)
                 else:
@@ -363,9 +363,9 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
             elif len(path) > 8 and (path[8] == "XX" or path[8] == "YY" or path[8] == "XY"):
                 # In-layer stress:
                 # SC/#/QUADSTRESSES,TRIASTRESSES/EID/#/CORNER/#/Z#/XX,YY,XY
-                xx_path = path.copy(); xx_path[8] = "XX"; xx = tree_get(parsed_f06, xx_path)
-                yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get(parsed_f06, yy_path)
-                xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get(parsed_f06, xy_path)
+                xx_path = path.copy(); xx_path[8] = "XX"; xx = tree_get(parsed_f06, xx_path, output_file)
+                yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get(parsed_f06, yy_path, output_file)
+                xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get(parsed_f06, xy_path, output_file)
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[8])
 
     # todo strain
@@ -382,8 +382,8 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
             if len(path) > 7 and (path[7] == "QX" or path[7] == "QY"):
                 # Transverse shear force resultant:
                 # SC/#/QUADFORCES,TRIAFORCES/EID/#/CORNER/#/QX,QY
-                x_path = path.copy(); x_path[7] = "QX"; x = tree_get(parsed_f06, x_path)
-                y_path = path.copy(); y_path[7] = "QY"; y = tree_get(parsed_f06, y_path)
+                x_path = path.copy(); x_path[7] = "QX"; x = tree_get(parsed_f06, x_path, output_file)
+                y_path = path.copy(); y_path[7] = "QY"; y = tree_get(parsed_f06, y_path, output_file)
                 if path[7] == "QX":
                     result = x * math.cos(angle) - y * math.sin(angle)
                 else:
@@ -391,25 +391,17 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
             elif len(path) > 7 and (path[7] == "NXX" or path[7] == "NYY" or path[7] == "NXY"):
                 # In-layer force resultants:
                 # SC/#/QUADFORCES,TRIAFORCES/EID/#/CORNER/#/NXX,NYY,NXY
-                xx_path = path.copy(); xx_path[7] = "NXX"; xx = tree_get(parsed_f06, xx_path)
-                yy_path = path.copy(); yy_path[7] = "NYY"; yy = tree_get(parsed_f06, yy_path)
-                xy_path = path.copy(); xy_path[7] = "NXY"; xy = tree_get(parsed_f06, xy_path)
-                result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7])
+                xx_path = path.copy(); xx_path[7] = "NXX"; xx = tree_get(parsed_f06, xx_path, output_file)
+                yy_path = path.copy(); yy_path[7] = "NYY"; yy = tree_get(parsed_f06, yy_path, output_file)
+                xy_path = path.copy(); xy_path[7] = "NXY"; xy = tree_get(parsed_f06, xy_path, output_file)
+                result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7][-2:])
             elif len(path) > 7 and (path[7] == "MXX" or path[7] == "MYY" or path[7] == "MXY"):
                 # Moment resultants:
                 # SC/#/QUADFORCES,TRIAFORCES/EID/#/CORNER/#/MXX,MYY,MXY
-                xx_path = path.copy(); xx_path[7] = "MXX"; xx = tree_get(parsed_f06, xx_path)
-                yy_path = path.copy(); yy_path[7] = "MYY"; yy = tree_get(parsed_f06, yy_path)
-                xy_path = path.copy(); xy_path[7] = "MXY"; xy = tree_get(parsed_f06, xy_path)
-                result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7])
-    
-            # todo this seems to break those values it transforms so they appear to not exist anymore.
-    
-    
-    if result is None:
-        output_file.write(f"No value at path: {"/".join(path)}\n")
-        output_file.write(f"Available paths existing in f06 file:\n")
-        write_structure_dense(parsed_f06, output_file)
+                xx_path = path.copy(); xx_path[7] = "MXX"; xx = tree_get(parsed_f06, xx_path, output_file)
+                yy_path = path.copy(); yy_path[7] = "MYY"; yy = tree_get(parsed_f06, yy_path, output_file)
+                xy_path = path.copy(); xy_path[7] = "MXY"; xy = tree_get(parsed_f06, xy_path, output_file)
+                result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7][-2:])
     
     return result
 
