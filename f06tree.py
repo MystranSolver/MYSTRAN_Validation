@@ -214,6 +214,45 @@ def read_f06_tree(file_name):
                         set(z2_node, "YY", number(line, 51, 12))
                         set(z2_node, "XY", number(line, 64, 12))
 
+
+        elif "S T R E S S E S   I N   L A Y E R E D   C O M P O S I T E   E L E M E N T S" in line:
+            subcase = int(number(peek_line_delta(-2), 21, 8))
+            get_next_line()
+            get_next_line()
+            get_next_line()
+            line = get_next_line()
+            if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
+            or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
+            or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
+                eids_node = ensure_path(root, ["SC", subcase, "COMPOSITESTRESSES","EID"])
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---"):
+                        break
+                    if line[1:1+8].strip() != "":
+                        eid = int(number(line, 2,8))
+                        eid_node = ensure_path(eids_node, [eid])
+                    elif line.strip == "":
+                        # Skip the blank lines between elements
+                        continue
+                    ply_num = int(number(line, 11,5))
+                    ply_node = ensure_path(eid_node, ["PLY", ply_num])
+                    # Stress component names are numbers because it's hard to identify them as strings!
+                    set(ply_node, 11, number(line, 17, 12))
+                    set(ply_node, 22, number(line, 30, 12))
+                    set(ply_node, 12, number(line, 43, 12))
+                    set(ply_node, 13, number(line, 59, 12))
+                    set(ply_node, 23, number(line, 73, 12))
+
+
         elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
             subcase = int(number(peek_line_delta(-2), 21, 8))
             line = get_next_line()
