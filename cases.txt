@@ -1130,6 +1130,43 @@ pth;    vic/3/NAS B30 quad4 laminate 8 layer plate deformed.bdf;    SC/2/REALEIG
 # Vic test case set 4 #
 #######################
 
+
+pth;    vic/4/NAS S30 bar BANDED BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/4/TX;;               nan;    0
+pth;    vic/4/NAS S30 bar BANDED BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/4/TY;;               nan;    0
+pth;    vic/4/NAS S30 bar BANDED BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/4/TZ;;               nan;    0
+pth;    vic/4/NAS S30 bar BANDED BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/1/TX,TY,TZ; NORM;    0;      0
+
+# todo NAS S30 bar BANDED BAILOUT default
+
+pth;    vic/4/NAS S30 bar SPARSE BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/4/TX;;               0.0000381971863420549;  2e-5%
+pth;    vic/4/NAS S30 bar SPARSE BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/4/TY;;               0;                      0
+pth;    vic/4/NAS S30 bar SPARSE BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/4/TZ;;               0;                      0
+pth;    vic/4/NAS S30 bar SPARSE BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/1/TX,TY,TZ; NORM;    0;                      0
+
+# todo NAS S30 bar SPARSE BAILOUT default
+
+pth;    vic/4/NAS S30 solid BANDED BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/5/TY;;             0.000001;               2e-5%
+pth;    vic/4/NAS S30 solid BANDED BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/7/TY;;             0;                      0
+
+# todo NAS S30 solid BANDED BAILOUT default
+
+pth;    vic/4/NAS S30 solid SPARSE BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/5/TY;;             0.000001;               2e-5%
+pth;    vic/4/NAS S30 solid SPARSE BAILOUT -1.bdf;    SC/1/DISPLACEMENTS/GID/7/TY;;             0;                      0
+
+pth;    vic/4/NAS S30 solid SPARSE BAILOUT default.bdf;    SC/1/DISPLACEMENTS/GID/5/TY;;             0.000001;               2e-5%
+pth;    vic/4/NAS S30 solid SPARSE BAILOUT default.bdf;    SC/1/DISPLACEMENTS/GID/7/TY;;             0;                      0
+
+pth;    vic/4/NAS S30 shell pressure curved edge.bdf;   SC/1/DISPLACEMENTS/GID/18/TZ;;       1.5e-5;     0.06%
+pth;    vic/4/NAS S30 shell pressure curved edge.bdf;   SC/1/DISPLACEMENTS/GID/31/TZ;;       1.5e-5;     0.06%
+pth;    vic/4/NAS S30 shell pressure curved edge.bdf;   SC/1/DISPLACEMENTS/GID/8/TZ;;        1.5e-5;     0.06%
+pth;    vic/4/NAS S30 shell pressure curved edge.bdf;   SC/1/DISPLACEMENTS/GID/12/TZ;;       0.75e-5;    0.06%
+pth;    vic/4/NAS S30 shell pressure curved edge.bdf;   SC/1/DISPLACEMENTS/GID/18,16/TX,TY;; 0;          0.00000001
+
+pth;    vic/4/NAS S30 3 digit exponents input.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;;   -0.08102917341977336;         2e-5%
+
+
+#--------------
+
 pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/SHELLSTRESSES/EID/1/CORNER/1/Z1,Z2/XX;  SUM;    100000000.0;  0.6%
 pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/SHELLSTRESSES/EID/2/CORNER/1/Z1,Z2/XX;  SUM;    100000000.0;  0.6%
 pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/SHELLSTRESSES/EID/6/CORNER/1/Z1,Z2/XX;  SUM;    100000000.0;  0.6%
@@ -1168,9 +1205,8 @@ pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf; 
 pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/SHELLSTRAINS/EID/7/CORNER/1/Z1,Z2/YY;     SUM;    -0.0006;      8%;   Swap X and Y because transform isn't to basic.
 pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/SHELLSTRAINS/EID/7/CORNER/3/Z1,Z2/YY;     SUM;    -0.0006;      8%;   Swap X and Y because transform isn't to basic.
 
+#--------------
 
-
-# todo rest of this file.
 
 
 

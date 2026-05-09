@@ -459,7 +459,13 @@ def test_path(root_dir: Path,
         else:
             reference_value = float(test_case.reference_value)
 
-        if test_case.comparison_type == "percent":
+        if math.isnan(reference_value):
+            # Testing for NaN doesn't use the tolerance or comparison type.
+            if math.isnan(test_value):
+                error = 0
+            else:
+                error = float('inf');
+        elif test_case.comparison_type == "percent":
             error = 100 * abs(test_value / reference_value - 1)
         elif test_case.comparison_type == "difference":
             error = abs(test_value - reference_value)
@@ -467,12 +473,14 @@ def test_path(root_dir: Path,
             print("ERROR 862621")
             sys.exit(1)
 
-        if error > test_case.tolerance:
+        if error <= test_case.tolerance:
+            pass_fail = "PASS"
+        else:
+            # Fail is the else clause so that NaN fails.
             worst_error = max(error, worst_error)
             fail_count += 1
             pass_fail = "FAILED"
-        else:
-            pass_fail = "PASS"
+
         error_string = f"{error:.2g}{test_case.tolerance_suffix()}"
         tolerance_string = f"({test_case.tolerance}{test_case.tolerance_suffix()})"
         output_file.write(f"{INDENT * 2}{pass_fail}\tError = {error_string} {tolerance_string} \tValue = {test_value} ({reference_value:.9g})\n")

@@ -1,4 +1,3 @@
-import io
 
 
 def read_f06_tree(file_name):
