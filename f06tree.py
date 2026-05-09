@@ -156,7 +156,7 @@ def read_f06_tree(file_name):
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
             or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "QUADSTRESSES","EID"])
+                eids_node = ensure_path(root, ["SC", subcase, "SHELLSTRESSES","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -188,7 +188,7 @@ def read_f06_tree(file_name):
                     set(z2_node, "XY", number(line, 61, 12))
 
             elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "TRIASTRESSES","EID"])
+                eids_node = ensure_path(root, ["SC", subcase, "SHELLSTRESSES","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -220,7 +220,7 @@ def read_f06_tree(file_name):
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
             or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "QUADSTRAINS","EID"])
+                eids_node = ensure_path(root, ["SC", subcase, "SHELLSTRAINS","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -252,7 +252,7 @@ def read_f06_tree(file_name):
                     set(z2_node, "XY", number(line, 61, 12))
 
             elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "TRIASTRAINS","EID"])
+                eids_node = ensure_path(root, ["SC", subcase, "SHELLSTRAINS","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -321,8 +321,9 @@ def read_f06_tree(file_name):
             subcase = int(number(peek_line_delta(-2), 21, 8))
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
-            or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "QUADFORCES","EID"])
+            or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
+            or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
+                eids_node = ensure_path(root, ["SC", subcase, "SHELLFORCES","EID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -333,32 +334,6 @@ def read_f06_tree(file_name):
                         break
                     if line[11:11+3] == "GRD":
                         corner += 1
-                    else:
-                        eid = int(number(line, 2,8))
-                        eid_node = ensure_path(eids_node, [eid])
-                        corner =0
-                    corner_node = ensure_path(eid_node, ["CORNER", corner])
-                    set(corner_node, "NXX", number(line, 26, 13))
-                    set(corner_node, "NYY", number(line, 40, 13))
-                    set(corner_node, "NXY", number(line, 54, 13))
-                    set(corner_node, "MXX", number(line, 68, 13))
-                    set(corner_node, "MYY", number(line, 82, 13))
-                    set(corner_node, "MXY", number(line, 96, 13))
-                    set(corner_node, "QX", number(line, 110, 13))
-                    set(corner_node, "QY", number(line, 124, 13))
-
-            elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                eids_node = ensure_path(root, ["SC", subcase, "TRIAFORCES","EID"])
-                get_next_line()
-                get_next_line()
-                get_next_line()
-                corner = None
-                while True:
-                    line = get_next_line()
-                    if line.strip().startswith("---") or len(line.strip()) == 0:
-                        break
-                    if line[11:11+3] == "GRD":
-                        corner += 1 # Never used for TRIA3 but it's the same logic as QUAD4/QUAD8.
                     else:
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [eid])
