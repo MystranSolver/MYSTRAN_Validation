@@ -1130,33 +1130,46 @@ pth;    vic/3/NAS B30 quad4 laminate 8 layer plate deformed.bdf;    SC/2/REALEIG
 # Vic test case set 4 #
 #######################
 
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1/Z1,Z2/XX;  SUM;    100000000.0;    0.6%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/1/Z1,Z2/XX;  SUM;    100000000.0;    0.6%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/1/Z1,Z2/XX;  SUM;    100000000.0;    0.6%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1/Z1,Z2/XX;  SUM;    100000000.0;  0.6%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/1/Z1,Z2/XX;  SUM;    100000000.0;  0.6%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/1/Z1,Z2/XX;  SUM;    100000000.0;  0.6%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z1,Z2/XX;  SUM;    100000000.0;  0.6%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/3/Z1,Z2/XX;  SUM;    100000000.0;  0.6%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/3/Z1,Z2/XX;  SUM;    100000000.0;  0.6%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADFORCES/EID/1,2,6/CORNER/1,3/NXX;;          1000000.0;    0.6%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/1/CORNER/1/Z1,Z2/XX;  SUM;     0.002;        0.7%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/2/CORNER/1/Z1,Z2/XX;  SUM;     0.002;        0.7%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/6/CORNER/1/Z1,Z2/XX;  SUM;     0.002;        0.7%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/1/CORNER/3/Z1,Z2/XX;  SUM;     0.002;        0.7%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/2/CORNER/3/Z1,Z2/XX;  SUM;     0.002;        0.7%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/6/CORNER/3/Z1,Z2/XX;  SUM;     0.002;        0.7%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/1/Z1,Z2/YY;  SUM;    0;            800000; Double tolerance because sum instead of average.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/1/Z1,Z2/YY;  SUM;    0;            800000; Double tolerance because sum instead of average.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/1/Z1,Z2/YY;  SUM;    0;            800000; Double tolerance because sum instead of average.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z1,Z2/YY;  SUM;    0;            800000; Double tolerance because sum instead of average.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/3/Z1,Z2/YY;  SUM;    0;            800000; Double tolerance because sum instead of average.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/3/Z1,Z2/YY;  SUM;    0;            800000; Double tolerance because sum instead of average.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADFORCES/EID/1,2,6/CORNER/1,3/NYY;;          0;            7000
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/1/CORNER/1/Z1,Z2/YY;  SUM;     -0.0006;      3%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/2/CORNER/1/Z1,Z2/YY;  SUM;     -0.0006;      3%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/6/CORNER/1/Z1,Z2/YY;  SUM;     -0.0006;      3%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/1/CORNER/3/Z1,Z2/YY;  SUM;     -0.0006;      3%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/2/CORNER/3/Z1,Z2/YY;  SUM;     -0.0006;      3%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/6/CORNER/3/Z1,Z2/YY;  SUM;     -0.0006;      3%;   Swap X and Y because transform isn't to basic.
 
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/1/CORNER/3/Z1,Z2/XX;  SUM;    100000000.0;    0.6%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/2/CORNER/3/Z1,Z2/XX;  SUM;    100000000.0;    0.6%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/6/CORNER/3/Z1,Z2/XX;  SUM;    100000000.0;    0.6%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/7/CORNER/1/Z1,Z2/XX;    SUM;    100000000.0;  4%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/7/CORNER/3/Z1,Z2/XX;    SUM;    100000000.0;  4%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADFORCES/EID/7/CORNER/1,3/NXX;;                1000000.0;    4%
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/7/CORNER/1/Z1,Z2/XX;     SUM;    0.002;        4%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/7/CORNER/3/Z1,Z2/XX;     SUM;    0.002;        4%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/7/CORNER/1/Z1,Z2/YY;    SUM;    0;            1400000; Double tolerance because sum instead of average.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRESSES/EID/7/CORNER/3/Z1,Z2/YY;    SUM;    0;            1400000; Double tolerance because sum instead of average.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADFORCES/EID/7/CORNER/1,3/NYY;;                0;            20000
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/7/CORNER/1/Z1,Z2/YY;     SUM;    -0.0006;      8%;   Swap X and Y because transform isn't to basic.
+pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/7/CORNER/3/Z1,Z2/YY;     SUM;    -0.0006;      8%;   Swap X and Y because transform isn't to basic.
 
 
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADFORCES/EID/1/CORNER/1/NXX;;                1000000.0;      0.6%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADFORCES/EID/2/CORNER/1/NXX;;                1000000.0;      0.6%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADFORCES/EID/6/CORNER/1/NXX;;                1000000.0;      0.6%
 
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADFORCES/EID/1/CORNER/3/NXX;;                1000000.0;      0.6%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADFORCES/EID/2/CORNER/3/NXX;;                1000000.0;      0.6%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADFORCES/EID/6/CORNER/3/NXX;;                1000000.0;      0.6%
-
-
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/1/CORNER/1/Z1,Z2/YY;  SUM;     0.002;          0.7%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/2/CORNER/1/Z1,Z2/YY;  SUM;     0.002;          0.7%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/6/CORNER/1/Z1,Z2/YY;  SUM;     0.002;          0.7%
-
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/1/CORNER/3/Z1,Z2/YY;  SUM;     0.002;          0.7%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/2/CORNER/3/Z1,Z2/YY;  SUM;     0.002;          0.7%
-pth;    vic/4/NAS S30 quad8 distorted midside membrane stress strain force.bdf;   SC/1/QUADSTRAINS/EID/6/CORNER/3/Z1,Z2/YY;  SUM;     0.002;          0.7%
-
-# todo next 3 test in the eid/corner loop.
 # todo rest of this file.
 
 

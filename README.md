@@ -76,12 +76,12 @@ coordinate system instead of different grid point coordinate systems used in the
 f06 file.
 
 #### Shell angles
-Shell stress and engineering forces can be rotated by an angle about the z
-axis. Specify the rotation angle for the center and four corners in a separate
-file. The location and filename stem must be the same as the input deck's but
-with the extension `.shellangles`. This is useful for validating shell stress
-in the material or basic coordinate systems instead of the element coordinate
-system used in the f06 file.
+Shell stress, strain and engineering forces can be rotated by an angle about
+the z axis. Specify the rotation angle for the center and four corners in a
+separate file. The location and filename stem must be the same as the input
+deck's but with the extension `.shellangles`. This is useful for validating
+shell stress in the material or basic coordinate systems instead of the element
+coordinate system used in the f06 file.
 
 #### Missing rows
 Mystran sometimes omits rows with all zero values from the f06 file. These

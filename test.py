@@ -297,9 +297,9 @@ def read_shell_angles(filepath: str) -> dict:
 
 def rotate_2D_rank2_tensor(xx, yy, xy, angle, shear_factor, component):
     match component:
-        case "XX": return (xx + yy) / 2 + (xx - yy) / 2 * math.cos(2*angle) - xy * math.sin(2*angle)
-        case "YY": return (xx + yy) / 2 - (xx - yy) / 2 * math.cos(2*angle) + xy * math.sin(2*angle)
-        case "XY": return                ((xx - yy) / 2 * math.sin(2*angle) + xy * math.cos(2*angle)) * shear_factor
+        case "XX": return (xx + yy) / 2 + (xx - yy) / 2 * math.cos(2*angle) - xy/shear_factor * math.sin(2*angle)
+        case "YY": return (xx + yy) / 2 - (xx - yy) / 2 * math.cos(2*angle) + xy/shear_factor * math.sin(2*angle)
+        case "XY": return                ((xx - yy) / 2 * math.sin(2*angle) + xy/shear_factor * math.cos(2*angle)) * shear_factor
 
 
 def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_file : io.TextIOWrapper):
@@ -369,7 +369,7 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[8])
 
 
-# todo shear factor of 2 doesn't seem to be done right in the transform, and decide about transverse shear strains.
+# todo  transverse shear strains.?
 
     if len(path) > 6 \
     and path[0] == "SC" \
@@ -463,7 +463,7 @@ def test_path(root_dir: Path,
             pass_fail = "FAILED"
         else:
             pass_fail = "PASS"
-        output_file.write(f"{pass_fail}\tError = {error:.2g}{test_case.tolerance_suffix()}\tTolerance = {test_case.tolerance}{test_case.tolerance_suffix()}\tTest = {test_value}\tReference = {reference_value:.9g}\n")
+        output_file.write(f"\t\t{pass_fail}\tError = {error:.2g}{test_case.tolerance_suffix()}\tTolerance = {test_case.tolerance}{test_case.tolerance_suffix()}\tTest = {test_value}\tReference = {reference_value:.9g}\n")
 
 
     # Read f06 file
@@ -492,7 +492,7 @@ def test_path(root_dir: Path,
                 value = tree_get_transformed(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
                 if value is None:
                     fail_count += 1
-                    output_file.write(f"FAIL\n")
+                    output_file.write(f"FAILED\n")
                 else:
                     compare(value)
 
@@ -509,7 +509,7 @@ def test_path(root_dir: Path,
                    value_sum += value
             if value_sum is None:
                 fail_count += 1
-                output_file.write(f"FAIL\n")
+                output_file.write(f"FAILED\n")
             else:
                 compare(value_sum)
 
@@ -524,7 +524,7 @@ def test_path(root_dir: Path,
                 value2 = tree_get_transformed(parsed_f06, single_paths[1], gp_transforms, shell_angles, output_file)
                 if value1 is None or value2 is None:
                     fail_count += 1
-                    output_file.write(f"FAIL\n")
+                    output_file.write(f"FAILED\n")
                 compare(value1 - value2)
 
         case "RATIO":
@@ -538,7 +538,7 @@ def test_path(root_dir: Path,
                 value2 = tree_get_transformed(parsed_f06, single_paths[1], gp_transforms, shell_angles, output_file)
                 if value1 is None or value2 is None:
                     fail_count += 1
-                    output_file.write(f"FAIL\n")
+                    output_file.write(f"FAILED\n")
                 compare(value1 / value2)
 
         case "NORM":
@@ -554,7 +554,7 @@ def test_path(root_dir: Path,
                    value_squared_sum += value**2
             if value_squared_sum is None:
                 fail_count += 1
-                output_file.write(f"FAIL\n")
+                output_file.write(f"FAILED\n")
             else:
                 compare(math.sqrt(value_squared_sum))
 
@@ -585,7 +585,7 @@ def test_path(root_dir: Path,
                    z_sum += z
             if x_sum is None:
                 fail_count += 1
-                output_file.write(f"FAIL\n")
+                output_file.write(f"FAILED\n")
             else:
                 match test_case.operation[-1]:
                     case "X": v_ref = [1.0, 0.0, 0.0]
@@ -601,7 +601,7 @@ def test_path(root_dir: Path,
         case _:
         
             fail_count +=1
-            output_file.write(f"FAIL. Invalid operation\n")
+            output_file.write(f"FAILED. Invalid operation\n")
    
     if worst_error > 0:
         message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}"
@@ -620,12 +620,6 @@ def run_case(mystran_path: Path,
              previous_deck_filename: str) -> bool:
     """Run one test case return True for pass or False for fail."""
 
-    match test_case.test_type:
-        case "mys" | "msc":
-            output_file.write(f"******\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
-        case "pth":
-            output_file.write(f"******\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.operation}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
-
     working_dir = (root_dir / "working").resolve()
 
     deck_path = root_dir / "decks" / test_case.deck_filename
@@ -633,6 +627,9 @@ def run_case(mystran_path: Path,
 
     # If it's the same deck as the previous test, reuse the .f06 to save time.
     if test_case.deck_filename != previous_deck_filename:
+
+        output_file.write(f"\n")
+        output_file.write(f"{test_case.deck_filename}\n")
     
         # Clear working directory
         if not clear_working_directory(working_dir):
@@ -644,6 +641,12 @@ def run_case(mystran_path: Path,
         # Run Mystran
         with open(os.devnull, "w") as null_output:
             run_program(mystran_path, [working_deck_filename_str], working_dir, null_output, null_output)
+
+    match test_case.test_type:
+        case "mys" | "msc":
+            output_file.write(f"\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
+        case "pth":
+            output_file.write(f"\t{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.operation}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".f06").resolve()
 
