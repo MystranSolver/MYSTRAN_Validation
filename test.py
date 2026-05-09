@@ -367,8 +367,43 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
                 yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get(parsed_f06, yy_path)
                 xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get(parsed_f06, xy_path)
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[8])
+
+    # todo strain
+
+    if len(path) > 6 \
+    and path[0] == "SC" \
+    and (path[2] == "QUADFORCES" or path[2] == "TRIAFORCES") \
+    and path[3] == "EID" \
+    and path[5] == "CORNER":
+        eid = int(path[4])
+        if eid in shell_angles:
+            corner = int(path[6])
+            angle = shell_angles[eid][corner]
+            if len(path) > 7 and (path[7] == "QX" or path[7] == "QY"):
+                # Transverse shear force resultant:
+                # SC/#/QUADFORCES,TRIAFORCES/EID/#/CORNER/#/QX,QY
+                x_path = path.copy(); x_path[7] = "QX"; x = tree_get(parsed_f06, x_path)
+                y_path = path.copy(); y_path[7] = "QY"; y = tree_get(parsed_f06, y_path)
+                if path[7] == "QX":
+                    result = x * math.cos(angle) - y * math.sin(angle)
+                else:
+                    result = x * math.sin(angle) + y * math.cos(angle)
+            elif len(path) > 7 and (path[7] == "NXX" or path[7] == "NYY" or path[7] == "NXY"):
+                # In-layer force resultants:
+                # SC/#/QUADFORCES,TRIAFORCES/EID/#/CORNER/#/NXX,NYY,NXY
+                xx_path = path.copy(); xx_path[7] = "NXX"; xx = tree_get(parsed_f06, xx_path)
+                yy_path = path.copy(); yy_path[7] = "NYY"; yy = tree_get(parsed_f06, yy_path)
+                xy_path = path.copy(); xy_path[7] = "NXY"; xy = tree_get(parsed_f06, xy_path)
+                result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7])
+            elif len(path) > 7 and (path[7] == "MXX" or path[7] == "MYY" or path[7] == "MXY"):
+                # Moment resultants:
+                # SC/#/QUADFORCES,TRIAFORCES/EID/#/CORNER/#/MXX,MYY,MXY
+                xx_path = path.copy(); xx_path[7] = "MXX"; xx = tree_get(parsed_f06, xx_path)
+                yy_path = path.copy(); yy_path[7] = "MYY"; yy = tree_get(parsed_f06, yy_path)
+                xy_path = path.copy(); xy_path[7] = "MXY"; xy = tree_get(parsed_f06, xy_path)
+                result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7])
     
-    # todo strain and engineering forces
+            # todo this seems to break those values it transforms so they appear to not exist anymore.
     
     
     if result is None:

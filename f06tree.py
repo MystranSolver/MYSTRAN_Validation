@@ -91,11 +91,11 @@ def read_f06_tree(file_name):
                 set(gid_node, "RZ", number(line, 96, 13))
 
         elif "E L E M E N T   S T R E S S E S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
+            subcase = int(number(peek_line_delta(-2), 21, 8))
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   H E X A" in line \
             or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
             or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
-                subcase = int(number(peek_line_delta(-3), 21, 8))
                 eids_node = ensure_path(root, ["SC", subcase, "SOLIDSTRESSES","EID"])
                 get_next_line()
                 get_next_line()
@@ -120,11 +120,11 @@ def read_f06_tree(file_name):
                     set(corner_node, "VM", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
         elif "E L E M E N T   S T R A I N S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
+            subcase = int(number(peek_line_delta(-2), 21, 8))
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   H E X A" in line \
             or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
             or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
-                subcase = int(number(peek_line_delta(-3), 21, 8))
                 eids_node = ensure_path(root, ["SC", subcase, "SOLIDSTRAINS","EID"])
                 get_next_line()
                 get_next_line()
@@ -211,6 +211,63 @@ def read_f06_tree(file_name):
                         set(z2_node, "YY", number(line, 51, 12))
                         set(z2_node, "XY", number(line, 64, 12))
 
+        elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
+            subcase = int(number(peek_line_delta(-2), 21, 8))
+            line = get_next_line()
+            if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
+            or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
+                eids_node = ensure_path(root, ["SC", subcase, "QUADFORCES","EID"])
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                corner = None
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---") or len(line.strip()) == 0:
+                        break
+                    if line[11:11+3] == "GRD":
+                        corner += 1
+                    else:
+                        eid = int(number(line, 2,8))
+                        eid_node = ensure_path(eids_node, [eid])
+                        corner =0
+                    corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    set(corner_node, "NXX", number(line, 26, 13))
+                    set(corner_node, "NYY", number(line, 40, 13))
+                    set(corner_node, "NXY", number(line, 54, 13))
+                    set(corner_node, "MXX", number(line, 68, 13))
+                    set(corner_node, "MYY", number(line, 82, 13))
+                    set(corner_node, "MXY", number(line, 96, 13))
+                    set(corner_node, "QX", number(line, 110, 13))
+                    set(corner_node, "QY", number(line, 124, 13))
+
+            elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
+                eids_node = ensure_path(root, ["SC", subcase, "TRIAFORCES","EID"])
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                corner = None
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---") or len(line.strip()) == 0:
+                        break
+                    if line[11:11+3] == "GRD":
+                        corner += 1 # Never used for TRIA3 but it's the same logic as QUAD4/QUAD8.
+                    else:
+                        eid = int(number(line, 2,8))
+                        eid_node = ensure_path(eids_node, [eid])
+                        corner =0
+                    corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    set(corner_node, "NXX", number(line, 26, 13))
+                    set(corner_node, "NYY", number(line, 40, 13))
+                    set(corner_node, "NXY", number(line, 54, 13))
+                    set(corner_node, "MXX", number(line, 68, 13))
+                    set(corner_node, "MYY", number(line, 82, 13))
+                    set(corner_node, "MXY", number(line, 96, 13))
+                    set(corner_node, "QX", number(line, 110, 13))
+                    set(corner_node, "QY", number(line, 124, 13))
+
+
         elif "R E A L   E I G E N V A L U E S" in line:
             subcase = 2
             modes_node = ensure_path(root, ["SC", subcase, "REALEIGENVALUES","MODE"])
@@ -295,7 +352,6 @@ def write_structure_dense(parsed_f06, file, prefix="", parent_key=""):
         # Only show the first GID and EID as an example because there could be a lot.
         if (not is_first) and (parent_key == "GID" \
                             or parent_key == "EID" \
-                            or parent_key == "CORNER" \
                             or parent_key == "MODE"):
             file.write(prefix + "...\n")
             break
