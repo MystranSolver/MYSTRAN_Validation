@@ -368,7 +368,34 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
                 xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get(parsed_f06, xy_path, output_file)
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[8])
 
-    # todo strain
+
+# todo shear factor of 2 doesn't seem to be done right in the transform, and decide about transverse shear strains.
+
+    if len(path) > 6 \
+    and path[0] == "SC" \
+    and (path[2] == "QUADSTRAINS" or path[2] == "TRIASTRAINS") \
+    and path[3] == "EID" \
+    and path[5] == "CORNER":
+        eid = int(path[4])
+        if eid in shell_angles:
+            corner = int(path[6])
+            angle = shell_angles[eid][corner]
+            if len(path) > 7 and (path[7] == "YZ" or path[7] == "ZX"):
+                # Transverse shear strain:
+                # SC/#/QUADSTRAINS,TRIASTRAINS/EID/#/CORNER/#/YZ,ZX
+                x_path = path.copy(); x_path[7] = "ZX"; x = tree_get(parsed_f06, x_path, output_file)
+                y_path = path.copy(); y_path[7] = "YZ"; y = tree_get(parsed_f06, y_path, output_file)
+                if path[7] == "ZX":
+                    result = x * math.cos(angle) - y * math.sin(angle)
+                else:
+                    result = x * math.sin(angle) + y * math.cos(angle)
+            elif len(path) > 8 and (path[8] == "XX" or path[8] == "YY" or path[8] == "XY"):
+                # In-layer strain:
+                # SC/#/QUADSTRAINS,TRIASTRAINS/EID/#/CORNER/#/Z#/XX,YY,XY
+                xx_path = path.copy(); xx_path[8] = "XX"; xx = tree_get(parsed_f06, xx_path, output_file)
+                yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get(parsed_f06, yy_path, output_file)
+                xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get(parsed_f06, xy_path, output_file)
+                result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 2, path[8])
 
     if len(path) > 6 \
     and path[0] == "SC" \

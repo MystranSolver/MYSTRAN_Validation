@@ -215,6 +215,70 @@ def read_f06_tree(file_name):
                         set(z2_node, "XY", number(line, 64, 12))
 
 
+        elif "E L E M E N T   S T R A I N S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
+            subcase = int(number(peek_line_delta(-2), 21, 8))
+            line = get_next_line()
+            if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
+            or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
+                eids_node = ensure_path(root, ["SC", subcase, "QUADSTRAINS","EID"])
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                corner = None
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---"):
+                        break
+                    if line[11:11+6] == "CENTER":
+                        eid = int(number(line, 2,8))
+                        eid_node = ensure_path(eids_node, [eid])
+                        corner = 0
+                    elif line[11:11+3] == "GRD":
+                        corner += 1
+                    else:
+                        # Skip the blank lines between corners
+                        continue
+                    corner_node = ensure_path(eid_node, ["CORNER", corner])
+                    set(corner_node, "ZX", number(line, 121, 12))
+                    set(corner_node, "YZ", number(line, 134, 12))
+                    z1_node = ensure_path(corner_node, ["Z1"])
+                    set(z1_node, "XX", number(line, 35, 12))
+                    set(z1_node, "YY", number(line, 48, 12))
+                    set(z1_node, "XY", number(line, 61, 12))
+                    line = get_next_line()
+                    z2_node = ensure_path(corner_node, ["Z2"])
+                    set(z2_node, "XX", number(line, 35, 12))
+                    set(z2_node, "YY", number(line, 48, 12))
+                    set(z2_node, "XY", number(line, 61, 12))
+
+            elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
+                eids_node = ensure_path(root, ["SC", subcase, "TRIASTRAINS","EID"])
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                corner = None
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---"):
+                        break
+                    if line[13:13+8] == "Anywhere":
+                        eid = int(number(line, 2,8))
+                        eid_node = ensure_path(eids_node, [eid])
+                        corner =0
+                        corner_node = ensure_path(eid_node, ["CORNER", corner])
+                        set(corner_node, "ZX", number(line, 125, 12))
+                        set(corner_node, "YZ", number(line, 138, 12))
+                        z1_node = ensure_path(corner_node, ["Z1"])
+                        set(z1_node, "XX", number(line, 38, 12))
+                        set(z1_node, "YY", number(line, 51, 12))
+                        set(z1_node, "XY", number(line, 64, 12))
+                        line = get_next_line()
+                        z2_node = ensure_path(corner_node, ["Z2"])
+                        set(z2_node, "XX", number(line, 38, 12))
+                        set(z2_node, "YY", number(line, 51, 12))
+                        set(z2_node, "XY", number(line, 64, 12))
+
+
         elif "S T R E S S E S   I N   L A Y E R E D   C O M P O S I T E   E L E M E N T S" in line:
             subcase = int(number(peek_line_delta(-2), 21, 8))
             get_next_line()
