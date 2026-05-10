@@ -156,12 +156,10 @@ def test_f06csv(root_dir: Path,
                 output_file: io.TextIOWrapper,
                 test_case: Definition) -> int:
 
-
     if test_case.test_type == "mys":
-        reference_dir = (root_dir / "reference_mystran").resolve()
+        reference_f06_path = (root_dir / "reference_mystran" / test_case.deck_filename).with_suffix(".F06").resolve()
     elif test_case.test_type == "msc":
-        reference_dir = (root_dir / "reference_msc").resolve()
-    reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".F06").resolve()
+        reference_f06_path = (root_dir / "reference_msc" / test_case.deck_filename).with_suffix(".f06").resolve()
 
     # Convert f06csv args to f06magic
     extraction_name = test_case.filter_string
