@@ -307,8 +307,9 @@ def rotate_2D_rank2_tensor(xx, yy, xy, angle, shear_factor, component):
         case "XY": return                ((xx - yy) / 2 * math.sin(2*angle) + xy/shear_factor * math.cos(2*angle)) * shear_factor
 
 
-def tree_get_raw(parsed_f06, path, output_file : io.TextIOWrapper):
-
+def tree_get_layer_1(parsed_f06, path, output_file : io.TextIOWrapper):
+    # Get a value from the parsed f06 file without any modification.
+    
     value = tree_get(parsed_f06, path)
 
     if value is None:
@@ -319,8 +320,8 @@ def tree_get_raw(parsed_f06, path, output_file : io.TextIOWrapper):
     return value
 
 
-def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_file : io.TextIOWrapper):
-    # Extract a value from the f06 tree.
+def tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file : io.TextIOWrapper):
+    # Get a value from the f06 file with optional coordinate system transformations applied.
     #
     # If it's a kind that's stored in displacement coordinates and we have a 
     # transformation matrix available, then transform it to basic coordinates.
@@ -328,7 +329,7 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
     # If it's a shell stress, strain or engineering force and we have shell angles 
     # available then rotate it by those angles.
 
-    result = tree_get_raw(parsed_f06, path, output_file)
+    result = tree_get_layer_1(parsed_f06, path, output_file)
 
     # Transform displacement components
     if len(path) > 5 \
@@ -339,13 +340,13 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
         if gid in gp_transforms:
             # Get the 3-component displacement (translation or rotation) vector
             if path[5][0] == "T":
-                x_path = path.copy(); x_path[5] = "TX"; x = tree_get_raw(parsed_f06, x_path, output_file)
-                y_path = path.copy(); y_path[5] = "TY"; y = tree_get_raw(parsed_f06, y_path, output_file)
-                z_path = path.copy(); z_path[5] = "TZ"; z = tree_get_raw(parsed_f06, z_path, output_file)
+                x_path = path.copy(); x_path[5] = "TX"; x = tree_get_layer_1(parsed_f06, x_path, output_file)
+                y_path = path.copy(); y_path[5] = "TY"; y = tree_get_layer_1(parsed_f06, y_path, output_file)
+                z_path = path.copy(); z_path[5] = "TZ"; z = tree_get_layer_1(parsed_f06, z_path, output_file)
             elif path[5][0] == "R":
-                x_path = path.copy(); x_path[5] = "RX"; x = tree_get_raw(parsed_f06, x_path, output_file)
-                y_path = path.copy(); y_path[5] = "RY"; y = tree_get_raw(parsed_f06, y_path, output_file)
-                z_path = path.copy(); z_path[5] = "RZ"; z = tree_get_raw(parsed_f06, z_path, output_file)
+                x_path = path.copy(); x_path[5] = "RX"; x = tree_get_layer_1(parsed_f06, x_path, output_file)
+                y_path = path.copy(); y_path[5] = "RY"; y = tree_get_layer_1(parsed_f06, y_path, output_file)
+                z_path = path.copy(); z_path[5] = "RZ"; z = tree_get_layer_1(parsed_f06, z_path, output_file)
             else:
                 print("ERROR 672525")
                 sys.exit(1)
@@ -371,8 +372,8 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
             if len(path) > 7 and (path[7] == "YZ" or path[7] == "ZX"):
                 # Transverse shear stress:
                 # SC/#/SHELLSTRESSES/EID/#/CORNER/#/YZ,ZX
-                x_path = path.copy(); x_path[7] = "ZX"; x = tree_get_raw(parsed_f06, x_path, output_file)
-                y_path = path.copy(); y_path[7] = "YZ"; y = tree_get_raw(parsed_f06, y_path, output_file)
+                x_path = path.copy(); x_path[7] = "ZX"; x = tree_get_layer_1(parsed_f06, x_path, output_file)
+                y_path = path.copy(); y_path[7] = "YZ"; y = tree_get_layer_1(parsed_f06, y_path, output_file)
                 if path[7] == "ZX":
                     result = x * math.cos(angle) - y * math.sin(angle)
                 else:
@@ -380,9 +381,9 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
             elif len(path) > 8 and (path[8] == "XX" or path[8] == "YY" or path[8] == "XY"):
                 # In-layer stress:
                 # SC/#/SHELLSTRESSES/EID/#/CORNER/#/Z#/XX,YY,XY
-                xx_path = path.copy(); xx_path[8] = "XX"; xx = tree_get_raw(parsed_f06, xx_path, output_file)
-                yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get_raw(parsed_f06, yy_path, output_file)
-                xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get_raw(parsed_f06, xy_path, output_file)
+                xx_path = path.copy(); xx_path[8] = "XX"; xx = tree_get_layer_1(parsed_f06, xx_path, output_file)
+                yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get_layer_1(parsed_f06, yy_path, output_file)
+                xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get_layer_1(parsed_f06, xy_path, output_file)
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[8])
 
     if len(path) > 6 \
@@ -397,8 +398,8 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
             if len(path) > 7 and (path[7] == "YZ" or path[7] == "ZX"):
                 # Transverse shear strain:
                 # SC/#/SHELLSTRAINS/EID/#/CORNER/#/YZ,ZX
-                x_path = path.copy(); x_path[7] = "ZX"; x = tree_get_raw(parsed_f06, x_path, output_file)
-                y_path = path.copy(); y_path[7] = "YZ"; y = tree_get_raw(parsed_f06, y_path, output_file)
+                x_path = path.copy(); x_path[7] = "ZX"; x = tree_get_layer_1(parsed_f06, x_path, output_file)
+                y_path = path.copy(); y_path[7] = "YZ"; y = tree_get_layer_1(parsed_f06, y_path, output_file)
                 if path[7] == "ZX":
                     result = x * math.cos(angle) - y * math.sin(angle)
                 else:
@@ -406,9 +407,9 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
             elif len(path) > 8 and (path[8] == "XX" or path[8] == "YY" or path[8] == "XY"):
                 # In-layer strain:
                 # SC/#/SHELLSTRAINS/EID/#/CORNER/#/Z#/XX,YY,XY
-                xx_path = path.copy(); xx_path[8] = "XX"; xx = tree_get_raw(parsed_f06, xx_path, output_file)
-                yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get_raw(parsed_f06, yy_path, output_file)
-                xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get_raw(parsed_f06, xy_path, output_file)
+                xx_path = path.copy(); xx_path[8] = "XX"; xx = tree_get_layer_1(parsed_f06, xx_path, output_file)
+                yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get_layer_1(parsed_f06, yy_path, output_file)
+                xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get_layer_1(parsed_f06, xy_path, output_file)
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 2, path[8])
 
     if len(path) > 6 \
@@ -423,8 +424,8 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
             if len(path) > 7 and (path[7] == "QX" or path[7] == "QY"):
                 # Transverse shear force resultant:
                 # SC/#/SHELLFORCES/EID/#/CORNER/#/QX,QY
-                x_path = path.copy(); x_path[7] = "QX"; x = tree_get_raw(parsed_f06, x_path, output_file)
-                y_path = path.copy(); y_path[7] = "QY"; y = tree_get_raw(parsed_f06, y_path, output_file)
+                x_path = path.copy(); x_path[7] = "QX"; x = tree_get_layer_1(parsed_f06, x_path, output_file)
+                y_path = path.copy(); y_path[7] = "QY"; y = tree_get_layer_1(parsed_f06, y_path, output_file)
                 if path[7] == "QX":
                     result = x * math.cos(angle) - y * math.sin(angle)
                 else:
@@ -432,19 +433,36 @@ def tree_get_transformed(parsed_f06, path, gp_transforms, shell_angles, output_f
             elif len(path) > 7 and (path[7] == "NXX" or path[7] == "NYY" or path[7] == "NXY"):
                 # In-layer force resultants:
                 # SC/#/SHELLFORCES/EID/#/CORNER/#/NXX,NYY,NXY
-                xx_path = path.copy(); xx_path[7] = "NXX"; xx = tree_get_raw(parsed_f06, xx_path, output_file)
-                yy_path = path.copy(); yy_path[7] = "NYY"; yy = tree_get_raw(parsed_f06, yy_path, output_file)
-                xy_path = path.copy(); xy_path[7] = "NXY"; xy = tree_get_raw(parsed_f06, xy_path, output_file)
+                xx_path = path.copy(); xx_path[7] = "NXX"; xx = tree_get_layer_1(parsed_f06, xx_path, output_file)
+                yy_path = path.copy(); yy_path[7] = "NYY"; yy = tree_get_layer_1(parsed_f06, yy_path, output_file)
+                xy_path = path.copy(); xy_path[7] = "NXY"; xy = tree_get_layer_1(parsed_f06, xy_path, output_file)
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7][-2:])
             elif len(path) > 7 and (path[7] == "MXX" or path[7] == "MYY" or path[7] == "MXY"):
                 # Moment resultants:
                 # SC/#/SHELLFORCES/EID/#/CORNER/#/MXX,MYY,MXY
-                xx_path = path.copy(); xx_path[7] = "MXX"; xx = tree_get_raw(parsed_f06, xx_path, output_file)
-                yy_path = path.copy(); yy_path[7] = "MYY"; yy = tree_get_raw(parsed_f06, yy_path, output_file)
-                xy_path = path.copy(); xy_path[7] = "MXY"; xy = tree_get_raw(parsed_f06, xy_path, output_file)
+                xx_path = path.copy(); xx_path[7] = "MXX"; xx = tree_get_layer_1(parsed_f06, xx_path, output_file)
+                yy_path = path.copy(); yy_path[7] = "MYY"; yy = tree_get_layer_1(parsed_f06, yy_path, output_file)
+                xy_path = path.copy(); xy_path[7] = "MXY"; xy = tree_get_layer_1(parsed_f06, xy_path, output_file)
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7][-2:])
     
     return result
+
+
+def tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, output_file : io.TextIOWrapper):
+    # Get a value from the parsed f06 file with optional shell midsurface as well as the effects of lower layers.
+
+    if len(path) > 7 \
+    and path[0] == "SC" \
+    and (path[2] == "SHELLSTRESSES" or path[2] == "SHELLSTRAINS") \
+    and path[3] == "EID" \
+    and path[5] == "CORNER" \
+    and path[7] == "ZMID":
+        z1_path = path.copy(); z1_path[7] = "Z1"; z1 = tree_get_layer_2(parsed_f06, z1_path, gp_transforms, shell_angles, output_file)
+        z2_path = path.copy(); z2_path[7] = "Z2"; z2 = tree_get_layer_2(parsed_f06, z2_path, gp_transforms, shell_angles, output_file)
+        return (z1 + z2) / 2
+    else:
+        return tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file)
+
 
 
 def test_path(root_dir: Path,
@@ -459,7 +477,7 @@ def test_path(root_dir: Path,
         nonlocal fail_count
 
         if "/" in test_case.reference_value:
-            reference_value = tree_get_transformed(parsed_f06, test_case.reference_value.split("/"), gp_transforms, shell_angles, output_file)
+            reference_value = tree_get_layer_3(parsed_f06, test_case.reference_value.split("/"), gp_transforms, shell_angles, output_file)
         else:
             reference_value = float(test_case.reference_value)
 
@@ -513,7 +531,7 @@ def test_path(root_dir: Path,
 
             for single_path in single_paths:
                 comparison_count += 1
-                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
+                value = tree_get_layer_3(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
                 if value is None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
@@ -525,7 +543,7 @@ def test_path(root_dir: Path,
             comparison_count += 1
             value_sum = 0
             for single_path in single_paths:
-                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
+                value = tree_get_layer_3(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
                 if value is None:
                     value_sum = None
                     break
@@ -544,8 +562,8 @@ def test_path(root_dir: Path,
                 fail_count += 1
                 output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
             else:
-                value1 = tree_get_transformed(parsed_f06, single_paths[0], gp_transforms, shell_angles, output_file)
-                value2 = tree_get_transformed(parsed_f06, single_paths[1], gp_transforms, shell_angles, output_file)
+                value1 = tree_get_layer_3(parsed_f06, single_paths[0], gp_transforms, shell_angles, output_file)
+                value2 = tree_get_layer_3(parsed_f06, single_paths[1], gp_transforms, shell_angles, output_file)
                 if value1 is None or value2 is None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
@@ -558,8 +576,8 @@ def test_path(root_dir: Path,
                 fail_count += 1
                 output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
             else:
-                value1 = tree_get_transformed(parsed_f06, single_paths[0], gp_transforms, shell_angles, output_file)
-                value2 = tree_get_transformed(parsed_f06, single_paths[1], gp_transforms, shell_angles, output_file)
+                value1 = tree_get_layer_3(parsed_f06, single_paths[0], gp_transforms, shell_angles, output_file)
+                value2 = tree_get_layer_3(parsed_f06, single_paths[1], gp_transforms, shell_angles, output_file)
                 if value1 is None or value2 is None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
@@ -570,7 +588,7 @@ def test_path(root_dir: Path,
             comparison_count += 1
             value_squared_sum = 0
             for single_path in single_paths:
-                value = tree_get_transformed(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
+                value = tree_get_layer_3(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
                 if value is None:
                     value_squared_sum = None
                     break
@@ -595,9 +613,9 @@ def test_path(root_dir: Path,
             y_sum = 0
             z_sum = 0
             for single_path in single_paths:
-                x = tree_get_transformed(parsed_f06, single_path + ["TX"], gp_transforms, shell_angles, output_file)
-                y = tree_get_transformed(parsed_f06, single_path + ["TY"], gp_transforms, shell_angles, output_file)
-                z = tree_get_transformed(parsed_f06, single_path + ["TZ"], gp_transforms, shell_angles, output_file)
+                x = tree_get_layer_3(parsed_f06, single_path + ["TX"], gp_transforms, shell_angles, output_file)
+                y = tree_get_layer_3(parsed_f06, single_path + ["TY"], gp_transforms, shell_angles, output_file)
+                z = tree_get_layer_3(parsed_f06, single_path + ["TZ"], gp_transforms, shell_angles, output_file)
                 if x is None or y is None or z is None:
                     x_sum = None
                     y_sum = None
