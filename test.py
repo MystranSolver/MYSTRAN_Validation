@@ -48,14 +48,20 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
     result = []
     
     for definition_str in definitions_str:
-        definition_fields_str = definition_str.split(";")
-        if len(definition_fields_str) <= 1:
+        definition_str = definition_str.strip()
+        if definition_str == "":
             # Skip blank lines
             pass
-        elif definition_fields_str[0].strip().startswith("#"):
+        elif definition_str.startswith("#"):
             # Skip comments
             pass
+        elif definition_str.startswith("INCLUDE"):
+            # Include another definitions file
+            filename = definition_str.split(" ")[1]
+            include_path = definitions_path.parent / filename
+            result += read_definitions(include_path)
         else:
+            definition_fields_str = definition_str.split(";")
             definition_fields_str = [s.strip() for s in definition_fields_str]
             definition = Definition()
             definition.test_type = definition_fields_str[0]
