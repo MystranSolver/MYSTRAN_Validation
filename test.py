@@ -90,8 +90,8 @@ def clear_fails_directory(path: Path) -> bool:
         print("ERROR 222476")
         sys.exit(1)
 
-    # Delete only the expected file type (f06) to reduce blast radius of a bug.
-    for item_path in path.rglob("*.f06"):
+    # Delete only the expected file type (F06) to reduce blast radius of a bug.
+    for item_path in path.rglob("*.F06"):
         if item_path.is_file():
             item_path.unlink()
     
@@ -161,7 +161,7 @@ def test_f06csv(root_dir: Path,
         reference_dir = (root_dir / "reference_mystran").resolve()
     elif test_case.test_type == "msc":
         reference_dir = (root_dir / "reference_msc").resolve()
-    reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".f06").resolve()
+    reference_f06_path = (reference_dir / test_case.deck_filename).with_suffix(".F06").resolve()
 
     # Convert f06csv args to f06magic
     extraction_name = test_case.filter_string
@@ -309,7 +309,7 @@ def tree_get_raw(parsed_f06, path, output_file : io.TextIOWrapper):
 
     if value is None:
         output_file.write(f"{INDENT * 2}No value at path: {"/".join(path)}\n")
-        output_file.write(f"{INDENT * 2}Available paths existing in f06 file:\n")
+        output_file.write(f"{INDENT * 2}Available paths existing in F06 file:\n")
         write_structure_dense(parsed_f06, output_file, f"{INDENT * 2}")
 
     return value
@@ -668,7 +668,7 @@ def run_case(mystran_path: Path,
         case "pth":
             output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.operation}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
 
-    test_f06_path = (working_dir / deck_stem).with_suffix(".f06").resolve()
+    test_f06_path = (working_dir / deck_stem).with_suffix(".F06").resolve()
 
     if test_case.test_type == "mys" or test_case.test_type == "msc":
 
@@ -692,9 +692,9 @@ def run_case(mystran_path: Path,
     pass_fail = "PASS" if fail_count == 0 else "FAILED"
     print(f"{pass_fail}\t{fail_count}{count_suffix}\t{test_case.deck_filename}\t{message}")
         
-    # Save a copy of failed f06 for inspecting after.
+    # Save a copy of failed F06 for inspecting after.
     if fail_count != 0:
-        destination = (fails_dir / test_case.deck_filename).with_suffix(".f06").resolve()
+        destination = (fails_dir / test_case.deck_filename).with_suffix(".F06").resolve()
         destination.parent.mkdir(parents=True, exist_ok=True)
         # Don't overwrite anything to reduce damage caused by wrong-path bugs.
         if not os.path.exists(destination):
