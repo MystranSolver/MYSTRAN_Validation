@@ -9,7 +9,8 @@ py test.py path/to/mystran.exe
 ```
 
 ## Build
-Build f06magic somehow or use the included .exe file on Windows.
+Build f06magic somehow or use the included .exe file on Windows. If
+you're not using Windows, give the binary the .exe extension.
 
 ## Features
 Each test case is described by one line in the `cases.txt` file. There are two types - individual values and bulk comparison:
@@ -21,22 +22,33 @@ hand calcululations or published benchmark solutions.
 
 Example line in cases.txt:
 ```
-pth;    my test.dat;   SC/1/DISPLACEMENTS/GID/8/RX;    ;      1.234e-5;     2e-5%
+pth;    my test.dat;   SC/1/DISPLACEMENTS/GID/8/RX;            ;  1.234e-5;     2e-5%
+        -----------    ---------------------------  ---------     --------      -----
+       deck filename              path              operation    reference    tolerance
+                                                                   value
 ```
 This solves the file `my test.dat` then compares rotation about X at grid point
 8 to 1.234e-5 with a tolerance that's reasonable for single precision or the 7
 digits typical of values in an f06 file.
 
-#### Paths
+#### Path
 Values are identified by hierarchical paths, which can lead to one or multiple values. Examples:
 - `SC/1/DISPLACEMENTS/GID/8/TY` One value
 - `SC/1/SPCFORCES/GID/10-90/TX` A range of 81 grid point IDs.
 - `SC/1/SOLIDSTRESSES/EID/4/CORNER/0/XY,YZ,ZX`   A list of three center stress components.
 - `SC/1/SOLIDSTRAINS/EID/1,5/CORNER/1-6/XX` Both a list of 2 element IDs and a set of 6 corner numbers, giving 12 values.
 
+##### Midsurface stress and strain
+Use `ZMID` instead of `Z1` or `Z2` to calculate the average of the values at
+Z1 and Z2. This is useful for validating membrane strain when there's also
+bending. This average only equals the midsurface value if Z1 and Z2 were
+specified symmetrically in the PSHELL entry.
+
+#### Reference value
+
 The reference value can be either a number or a path that resolves to a single value.
 
-#### Criterion
+#### Tolerance
 If the tolerance ends with a `%`, it means **percentage tolerance**. This
 criterion is useful for most cases except where the reference value is
 zero. Percentage test passes if:
@@ -44,13 +56,13 @@ zero. Percentage test passes if:
 100 * |<test value> / <reference value> - 1| <= <tolerance>
 ```
 If there's no `%` symbol in the tolerance field, it means **difference tolerance**.
-This criterion is useful where the reference value is zero Difference test
+This criterion is useful where the reference value is zero. Difference test
 passes if:
 ```
 |<test value> - <reference value>| <= <tolerance>
 ```
 
-#### Operations
+#### Operation
 You can apply an operation before comparing to the reference value:
 - None: Simply compare the value to the reference value. If there are multiple
 values, compare each one independently.
@@ -91,6 +103,12 @@ are treated as zero instead of errors at specific paths, such as
 #### Multiple test cases on the same deck
 As an optimization, if a test case uses the same input deck as the previous
 test case, it will reuse the previous solution without running Mystran again.
+
+#### Include files
+`INCLUDE <filename>` on a line in the test case definition file includes the
+contents of the file <filename> at that point. Useful for organizing test cases
+or to temporarily disable groups of test cases you're not using.
+
 
 ### Bulk comparison
 
