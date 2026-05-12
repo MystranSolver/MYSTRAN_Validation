@@ -30,6 +30,7 @@
 #       - ANGLEFROMX: Compare the angle between (TX,TY,TZ) and the X axis to the reference value, ignoring the sign.
 #       - ANGLEFROMY: Compare the angle between (TX,TY,TZ) and the Y axis to the reference value, ignoring the sign.
 #       - ANGLEFROMZ: Compare the angle between (TX,TY,TZ) and the Z axis to the reference value, ignoring the sign.
+#       - ABSENT: Pass if the path doesn't exist. Useful for making sure a model that should fail didn't produce a solution.
 #  [5] Reference value. It can be either a number or a path that leads to a single value.
 #  [6] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
 #      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
@@ -57,7 +58,7 @@ msc;    CQUAD4_shear.bdf;   ;   0.0;    0.0
 msc;    CQUAD8_center.bdf;  ;   0.0;    0.0
 msc;    CQUAD8_hoop.bdf;    ;   0.0;    0.0
 
+pth;    CQUAD8_hoop.bdf; SC/1/DISPLACEMENTS; ABSENT ;   0.0;    0.0; Make sure it fails
 
-INCLUDE cases_vic_1-3.txt
-INCLUDE cases_vic_4.txt
+INCLUDE cases_vic.txt
 INCLUDE cases_benchmarks.txt

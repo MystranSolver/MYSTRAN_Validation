@@ -79,6 +79,8 @@ calculating the angle. Useful for validating the direction of deflection of a
 mode shape.
 - `ANGLEFROMY`: The same as ANGLEFROMX except from the Y axis.
 - `ANGLEFROMZ`: The same as ANGLEFROMX except from the Z axis.
+- `ABSENT`: Pass if the path doesn't exist. Useful for making sure a model that 
+should fail didn't produce a solution.
 
 #### Grid point transformations
 Displacements and SPC forces can be transformed by matrices supplied in a separate

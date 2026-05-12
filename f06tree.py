@@ -404,10 +404,7 @@ def tree_get(parsed_f06, path):
         else:
 
             current_node = current_node[node]
-
-            if isinstance(current_node, float):
-                # Reached leaf.
-                value = current_node
+            value = current_node
 
     return value
     

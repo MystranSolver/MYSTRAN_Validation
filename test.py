@@ -330,7 +330,7 @@ def tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file 
     # available then rotate it by those angles.
 
     result = tree_get_layer_1(parsed_f06, path, output_file)
-
+    
     # Transform displacement components
     if len(path) > 5 \
     and path[0] == "SC" \
@@ -639,6 +639,17 @@ def test_path(root_dir: Path,
                           + v_hat[1] * v_ref[1] \
                           + v_hat[2] * v_ref[2]
                 compare(math.acos(abs(v_dot_ref)))
+
+        case "ABSENT":
+
+            for single_path in single_paths:
+                comparison_count += 1
+                value = tree_get_layer_3(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
+                if value is not None:
+                    fail_count += 1
+                    output_file.write(f"{INDENT * 2}FAILED\n")
+                else:
+                    pass
    
         case _:
         
