@@ -168,12 +168,16 @@ def read_f06_tree(file_name):
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [str(eid)])
                         corner = 0
+                        corner_gid = None
                     elif line[11:11+3] == "GRD":
                         corner += 1
+                        corner_gid = int(number(line, 15, 8))
                     else:
                         # Skip the blank lines between corners
                         continue
                     corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                    if corner_gid is not None:
+                        set(corner_node, "GID", corner_gid)
                     set(corner_node, "ZX", number(line, 121, 12))
                     set(corner_node, "YZ", number(line, 134, 12))
                     z1_node = ensure_path(corner_node, ["Z1"])
@@ -232,12 +236,16 @@ def read_f06_tree(file_name):
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [str(eid)])
                         corner = 0
+                        corner_gid = None
                     elif line[11:11+3] == "GRD":
                         corner += 1
+                        corner_gid = int(number(line, 15, 8))
                     else:
                         # Skip the blank lines between corners
                         continue
                     corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                    if corner_gid is not None:
+                        set(corner_node, "GID", corner_gid)
                     set(corner_node, "ZX", number(line, 121, 12))
                     set(corner_node, "YZ", number(line, 134, 12))
                     z1_node = ensure_path(corner_node, ["Z1"])
@@ -332,11 +340,15 @@ def read_f06_tree(file_name):
                         break
                     if line[11:11+3] == "GRD":
                         corner += 1
+                        corner_gid = int(number(line, 15, 8))
                     else:
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [str(eid)])
-                        corner =0
+                        corner = 0
+                        corner_gid = None
                     corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                    if corner_gid is not None:
+                        set(corner_node, "GID", corner_gid)
                     set(corner_node, "NXX", number(line, 26, 13))
                     set(corner_node, "NYY", number(line, 40, 13))
                     set(corner_node, "NXY", number(line, 54, 13))

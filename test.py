@@ -300,6 +300,36 @@ def read_shell_angles(filepath: str) -> dict:
     return result
         
 
+def build_gid_to_corners(parsed_f06) -> dict:
+    """Build a reverse lookup from GID to list of (EID, corner) pairs using
+    corner GID numbers in SHELLSTRESSES, SHELLSTRAINS, and SHELLFORCES."""
+
+    result: dict = {}
+
+    subcases_node = parsed_f06.get("SC")
+    if subcases_node is not None:
+        for subcase_node in subcases_node.values():
+            for block_type in ["SHELLSTRESSES", "SHELLSTRAINS", "SHELLFORCES"]:
+                block_node = subcase_node.get(block_type)
+                if block_node is not None:
+                    eids_node = block_node["EID"]
+                    for eid in eids_node.keys():
+                        corners_node = eids_node[eid]["CORNER"]
+                        for corner in corners_node.keys():
+                            gid_int = corners_node[corner].get("GID")
+                            # GID doesn't exist for corner 0 (center).
+                            if gid_int is not None:
+                                gid = str(gid_int)
+                                # Make sure a list exists for this GID
+                                if gid not in result:
+                                    result[gid] = []
+                                # Prevent duplicates from different blocks and subcases.
+                                if (eid, corner) not in result[gid]:
+                                    result[gid].append((eid, corner))
+
+    return result
+
+
 def rotate_2D_rank2_tensor(xx, yy, xy, angle, shear_factor, component):
     match component:
         case "XX": return (xx + yy) / 2 + (xx - yy) / 2 * math.cos(2*angle) - xy/shear_factor * math.sin(2*angle)
@@ -463,6 +493,52 @@ def tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, output_file 
     else:
         return tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file)
 
+def tree_get_layer_4(parsed_f06, path, gp_transforms, shell_angles, gid_to_corners, output_file : io.TextIOWrapper):
+    # Get a value from the parsed f06 file with optional node averaging as well as the effects of lower layers.
+    
+    if (len(path) > 5
+            and path[0] == "SC"
+            and path[2] in ("SHELLSTRESSES", "SHELLSTRAINS", "SHELLFORCES")
+            and path[3] == "GID"):
+        # Eg: SC/1/SHELLSTRESSES/GID/123/Z1/XX
+        gid = path[4]
+        rest = path[5:]
+
+        if gid not in gid_to_corners:
+            output_file.write(f"{INDENT * 2}GID {gid} not found in reverse lookup. Available GIDs:\n")
+            output_file.write(f"{INDENT * 2}")
+            for available_gid in gid_to_corners.keys():
+                output_file.write(f"{available_gid}\t")
+            output_file.write(f"\n")
+            return None
+
+        total   = 0.0
+        count   = 0
+
+        output_file.write(f"{INDENT * 2}Node averaging from element values:\n")
+        for eid, corner in gid_to_corners[gid]:
+            element_path = [path[0], path[1], path[2], "EID", eid, "CORNER", corner] + rest
+            value = tree_get_layer_3(parsed_f06, element_path, gp_transforms, shell_angles, output_file)
+            output_file.write(f"{INDENT * 3}{"/".join(element_path)} =\t{value}\n")
+            if value is not None:
+                total += value
+                count += 1
+            else:
+                # gid_to_corners might be inconsistent with the data.
+                # Or there might be a row omitted from f06 becuase it's all-zero. In that case,
+                # update the all-zero code to include this block type.
+                output_file.write(f"{INDENT * 2}Strangely no value.\n")
+                return None
+
+        if count == 0:
+            output_file.write(f"{INDENT * 2}No elements with data found for GID {gid}.\n")
+            return None
+
+        return total / count
+
+    else:
+
+        return tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, output_file)
 
 
 def test_path(root_dir: Path,
@@ -477,7 +553,7 @@ def test_path(root_dir: Path,
         nonlocal fail_count
 
         if "/" in test_case.reference_value:
-            reference_value = tree_get_layer_3(parsed_f06, test_case.reference_value.split("/"), gp_transforms, shell_angles, output_file)
+            reference_value = tree_get_layer_4(parsed_f06, test_case.reference_value.split("/"), gp_transforms, shell_angles, gid_to_corners, output_file)
         else:
             reference_value = float(test_case.reference_value)
 
@@ -517,6 +593,9 @@ def test_path(root_dir: Path,
     # Read shell angles file
     shell_angles = read_shell_angles(deck_path.with_suffix(".shellangles"))
 
+    # Make GID to (EID,corner) reverse lookup
+    gid_to_corners = build_gid_to_corners(parsed_f06)
+
     # Convert path from "/" delimited string to list
     tree_path = test_case.filter_string.split("/")
 
@@ -531,7 +610,7 @@ def test_path(root_dir: Path,
 
             for single_path in single_paths:
                 comparison_count += 1
-                value = tree_get_layer_3(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
+                value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
                 if value is None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
@@ -543,7 +622,7 @@ def test_path(root_dir: Path,
             comparison_count += 1
             value_sum = 0
             for single_path in single_paths:
-                value = tree_get_layer_3(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
+                value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
                 if value is None:
                     value_sum = None
                     break
@@ -562,8 +641,8 @@ def test_path(root_dir: Path,
                 fail_count += 1
                 output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
             else:
-                value1 = tree_get_layer_3(parsed_f06, single_paths[0], gp_transforms, shell_angles, output_file)
-                value2 = tree_get_layer_3(parsed_f06, single_paths[1], gp_transforms, shell_angles, output_file)
+                value1 = tree_get_layer_4(parsed_f06, single_paths[0], gp_transforms, shell_angles, gid_to_corners, output_file)
+                value2 = tree_get_layer_4(parsed_f06, single_paths[1], gp_transforms, shell_angles, gid_to_corners, output_file)
                 if value1 is None or value2 is None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
@@ -576,8 +655,8 @@ def test_path(root_dir: Path,
                 fail_count += 1
                 output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
             else:
-                value1 = tree_get_layer_3(parsed_f06, single_paths[0], gp_transforms, shell_angles, output_file)
-                value2 = tree_get_layer_3(parsed_f06, single_paths[1], gp_transforms, shell_angles, output_file)
+                value1 = tree_get_layer_4(parsed_f06, single_paths[0], gp_transforms, shell_angles, gid_to_corners, output_file)
+                value2 = tree_get_layer_4(parsed_f06, single_paths[1], gp_transforms, shell_angles, gid_to_corners, output_file)
                 if value1 is None or value2 is None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
@@ -588,7 +667,7 @@ def test_path(root_dir: Path,
             comparison_count += 1
             value_squared_sum = 0
             for single_path in single_paths:
-                value = tree_get_layer_3(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
+                value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
                 if value is None:
                     value_squared_sum = None
                     break
@@ -613,9 +692,9 @@ def test_path(root_dir: Path,
             y_sum = 0
             z_sum = 0
             for single_path in single_paths:
-                x = tree_get_layer_3(parsed_f06, single_path + ["TX"], gp_transforms, shell_angles, output_file)
-                y = tree_get_layer_3(parsed_f06, single_path + ["TY"], gp_transforms, shell_angles, output_file)
-                z = tree_get_layer_3(parsed_f06, single_path + ["TZ"], gp_transforms, shell_angles, output_file)
+                x = tree_get_layer_4(parsed_f06, single_path + ["TX"], gp_transforms, shell_angles, gid_to_corners, output_file)
+                y = tree_get_layer_4(parsed_f06, single_path + ["TY"], gp_transforms, shell_angles, gid_to_corners, output_file)
+                z = tree_get_layer_4(parsed_f06, single_path + ["TZ"], gp_transforms, shell_angles, gid_to_corners, output_file)
                 if x is None or y is None or z is None:
                     x_sum = None
                     y_sum = None
@@ -644,7 +723,7 @@ def test_path(root_dir: Path,
 
             for single_path in single_paths:
                 comparison_count += 1
-                value = tree_get_layer_3(parsed_f06, single_path, gp_transforms, shell_angles, output_file)
+                value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
                 if value is not None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
