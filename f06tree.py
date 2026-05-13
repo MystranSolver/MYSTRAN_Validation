@@ -31,11 +31,19 @@ def read_f06_tree(file_name):
     def number(line, start, length):
         return float(line[start - 1:start - 1 + length].strip() or 0)
 
+    def read_subcase():
+        if "OUTPUT FOR SUBCASE" in peek_line_delta(-3):
+            # Subcase is here if there's a title at two lines prior
+            sc_line = -3
+        else:
+            sc_line = -2
+        return int(number(peek_line_delta(sc_line), 21, 8))
+
     while line_no <= len(lines) - 1:
         line = get_next_line()
 
         if "D I S P L A C E M E N T S" in line:
-            subcase = int(number(peek_line_delta(-2), 21, 8))
+            subcase = read_subcase()
             gids_node = ensure_path(root, ["SC", str(subcase), "DISPLACEMENTS","GID"])
             get_next_line()
             get_next_line()
@@ -54,7 +62,7 @@ def read_f06_tree(file_name):
                 set(gid_node, "RZ", number(line, 96, 13))
 
         elif "S P C   F O R C E S" in line:
-            subcase = int(number(peek_line_delta(-2), 21, 8))
+            subcase = read_subcase()
             gids_node = ensure_path(root, ["SC", str(subcase), "SPCFORCES","GID"])
             get_next_line()
             get_next_line()
@@ -93,7 +101,7 @@ def read_f06_tree(file_name):
                 set(gid_node, "RZ", number(line, 96, 13))
 
         elif "E L E M E N T   S T R E S S E S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
-            subcase = int(number(peek_line_delta(-2), 21, 8))
+            subcase = read_subcase()
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   H E X A" in line \
             or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
@@ -122,7 +130,7 @@ def read_f06_tree(file_name):
                     set(corner_node, "VM", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
         elif "E L E M E N T   S T R A I N S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
-            subcase = int(number(peek_line_delta(-2), 21, 8))
+            subcase = read_subcase()
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   H E X A" in line \
             or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
@@ -151,7 +159,7 @@ def read_f06_tree(file_name):
                     set(corner_node, "VM", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
         elif "E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
-            subcase = int(number(peek_line_delta(-2), 21, 8))
+            subcase = read_subcase()
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
             or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
@@ -216,10 +224,27 @@ def read_f06_tree(file_name):
                         set(z2_node, "XX", number(line, 38, 12))
                         set(z2_node, "YY", number(line, 51, 12))
                         set(z2_node, "XY", number(line, 64, 12))
+
+            elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
+                eids_node = ensure_path(root, ["SC", str(subcase), "BUSHSTRESSES","EID"])
+                get_next_line()
+                get_next_line()
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---") or len(line.strip()) == 0:
+                        break
+                    eid = int(number(line, 20, 8))
+                    eid_node = ensure_path(eids_node, [str(eid)])
+                    set(eid_node, "1", number(line, 29, 13))
+                    set(eid_node, "2", number(line, 43, 13))
+                    set(eid_node, "3", number(line, 57, 13))
+                    set(eid_node, "4", number(line, 71, 13))
+                    set(eid_node, "5", number(line, 85, 13))
+                    set(eid_node, "6", number(line, 99, 13))
 
 
         elif "E L E M E N T   S T R A I N S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
-            subcase = int(number(peek_line_delta(-2), 21, 8))
+            subcase = read_subcase()
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
             or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
@@ -285,9 +310,26 @@ def read_f06_tree(file_name):
                         set(z2_node, "YY", number(line, 51, 12))
                         set(z2_node, "XY", number(line, 64, 12))
 
+            elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
+                eids_node = ensure_path(root, ["SC", str(subcase), "BUSHSTRAINS","EID"])
+                get_next_line()
+                get_next_line()
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---") or len(line.strip()) == 0:
+                        break
+                    eid = int(number(line, 20, 8))
+                    eid_node = ensure_path(eids_node, [str(eid)])
+                    set(eid_node, "1", number(line, 29, 13))
+                    set(eid_node, "2", number(line, 43, 13))
+                    set(eid_node, "3", number(line, 57, 13))
+                    set(eid_node, "4", number(line, 71, 13))
+                    set(eid_node, "5", number(line, 85, 13))
+                    set(eid_node, "6", number(line, 99, 13))
+
 
         elif "S T R E S S E S   I N   L A Y E R E D   C O M P O S I T E   E L E M E N T S" in line:
-            subcase = int(number(peek_line_delta(-2), 21, 8))
+            subcase = read_subcase()
             get_next_line()
             get_next_line()
             get_next_line()
@@ -324,7 +366,7 @@ def read_f06_tree(file_name):
 
 
         elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
-            subcase = int(number(peek_line_delta(-2), 21, 8))
+            subcase = read_subcase()
             line = get_next_line()
             if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
             or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
@@ -358,6 +400,27 @@ def read_f06_tree(file_name):
                     set(corner_node, "QX", number(line, 110, 13))
                     set(corner_node, "QY", number(line, 124, 13))
 
+            if "F O R   E L E M E N T   T Y P E   B U S H" in line:
+                eids_node = ensure_path(root, ["SC", str(subcase), "BUSHFORCES","EID"])
+                get_next_line()
+                get_next_line()
+                corner = None
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---") or len(line.strip()) == 0:
+                        break
+                    else:
+                        eid = int(number(line, 17, 8))
+                        eid_node = ensure_path(eids_node, [str(eid)])
+                    set(eid_node, "FXE", number(line, 26, 13))
+                    set(eid_node, "FYE", number(line, 40, 13))
+                    set(eid_node, "FZE", number(line, 54, 13))
+                    set(eid_node, "MXE", number(line, 68, 13))
+                    set(eid_node, "MYE", number(line, 82, 13))
+                    set(eid_node, "MZE", number(line, 96, 13))
+
+
+
 
         elif "R E A L   E I G E N V A L U E S" in line:
             subcase = 2
@@ -387,6 +450,7 @@ def read_f06_tree(file_name):
                 
 
     return root
+
 
 
 def tree_get(parsed_f06, path):

@@ -62,6 +62,12 @@ msc;    CQUAD8_hoop.bdf;    ;   0.0;    0.0
 
 pth;    CQUAD8_hoop.bdf; SC/1/DISPLACEMENTS; ABSENT ;   0.0;    0.0; Make sure it fails
 pth;    vic/4/NAS S30 quad8 cylinder distorted.bdf;   SC/1/SHELLSTRAINS/GID/9/Z1/XX;;    0.0003183098861837907; 3%
+pth;    bush.dat;   SC/1/BUSHFORCES/EID/1/FXE;;   5000; 1%
+pth;    bush.dat;   SC/1/BUSHFORCES/EID/2/MZE;;   0; 1e-11
+pth;    bush.dat;   SC/1/BUSHSTRAINS/EID/1/1;;   0.26; 0.1%
+pth;    bush.dat;   SC/1/BUSHSTRAINS/EID/2/6;;   -7.191125E-18; 0
+pth;    bush.dat;   SC/1/BUSHSTRESSES/EID/1/2;;   5.701550E-13;0
+pth;    bush.dat;   SC/1/BUSHSTRESSES/EID/2/5;;   1.588600E-10; 0
 
 
 INCLUDE cases_vic.txt
