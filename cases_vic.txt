@@ -1457,3 +1457,155 @@ pth;    vic/4/quad8 no thermal strain.bdf;  SC/1/DISPLACEMENTS;ABSENT;0;0
 pth;    vic/4/quad8 no z1 z2.bdf;           SC/1/DISPLACEMENTS;ABSENT;0;0
 pth;    vic/4/quad8 no zoffs.bdf;           SC/1/DISPLACEMENTS;ABSENT;0;0
 
+
+#######################
+# Vic test case set 5 #
+#######################
+
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/2,3,6,7,10,11,14,15/TX;;       0.0000075;  2e-5%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/2,3,6,7,10,11,14,15/TZ;;       0;          0.0000000000000001
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/34/TX,TY,TZ; NORM;       0.0000075;  0.0001%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/38/TX,TY,TZ; NORM;       0.0000075;  0.0001%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/42/TX,TY,TZ; NORM;       0.0000075;  0.0001%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/46/TX,TY,TZ; NORM;       0.0000075;  0.0001%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/34,38,42,46/TZ;;         0;          0.0000000000000001
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/18,22,26,30,19,23,27,31/TZ;;   0.0000075;  2e-5%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/18,22,26,30,19,23,27,31/TX;;   0;          0.0000000000000001
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/1-48/RX,RY,RZ; NORM;          0;           0.00000000000001
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/3,7,11,15,31,27,23,19/TY;;   -0.0000021;               2e-5%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/35/TX,TY,TZ;NORM;             7.788452991448301e-06;   2e-5%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/39/TX,TY,TZ;NORM;             7.788452991448301e-06;   2e-5%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/43/TX,TY,TZ;NORM;             7.788452991448301e-06;   2e-5%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/DISPLACEMENTS/GID/47/TX,TY,TZ;NORM;             7.788452991448301e-06;   2e-5%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/SHELLSTRESSES/GID/1,2,9,11,34,35,41,44,30,32,21,22/ZMID/XX;;     50000000.0;   2e-5%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/SHELLSTRESSES/GID/1,2,9,11,34,35,41,44,30,32,21,22/ZMID/YY;;     0;            0.01
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/SHELLSTRESSES/GID/1,2,9,11,34,35,41,44,30,32,21,22/ZMID/XY;;     0;            0.03
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/SHELLSTRESSES/GID/1,2,9,11,34,35,41,44,30,32,21,22/YZ;;          0;            0.00001
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/SHELLSTRESSES/GID/1,2,9,11,34,35,41,44,30,32,21,22/ZX;;          0;            0.00001
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/SHELLSTRESSES/GID/5,6,13,14,40,39,48,47,19,20,27,28/ZMID/YY;;     50000000.0;   2e-5%
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/SHELLSTRESSES/GID/5,6,13,14,40,39,48,47,19,20,27,28/ZMID/XX;;     0;            0.01
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/SHELLSTRESSES/GID/5,6,13,14,40,39,48,47,19,20,27,28/ZMID/XY;;     0;            0.03
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/SHELLSTRESSES/GID/5,6,13,14,40,39,48,47,19,20,27,28/YZ;;          0;            0.00001
+pth;    vic/5/S30 mitc8 flat membrane normal force.bdf;   SC/1/SHELLSTRESSES/GID/5,6,13,14,40,39,48,47,19,20,27,28/ZX;;          0;            0.00001
+
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/1,2,3,4/NXX;;            882352.9411764706;  2e-5%
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/1,2,3,4/NYY;;            0;                  0.000000002
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/1,2,3,4/NXY;;            0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/1,2,3,4/QY;;             0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/1,2,3,4/QX;;             0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/5,6,7,8/NXX;;            441176.4705882353;  2e-5%
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/5,6,7,8/NYY;;            441176.4705882353;  2e-5%
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/5,6,7,8/NXY;;           -441176.4705882353;  2e-5%
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/5,6,7,8/QY;;             0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/5,6,7,8/QX;;             0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/9,10,11,12/NXX;;            0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/9,10,11,12/NYY;;            0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/9,10,11,12/NXY;;            0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/9,10,11,12/QY;;             0;                  0.00000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/9,10,11,12/QX;;             0.001875;           0.006%
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16/NXX;;            0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16/NYY;;            0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16/NXY;;            0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16/QY;;            -0.001875;           0.008%
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16/QX;;             0;                  0.000000001
+
+pth;    vic/5/S30 mitc8 reaction force.bdf;     SC/1/SPCFORCES/GID/2,6,7,8/TX;  SUM;    -10;    0.0005%
+pth;    vic/5/S30 mitc8 reaction force.bdf;     SC/1/SPCFORCES/GID/2,6,7,8/TY;  SUM;    -20;    0.00005%
+pth;    vic/5/S30 mitc8 reaction force.bdf;     SC/1/SPCFORCES/GID/2,6,7,8/TZ;  SUM;    -30;    0.0003%
+
+pth;	vic/5/S30 mitc8 reaction moment easy.bdf;	SC/1/SPCFORCES/GID/1,2,5,6/RX;;	-1.1;	2e-5%
+pth;	vic/5/S30 mitc8 reaction moment easy.bdf;	SC/1/SPCFORCES/GID/1,2,5,6/RY;;	0;	1e-10
+pth;	vic/5/S30 mitc8 reaction moment easy.bdf;	SC/1/SPCFORCES/GID/1,2,5,6/RZ;;	0;	1e-10
+
+pth;	vic/5/S30 mitc8 reaction moment nonzero rotation.bdf;	SC/1/SPCFORCES/GID/5,6/RX;;	-0.35;	0.2%
+pth;	vic/5/S30 mitc8 reaction moment nonzero rotation.bdf;	SC/1/SPCFORCES/GID/5,6/RY;;	0;	1e-07
+pth;	vic/5/S30 mitc8 reaction moment nonzero rotation.bdf;	SC/1/SPCFORCES/GID/5,6/RZ;;	0;	1e-10
+pth;	vic/5/S30 mitc8 reaction moment nonzero rotation.bdf;	SC/1/SPCFORCES/GID/21/RX;;	-1.5;	0.1%
+pth;	vic/5/S30 mitc8 reaction moment nonzero rotation.bdf;	SC/1/SPCFORCES/GID/1,2,9,22,25/RX;  SUM;	-2.2;	0.0003%
+pth;	vic/5/S30 mitc8 reaction moment nonzero rotation.bdf;	SC/1/SPCFORCES/GID/1,9,22/RY;;	0;	1e-07
+pth;	vic/5/S30 mitc8 reaction moment nonzero rotation.bdf;	SC/1/SPCFORCES/GID/1,9,22/RZ;;	0;	1e-10
+
+pth;	vic/5/S30 mitc8 reaction moment complex shape.bdf;	SC/1/SPCFORCES/GID/8/RX;;	-1.1;	0.0004%
+pth;	vic/5/S30 mitc8 reaction moment complex shape.bdf;	SC/1/SPCFORCES/GID/7/RY;;	-2.2;	0.0001%
+pth;	vic/5/S30 mitc8 reaction moment complex shape.bdf;	SC/1/SPCFORCES/GID/6/RZ;;	-3.3;	0.0001%
+
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/9,11,12/Z1/XX;;	0.10833333333333334;	0.0005%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/9,11,12/ZMID/XX;;	0.10833333333333334;	0.0005%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/9,11,12/Z2/XX;;	0.10833333333333334;	0.0005%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/21,22,23,24/Z1/XX;;	-0.06666666666666;	0.0001%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/21,22,23,24/ZMID/XX;;	0;	1e-11
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/21,22,23,24/Z2/XX;;	0.06666666666666;	0.0001%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/13,14,15/Z1/XX;;	0.10833333333333334;	0.0005%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/13,14,15/ZMID/XX;;	0.10833333333333334;	0.0005%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/13,14,15/Z2/XX;;	0.10833333333333334;	0.0005%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/1,2,3,4/Z1/XY;;	0.01;	2e-5%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/1,2,3,4/ZMID/XY;;	0.01;	2e-5%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/1,2,3,4/Z2/XY;;	0.01;	2e-5%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/17,19,18,20/ZX;;	0.08333333333333334;	5e-05%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/5,6,7,8/ZX;;	0.08333333333333334;	5e-05%
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/25,26,27,28/Z1/XX;;   0;	1e-12
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/25,26,27,28/Z1/YY;;   0;	1e-12
+pth;	vic/5/S30 mitc8 strain.bdf;	SC/1/SHELLSTRAINS/GID/25,26,27,28/Z1/XY;;   0.05833333333333334;	0.0001%
+
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRAINS/GID/2,3,6,7,8,1,4,2/Z1/XX;;	0.001;	0.0003%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRAINS/GID/2,3,6,7,8,1,4,2/ZMID/XX;;	0.001;	0.0003%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRAINS/GID/2,3,6,7,8,1,4,2/Z2/XX;;	0.001;	0.0003%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRAINS/GID/2,3,6,7,8,1,4,2/Z1/YY;;	0.001;	0.0003%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRAINS/GID/2,3,6,7,8,1,4,2/ZMID/YY;;	0.001;	0.0003%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRAINS/GID/2,3,6,7,8,1,4,2/Z2/YY;;	0.001;	0.0003%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRAINS/GID/2,3,6,7,8,1,4,2/Z1/XY;;	0.001;	0.0004%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRAINS/GID/2,3,6,7,8,1,4,2/ZMID/XY;;	0.001;	0.0004%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRAINS/GID/2,3,6,7,8,1,4,2/Z2/XY;;	0.001;	0.0004%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRESSES/GID/2,3,6,7,8,1,4,2/ZMID/XX;;	1333.0;	0.04%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRESSES/GID/2,3,6,7,8,1,4,2/ZMID/YY;;	1333.0;	0.04%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRESSES/GID/2,3,6,7,8,1,4,2/ZMID/XY;;	400.0;	0.0005%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRESSES/EID/1/CORNER/1/Z1/XX;;	1333.0;	0.04%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRESSES/EID/1/CORNER/1/Z2/XX;;	1333.0;	0.04%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRESSES/EID/1/CORNER/1/Z1/YY;;	1333.0;	0.04%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRESSES/EID/1/CORNER/1/Z2/YY;;	1333.0;	0.04%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRESSES/EID/1/CORNER/1/Z1/XY;;	400.0;	5e-05%
+pth;	vic/5/S30 mitc8 macneal membrane patch test.bdf;	SC/1/SHELLSTRESSES/EID/1/CORNER/1/Z2/XY;;	400.0;	5e-05%
+
+pth;	vic/5/S30 mitc8 macneal plate bending patch test.bdf;	SC/1/SHELLFORCES/GID/11,9,10,12,13,14,15/MXX;;	1.111e-07;	0.02%
+pth;	vic/5/S30 mitc8 macneal plate bending patch test.bdf;	SC/1/SHELLFORCES/GID/11,9,10,12,13,14,15/MYY;;	1.111e-07;	0.02%
+pth;	vic/5/S30 mitc8 macneal plate bending patch test.bdf;	SC/1/SHELLFORCES/GID/11,9,10,12,13,14,15/MXY;;	3.33e-08;	0.2%
+pth;	vic/5/S30 mitc8 macneal plate bending patch test.bdf;	SC/1/SHELLSTRESSES/GID/11,9,10,12,13,14,15/Z1/XX;;	0.667;	0.06%
+pth;	vic/5/S30 mitc8 macneal plate bending patch test.bdf;	SC/1/SHELLSTRESSES/GID/11,9,10,12,13,14,15/Z2/XX;;	-0.667;	0.06%
+pth;	vic/5/S30 mitc8 macneal plate bending patch test.bdf;	SC/1/SHELLSTRESSES/GID/11,9,10,12,13,14,15/Z1/YY;;	0.667;	0.06%
+pth;	vic/5/S30 mitc8 macneal plate bending patch test.bdf;	SC/1/SHELLSTRESSES/GID/11,9,10,12,13,14,15/Z2/YY;;	-0.667;	0.06%
+pth;	vic/5/S30 mitc8 macneal plate bending patch test.bdf;	SC/1/SHELLSTRESSES/GID/11,9,10,12,13,14,15/Z1/XY;;	0.2;	0.0002%
+pth;	vic/5/S30 mitc8 macneal plate bending patch test.bdf;	SC/1/SHELLSTRESSES/GID/11,9,10,12,13,14,15/Z2/XY;;	-0.2;	0.0002%
+
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/5,6,7/MXX;;	-1.375;	2e-5%
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/5,6,7/MYY;;	0;	1e-09
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/5,6,7/MXY;;	0;	1e-09
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/2,3,4,1/MXX;;	0;	1e-09
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/2,3,4,1/MYY;;	-1.375;	2e-5%
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/2,3,4,1/MXY;;	0;	1e-09
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/9,11,12/MXX;;	0;	1e-09
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/9,11,12/MYY;;	0;	1e-09
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/9,11,12/MXY;;	1.65;	2e-5%
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/13,14,16,15/MXX;;	-0.6875;	2e-5%
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/13,14,16,15/MYY;;	-0.6875;	2e-5%
+pth;	vic/5/S30 mitc8 moment per length.bdf;	SC/1/SHELLFORCES/GID/13,14,16,15/MXY;;	-0.6875;	2e-5%
+
+pth;	vic/5/S30 mitc8 macneal twisted beam.bdf;	SC/1/DISPLACEMENTS/GID/35/TX;;	                0.005424;	0.3%
+pth;	vic/5/S30 mitc8 macneal twisted beam.bdf;	SC/1/SPCFORCES/GID/1,14,27,40,77/RY;    SUM;	-12;	    0.00001%
+
+pth;	vic/5/S30 mitc8 macneal twisted beam_2.bdf;	SC/1/DISPLACEMENTS/GID/35/TY;;	0.001754;	0.4%
+pth;	vic/5/S30 mitc8 macneal twisted beam_2.bdf;	SC/1/SPCFORCES/GID/1,14,27,40,77/RY;    SUM;    0;	    0.000002
+
+pth;	vic/5/S30 mitc8 MacNeal spherical shell.bdf;	SC/1/DISPLACEMENTS/GID/12/TY;;	-0.094;	3.0%
+pth;	vic/5/S30 mitc8 MacNeal spherical shell.bdf;	SC/1/DISPLACEMENTS/GID/1/TX;;	0.094;	3.0%
+
+pth;	vic/5/S30 mitc8 helical mesh ring.bdf;	SC/1/DISPLACEMENTS/GID/2,712/TY;;	0.017;	50%
+pth;	vic/5/S30 mitc8 helical mesh ring.bdf;	SC/1/DISPLACEMENTS/GID/18/TZ;;	0;	0.003
+pth;	vic/5/S30 mitc8 helical mesh ring.bdf;	SC/1/DISPLACEMENTS/GID/595,840/TY;;	0.017;	0.1%
+pth;	vic/5/S30 mitc8 helical mesh ring.bdf;	SC/1/DISPLACEMENTS/GID/834/TZ;;	0;	0.0002
+
+pth;    vic/5/S30 mitc8  skewed membrane RS symmetry.bdf;   SC/1/SHELLSTRESSES/GID/1/ZMID/VONMISES;; SC/1/SHELLSTRESSES/GID/9/ZMID/VONMISES;    2e-5%
+pth;    vic/5/S30 mitc8  skewed membrane RS symmetry.bdf;   SC/1/SHELLSTRESSES/GID/4/ZMID/VONMISES;; SC/1/SHELLSTRESSES/GID/12/ZMID/VONMISES;    2e-5%
+
+pth;	vic/5/S30 mitc8 extreme high x low E.bdf;	SC/1/SHELLSTRESSES/GID/5,7,9,10,16/ZMID/XX;;	0.04;	0.0002%
+pth;	vic/5/S30 mitc8 extreme high x low E.bdf;	SC/1/SHELLSTRESSES/GID/5,7,9,10,16/ZMID/YY;;	0;	1e-08
+
