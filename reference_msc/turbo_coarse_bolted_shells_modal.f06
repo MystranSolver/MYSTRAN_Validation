@@ -1,0 +1,564 @@
+1
+ 
+ 
+ 
+ 
+                      Warning: This computer program is protected by copyright law and international treaties.       
+                  Unauthorized use, reproduction or distribution of this computer program, or any portion of it, may 
+                                          result in severe civil and criminal penalties.                             
+                         Copyright (C) 2025 Hexagon AB and/or its subsidiaries. All rights reserved.                 
+ 
+ 
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * *                                 * *
+                                              * *           Hexagon AB            * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *      M S C   N a s t r a n      * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *     Version 2025.2-f6092448     * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *          NOV 20, 2025           * *
+                                              * *                                 * *
+                                              * *              Intel              * *
+                                              * *MODEL Intel(R) Xeon(R) W-2223 CP * *
+                                              * *      Windows 11 10.0 22631      * *
+                                              * *        Compiled for 8664        * *
+                                              * *                                 * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+1News file
+  
+               Welcome to MSC Nastran 2025.2
+  
+   MSC Nastran brings powerful new features and enhancements for engineering
+   solutions in several releases through the year. Key enhancements in
+   Version 2025.2 are summarized below. Additional details can be found in
+   the MSC Nastran Version 2025.2 Release Guide.
+  
+     MSC Nastran 2025.2 Features and Enhancements
+  
+     Aeroelasticity
+     - Mach1+ New Supersonic Panel Method now available in all aeroelasticity
+       solutions
+  
+     SOL 400 Nonlinear (NLPERF) New Features and Enhancements
+     - GPFORCE and ESE output for Nonlinear Statics and Nonlinear Transient
+       analysis
+     - Nonlinear transient analysis support
+     - Enforced motion (SPCD/SPCR) with the Arc-Length Method
+     - Contact support with the Arc-Length Method
+     - Arbitrary DOF combination for all rigid elements
+     - MSC Nastran (NLSTATIC) -Adams Co-simulation enabled
+     - Improved contact output control
+     - Element formulation summary output
+     - Expanded total energy report
+     - CGAP contact result output
+  
+     SOL 400 Nonlinear (CNLS)
+     - MSC Nastran-scFlow Co-Simulation supports multiple interface group
+       definitions
+  
+     High Performance Computing (HPC)
+     - MUMPS linear solver added for frequency and transient response
+     - UMFPack unsymmetric solver retired
+  
+     SOL 200 NEO Topology Optimization Enhancements
+     - Dynamic response optimization with displacement (FRDISP) constraints
+     - Enhanced optimizer for natural frequency/eigenvalue constraints
+     - Maximum displacement constraint for design and non-design regions
+  
+     Linear
+     - Linear Gap element introduced in SOL 101 (Statics)
+     - Angled double-sided PBARL/PBEAML stiffener definition
+  
+     Frequency Analysis
+     - MONPNT3 monitor point supported added in SOL 111 Random Response analysis
+     - Frequency-dependent scaling for PBUSH via PBUSHT tables
+     - Option to export structural damping matrix to AVL EXB file.
+  
+1    Rotor Dynamics
+     - DMIG rotor matrices input at unit speed allowing frequency dependent
+       and speed scaling entry for all rotor dynamic analysis. Supported in
+       complex eigenvalue analysis and unbalance response in linear and
+       nonlinear frequency and time domains
+     - Bush element supports 6x6 frequency-dependent stiffness and damping
+  
+     Documentation
+     - The complete documentation set is provided in a separate installer and
+       when installed is available at: MSC_DOC_DIR/doc/pdf_nastran directory,
+       where MSC_DOC_DIR is the directory where documentation was installed.
+       This help set includes cross references between documents, and links to
+       how-to videos, and example files
+  
+     Individual MSC Nastran documents are available for download from the
+       Simcompanion Website at:
+       http://simcompanion.hexagon.com/
+  
+     The documentation set includes the following:
+  
+         1.  MSC Nastran 2025.2 Installation and Operations Guide
+         2.  MSC Nastran 2025.2 Quick Reference Guide
+         3.  MSC Nastran 2025.2 Release Guide
+         4.  MSC Nastran 2025.2 Linear Statics Analysis User's Guide
+         5.  MSC Nastran 2025.2 Dynamic Analysis User's Guide
+         6.  MSC Nastran 2025.2 Superelements User's Guide
+         7.  MSC Nastran 2025.2 Rotor Dynamics User's Guide
+         8.  MSC Nastran 2025.2 Demonstration Problems Manual
+         9.  MSC Nastran 2025.2 MSC Nastran Embedded Fatigue User's Guide
+        10.  MSC Nastran 2025.2 Design Sensitivity and Optimization
+        11.  MSC Nastran 2025.2 Nonlinear User's Guide SOL 400
+        12.  MSC Nastran 2025.2 DMAP Programmer's Guide
+        13.  MSC Nastran 2025.2 High Performance Computing User's Guide
+        14.  MSC Nastran 2025.2 New Verification Manual
+        15.  MSC Nastran 2025.2 DEMATD Guide
+        16.  MSC Nastran 2025.2 Explicit Nonlinear (SOL 700) User's Guide
+        17.  MSC Nastran 2025.2 ACMS User's Guide
+  
+   Please refer to  MSC_DOC_DIR/doc/pdf_nastran/nastran_library.pdf
+   for the complete document set:
+  
+   Additional information about the release can be found at the MSC Nastran
+   Product Support page: http://simcompanion.hexagon.com
+  
+   The support page provides links to these valuable information:
+      * A searchable Knowledge Base containing examples and answers to thousands
+        of frequently asked questions written by MSC Software subject-matter
+        experts.
+      * Peer-to-peer Discussion Forums enabling you to post questions for your
+        MSC Software products and receive answers from other users worldwide.
+1     * A list of known issues with the product and any workarounds.
+      * Instructions on how to contact technical support
+      * A mechanism for sending us product feedback or enhancement requests.
+      * Hardware and software requirements.
+      * Examples and Tutorials
+      * and much more.
+  
+   For information on training, please visit our Training web site
+  
+      https://hexagon.com/support-success/manufacturing-intelligence/
+      design-engineering-support/training-materials
+  
+1                                                                               MAY  13, 2026  MSC Nastran 11/20/25   PAGE     1
+                                                                                                                                    
+0        N A S T R A N    F I L E    A N D    S Y S T E M    P A R A M E T E R    E C H O                                           
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     $ SYSFIELD=SCR*(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.SO
+     $ SYSFIELD=DBALL(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.S
+     NASTRAN BUFFSIZE=65537 $(C:/PROGRAM FILES/MSC.SOFTWARE/MSC_NASTRAN/2025.2/CONF/N
+     NASTRAN PARALLEL=4 $([3])                                                       
+     INIT MASTER(S)                                                                  
+     NASTRAN OP2NEW=0,SYSTEM(319)=1                                                  
+1                                                                               MAY  13, 2026  MSC Nastran 11/20/25   PAGE     2
+                                                                                                                                    
+0        N A S T R A N    E X E C U T I V E    C O N T R O L    E C H O                                                             
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     ID SHELL,FEMAP                                                                          
+     SOL SEMODES                                                                             
+     CEND                                                                                    
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     3
+                                                                                                                                    
+0                                                                                                                                   
+0                                        C A S E    C O N T R O L    E C H O                                                        
+                 COMMAND                                                                                                            
+                 COUNT                                                                                                              
+                  1        TITLE = MODAL_TEST                                                                    
+                  2        ECHO = NONE                                                                           
+                  3        DISPLACEMENT = ALL                                                                    
+                  4        SPCFORCE = ALL                                                                        
+                  5        ESE = ALL                                                                             
+                  6        METHOD = 1                                                                            
+                  7        SPC = 1                                                                               
+                  8      BEGIN BULK                                                                              
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     4
+                                                                                                                                    
+0                                                                                                                                   
+                                        M O D E L   S U M M A R Y          BULK = 0
+                                   ENTRY NAME        NUMBER OF ENTRIES
+                                   ----------        -----------------
+                                        CBUSH                        9
+                                       CORD2C                        1
+                                       CORD2S                        1
+                                       CQUAD4                        4
+                                        EIGRL                        1
+                                         GRID                       30
+                                         MAT1                        1
+                                        PARAM                        7
+                                        PBUSH                        1
+                                       PSHELL                        1
+                                         RBE3                       18
+                                         SPC1                        1
+
+ ^^^     
+ ^^^ >>> IFP OPERATIONS COMPLETE <<< 
+ ^^^     
+ *** USER INFORMATION MESSAGE 4109 (OUTPX2)
+     THE LABEL IS XXXXXXXX FOR FORTRAN UNIT    12
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          7 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          8 RECORDS.)
+                (TOTAL DATA WRITTEN FOR LABEL =         17 WORDS.)
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     5
+                                                                                                                                    
+0                                                                                                                                   
+                           O U T P U T   F R O M   G R I D   P O I N T   W E I G H T   G E N E R A T O R
+0                                                     REFERENCE POINT =        0
+                                                                M O
+                      *  4.116000E-02  0.000000E+00  0.000000E+00  0.000000E+00  2.058000E-03 -6.174000E-02 *
+                      *  0.000000E+00  4.116000E-02  0.000000E+00 -2.058000E-03  0.000000E+00  2.058000E-02 *
+                      *  0.000000E+00  0.000000E+00  4.116000E-02  6.174000E-02 -2.058000E-02  0.000000E+00 *
+                      *  0.000000E+00 -2.058000E-03  6.174000E-02  1.465296E-01 -3.087000E-02 -1.029000E-03 *
+                      *  2.058000E-03  0.000000E+00 -2.058000E-02 -3.087000E-02  2.078580E-02 -4.218900E-03 *
+                      * -6.174000E-02  2.058000E-02  0.000000E+00 -1.029000E-03 -4.218900E-03  1.669038E-01 *
+                                                                 S
+                                           *  1.000000E+00  0.000000E+00  0.000000E+00 *
+                                           *  0.000000E+00  1.000000E+00  0.000000E+00 *
+                                           *  0.000000E+00  0.000000E+00  1.000000E+00 *
+                               DIRECTION
+                          MASS AXIS SYSTEM (S)     MASS              X-C.G.        Y-C.G.        Z-C.G.
+                                  X            4.116000E-02      0.000000E+00  1.500000E+00  5.000000E-02
+                                  Y            4.116000E-02      5.000000E-01  0.000000E+00  5.000000E-02
+                                  Z            4.116000E-02      5.000000E-01  1.500000E+00  0.000000E+00
+                                                                I(S)
+                                           *  5.381670E-02 -3.469447E-18  4.336809E-19 *
+                                           * -3.469447E-18  1.039290E-02  1.131900E-03 *
+                                           *  4.336809E-19  1.131900E-03  6.400380E-02 *
+                                                                I(Q)
+                                           *  5.381670E-02                             *
+                                           *                6.402769E-02               *
+                                           *                              1.036901E-02 *
+                                                                 Q
+                                           *  1.000000E+00  0.000000E+00  0.000000E+00 *
+                                           *  0.000000E+00  2.109914E-02  9.997774E-01 *
+                                           *  0.000000E+00 -9.997774E-01  2.109914E-02 *
+
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     6
+                                                                                                                                    
+0                                                                                                                                   
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     7
+                                                                                                                                    
+0                                                                                                                                   
+0 RESULTANTS ABOUT ORIGIN OF SUPERELEMENT BASIC COORDINATE SYSTEM IN SUPERELEMENT BASIC SYSTEM COORDINATES.
+
+0                                                  OLOAD    RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    0.000000E+00     ----          ----          ----       0.000000E+00  0.000000E+00                             
+               FY       ----       0.000000E+00     ----       0.000000E+00     ----       0.000000E+00                             
+               FZ       ----          ----       0.000000E+00  0.000000E+00  0.000000E+00     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ *** USER INFORMATION MESSAGE 5010 (LNCILS)
+     STURM SEQUENCE DATA FOR EIGENVALUE EXTRACTION.
+     TRIAL EIGENVALUE = 3.714689D+10, CYCLES = 3.067477D+04 THE STURM COUNT = 9
+     User information:
+     This message is automatic output during eigenvalue extraction.  This
+     can be used, along with the list of eigenvalues, to identify the modes
+     found. See the MSC NASTRAN Numerical Methods User's Guide.
+ *** USER INFORMATION MESSAGE 5010 (LNCILS)
+     STURM SEQUENCE DATA FOR EIGENVALUE EXTRACTION.
+     TRIAL EIGENVALUE = 1.199879D+10, CYCLES = 1.743367D+04 THE STURM COUNT = 5
+     User information:
+     This message is automatic output during eigenvalue extraction.  This
+     can be used, along with the list of eigenvalues, to identify the modes
+     found. See the MSC NASTRAN Numerical Methods User's Guide.
+ *** USER INFORMATION MESSAGE 5010 (LNCILS)
+     STURM SEQUENCE DATA FOR EIGENVALUE EXTRACTION.
+     TRIAL EIGENVALUE = -1.199879D+10, CYCLES = 1.743367D+04 THE STURM COUNT = 0
+     User information:
+     This message is automatic output during eigenvalue extraction.  This
+     can be used, along with the list of eigenvalues, to identify the modes
+     found. See the MSC NASTRAN Numerical Methods User's Guide.
+
+ TABLE OF SHIFTS:  (LNNRIGL)
+ SHIFT #        SHIFT VALUE         FREQUENCY, CYCLES     # EIGENVALUES BELOW    # NEW EIGENVALUES FOUND
+     1.        3.7146886E+10          3.0674772E+04                 9                        3
+     2.        1.1998794E+10          1.7433675E+04                 5                        2
+     3.       -1.1998794E+10         -1.7433675E+04                 0                        5
+
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     8
+                                                                                                                                    
+0                                                                                                                                   
+0
+
+
+                          E I G E N V A L U E  A N A L Y S I S   S U M M A R Y   (READ MODULE) 
+
+
+
+                                     BLOCK SIZE USED ......................     4
+
+                                     NUMBER OF DECOMPOSITIONS .............     3
+
+                                     NUMBER OF ROOTS FOUND ................     2
+
+                                     NUMBER OF SOLVES REQUIRED ............    19
+
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     9
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                              R E A L   E I G E N V A L U E S
+   MODE    EXTRACTION      EIGENVALUE            RADIANS             CYCLES            GENERALIZED         GENERALIZED
+    NO.       ORDER                                                                       MASS              STIFFNESS
+        1         1        2.896301E+06        1.701852E+03        2.708582E+02        1.000000E+00        2.896301E+06
+        2         2        6.367407E+07        7.979604E+03        1.269993E+03        1.000000E+00        6.367407E+07
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    10
+                                                                                                                                    
+0                                                                                                                                   
+0 RESULTANTS ABOUT ORIGIN OF SUPERELEMENT BASIC COORDINATE SYSTEM IN SUPERELEMENT BASIC SYSTEM COORDINATES.
+
+0                                                  SPCFORCE RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    3.185345E-03     ----          ----          ----       0.000000E+00  3.185345E-04                             
+               FY       ----       7.904285E+02     ----       0.000000E+00     ----       3.952132E+02                             
+               FZ       ----          ----      -2.382963E+04  2.382963E+03  1.191482E+04     ----                                  
+               MX       ----          ----          ----      -5.880492E+04     ----          ----                                  
+               MY       ----          ----          ----          ----       1.576772E-05     ----                                  
+               MZ       ----          ----          ----          ----          ----      -3.391910E-08                             
+             TOTALS  3.185345E-03  7.904285E+02 -2.382963E+04 -5.642196E+04  1.191482E+04  3.952135E+02
+0        2     FX   -6.677471E+04     ----          ----          ----       0.000000E+00 -6.677471E+03                             
+               FY       ----      -1.270272E-02     ----       0.000000E+00     ----       1.491346E+05                             
+               FZ       ----          ----      -4.881921E-04  4.881921E-05 -2.467464E+05     ----                                  
+               MX       ----          ----          ----      -7.786134E-05     ----          ----                                  
+               MY       ----          ----          ----          ----      -2.508258E+04     ----                                  
+               MZ       ----          ----          ----          ----          ----       1.001751E+00                             
+             TOTALS -6.677471E+04 -1.270272E-02 -4.881921E-04 -2.904213E-05 -2.718289E+05  1.424581E+05
+ *** USER INFORMATION MESSAGE 4507 (GPFEV1)
+     IN SUBCASE 1      MODE 1
+     THERE ARE 9 BUSH ELEMENTS HAVING STRAIN ENERGY WHICH IS LESS THAN 1.000000E-03 PERCENT
+     OF THE TOTAL STRAIN ENERGY OF ALL ELEMENTS.
+ *** USER INFORMATION MESSAGE 4507 (GPFEV1)
+     IN SUBCASE 1      MODE 1
+     THERE ARE 2 QUAD4 ELEMENTS HAVING STRAIN ENERGY WHICH IS LESS THAN 1.000000E-03 PERCENT
+     OF THE TOTAL STRAIN ENERGY OF ALL ELEMENTS.
+ *** USER INFORMATION MESSAGE 4507 (GPFEV3)
+     IN SUBCASE 1      MODE 2
+     THERE ARE 9 BUSH ELEMENTS HAVING STRAIN ENERGY WHICH IS LESS THAN 1.000000E-03 PERCENT
+     OF THE TOTAL STRAIN ENERGY OF ALL ELEMENTS.
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OQG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OQG1, TRL =
+                    101                 0               480                 0                 0                 0                 1
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OQG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         240 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          30 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         813 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OUG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OUG1, TRL =
+                    101                 0               480                 0                 0                 0                 1
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OUG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         240 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          30 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         813 WORDS.)
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    11
+                                                                                                                                    
+0                                                                                                                                   
+      EIGENVALUE =  2.896301E+06
+          CYCLES =  2.708582E+02         R E A L   E I G E N V E C T O R   N O .          1
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G     -6.960471E-05  -7.432679E-05   3.346351E-01   6.497834E+00  -5.983761E+00   1.381527E-05
+             2      G      6.960291E-05  -7.432569E-05   3.346351E-01   6.497834E+00   5.983761E+00  -1.381421E-05
+             3      G      5.802197E-05  -8.751993E-04   1.027176E+02   7.509997E+01   4.958486E+00   2.895533E-06
+             4      G     -5.802184E-05  -8.751999E-04   1.027176E+02   7.509997E+01  -4.958486E+00  -2.895419E-06
+             5      G     -2.955508E-06  -5.119605E+00   5.152612E+01   5.116683E+01  -5.491344E-03  -2.757950E-10
+             6      G      2.936632E-06  -5.119605E+00   5.152612E+01   5.116683E+01   5.491261E-03  -3.868101E-10
+             7      G      2.937081E-06  -5.119643E+00   1.539091E+02   5.123768E+01   5.491163E-03  -2.882415E-10
+             8      G     -2.955503E-06  -5.119643E+00   1.539091E+02   5.123768E+01  -5.491442E-03  -3.179731E-10
+             9      G     -3.070505E-10  -4.747629E-04   7.712186E+01   5.119149E+01  -9.034764E-08  -2.166256E-10
+            10      G     -3.070505E-10  -4.747630E-04   7.712186E+01   5.119149E+01  -9.034766E-08  -2.166256E-10
+            11      G     -3.070505E-10  -4.747629E-04   7.712186E+01   5.119149E+01  -9.034762E-08  -2.166256E-10
+            12      G     -3.612069E-10  -4.747630E-04   6.432399E+01   5.119149E+01  -9.034764E-08  -2.166256E-10
+            13      G     -2.528941E-10  -4.747630E-04   8.991974E+01   5.119149E+01  -9.034766E-08  -2.166256E-10
+            14      G     -3.612069E-10  -4.747629E-04   6.432399E+01   5.119149E+01  -9.034764E-08  -2.166256E-10
+            15      G     -2.528941E-10  -4.747629E-04   8.991974E+01   5.119149E+01  -9.034764E-08  -2.166256E-10
+            16      G     -2.528941E-10  -4.747629E-04   8.991974E+01   5.119149E+01  -9.034762E-08  -2.166256E-10
+            17      G     -3.612069E-10  -4.747629E-04   6.432399E+01   5.119149E+01  -9.034764E-08  -2.166256E-10
+            18      G     -9.420394E-09  -5.119624E+00   7.712187E+01   5.119149E+01  -9.034686E-08  -1.919871E-10
+            19      G     -9.420394E-09  -5.119624E+00   7.712187E+01   5.119149E+01  -9.034690E-08  -1.919869E-10
+            20      G     -9.420394E-09  -5.119624E+00   7.712187E+01   5.119149E+01  -9.034682E-08  -1.919869E-10
+            21      G     -9.468391E-09  -5.119624E+00   6.432399E+01   5.119149E+01  -9.034686E-08  -1.919869E-10
+            22      G     -9.372397E-09  -5.119624E+00   8.991974E+01   5.119149E+01  -9.034686E-08  -1.919869E-10
+            23      G     -9.468390E-09  -5.119624E+00   6.432399E+01   5.119149E+01  -9.034686E-08  -1.919870E-10
+            24      G     -9.372397E-09  -5.119624E+00   8.991974E+01   5.119149E+01  -9.034686E-08  -1.919870E-10
+            25      G     -9.372397E-09  -5.119624E+00   8.991974E+01   5.119149E+01  -9.034686E-08  -1.919872E-10
+            26      G     -9.468390E-09  -5.119624E+00   6.432399E+01   5.119149E+01  -9.034686E-08  -1.919872E-10
+            27      G      0.0            0.0            0.0            0.0            0.0            0.0
+            28      G      0.0            0.0            0.0            0.0            0.0            0.0
+            29      G      2.936867E-06  -5.119644E+00   1.590333E+02   5.124123E+01   5.491163E-03   6.781743E-10
+            30      G     -2.955148E-06  -5.119644E+00   1.590333E+02   5.124123E+01  -5.491442E-03  -2.166372E-09
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    12
+                                                                                                                                    
+0                                                                                                                                   
+      EIGENVALUE =  6.367407E+07
+          CYCLES =  1.269993E+03         R E A L   E I G E N V E C T O R   N O .          2
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      2.651099E-02   8.836107E-02   1.550082E+00   1.947326E+01   4.774168E+00  -6.722614E-01
+             2      G      2.651098E-02  -8.836106E-02  -1.550082E+00  -1.947326E+01   4.774168E+00  -6.722614E-01
+             3      G      2.452382E+00  -9.559608E-01  -1.586081E+02  -1.307517E+02   3.130888E+02  -1.562428E+00
+             4      G      2.452382E+00   9.559608E-01   1.586081E+02   1.307517E+02   3.130888E+02  -1.562428E+00
+             5      G      1.725515E+01   5.887284E-01   7.802863E+01   1.744854E+00   1.561543E+02  -1.178399E+00
+             6      G      1.725515E+01  -5.887284E-01  -7.802863E+01  -1.744854E+00   1.561543E+02  -1.178399E+00
+             7      G      1.961383E+01  -5.899899E-01  -8.212962E+01  -2.192758E+00   1.641919E+02  -1.179778E+00
+             8      G      1.961383E+01   5.899899E-01   8.212962E+01   2.192759E+00   1.641919E+02  -1.179778E+00
+             9      G      1.829053E+00   2.545644E-10   4.404908E-08   2.903415E-08   1.601582E+02  -1.179213E+00
+            10      G      1.829053E+00  -4.422047E-01  -6.005934E+01   2.903415E-08   1.601582E+02  -1.179213E+00
+            11      G      1.829053E+00   4.422047E-01   6.005934E+01   2.903415E-08   1.601582E+02  -1.179213E+00
+            12      G      1.534249E+00  -4.422047E-01  -6.005934E+01   2.903415E-08   1.601582E+02  -1.179213E+00
+            13      G      2.123856E+00  -4.422047E-01  -6.005934E+01   2.903415E-08   1.601582E+02  -1.179213E+00
+            14      G      1.534249E+00   2.545644E-10   3.679055E-08   2.903415E-08   1.601582E+02  -1.179213E+00
+            15      G      2.123856E+00   2.545644E-10   5.130762E-08   2.903415E-08   1.601582E+02  -1.179213E+00
+            16      G      2.123856E+00   4.422047E-01   6.005934E+01   2.903416E-08   1.601582E+02  -1.179213E+00
+            17      G      1.534249E+00   4.422047E-01   6.005934E+01   2.903415E-08   1.601582E+02  -1.179213E+00
+            18      G      1.784488E+01  -2.620984E-09   4.419361E-08   2.887738E-08   1.601582E+02  -1.179216E+00
+            19      G      1.784488E+01  -4.422062E-01  -6.005934E+01   2.887738E-08   1.601582E+02  -1.179216E+00
+            20      G      1.784488E+01   4.422062E-01   6.005934E+01   2.887738E-08   1.601582E+02  -1.179216E+00
+            21      G      1.755008E+01  -4.422062E-01  -6.005934E+01   2.887739E-08   1.601582E+02  -1.179216E+00
+            22      G      1.813969E+01  -4.422062E-01  -6.005934E+01   2.887738E-08   1.601582E+02  -1.179216E+00
+            23      G      1.755008E+01  -2.620984E-09   3.697427E-08   2.887738E-08   1.601582E+02  -1.179216E+00
+            24      G      1.813969E+01  -2.620984E-09   5.141296E-08   2.887738E-08   1.601582E+02  -1.179216E+00
+            25      G      1.813969E+01   4.422062E-01   6.005934E+01   2.887738E-08   1.601582E+02  -1.179216E+00
+            26      G      1.755008E+01   4.422062E-01   6.005934E+01   2.887737E-08   1.601582E+02  -1.179216E+00
+            27      G      0.0            0.0            0.0            0.0            0.0            0.0
+            28      G      0.0            0.0            0.0            0.0            0.0            0.0
+            29      G      1.973226E+01  -5.900527E-01  -8.235455E+01  -2.215154E+00   1.641817E+02  -1.182184E+00
+            30      G      1.973226E+01   5.900527E-01   8.235455E+01   2.215154E+00   1.641817E+02  -1.182184E+00
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    13
+                                                                                                                                    
+0                                                                                                                                   
+      EIGENVALUE =  2.896301E+06
+                               F O R C E S   O F   S I N G L E - P O I N T   C O N S T R A I N T
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+            27      G      9.969199E+00   3.952153E+02  -1.191482E+04  -2.940246E+04   7.284549E+02  -1.315051E-03
+            28      G     -9.966013E+00   3.952132E+02  -1.191482E+04  -2.940246E+04  -7.284548E+02   1.315017E-03
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    14
+                                                                                                                                    
+0                                                                                                                                   
+      EIGENVALUE =  6.367407E+07
+                               F O R C E S   O F   S I N G L E - P O I N T   C O N S T R A I N T
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+            27      G     -3.338736E+04  -1.491346E+05  -2.467464E+05  -3.825067E+04  -1.254129E+04   5.008756E-01
+            28      G     -3.338736E+04   1.491346E+05   2.467464E+05   3.825067E+04  -1.254129E+04   5.008754E-01
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    15
+                                                                                                                                    
+0                                                                                                                                   
+      EIGENVALUE =  2.896301E+06
+      CYCLES =  2.708582E+02
+                                           E L E M E N T   S T R A I N   E N E R G I E S
+ 
+                ELEMENT-TYPE = BUSH                * TOTAL ENERGY OF ALL ELEMENTS IN PROBLEM     =   1.448151E+06
+                   MODE               1            * TOTAL ENERGY OF ALL ELEMENTS IN SET      -1 =   1.448151E+06
+0
+                                    ELEMENT-ID          STRAIN-ENERGY           PERCENT OF TOTAL    STRAIN-ENERGY-DENSITY
+
+                        TYPE = BUSH     SUBTOTAL        3.204210E-02                 0.0000
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    16
+                                                                                                                                    
+0                                                                                                                                   
+      EIGENVALUE =  2.896301E+06
+      CYCLES =  2.708582E+02
+                                           E L E M E N T   S T R A I N   E N E R G I E S
+ 
+                ELEMENT-TYPE = QUAD4               * TOTAL ENERGY OF ALL ELEMENTS IN PROBLEM     =   1.448151E+06
+                   MODE               1            * TOTAL ENERGY OF ALL ELEMENTS IN SET      -1 =   1.448151E+06
+0
+                                    ELEMENT-ID          STRAIN-ENERGY           PERCENT OF TOTAL    STRAIN-ENERGY-DENSITY
+                                             1          1.264226E+06                87.2993              6.321130E+06
+                                            31          1.839232E+05                12.7006              1.839232E+07
+
+                        TYPE = QUAD4    SUBTOTAL        1.448151E+06               100.0000
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    17
+                                                                                                                                    
+0                                                                                                                                   
+      EIGENVALUE =  6.367407E+07
+      CYCLES =  1.269993E+03
+                                           E L E M E N T   S T R A I N   E N E R G I E S
+ 
+                ELEMENT-TYPE = BUSH                * TOTAL ENERGY OF ALL ELEMENTS IN PROBLEM     =   3.183704E+07
+                   MODE               2            * TOTAL ENERGY OF ALL ELEMENTS IN SET      -1 =   3.183704E+07
+0
+                                    ELEMENT-ID          STRAIN-ENERGY           PERCENT OF TOTAL    STRAIN-ENERGY-DENSITY
+
+                        TYPE = BUSH     SUBTOTAL        1.306980E+00                 0.0000
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    18
+                                                                                                                                    
+0                                                                                                                                   
+      EIGENVALUE =  6.367407E+07
+      CYCLES =  1.269993E+03
+                                           E L E M E N T   S T R A I N   E N E R G I E S
+ 
+                ELEMENT-TYPE = QUAD4               * TOTAL ENERGY OF ALL ELEMENTS IN PROBLEM     =   3.183704E+07
+                   MODE               2            * TOTAL ENERGY OF ALL ELEMENTS IN SET      -1 =   3.183704E+07
+0
+                                    ELEMENT-ID          STRAIN-ENERGY           PERCENT OF TOTAL    STRAIN-ENERGY-DENSITY
+                                             1          3.106134E+07                97.5635              1.553067E+08
+                                             2          2.054734E+04                 0.0645              1.027367E+05
+                                            31          7.545225E+05                 2.3700              7.545225E+07
+                                            33          6.243432E+02                 0.0020              6.243432E+04
+
+                        TYPE = QUAD4    SUBTOTAL        3.183704E+07               100.0000
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK ONRGY1   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR ONRGY1, TRL =
+                    101                 2                 0                 0                 0                 0                 1
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS ONRGY1  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         146 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          50 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         676 WORDS.)
+ *** USER INFORMATION MESSAGE 4110 (OUTPX2)
+                                 END-OF-DATA SIMULATION ON FORTRAN UNIT    12
+                                 (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =      1 WORDS.)
+                                       (NUMBER OF FORTRAN RECORDS WRITTEN =      1 RECORDS.)
+                                       (TOTAL DATA WRITTEN FOR EOF MARKER =      1 WORDS.)
+1    MODAL_TEST                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    19
+                                                                                                                                    
+0                                                                                                                                   
+ * * * *  D B D I C T   P R I N T  * * * *      SUBDMAP = PRTSUM  ,  DMAP STATEMENT NO.     75
+
+
+
+0                                   * * * *  A N A L Y S I S  S U M M A R Y  T A B L E  * * * *
+0 SEID  PEID PROJ VERS APRCH      SEMG SEMR SEKR SELG SELR MODES DYNRED SOLLIN SOLNL LOOPID DESIGN CYCLE SENSITIVITY
+ -------------------------------------------------------------------------------------------------------------------
+     0     0    1    1 '        '    T    T    T    T    T     T      F      T     F     -1            0           F
+0SEID = SUPERELEMENT ID.
+ PEID = PRIMARY SUPERELEMENT ID OF IMAGE SUPERELEMENT.
+ PROJ = PROJECT ID NUMBER.
+ VERS = VERSION ID.
+ APRCH = BLANK FOR STRUCTURAL ANALYSIS.  HEAT FOR HEAT TRANSFER ANALYSIS.
+ SEMG = STIFFNESS AND MASS MATRIX GENERATION STEP.
+ SEMR = MASS MATRIX REDUCTION STEP (INCLUDES EIGENVALUE SOLUTION FOR MODES).
+ SEKR = STIFFNESS MATRIX REDUCTION STEP.
+ SELG = LOAD MATRIX GENERATION STEP.
+ SELR = LOAD MATRIX REDUCTION STEP. 
+ MODES = T (TRUE) IF NORMAL MODES OR BUCKLING MODES CALCULATED.
+ DYNRED = T (TRUE) MEANS GENERALIZED DYNAMIC AND/OR COMPONENT MODE REDUCTION PERFORMED.
+ SOLLIN = T (TRUE) IF LINEAR SOLUTION EXISTS IN DATABASE.
+ LOOPID = THE LAST LOOPID VALUE USED IN THE NONLINEAR ANALYSIS.  USEFUL FOR RESTARTS.
+ SOLNL = T (TRUE) IF NONLINEAR SOLUTION EXISTS IN DATABASE.
+ DESIGN CYCLE = THE LAST DESIGN CYCLE (ONLY VALID IN OPTIMIZATION).
+ SENSITIVITY = SENSITIVITY MATRIX GENERATION FLAG.
+ 
+ No PARAM values were set in the Control File.
+ 
+1                                        * * * END OF JOB * * *
+ 
+ 
+ No Symbolic Replacement variables or values were specified.
+

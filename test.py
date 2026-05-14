@@ -584,156 +584,161 @@ def test_path(root_dir: Path,
         output_file.write(f"{INDENT * 2}{pass_fail}\tError = {error_string} {tolerance_string} \tValue = {test_value} ({reference_value:.9g})\n")
 
 
-    # Read f06 file
-    parsed_f06 = read_f06_tree(test_f06_path)
-
-    # Read grid point transformations file
-    gp_transforms = read_gp_transforms(deck_path.with_suffix(".gptransform"))
-
-    # Read shell angles file
-    shell_angles = read_shell_angles(deck_path.with_suffix(".shellangles"))
-
-    # Make GID to (EID,corner) reverse lookup
-    gid_to_corners = build_gid_to_corners(parsed_f06)
-
-    # Convert path from "/" delimited string to list
-    tree_path = test_case.filter_string.split("/")
-
     fail_count = 0
     comparison_count = 0
     worst_error = 0
 
-    single_paths = expand_lists(tree_path)
+    try:
+        # Read f06 file
+        parsed_f06 = read_f06_tree(test_f06_path)
 
-    match test_case.operation:
-        case "":
+        # Read grid point transformations file
+        gp_transforms = read_gp_transforms(deck_path.with_suffix(".gptransform"))
 
-            for single_path in single_paths:
+        # Read shell angles file
+        shell_angles = read_shell_angles(deck_path.with_suffix(".shellangles"))
+
+        # Make GID to (EID,corner) reverse lookup
+        gid_to_corners = build_gid_to_corners(parsed_f06)
+
+        # Convert path from "/" delimited string to list
+        tree_path = test_case.filter_string.split("/")
+
+        single_paths = expand_lists(tree_path)
+
+        match test_case.operation:
+            case "":
+
+                for single_path in single_paths:
+                    comparison_count += 1
+                    value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
+                    if value is None:
+                        fail_count += 1
+                        output_file.write(f"{INDENT * 2}FAILED\n")
+                    else:
+                        compare(value)
+
+            case "SUM":
+
                 comparison_count += 1
-                value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
-                if value is None:
+                value_sum = 0
+                for single_path in single_paths:
+                    value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
+                    if value is None:
+                        value_sum = None
+                        break
+                    else:
+                       value_sum += value
+                if value_sum is None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
                 else:
-                    compare(value)
+                    compare(value_sum)
 
-        case "SUM":
+            case "DIFF":
 
-            comparison_count += 1
-            value_sum = 0
-            for single_path in single_paths:
-                value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
-                if value is None:
-                    value_sum = None
-                    break
-                else:
-                   value_sum += value
-            if value_sum is None:
-                fail_count += 1
-                output_file.write(f"{INDENT * 2}FAILED\n")
-            else:
-                compare(value_sum)
-
-        case "DIFF":
-
-            comparison_count += 1
-            if len(single_paths) != 2:
-                fail_count += 1
-                output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
-            else:
-                value1 = tree_get_layer_4(parsed_f06, single_paths[0], gp_transforms, shell_angles, gid_to_corners, output_file)
-                value2 = tree_get_layer_4(parsed_f06, single_paths[1], gp_transforms, shell_angles, gid_to_corners, output_file)
-                if value1 is None or value2 is None:
-                    fail_count += 1
-                    output_file.write(f"{INDENT * 2}FAILED\n")
-                compare(value1 - value2)
-
-        case "RATIO":
-
-            comparison_count += 1
-            if len(single_paths) != 2:
-                fail_count += 1
-                output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
-            else:
-                value1 = tree_get_layer_4(parsed_f06, single_paths[0], gp_transforms, shell_angles, gid_to_corners, output_file)
-                value2 = tree_get_layer_4(parsed_f06, single_paths[1], gp_transforms, shell_angles, gid_to_corners, output_file)
-                if value1 is None or value2 is None:
-                    fail_count += 1
-                    output_file.write(f"{INDENT * 2}FAILED\n")
-                compare(value1 / value2)
-
-        case "NORM":
-
-            comparison_count += 1
-            value_squared_sum = 0
-            for single_path in single_paths:
-                value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
-                if value is None:
-                    value_squared_sum = None
-                    break
-                else:
-                   value_squared_sum += value**2
-            if value_squared_sum is None:
-                fail_count += 1
-                output_file.write(f"{INDENT * 2}FAILED\n")
-            else:
-                compare(math.sqrt(value_squared_sum))
-
-        case "ANGLEFROMX" | "ANGLEFROMY" | "ANGLEFROMZ":
-
-            # Uses incomplete paths without the trailing DOF name.
-            # 1 grid point:
-            #   SC/2/MODE/1/EIGENVECTOR/GID/10
-            # or multiple grid points to sum:
-            #   SC/2/MODE/1/EIGENVECTOR/GID/10,13
-            # Also works for displacement and other types of vector with DOF immediately after GID.
-            comparison_count += 1
-            x_sum = 0
-            y_sum = 0
-            z_sum = 0
-            for single_path in single_paths:
-                x = tree_get_layer_4(parsed_f06, single_path + ["TX"], gp_transforms, shell_angles, gid_to_corners, output_file)
-                y = tree_get_layer_4(parsed_f06, single_path + ["TY"], gp_transforms, shell_angles, gid_to_corners, output_file)
-                z = tree_get_layer_4(parsed_f06, single_path + ["TZ"], gp_transforms, shell_angles, gid_to_corners, output_file)
-                if x is None or y is None or z is None:
-                    x_sum = None
-                    y_sum = None
-                    z_sum = None
-                    break
-                else:
-                   x_sum += x
-                   y_sum += y
-                   z_sum += z
-            if x_sum is None:
-                fail_count += 1
-                output_file.write(f"{INDENT * 2}FAILED\n")
-            else:
-                match test_case.operation[-1]:
-                    case "X": v_ref = [1.0, 0.0, 0.0]
-                    case "Y": v_ref = [0.0, 1.0, 0.0]
-                    case "Z": v_ref = [0.0, 0.0, 1.0]
-                v_mag = math.sqrt(x_sum**2 + y_sum**2 + z_sum**2)
-                v_hat = [x_sum / v_mag, y_sum / v_mag, z_sum / v_mag]
-                v_dot_ref = v_hat[0] * v_ref[0] \
-                          + v_hat[1] * v_ref[1] \
-                          + v_hat[2] * v_ref[2]
-                compare(math.acos(abs(v_dot_ref)))
-
-        case "ABSENT":
-
-            for single_path in single_paths:
                 comparison_count += 1
-                value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
-                if value is not None:
+                if len(single_paths) != 2:
+                    fail_count += 1
+                    output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
+                else:
+                    value1 = tree_get_layer_4(parsed_f06, single_paths[0], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    value2 = tree_get_layer_4(parsed_f06, single_paths[1], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    if value1 is None or value2 is None:
+                        fail_count += 1
+                        output_file.write(f"{INDENT * 2}FAILED\n")
+                    compare(value1 - value2)
+
+            case "RATIO":
+
+                comparison_count += 1
+                if len(single_paths) != 2:
+                    fail_count += 1
+                    output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
+                else:
+                    value1 = tree_get_layer_4(parsed_f06, single_paths[0], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    value2 = tree_get_layer_4(parsed_f06, single_paths[1], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    if value1 is None or value2 is None:
+                        fail_count += 1
+                        output_file.write(f"{INDENT * 2}FAILED\n")
+                    compare(value1 / value2)
+
+            case "NORM":
+
+                comparison_count += 1
+                value_squared_sum = 0
+                for single_path in single_paths:
+                    value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
+                    if value is None:
+                        value_squared_sum = None
+                        break
+                    else:
+                       value_squared_sum += value**2
+                if value_squared_sum is None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
                 else:
-                    pass
-   
-        case _:
-        
-            fail_count +=1
-            output_file.write(f"{INDENT * 2}FAILED. Invalid operation\n")
+                    compare(math.sqrt(value_squared_sum))
+
+            case "ANGLEFROMX" | "ANGLEFROMY" | "ANGLEFROMZ":
+
+                # Uses incomplete paths without the trailing DOF name.
+                # 1 grid point:
+                #   SC/2/MODE/1/EIGENVECTOR/GID/10
+                # or multiple grid points to sum:
+                #   SC/2/MODE/1/EIGENVECTOR/GID/10,13
+                # Also works for displacement and other types of vector with DOF immediately after GID.
+                comparison_count += 1
+                x_sum = 0
+                y_sum = 0
+                z_sum = 0
+                for single_path in single_paths:
+                    x = tree_get_layer_4(parsed_f06, single_path + ["TX"], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    y = tree_get_layer_4(parsed_f06, single_path + ["TY"], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    z = tree_get_layer_4(parsed_f06, single_path + ["TZ"], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    if x is None or y is None or z is None:
+                        x_sum = None
+                        y_sum = None
+                        z_sum = None
+                        break
+                    else:
+                       x_sum += x
+                       y_sum += y
+                       z_sum += z
+                if x_sum is None:
+                    fail_count += 1
+                    output_file.write(f"{INDENT * 2}FAILED\n")
+                else:
+                    match test_case.operation[-1]:
+                        case "X": v_ref = [1.0, 0.0, 0.0]
+                        case "Y": v_ref = [0.0, 1.0, 0.0]
+                        case "Z": v_ref = [0.0, 0.0, 1.0]
+                    v_mag = math.sqrt(x_sum**2 + y_sum**2 + z_sum**2)
+                    v_hat = [x_sum / v_mag, y_sum / v_mag, z_sum / v_mag]
+                    v_dot_ref = v_hat[0] * v_ref[0] \
+                              + v_hat[1] * v_ref[1] \
+                              + v_hat[2] * v_ref[2]
+                    compare(math.acos(abs(v_dot_ref)))
+
+            case "ABSENT":
+
+                for single_path in single_paths:
+                    comparison_count += 1
+                    value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
+                    if value is not None:
+                        fail_count += 1
+                        output_file.write(f"{INDENT * 2}FAILED\n")
+                    else:
+                        pass
+       
+            case _:
+            
+                fail_count +=1
+                output_file.write(f"{INDENT * 2}FAILED. Invalid operation\n")
+
+    except Exception as e:
+        fail_count += 1
+        output_file.write(f"{INDENT * 2}ERROR: {e}\n")
    
     if worst_error > 0:
         message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}"
@@ -768,12 +773,17 @@ def run_case(mystran_path: Path,
             return False
 
         # Copy deck to working directory
-        working_deck_filename_str = shutil.copyfile(deck_path, working_dir / deck_path.name)
-        
-        # Run Mystran
-        with open(os.devnull, "w") as null_output:
-            run_program(mystran_path, [working_deck_filename_str], working_dir, null_output, null_output)
+        try:
+            working_deck_filename_str = shutil.copyfile(deck_path, working_dir / deck_path.name)
 
+            # Run Mystran
+            with open(os.devnull, "w") as null_output:
+                run_program(mystran_path, [working_deck_filename_str], working_dir, null_output, null_output)
+
+        except Exception as e:
+            output_file.write(f"{INDENT * 1}ERROR: {e}\n")
+            fail_count = 1
+        
     match test_case.test_type:
         case "mys" | "msc":
             output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
@@ -810,7 +820,10 @@ def run_case(mystran_path: Path,
         destination.parent.mkdir(parents=True, exist_ok=True)
         # Don't overwrite anything to reduce damage caused by wrong-path bugs.
         if not os.path.exists(destination):
-            shutil.copyfile(test_f06_path, destination)
+            try:
+                shutil.copyfile(test_f06_path, destination)
+            except Exception:
+                pass
 
     return fail_count == 0
 

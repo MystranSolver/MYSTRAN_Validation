@@ -1,0 +1,612 @@
+1
+ 
+ 
+ 
+ 
+                      Warning: This computer program is protected by copyright law and international treaties.       
+                  Unauthorized use, reproduction or distribution of this computer program, or any portion of it, may 
+                                          result in severe civil and criminal penalties.                             
+                         Copyright (C) 2025 Hexagon AB and/or its subsidiaries. All rights reserved.                 
+ 
+ 
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * *                                 * *
+                                              * *           Hexagon AB            * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *      M S C   N a s t r a n      * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *     Version 2025.2-f6092448     * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *          NOV 20, 2025           * *
+                                              * *                                 * *
+                                              * *              Intel              * *
+                                              * *MODEL Intel(R) Xeon(R) W-2223 CP * *
+                                              * *      Windows 11 10.0 22631      * *
+                                              * *        Compiled for 8664        * *
+                                              * *                                 * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+1News file
+  
+               Welcome to MSC Nastran 2025.2
+  
+   MSC Nastran brings powerful new features and enhancements for engineering
+   solutions in several releases through the year. Key enhancements in
+   Version 2025.2 are summarized below. Additional details can be found in
+   the MSC Nastran Version 2025.2 Release Guide.
+  
+     MSC Nastran 2025.2 Features and Enhancements
+  
+     Aeroelasticity
+     - Mach1+ New Supersonic Panel Method now available in all aeroelasticity
+       solutions
+  
+     SOL 400 Nonlinear (NLPERF) New Features and Enhancements
+     - GPFORCE and ESE output for Nonlinear Statics and Nonlinear Transient
+       analysis
+     - Nonlinear transient analysis support
+     - Enforced motion (SPCD/SPCR) with the Arc-Length Method
+     - Contact support with the Arc-Length Method
+     - Arbitrary DOF combination for all rigid elements
+     - MSC Nastran (NLSTATIC) -Adams Co-simulation enabled
+     - Improved contact output control
+     - Element formulation summary output
+     - Expanded total energy report
+     - CGAP contact result output
+  
+     SOL 400 Nonlinear (CNLS)
+     - MSC Nastran-scFlow Co-Simulation supports multiple interface group
+       definitions
+  
+     High Performance Computing (HPC)
+     - MUMPS linear solver added for frequency and transient response
+     - UMFPack unsymmetric solver retired
+  
+     SOL 200 NEO Topology Optimization Enhancements
+     - Dynamic response optimization with displacement (FRDISP) constraints
+     - Enhanced optimizer for natural frequency/eigenvalue constraints
+     - Maximum displacement constraint for design and non-design regions
+  
+     Linear
+     - Linear Gap element introduced in SOL 101 (Statics)
+     - Angled double-sided PBARL/PBEAML stiffener definition
+  
+     Frequency Analysis
+     - MONPNT3 monitor point supported added in SOL 111 Random Response analysis
+     - Frequency-dependent scaling for PBUSH via PBUSHT tables
+     - Option to export structural damping matrix to AVL EXB file.
+  
+1    Rotor Dynamics
+     - DMIG rotor matrices input at unit speed allowing frequency dependent
+       and speed scaling entry for all rotor dynamic analysis. Supported in
+       complex eigenvalue analysis and unbalance response in linear and
+       nonlinear frequency and time domains
+     - Bush element supports 6x6 frequency-dependent stiffness and damping
+  
+     Documentation
+     - The complete documentation set is provided in a separate installer and
+       when installed is available at: MSC_DOC_DIR/doc/pdf_nastran directory,
+       where MSC_DOC_DIR is the directory where documentation was installed.
+       This help set includes cross references between documents, and links to
+       how-to videos, and example files
+  
+     Individual MSC Nastran documents are available for download from the
+       Simcompanion Website at:
+       http://simcompanion.hexagon.com/
+  
+     The documentation set includes the following:
+  
+         1.  MSC Nastran 2025.2 Installation and Operations Guide
+         2.  MSC Nastran 2025.2 Quick Reference Guide
+         3.  MSC Nastran 2025.2 Release Guide
+         4.  MSC Nastran 2025.2 Linear Statics Analysis User's Guide
+         5.  MSC Nastran 2025.2 Dynamic Analysis User's Guide
+         6.  MSC Nastran 2025.2 Superelements User's Guide
+         7.  MSC Nastran 2025.2 Rotor Dynamics User's Guide
+         8.  MSC Nastran 2025.2 Demonstration Problems Manual
+         9.  MSC Nastran 2025.2 MSC Nastran Embedded Fatigue User's Guide
+        10.  MSC Nastran 2025.2 Design Sensitivity and Optimization
+        11.  MSC Nastran 2025.2 Nonlinear User's Guide SOL 400
+        12.  MSC Nastran 2025.2 DMAP Programmer's Guide
+        13.  MSC Nastran 2025.2 High Performance Computing User's Guide
+        14.  MSC Nastran 2025.2 New Verification Manual
+        15.  MSC Nastran 2025.2 DEMATD Guide
+        16.  MSC Nastran 2025.2 Explicit Nonlinear (SOL 700) User's Guide
+        17.  MSC Nastran 2025.2 ACMS User's Guide
+  
+   Please refer to  MSC_DOC_DIR/doc/pdf_nastran/nastran_library.pdf
+   for the complete document set:
+  
+   Additional information about the release can be found at the MSC Nastran
+   Product Support page: http://simcompanion.hexagon.com
+  
+   The support page provides links to these valuable information:
+      * A searchable Knowledge Base containing examples and answers to thousands
+        of frequently asked questions written by MSC Software subject-matter
+        experts.
+      * Peer-to-peer Discussion Forums enabling you to post questions for your
+        MSC Software products and receive answers from other users worldwide.
+1     * A list of known issues with the product and any workarounds.
+      * Instructions on how to contact technical support
+      * A mechanism for sending us product feedback or enhancement requests.
+      * Hardware and software requirements.
+      * Examples and Tutorials
+      * and much more.
+  
+   For information on training, please visit our Training web site
+  
+      https://hexagon.com/support-success/manufacturing-intelligence/
+      design-engineering-support/training-materials
+  
+1                                                                               MAY  13, 2026  MSC Nastran 11/20/25   PAGE     1
+                                                                                                                                    
+0        N A S T R A N    F I L E    A N D    S Y S T E M    P A R A M E T E R    E C H O                                           
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     $ SYSFIELD=SCR*(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.SO
+     $ SYSFIELD=DBALL(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.S
+     NASTRAN BUFFSIZE=65537 $(C:/PROGRAM FILES/MSC.SOFTWARE/MSC_NASTRAN/2025.2/CONF/N
+     NASTRAN PARALLEL=4 $([3])                                                       
+     INIT MASTER(S)                                                                  
+     NASTRAN OP2NEW=0,SYSTEM(319)=1                                                  
+1                                                                               MAY  13, 2026  MSC Nastran 11/20/25   PAGE     2
+                                                                                                                                    
+0        N A S T R A N    E X E C U T I V E    C O N T R O L    E C H O                                                             
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     ID SHELL,FEMAP                                                                          
+     SOL SESTATIC                                                                            
+     CEND                                                                                    
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     3
+                                                                                                                                    
+0                                                                                                                                   
+0                                        C A S E    C O N T R O L    E C H O                                                        
+                 COMMAND                                                                                                            
+                 COUNT                                                                                                              
+                  1        TITLE = SHEAR_LOAD                                                                    
+                  2        ECHO = NONE                                                                           
+                  3        DISPLACEMENT = ALL                                                                    
+                  4        STRESS = ALL                                                                          
+                  5        FORCE = ALL                                                                           
+                  6        STRAIN = ALL                                                                          
+                  7        MPCFORCE = ALL                                                                        
+                  8        SPCFORCE = ALL                                                                        
+                  9        ESE = ALL                                                                             
+                 10        SPC = 1                                                                               
+                 11        LOAD = 1                                                                              
+                 12      BEGIN BULK                                                                              
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     4
+                                                                                                                                    
+0                                                                                                                                   
+                                        M O D E L   S U M M A R Y          BULK = 0
+                                   ENTRY NAME        NUMBER OF ENTRIES
+                                   ----------        -----------------
+                                        CBUSH                        9
+                                       CORD2C                        1
+                                       CORD2S                        1
+                                       CQUAD4                        4
+                                        FORCE                        2
+                                         GRID                       30
+                                         MAT1                        1
+                                        PARAM                        7
+                                        PBUSH                        1
+                                       PSHELL                        1
+                                         RBE3                       18
+                                         SPC1                        1
+
+ ^^^     
+ ^^^ >>> IFP OPERATIONS COMPLETE <<< 
+ ^^^     
+ *** USER INFORMATION MESSAGE 4109 (OUTPX2)
+     THE LABEL IS XXXXXXXX FOR FORTRAN UNIT    12
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          7 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          8 RECORDS.)
+                (TOTAL DATA WRITTEN FOR LABEL =         17 WORDS.)
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     5
+                                                                                                                                    
+0                                                                                                                                   
+                           O U T P U T   F R O M   G R I D   P O I N T   W E I G H T   G E N E R A T O R
+0                                                     REFERENCE POINT =        0
+                                                                M O
+                      *  4.116000E-02  0.000000E+00  0.000000E+00  0.000000E+00  2.058000E-03 -6.174000E-02 *
+                      *  0.000000E+00  4.116000E-02  0.000000E+00 -2.058000E-03  0.000000E+00  2.058000E-02 *
+                      *  0.000000E+00  0.000000E+00  4.116000E-02  6.174000E-02 -2.058000E-02  0.000000E+00 *
+                      *  0.000000E+00 -2.058000E-03  6.174000E-02  1.465296E-01 -3.087000E-02 -1.029000E-03 *
+                      *  2.058000E-03  0.000000E+00 -2.058000E-02 -3.087000E-02  2.078580E-02 -4.218900E-03 *
+                      * -6.174000E-02  2.058000E-02  0.000000E+00 -1.029000E-03 -4.218900E-03  1.669038E-01 *
+                                                                 S
+                                           *  1.000000E+00  0.000000E+00  0.000000E+00 *
+                                           *  0.000000E+00  1.000000E+00  0.000000E+00 *
+                                           *  0.000000E+00  0.000000E+00  1.000000E+00 *
+                               DIRECTION
+                          MASS AXIS SYSTEM (S)     MASS              X-C.G.        Y-C.G.        Z-C.G.
+                                  X            4.116000E-02      0.000000E+00  1.500000E+00  5.000000E-02
+                                  Y            4.116000E-02      5.000000E-01  0.000000E+00  5.000000E-02
+                                  Z            4.116000E-02      5.000000E-01  1.500000E+00  0.000000E+00
+                                                                I(S)
+                                           *  5.381670E-02 -3.469447E-18  4.336809E-19 *
+                                           * -3.469447E-18  1.039290E-02  1.131900E-03 *
+                                           *  4.336809E-19  1.131900E-03  6.400380E-02 *
+                                                                I(Q)
+                                           *  5.381670E-02                             *
+                                           *                6.402769E-02               *
+                                           *                              1.036901E-02 *
+                                                                 Q
+                                           *  1.000000E+00  0.000000E+00  0.000000E+00 *
+                                           *  0.000000E+00  2.109914E-02  9.997774E-01 *
+                                           *  0.000000E+00 -9.997774E-01  2.109914E-02 *
+
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     6
+                                                                                                                                    
+0                                                                                                                                   
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     7
+                                                                                                                                    
+0                                                                                                                                   
+0 RESULTANTS ABOUT ORIGIN OF SUPERELEMENT BASIC COORDINATE SYSTEM IN SUPERELEMENT BASIC SYSTEM COORDINATES.
+
+0                                                  OLOAD    RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    0.000000E+00     ----          ----          ----       0.000000E+00  0.000000E+00                             
+               FY       ----       1.000000E+00     ----      -1.000000E-01     ----       5.000000E-01                             
+               FZ       ----          ----       0.000000E+00  0.000000E+00  0.000000E+00     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  0.000000E+00  1.000000E+00  0.000000E+00 -1.000000E-01  0.000000E+00  5.000000E-01
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     8
+                                                                                                                                    
+0                                                                                                                                   
+  
+ *** SYSTEM INFORMATION MESSAGE 4159 (DFMSA)
+     THE DECOMPOSITION OF KLL      YIELDS A MAXIMUM MATRIX-TO-FACTOR-DIAGONAL RATIO OF    3.301846E+06
+ ^^^     
+ *** USER INFORMATION MESSAGE 15201 (SUBDMAP SEKRRS)
+      Condition number of stiffness matrix = 3.411506E+09
+ ^^^     
+ *** USER INFORMATION MESSAGE 5293 (SSG3B)
+    FOR DATA BLOCK KLL     
+    LOAD SEQ. NO.             EPSILON              EXTERNAL WORK      EPSILONS LARGER THAN 0.001 ARE FLAGGED WITH ASTERISKS
+    User information:
+    One line of output is printed for each static loading condition.
+    Small values of EPSILON are due to accumulated round-off error. Large
+    values of EPSILON indicate possible singularities in the stiffness
+    matrix.  See Section 9.5.1.
+                1         -1.3230439E-08          5.1276666E-06
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE     9
+                                                                                                                                    
+0                                                                                                                                   
+0 RESULTANTS ABOUT ORIGIN OF SUPERELEMENT BASIC COORDINATE SYSTEM IN SUPERELEMENT BASIC SYSTEM COORDINATES.
+
+0                                                  SPCFORCE RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    4.384201E-12     ----          ----          ----       0.000000E+00  4.384202E-13                             
+               FY       ----      -1.000000E+00     ----       0.000000E+00     ----      -5.000000E-01                             
+               FZ       ----          ----      -9.681547E-10  9.681547E-11  2.126381E-10     ----                                  
+               MX       ----          ----          ----       1.000000E-01     ----          ----                                  
+               MY       ----          ----          ----          ----      -1.613920E-11     ----                                  
+               MZ       ----          ----          ----          ----          ----      -1.471804E-17                             
+             TOTALS  4.384201E-12 -1.000000E+00 -9.681547E-10  1.000000E-01  1.964989E-10 -5.000000E-01
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    10
+                                                                                                                                    
+0                                                                                                                                   
+0 RESULTANTS ABOUT ORIGIN OF SUPERELEMENT BASIC COORDINATE SYSTEM IN SUPERELEMENT BASIC SYSTEM COORDINATES.
+
+0                                                  MPCFORCE RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    3.243118E-18     ----          ----          ----       3.243118E-19 -5.014370E-12                             
+               FY       ----       2.775558E-16     ----       1.256711E-17     ----       5.014447E-12                             
+               FZ       ----          ----      -6.288373E-18 -1.000000E-01 -2.507178E-12     ----                                  
+               MX       ----          ----          ----       1.000000E-01     ----          ----                                  
+               MY       ----          ----          ----          ----       2.507179E-12     ----                                  
+               MZ       ----          ----          ----          ----          ----       1.009742E-28                             
+             TOTALS  3.243118E-18  2.775558E-16 -6.288373E-18  5.551115E-17  9.113730E-19  7.700956E-17
+ *** USER INFORMATION MESSAGE 4507 (GPFEV1)
+     IN SUBCASE 1  
+     THERE ARE 9 BUSH ELEMENTS HAVING STRAIN ENERGY WHICH IS LESS THAN 1.000000E-03 PERCENT
+     OF THE TOTAL STRAIN ENERGY OF ALL ELEMENTS.
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OQG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OQG1, TRL =
+                    101                 0               240                 0                 0                 0                 1
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OQG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         240 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         419 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OQMG1    WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OQMG1, TRL =
+                    102                 0               240                 0                 0                 0                 1
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OQMG1   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         240 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         419 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OUG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OUG1, TRL =
+                    101                 0               240                 0                 0                 0                 1
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OUG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         240 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         419 WORDS.)
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    11
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                             D I S P L A C E M E N T   V E C T O R
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      8.805217E-08   9.403265E-08  -5.641988E-07  -1.128398E-05   1.056818E-05  -1.747582E-08
+             2      G     -8.805217E-08   9.403265E-08  -5.641989E-07  -1.128398E-05  -1.056818E-05   1.747582E-08
+             3      G     -7.339846E-08   1.107162E-06  -1.815471E-04  -1.328601E-04  -8.806818E-06  -3.663429E-09
+             4      G      7.339846E-08   1.107162E-06  -1.815471E-04  -1.328601E-04   8.806818E-06   3.663429E-09
+             5      G      7.641099E-08   9.144222E-06  -9.105563E-05  -9.049144E-05   2.353074E-14  -1.403696E-09
+             6      G     -7.641097E-08   9.144222E-06  -9.105563E-05  -9.049144E-05   2.353064E-14   1.403696E-09
+             7      G     -8.202576E-08   1.015548E-05  -2.720385E-04  -9.049144E-05   1.385806E-13   2.792209E-08
+             8      G      8.202577E-08   1.015548E-05  -2.720385E-04  -9.049144E-05   1.385809E-13  -2.792210E-08
+             9      G      1.575433E-16   6.005975E-07  -1.363014E-04  -9.049144E-05   8.090581E-14  -1.032460E-16
+            10      G      1.575433E-16   6.005975E-07  -1.363014E-04  -9.049144E-05   8.090585E-14  -1.032460E-16
+            11      G      1.575433E-16   6.005975E-07  -1.363014E-04  -9.049144E-05   8.090577E-14  -1.032460E-16
+            12      G      1.317318E-16   6.005975E-07  -1.136785E-04  -9.049144E-05   8.090582E-14  -1.032460E-16
+            13      G      1.833547E-16   6.005975E-07  -1.589242E-04  -9.049144E-05   8.090585E-14  -1.032460E-16
+            14      G      1.317318E-16   6.005975E-07  -1.136785E-04  -9.049144E-05   8.090581E-14  -1.032460E-16
+            15      G      1.833548E-16   6.005975E-07  -1.589242E-04  -9.049144E-05   8.090581E-14  -1.032460E-16
+            16      G      1.833548E-16   6.005975E-07  -1.589242E-04  -9.049144E-05   8.090577E-14  -1.032460E-16
+            17      G      1.317318E-16   6.005975E-07  -1.136785E-04  -9.049144E-05   8.090582E-14  -1.032460E-16
+            18      G      8.248123E-15   9.649853E-06  -1.363014E-04  -9.049144E-05   8.090585E-14  -1.032472E-16
+            19      G      8.248123E-15   9.649853E-06  -1.363014E-04  -9.049144E-05   8.090590E-14  -1.032473E-16
+            20      G      8.248123E-15   9.649853E-06  -1.363014E-04  -9.049144E-05   8.090576E-14  -1.032473E-16
+            21      G      8.222312E-15   9.649853E-06  -1.136785E-04  -9.049144E-05   8.090582E-14  -1.032474E-16
+            22      G      8.273935E-15   9.649853E-06  -1.589242E-04  -9.049144E-05   8.090585E-14  -1.032474E-16
+            23      G      8.222311E-15   9.649853E-06  -1.136785E-04  -9.049144E-05   8.090585E-14  -1.032472E-16
+            24      G      8.273935E-15   9.649853E-06  -1.589242E-04  -9.049144E-05   8.090585E-14  -1.032472E-16
+            25      G      8.273935E-15   9.649853E-06  -1.589242E-04  -9.049144E-05   8.090585E-14  -1.032470E-16
+            26      G      8.222311E-15   9.649853E-06  -1.136785E-04  -9.049144E-05   8.090585E-14  -1.032468E-16
+            27      G      0.0            0.0            0.0            0.0            0.0            0.0
+            28      G      0.0            0.0            0.0            0.0            0.0            0.0
+            29      G     -1.936838E-07   1.025533E-05  -2.810877E-04  -9.049144E-05   1.384686E-13   5.582901E-07
+            30      G      1.936838E-07   1.025533E-05  -2.810877E-04  -9.049144E-05   1.384695E-13  -5.582901E-07
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    12
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                               F O R C E S   O F   S I N G L E - P O I N T   C O N S T R A I N T
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+            27      G     -1.261058E-02  -5.000000E-01  -7.555166E-10   5.000000E-02  -1.259375E-03   1.663581E-06
+            28      G      1.261058E-02  -5.000000E-01  -2.126381E-10   5.000000E-02   1.259375E-03  -1.663581E-06
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    13
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                 F O R C E S   I N   B U S H   E L E M E N T S        ( C B U S H )
+ 
+                  ELEMENT-ID        FORCE-X       FORCE-Y       FORCE-Z      MOMENT-X      MOMENT-Y      MOMENT-Z  
+0                         21      5.421011E-11 -7.856742E-02  7.856742E-02 -1.262544E-12  3.771236E-03  3.771236E-03
+0                         22      5.421011E-11 -7.856742E-02  7.856742E-02 -1.322262E-12  3.771236E-03  3.771236E-03
+0                         23      8.131516E-11 -7.856742E-02  7.856742E-02 -1.322262E-12  3.771236E-03  3.771236E-03
+0                         24      1.333333E-03 -7.856742E-02  7.856742E-02 -1.361645E-12  3.771236E-03  3.771236E-03
+0                         25     -1.333333E-03 -7.856742E-02  7.856742E-02 -1.388115E-12  3.771236E-03  3.771236E-03
+0                         26      1.333333E-03 -7.856742E-02  7.856742E-02 -1.176357E-12  3.771236E-03  3.771236E-03
+0                         27     -1.333333E-03 -7.856742E-02  7.856742E-02 -1.176357E-12  3.771236E-03  3.771236E-03
+0                         28     -1.333333E-03 -7.856742E-02  7.856742E-02 -1.050786E-12  3.771236E-03  3.771236E-03
+0                         29      1.333333E-03 -7.856742E-02  7.856742E-02 -8.390277E-13  3.771236E-03  3.771236E-03
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    14
+                                                                                                                                    
+0                                                                                                                                   
+ 
+
+                          F O R C E S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )
+ 
+    ELEMENT                - MEMBRANE  FORCES -                        - BENDING  MOMENTS -              - TRANSVERSE SHEAR FORCES -
+      ID              FX            FY            FXY             MX            MY            MXY             QX            QY
+          1      -4.836125E-03  5.000000E-01  5.788481E-12    4.843750E-04 -5.000000E-02 -4.778007E-11   -8.230267E-12 -5.000000E-02
+          2      -1.852378E-03  5.000000E-01  6.934453E-13   -5.290388E-17 -6.536856E-16 -3.583576E-11    1.586493E-12  1.304512E-15
+         31       2.228283E-01  1.000000E+00  4.382127E-12    2.228125E-02  1.000000E-01 -1.471873E-11   -3.212257E-12  9.681543E-10
+         33       3.704755E-02  1.000000E+00  6.661338E-16    7.225747E-16  3.806688E-15 -1.173320E-11   -3.171977E-11  6.394885E-14
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    15
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                    S T R A I N S   I N   B U S H   E L E M E N T S        ( C B U S H )
+ 
+                  ELEMENT-ID        STRAIN-TX     STRAIN-TY     STRAIN-TZ    STRAIN-RX     STRAIN-RY     STRAIN-RZ 
+0                         21      5.421011E-20 -7.856742E-11  7.856742E-11 -1.262544E-21  3.771236E-12  3.771236E-12
+0                         22      5.421011E-20 -7.856742E-11  7.856742E-11 -1.322262E-21  3.771236E-12  3.771236E-12
+0                         23      8.131516E-20 -7.856742E-11  7.856742E-11 -1.322262E-21  3.771236E-12  3.771236E-12
+0                         24      1.333333E-12 -7.856742E-11  7.856742E-11 -1.361645E-21  3.771236E-12  3.771236E-12
+0                         25     -1.333333E-12 -7.856742E-11  7.856742E-11 -1.388115E-21  3.771236E-12  3.771236E-12
+0                         26      1.333333E-12 -7.856742E-11  7.856742E-11 -1.176357E-21  3.771236E-12  3.771236E-12
+0                         27     -1.333333E-12 -7.856742E-11  7.856742E-11 -1.176357E-21  3.771236E-12  3.771236E-12
+0                         28     -1.333333E-12 -7.856742E-11  7.856742E-11 -1.050786E-21  3.771236E-12  3.771236E-12
+0                         29      1.333333E-12 -7.856742E-11  7.856742E-11 -8.390277E-22  3.771236E-12  3.771236E-12
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    16
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                           S T R A I N S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )
+  ELEMENT      STRAIN               STRAINS IN ELEMENT COORD SYSTEM             PRINCIPAL  STRAINS (ZERO SHEAR)                 
+    ID.       CURVATURE          NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0       1    0.0              -1.614506E-07   5.065648E-07   1.531901E-17    90.0000    5.065648E-07   -1.614506E-07   4.024699E-07
+            -1.000000E+00      1.937500E-05  -6.078807E-05  -1.517379E-13    -0.0000    1.937500E-05   -6.078807E-05   4.829699E-05
+0       2    0.0              -1.584367E-07   5.056305E-07   1.835520E-18    90.0000    5.056305E-07   -1.584367E-07   4.004858E-07
+            -1.000000E+00      1.829637E-19  -7.758822E-19  -1.138057E-13   -44.9998    5.690254E-14   -5.690313E-14   6.570574E-14
+0      31    0.0              -8.805217E-08   9.403265E-07   1.159728E-17    90.0000    9.403265E-07   -8.805217E-08   6.582012E-07
+            -1.000000E+00     -1.056818E-05   1.128398E-04  -4.674310E-14   -90.0000    1.128398E-04   -1.056818E-05   7.898526E-05
+0      33    0.0              -2.757095E-07   9.985003E-07   1.694066E-21    90.0000    9.985003E-07   -2.757095E-07   7.741130E-07
+            -1.000000E+00     -5.926100E-19   4.445229E-18  -3.726182E-14   -45.0039    1.863284E-14   -1.862899E-14   2.151312E-14
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    17
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                 F O R C E S   O F   M U L T I P O I N T   C O N S T R A I N T
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G     -5.913069E-12   2.500000E-01   2.500000E-02   0.0            0.0            0.0
+             2      G     -5.913069E-12   2.500000E-01   2.500000E-02   0.0            0.0            0.0
+             3      G     -6.622826E-12   2.500000E-01  -2.500000E-02   0.0            0.0            0.0
+             4      G     -6.622826E-12   2.500000E-01  -2.500000E-02   0.0            0.0            0.0
+             5      G      1.092743E-11  -2.500000E-01  -4.736988E-10   0.0            0.0            0.0
+             6      G      1.092743E-11  -2.500000E-01  -1.809773E-10   0.0            0.0            0.0
+             7      G      1.608470E-12  -2.500000E-01   1.001759E-10   0.0            0.0            0.0
+             8      G      1.608470E-12  -2.500000E-01  -1.925456E-10   0.0            0.0            0.0
+             9      G      3.125577E-12  -1.111111E-01  -5.333253E-11   1.088889E-02  -4.050130E-11   1.262544E-12
+            10      G      7.909926E-12  -1.111111E-01  -5.466964E-11   1.088889E-02  -5.381461E-11   1.322262E-12
+            11      G     -3.224523E-12  -1.111111E-01  -7.310415E-11   1.088889E-02   6.379384E-12   1.322262E-12
+            12      G      1.792371E-12  -1.111111E-01  -1.333333E-03   1.088889E-02  -3.190516E-13   1.361645E-12
+            13      G      4.708890E-12  -1.111111E-01   1.333333E-03   1.088889E-02   3.332733E-12   1.388115E-12
+            14      G      3.455965E-12  -1.111111E-01  -1.333333E-03   1.088889E-02  -4.048478E-11   1.176357E-12
+            15      G      2.793301E-12  -1.111111E-01   1.333333E-03   1.088889E-02  -4.051792E-11   1.176357E-12
+            16      G      5.479203E-13  -1.111111E-01   1.333333E-03   1.088889E-02  -7.784445E-11   1.050786E-12
+            17      G      3.962361E-12  -1.111111E-01  -1.333333E-03   1.088889E-02  -3.041289E-11   8.390277E-13
+            18      G     -3.125577E-12   1.111111E-01   5.333253E-11   2.222222E-04   4.081386E-11  -1.262544E-12
+            19      G     -7.909926E-12   1.111111E-01   5.466964E-11   2.222222E-04   5.460560E-11  -1.322262E-12
+            20      G      3.224523E-12   1.111111E-01   7.310415E-11   2.222222E-04  -6.701836E-12  -1.322262E-12
+            21      G     -1.792371E-12   1.111111E-01   1.333333E-03   2.222222E-04   4.982887E-13  -1.361645E-12
+            22      G     -4.708890E-12   1.111111E-01  -1.333333E-03   2.222222E-04  -2.861844E-12  -1.388115E-12
+            23      G     -3.455965E-12   1.111111E-01   1.333333E-03   2.222222E-04   4.083038E-11  -1.176357E-12
+            24      G     -2.793301E-12   1.111111E-01  -1.333333E-03   2.222222E-04   4.079725E-11  -1.176357E-12
+            25      G     -5.479203E-13   1.111111E-01  -1.333333E-03   2.222222E-04   7.789924E-11  -1.050786E-12
+            26      G     -3.962361E-12   1.111111E-01   1.333333E-03   2.222222E-04   3.080913E-11  -8.390277E-13
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    18
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                  S T R E S S E S   I N   B U S H   E L E M E N T S        ( C B U S H )
+ 
+                  ELEMENT-ID        STRESS-TX     STRESS-TY     STRESS-TZ    STRESS-RX     STRESS-RY     STRESS-RZ 
+0                         21      5.421011E-11 -7.856742E-02  7.856742E-02 -1.262544E-12  3.771236E-03  3.771236E-03
+0                         22      5.421011E-11 -7.856742E-02  7.856742E-02 -1.322262E-12  3.771236E-03  3.771236E-03
+0                         23      8.131516E-11 -7.856742E-02  7.856742E-02 -1.322262E-12  3.771236E-03  3.771236E-03
+0                         24      1.333333E-03 -7.856742E-02  7.856742E-02 -1.361645E-12  3.771236E-03  3.771236E-03
+0                         25     -1.333333E-03 -7.856742E-02  7.856742E-02 -1.388115E-12  3.771236E-03  3.771236E-03
+0                         26      1.333333E-03 -7.856742E-02  7.856742E-02 -1.176357E-12  3.771236E-03  3.771236E-03
+0                         27     -1.333333E-03 -7.856742E-02  7.856742E-02 -1.176357E-12  3.771236E-03  3.771236E-03
+0                         28     -1.333333E-03 -7.856742E-02  7.856742E-02 -1.050786E-12  3.771236E-03  3.771236E-03
+0                         29      1.333333E-03 -7.856742E-02  7.856742E-02 -8.390277E-13  3.771236E-03  3.771236E-03
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    19
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                         S T R E S S E S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )
+  ELEMENT      FIBER               STRESSES IN ELEMENT COORD SYSTEM             PRINCIPAL STRESSES (ZERO SHEAR)                 
+    ID.       DISTANCE           NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0       1   -5.000000E-02      2.422637E-01  -2.500000E+01  -2.861015E-08    -0.0000    2.422637E-01   -2.500000E+01   2.512201E+01
+             5.000000E-02     -3.389862E-01   3.500000E+01   2.872592E-08    90.0000    3.500000E+01   -3.389862E-01   3.517072E+01
+0       2   -5.000000E-02     -1.852378E-02   5.000000E+00  -2.149452E-08   -90.0000    5.000000E+00   -1.852378E-02   5.009288E+00
+             5.000000E-02     -1.852378E-02   5.000000E+00   2.150839E-08    90.0000    5.000000E+00   -1.852378E-02   5.009288E+00
+0      31   -5.000000E-02      1.559703E+01   7.000000E+01  -8.787414E-09   -90.0000    7.000000E+01    1.559703E+01   6.365120E+01
+             5.000000E-02     -1.114047E+01  -5.000000E+01   8.875057E-09     0.0000   -1.114047E+01   -5.000000E+01   4.546522E+01
+0      33   -5.000000E-02      3.704755E-01   1.000000E+01  -7.039916E-09   -90.0000    1.000000E+01    3.704755E-01   9.820005E+00
+             5.000000E-02      3.704755E-01   1.000000E+01   7.039929E-09    90.0000    1.000000E+01    3.704755E-01   9.820005E+00
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    20
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                           E L E M E N T   S T R A I N   E N E R G I E S
+ 
+                ELEMENT-TYPE = BUSH                * TOTAL ENERGY OF ALL ELEMENTS IN PROBLEM     =   5.127666E-06
+                SUBCASE               1            * TOTAL ENERGY OF ALL ELEMENTS IN SET      -1 =   5.127666E-06
+0
+                                    ELEMENT-ID          STRAIN-ENERGY           PERCENT OF TOTAL    STRAIN-ENERGY-DENSITY
+
+                        TYPE = BUSH     SUBTOTAL        5.569788E-11                 0.0011
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    21
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                           E L E M E N T   S T R A I N   E N E R G I E S
+ 
+                ELEMENT-TYPE = QUAD4               * TOTAL ENERGY OF ALL ELEMENTS IN PROBLEM     =   5.127666E-06
+                SUBCASE               1            * TOTAL ENERGY OF ALL ELEMENTS IN SET      -1 =   5.127666E-06
+0
+                                    ELEMENT-ID          STRAIN-ENERGY           PERCENT OF TOTAL    STRAIN-ENERGY-DENSITY
+                                             1          4.224745E-06                82.3912              2.112372E-05
+                                             2          2.531192E-07                 4.9363              1.265596E-06
+                                            31          6.001255E-07                11.7037              6.001255E-05
+                                            33          4.962107E-08                 0.9677              4.962107E-06
+
+                        TYPE = QUAD4    SUBTOTAL        5.127611E-06                99.9989
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK ONRGY1   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR ONRGY1, TRL =
+                    101                 1                 0                 0                 0                 0                 1
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS ONRGY1  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         146 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          30 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         352 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OEF1X    WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OEF1X, TRL =
+                    101                63                 5                13                26                 0                 1
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OEF1X   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         146 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          30 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         432 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OES1X1   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OES1X1, TRL =
+                    101                63                 5                13                26                 0                 1
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OES1X1  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         146 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          30 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         464 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OSTR1X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OSTR1X, TRL =
+                    101                63                 5                13                26                 0                 1
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OSTR1X  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         146 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          30 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         464 WORDS.)
+ *** USER INFORMATION MESSAGE 4110 (OUTPX2)
+                                 END-OF-DATA SIMULATION ON FORTRAN UNIT    12
+                                 (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =      1 WORDS.)
+                                       (NUMBER OF FORTRAN RECORDS WRITTEN =      1 RECORDS.)
+                                       (TOTAL DATA WRITTEN FOR EOF MARKER =      1 WORDS.)
+1    SHEAR_LOAD                                                                 MAY  13, 2026  MSC Nastran 11/20/25   PAGE    22
+                                                                                                                                    
+0                                                                                                                                   
+ * * * *  D B D I C T   P R I N T  * * * *      SUBDMAP = PRTSUM  ,  DMAP STATEMENT NO.     75
+
+
+
+0                                   * * * *  A N A L Y S I S  S U M M A R Y  T A B L E  * * * *
+0 SEID  PEID PROJ VERS APRCH      SEMG SEMR SEKR SELG SELR MODES DYNRED SOLLIN SOLNL LOOPID DESIGN CYCLE SENSITIVITY
+ -------------------------------------------------------------------------------------------------------------------
+     0     0    1    1 '        '    T    T    T    T    T     F      F      T     F     -1            0           F
+0SEID = SUPERELEMENT ID.
+ PEID = PRIMARY SUPERELEMENT ID OF IMAGE SUPERELEMENT.
+ PROJ = PROJECT ID NUMBER.
+ VERS = VERSION ID.
+ APRCH = BLANK FOR STRUCTURAL ANALYSIS.  HEAT FOR HEAT TRANSFER ANALYSIS.
+ SEMG = STIFFNESS AND MASS MATRIX GENERATION STEP.
+ SEMR = MASS MATRIX REDUCTION STEP (INCLUDES EIGENVALUE SOLUTION FOR MODES).
+ SEKR = STIFFNESS MATRIX REDUCTION STEP.
+ SELG = LOAD MATRIX GENERATION STEP.
+ SELR = LOAD MATRIX REDUCTION STEP. 
+ MODES = T (TRUE) IF NORMAL MODES OR BUCKLING MODES CALCULATED.
+ DYNRED = T (TRUE) MEANS GENERALIZED DYNAMIC AND/OR COMPONENT MODE REDUCTION PERFORMED.
+ SOLLIN = T (TRUE) IF LINEAR SOLUTION EXISTS IN DATABASE.
+ LOOPID = THE LAST LOOPID VALUE USED IN THE NONLINEAR ANALYSIS.  USEFUL FOR RESTARTS.
+ SOLNL = T (TRUE) IF NONLINEAR SOLUTION EXISTS IN DATABASE.
+ DESIGN CYCLE = THE LAST DESIGN CYCLE (ONLY VALID IN OPTIMIZATION).
+ SENSITIVITY = SENSITIVITY MATRIX GENERATION FLAG.
+ 
+ No PARAM values were set in the Control File.
+ 
+1                                        * * * END OF JOB * * *
+ 
+ 
+ No Symbolic Replacement variables or values were specified.
+

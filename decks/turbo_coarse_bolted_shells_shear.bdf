@@ -1,0 +1,129 @@
+INIT MASTER(S)
+NASTRAN OP2NEW=0,SYSTEM(319)=1
+ID shell,FEMAP
+SOL SESTATIC
+CEND
+  TITLE = shear_load
+  ECHO = NONE
+  DISPLACEMENT = ALL
+  STRESS = ALL
+  FORCE = ALL
+  STRAIN = ALL
+  MPCFORCE = ALL
+  SPCFORCE = ALL
+  ESE = ALL
+  SPC = 1
+  LOAD = 1
+BEGIN BULK
+$ ***************************************************************************
+$   Written by : Femap
+$   Version    : 2024.1.1
+$   Translator : MSC Nastran
+$   From Model : E:\mystran\modal_tests\shell_joint_breakout.modfem
+$   Date       : Tue May 12 21:11:35 2026
+$   Output To  : E:\mystran\modal_tests\
+$ ***************************************************************************
+$
+PARAM,PRGPST,NO
+PARAM,POST,-1
+PARAM,OGEOM,NO
+PARAM,AUTOSPC,YES
+PARAM,K6ROT,100.
+PARAM,GRDPNT,0
+PARAM,WTMASS,.00259
+CORD2C         1       0      0.      0.      0.      0.      0.      1.+FEMAPC1
++FEMAPC1      1.      0.      1.        
+CORD2S         2       0      0.      0.      0.      0.      0.      1.+FEMAPC2
++FEMAPC2      1.      0.      1.        
+$ Femap Load Set 1 : load
+FORCE          1      29       0      1.      0.      .5      0.
+FORCE          1      30       0      1.      0.      .5      0.
+$ Femap Constraint Set 1 : fixed
+SPC1           1  123456      27
+SPC1           1  123456      28
+$ Femap Property 1 : shell_property
+PSHELL         1       1      .1       1               1              0.
+$ Femap Property 2 : cbush
+PBUSH          2       K    1.+9    1.+9    1.+9    1.+9    1.+9    1.+9                
+$ Femap Material 1 : Al_6061
+MAT1           19900000.             .31    .098      0.      0.        
+GRID           1       0      0.      0.      0.       0
+GRID           2       0      1.      0.      0.       0
+GRID           3       0      1.      2.      0.       0
+GRID           4       0      0.      2.      0.       0
+GRID           5       0      0.      1.      .1       0
+GRID           6       0      1.      1.      .1       0
+GRID           7       0      1.      3.      .1       0
+GRID           8       0      0.      3.      .1       0
+GRID           9       0      .5     1.5      0.       0
+GRID          10       0    .875     1.5      0.       0
+GRID          11       0    .125     1.5      0.       0
+GRID          12       0    .875    1.25      0.       0
+GRID          13       0    .875    1.75      0.       0
+GRID          14       0      .5    1.25      0.       0
+GRID          15       0      .5    1.75      0.       0
+GRID          16       0    .125    1.75      0.       0
+GRID          17       0    .125    1.25      0.       0
+GRID          18       0      .5     1.5      .1       0
+GRID          19       0    .875     1.5      .1       0
+GRID          20       0    .125     1.5      .1       0
+GRID          21       0    .875    1.25      .1       0
+GRID          22       0    .875    1.75      .1       0
+GRID          23       0      .5    1.25      .1       0
+GRID          24       0      .5    1.75      .1       0
+GRID          25       0    .125    1.75      .1       0
+GRID          26       0    .125    1.25      .1       0
+GRID          27       0      0.     -.1      0.       0
+GRID          28       0      1.     -.1      0.       0
+GRID          29       0      1.     3.1      .1       0
+GRID          30       0      0.     3.1      .1       0
+CQUAD4         1       1       1       2       3       4                
+CQUAD4         2       1       5       6       7       8                
+RBE3           3               9  123456      1.     123       1       2+       
++              3       4
+RBE3           4              10  123456      1.     123       1       2+       
++              3       4
+RBE3           5              11  123456      1.     123       1       2+       
++              3       4
+RBE3           6              12  123456      1.     123       1       2+       
++              3       4
+RBE3           7              13  123456      1.     123       1       2+       
++              3       4
+RBE3           8              14  123456      1.     123       1       2+       
++              3       4
+RBE3           9              15  123456      1.     123       1       2+       
++              3       4
+RBE3          10              16  123456      1.     123       1       2+       
++              3       4
+RBE3          11              17  123456      1.     123       1       2+       
++              3       4
+RBE3          12              18  123456      1.     123       5       6+       
++              7       8
+RBE3          13              19  123456      1.     123       5       6+       
++              7       8
+RBE3          14              20  123456      1.     123       5       6+       
++              7       8
+RBE3          15              21  123456      1.     123       5       6+       
++              7       8
+RBE3          16              22  123456      1.     123       5       6+       
++              7       8
+RBE3          17              23  123456      1.     123       5       6+       
++              7       8
+RBE3          18              24  123456      1.     123       5       6+       
++              7       8
+RBE3          19              25  123456      1.     123       5       6+       
++              7       8
+RBE3          20              26  123456      1.     123       5       6+       
++              7       8
+CBUSH         21       2      18       9.5773503.5773503.5773503        
+CBUSH         22       2      19      10.5773503.5773503.5773503        
+CBUSH         23       2      20      11.5773503.5773503.5773503        
+CBUSH         24       2      21      12.5773503.5773503.5773503        
+CBUSH         25       2      22      13.5773503.5773503.5773503        
+CBUSH         26       2      23      14.5773503.5773503.5773503        
+CBUSH         27       2      24      15.5773503.5773503.5773503        
+CBUSH         28       2      25      16.5773503.5773503.5773503        
+CBUSH         29       2      26      17.5773503.5773503.5773503        
+CQUAD4        31       1       1       2      28      27                
+CQUAD4        33       1       7       8      30      29                
+ENDDATA
