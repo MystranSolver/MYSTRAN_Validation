@@ -38,6 +38,21 @@ Values are identified by hierarchical paths, which can lead to one or multiple v
 - `SC/1/SOLIDSTRESSES/EID/4/CORNER/0/XY,YZ,ZX`   A list of three center stress components.
 - `SC/1/SOLIDSTRAINS/EID/1,5/CORNER/1-6/XX` Both a list of 2 element IDs and a set of 6 corner numbers, giving 12 values.
 
+#### Supported data:
+- `DISPLACEMENTS`: TX, TY, TZ, RX, RY, RZ
+- `SPCFORCES`: TX, TY, TZ, RX, RY, RZ
+- `SOLIDSTRESSES`: XX, YY, ZZ, XY, YZ, ZX, VONMISES
+- `SOLIDSTRAINS`: XX, YY, ZZ, XY, YZ, ZX, VONMISES
+- `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER
+- `SHELLSTRESSES`: XX, YY, XY, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
+- `SHELLSTRAINS`: XX, YY, XY for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
+- `COMPOSITESTRESSES`: 11, 22, 12, 13, 23 for each PLY
+- `BUSHFORCES`: FXE, FYE, FZE, MXE, MYE, MZE
+- `BUSHSTRESSES`: 1, 2, 3, 4, 5, 6
+- `BUSHSTRAINS`: 1, 2, 3, 4, 5, 6
+- `EIGENVECTOR`: TX, TY, TZ, RX, RY, RZ
+- `REALEIGENVALUES`: EIGENVALUE, CYCLES
+
 ##### Midsurface stress and strain
 Use `ZMID` instead of `Z1` or `Z2` to calculate the average of the values at
 Z1 and Z2. This is useful for validating membrane strain when there's also

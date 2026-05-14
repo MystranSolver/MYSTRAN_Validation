@@ -127,7 +127,7 @@ def read_f06_tree(file_name):
                     set(corner_node, "XY", number(line, 71, 13))
                     set(corner_node, "YZ", number(line, 85, 13))
                     set(corner_node, "ZX", number(line, 99, 13))
-                    set(corner_node, "VM", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
+                    set(corner_node, "VONMISES", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
         elif "E L E M E N T   S T R A I N S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
             subcase = read_subcase()
@@ -156,7 +156,7 @@ def read_f06_tree(file_name):
                     set(corner_node, "XY", number(line, 71, 13))
                     set(corner_node, "YZ", number(line, 85, 13))
                     set(corner_node, "ZX", number(line, 99, 13))
-                    set(corner_node, "VM", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
+                    set(corner_node, "VONMISES", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
         elif "E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
             subcase = read_subcase()
