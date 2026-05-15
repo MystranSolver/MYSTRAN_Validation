@@ -589,6 +589,7 @@ def test_path(root_dir: Path,
     worst_error = 0
 
     try:
+
         # Read f06 file
         parsed_f06 = read_f06_tree(test_f06_path)
 

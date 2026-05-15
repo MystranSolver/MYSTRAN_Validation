@@ -29,7 +29,17 @@ def read_f06_tree(file_name):
         return lines[line_no - 1 + delta]
 
     def number(line, start, length):
-        return float(line[start - 1:start - 1 + length].strip() or 0)
+        segment = line[start - 1:start - 1 + length].strip()
+        try:
+            return float(segment)
+        except Exception as e:
+            # It might be a 3-digit exponent without the "e" like:
+            #
+            #           2.714527-111
+            # or
+            #           2.714527+111
+            segment = segment[:-4] + "E" + segment[-4:]
+            return float(segment)
 
     def read_subcase():
         if "OUTPUT FOR SUBCASE" in peek_line_delta(-3):
@@ -357,7 +367,7 @@ def read_f06_tree(file_name):
                     if line[1:1+8].strip() != "":
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [str(eid)])
-                    elif line.strip == "":
+                    elif line.strip() == "":
                         # Skip the blank lines between elements
                         continue
                     ply_num = int(number(line, 11,5))
