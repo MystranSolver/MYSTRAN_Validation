@@ -91,8 +91,8 @@ You can apply an operation before comparing to the reference value:
 values, compare each one independently.
 - `SUM`: Sum multiple values. Useful for validating reaction force balance over
 multiple nodes.
-- `DIFF`: 1st value minus 2nd value.
-- `RATIO`: 1st value divided by 2nd value.
+- `DIFF`: 1st value minus last value. There can be more than two values such as for 34,35/TX,TY, it uses 34/TX - 35/TY.
+- `RATIO`: 1st value divided by last value. There can be more than two values such as for 34,35/TX,TY, it uses 34/TX / 35/TY.
 - `NORM`: L2 norm. Useful for finding vector magnitude, ensuring that a lot of
 values are all zero, or ignoring the sign in an eigenvector.
 - `ANGLEFROMX`: Angle of a translational DOF vector (TX, TY, TZ) from the X axis,

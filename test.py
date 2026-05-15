@@ -639,12 +639,13 @@ def test_path(root_dir: Path,
             case "DIFF":
 
                 comparison_count += 1
-                if len(single_paths) != 2:
+                if len(single_paths) < 2:
                     fail_count += 1
-                    output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
+                    output_file.write(f"FAIL. Wrong number of values for DIFF. Must be at least two.\n")
                 else:
+                    # Calculate <first value> - <last value>
                     value1 = tree_get_layer_4(parsed_f06, single_paths[0], gp_transforms, shell_angles, gid_to_corners, output_file)
-                    value2 = tree_get_layer_4(parsed_f06, single_paths[1], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    value2 = tree_get_layer_4(parsed_f06, single_paths[-1], gp_transforms, shell_angles, gid_to_corners, output_file)
                     if value1 is None or value2 is None:
                         fail_count += 1
                         output_file.write(f"{INDENT * 2}FAILED\n")
@@ -653,12 +654,13 @@ def test_path(root_dir: Path,
             case "RATIO":
 
                 comparison_count += 1
-                if len(single_paths) != 2:
+                if len(single_paths) < 2:
                     fail_count += 1
-                    output_file.write(f"FAIL. Wrong number of values for DIFF. Must be two.\n")
+                    output_file.write(f"FAIL. Wrong number of values for RATIO. Must be at least two.\n")
                 else:
+                    # Calculate <first value> / <last value>
                     value1 = tree_get_layer_4(parsed_f06, single_paths[0], gp_transforms, shell_angles, gid_to_corners, output_file)
-                    value2 = tree_get_layer_4(parsed_f06, single_paths[1], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    value2 = tree_get_layer_4(parsed_f06, single_paths[-1], gp_transforms, shell_angles, gid_to_corners, output_file)
                     if value1 is None or value2 is None:
                         fail_count += 1
                         output_file.write(f"{INDENT * 2}FAILED\n")
