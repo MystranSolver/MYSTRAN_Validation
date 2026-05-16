@@ -63,15 +63,27 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
         else:
             definition_fields_str = definition_str.split(";")
             definition_fields_str = [s.strip() for s in definition_fields_str]
+            if len(definition_fields_str) < 3:
+                print(f"ERROR: Not enough fields in")
+                print(f"{definition_str}")
+                sys.exit(1)
             definition = Definition()
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
             definition.filter_string = definition_fields_str[2]
             match definition.test_type:
                 case "mys" | "msc":
+                    if len(definition_fields_str) < 5:
+                        print(f"ERROR: Not enough fields in")
+                        print(f"{definition_str}")
+                        sys.exit(1)
                     definition.threshold = float(definition_fields_str[3])
                     read_tolerance(definition_fields_str[4])
                 case "pth":
+                    if len(definition_fields_str) < 6:
+                        print(f"ERROR: Not enough fields in")
+                        print(f"{definition_str}")
+                        sys.exit(1)
                     definition.operation = definition_fields_str[3]
                     definition.reference_value = definition_fields_str[4]
                     read_tolerance(definition_fields_str[5])
@@ -543,6 +555,20 @@ def tree_get_layer_4(parsed_f06, path, gp_transforms, shell_angles, gid_to_corne
         return tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, output_file)
 
 
+def tree_get_layer_5(parsed_f06, path, gp_transforms, shell_angles, gid_to_corners, output_file : io.TextIOWrapper):
+    # Path can describe multiple values. Returns a list.
+    
+    single_paths = expand_lists(path)
+
+    result = []
+
+    for single_path in single_paths:
+        result.append(tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file))
+
+    return result
+
+
+
 def test_path(root_dir: Path,
               working_dir: Path,
               test_f06_path: Path,
@@ -555,16 +581,23 @@ def test_path(root_dir: Path,
         nonlocal fail_count
 
         if "/" in test_case.reference_value:
-            reference_value = tree_get_layer_4(parsed_f06, test_case.reference_value.split("/"), gp_transforms, shell_angles, gid_to_corners, output_file)
+            reference_values = tree_get_layer_5(parsed_f06, test_case.reference_value.split("/"), gp_transforms, shell_angles, gid_to_corners, output_file)
+            if len(reference_values) > 1:
+                fail_count += 1
+                print(f"ERROR: reference value's path resolves to more than one value.")
+                output_file.write(f"{INDENT * 2}{"FAILED\tERROR: reference value's path resolves to more than one value."}\n")
+                return
+            else:
+                reference_value = reference_values[0]
         else:
             reference_value = float(test_case.reference_value)
 
         if math.isnan(reference_value):
             # Testing for NaN doesn't use the tolerance or comparison type.
             if math.isnan(test_value):
-                error = 0
+                error = 0 # Force pass
             else:
-                error = float('inf');
+                error = float('inf') # Force fail
         elif test_case.comparison_type == "percent":
             error = 100 * abs(test_value / reference_value - 1)
         elif test_case.comparison_type == "difference":
@@ -607,14 +640,13 @@ def test_path(root_dir: Path,
         # Convert path from "/" delimited string to list
         tree_path = test_case.filter_string.split("/")
 
-        single_paths = expand_lists(tree_path)
+        values = tree_get_layer_5(parsed_f06, tree_path, gp_transforms, shell_angles, gid_to_corners, output_file)
 
         match test_case.operation:
             case "":
 
-                for single_path in single_paths:
+                for value in values:
                     comparison_count += 1
-                    value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
                     if value is None:
                         fail_count += 1
                         output_file.write(f"{INDENT * 2}FAILED\n")
@@ -625,8 +657,7 @@ def test_path(root_dir: Path,
 
                 comparison_count += 1
                 value_sum = 0
-                for single_path in single_paths:
-                    value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
+                for value in values:
                     if value is None:
                         value_sum = None
                         break
@@ -641,13 +672,13 @@ def test_path(root_dir: Path,
             case "DIFF":
 
                 comparison_count += 1
-                if len(single_paths) < 2:
+                if len(values) < 2:
                     fail_count += 1
                     output_file.write(f"FAIL. Wrong number of values for DIFF. Must be at least two.\n")
                 else:
                     # Calculate <first value> - <last value>
-                    value1 = tree_get_layer_4(parsed_f06, single_paths[0], gp_transforms, shell_angles, gid_to_corners, output_file)
-                    value2 = tree_get_layer_4(parsed_f06, single_paths[-1], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    value1 = values[0]
+                    value2 = values[-1]
                     if value1 is None or value2 is None:
                         fail_count += 1
                         output_file.write(f"{INDENT * 2}FAILED\n")
@@ -656,13 +687,13 @@ def test_path(root_dir: Path,
             case "RATIO":
 
                 comparison_count += 1
-                if len(single_paths) < 2:
+                if len(values) < 2:
                     fail_count += 1
                     output_file.write(f"FAIL. Wrong number of values for RATIO. Must be at least two.\n")
                 else:
                     # Calculate <first value> / <last value>
-                    value1 = tree_get_layer_4(parsed_f06, single_paths[0], gp_transforms, shell_angles, gid_to_corners, output_file)
-                    value2 = tree_get_layer_4(parsed_f06, single_paths[-1], gp_transforms, shell_angles, gid_to_corners, output_file)
+                    value1 = values[0]
+                    value2 = values[-1]
                     if value1 is None or value2 is None:
                         fail_count += 1
                         output_file.write(f"{INDENT * 2}FAILED\n")
@@ -672,8 +703,7 @@ def test_path(root_dir: Path,
 
                 comparison_count += 1
                 value_squared_sum = 0
-                for single_path in single_paths:
-                    value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
+                for value in values:
                     if value is None:
                         value_squared_sum = None
                         break
@@ -697,10 +727,10 @@ def test_path(root_dir: Path,
                 x_sum = 0
                 y_sum = 0
                 z_sum = 0
-                for single_path in single_paths:
-                    x = tree_get_layer_4(parsed_f06, single_path + ["TX"], gp_transforms, shell_angles, gid_to_corners, output_file)
-                    y = tree_get_layer_4(parsed_f06, single_path + ["TY"], gp_transforms, shell_angles, gid_to_corners, output_file)
-                    z = tree_get_layer_4(parsed_f06, single_path + ["TZ"], gp_transforms, shell_angles, gid_to_corners, output_file)
+                for value in values:
+                    x = value["TX"]
+                    y = value["TY"]
+                    z = value["TZ"]
                     if x is None or y is None or z is None:
                         x_sum = None
                         y_sum = None
@@ -727,9 +757,8 @@ def test_path(root_dir: Path,
 
             case "ABSENT":
 
-                for single_path in single_paths:
+                for value in values:
                     comparison_count += 1
-                    value = tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file)
                     if value is not None:
                         fail_count += 1
                         output_file.write(f"{INDENT * 2}FAILED\n")
