@@ -302,14 +302,15 @@ def read_shell_angles(filepath: str) -> dict:
 
 def build_gid_to_corners(parsed_f06) -> dict:
     """Build a reverse lookup from GID to list of (EID, corner) pairs using
-    corner GID numbers in SHELLSTRESSES, SHELLSTRAINS, and SHELLFORCES."""
+    corner GID numbers."""
 
     result: dict = {}
 
     subcases_node = parsed_f06.get("SC")
     if subcases_node is not None:
         for subcase_node in subcases_node.values():
-            for block_type in ["SHELLSTRESSES", "SHELLSTRAINS", "SHELLFORCES"]:
+            for block_type in ["SHELLSTRESSES", "SHELLSTRAINS", "SHELLFORCES",
+                               "SOLIDSTRESSES", "SOLIDSTRAINS"]:
                 block_node = subcase_node.get(block_type)
                 if block_node is not None:
                     eids_node = block_node["EID"]
@@ -498,7 +499,8 @@ def tree_get_layer_4(parsed_f06, path, gp_transforms, shell_angles, gid_to_corne
     
     if (len(path) > 5
             and path[0] == "SC"
-            and path[2] in ("SHELLSTRESSES", "SHELLSTRAINS", "SHELLFORCES")
+            and path[2] in ("SHELLSTRESSES", "SHELLSTRAINS", "SHELLFORCES",
+                            "SOLIDSTRESSES", "SOLIDSTRAINS")
             and path[3] == "GID"):
         # Eg: SC/1/SHELLSTRESSES/GID/123/Z1/XX
         gid = path[4]

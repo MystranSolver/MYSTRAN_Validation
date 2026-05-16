@@ -2063,3 +2063,233 @@ pth;    vic/7/B30 mitc4 thermal stress.bdf;   SC/2/REALEIGENVALUES/MODE/2/EIGENV
 pth;    vic/7/B30 mitc4 thermal stress.bdf;   SC/2/MODE/2/EIGENVECTOR/GID/30/TX;;  SC/2/MODE/2/EIGENVECTOR/GID/29/TX; 2e-5%
 pth;    vic/7/B30 mitc4 thermal stress.bdf;   SC/2/MODE/2/EIGENVECTOR/GID/10,5/TZ,TX;  RATIO  ;  -0.22095183123608694;    3%
 
+#######################
+# Vic test case set 8 #
+#######################
+
+pth;    vic/8/NAS S30 PLOAD2 PLOAD4 MITC4+.bdf;   SC/1/SPCFORCES/GID/1/TZ;;    -6.1875   ;     0.04
+pth;    vic/8/NAS S30 PLOAD2 PLOAD4 MITC4+.bdf;   SC/1/SPCFORCES/GID/12/TZ;;    -6.1875   ;     0.04
+pth;    vic/8/NAS S30 PLOAD2 PLOAD4 MITC4+.bdf;   SC/1/SPCFORCES/GID/6/TZ;;    -6.1875   ;     0.04
+pth;    vic/8/NAS S30 PLOAD2 PLOAD4 MITC4+.bdf;   SC/1/SPCFORCES/GID/13/TZ;;    -6.1875   ;     0.04
+pth;    vic/8/NAS S30 PLOAD2 PLOAD4 MITC4+.bdf;   SC/1/SPCFORCES/GID/1,12,6,13/TZ;  SUM;    -24.75   ;     2e-5%
+pth;    vic/8/NAS S30 PLOAD2 PLOAD4 MITC4+.bdf;   SC/1/SPCFORCES/GID/29/TY;;    -11.25   ;     0.04
+pth;    vic/8/NAS S30 PLOAD2 PLOAD4 MITC4+.bdf;   SC/1/SPCFORCES/GID/22/TY;;    -11.25   ;     0.04
+pth;    vic/8/NAS S30 PLOAD2 PLOAD4 MITC4+.bdf;   SC/1/SPCFORCES/GID/28/TY;;    -11.25   ;     0.04
+pth;    vic/8/NAS S30 PLOAD2 PLOAD4 MITC4+.bdf;   SC/1/SPCFORCES/GID/17/TY;;    -11.25   ;     0.04
+pth;    vic/8/NAS S30 PLOAD2 PLOAD4 MITC4+.bdf;   SC/1/SPCFORCES/GID/29,22,28,17/TY;  SUM;    -45.0   ;     2e-5%
+
+pth;    vic/8/NAS S30 mitc4+ diamond cylinder pressure PLOAD2.bdf;   SC/1/DISPLACEMENTS/GID/106/TY;;    -6.210401491234006e-06  ;     3%
+pth;    vic/8/NAS S30 mitc4+ diamond cylinder pressure PLOAD2.bdf;   SC/1/SHELLSTRAINS/GID/52,63/ZMID/XX;;    -4.436001065167147e-07  ;     10%
+pth;    vic/8/NAS S30 mitc4+ diamond cylinder pressure PLOAD2.bdf;   SC/1/SHELLSTRESSES/GID/52,63/ZMID/YY;;    295733.40434447647  ;     3%
+
+pth;    vic/8/NAS S30 mitc4+ diamond cylinder pressure PLOAD4.bdf;   SC/1/DISPLACEMENTS/GID/106/TY;;    -6.210401491234006e-06  ;     3%
+pth;    vic/8/NAS S30 mitc4+ diamond cylinder pressure PLOAD4.bdf;   SC/1/SHELLSTRAINS/GID/52,63/ZMID/XX;;    -4.436001065167147e-07  ;     10%
+pth;    vic/8/NAS S30 mitc4+ diamond cylinder pressure PLOAD4.bdf;   SC/1/SHELLSTRESSES/GID/52,63/ZMID/YY;;    295733.40434447647  ;     3%
+
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;;   0.004992492;   5.0%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling.bdf;   SC/1/DISPLACEMENTS/GID/4/TZ;;   0.00216003;   5.0%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;;   0.004992492;   5.0%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling.bdf;   SC/1/DISPLACEMENTS/GID/8/TZ;;   0.00216003;   5.0%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling.bdf;   SC/1/DISPLACEMENTS/GID/4/RX;;   0;   1e-15
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling.bdf;   SC/1/SPCFORCES/GID/1/RX;;   0;   1e-08
+
+pth;    vic/8/NAS S30 mitc4+ MID1 MID2.bdf;   SC/1/DISPLACEMENTS/GID/3/TX;;   -1.23905659364941e-08;   5e-05%
+pth;    vic/8/NAS S30 mitc4+ MID1 MID2.bdf;   SC/1/DISPLACEMENTS/GID/3/TY;;   7.02119778768256e-08;   2e-5%
+pth;    vic/8/NAS S30 mitc4+ MID1 MID2.bdf;   SC/1/DISPLACEMENTS/GID/3/TZ;;   2.66811887131813e-05;   2e-5%
+pth;    vic/8/NAS S30 mitc4+ MID1 MID2.bdf;   SC/1/DISPLACEMENTS/GID/3/RX;;   4.21185133230689e-07;   2e-5%
+pth;    vic/8/NAS S30 mitc4+ MID1 MID2.bdf;   SC/1/DISPLACEMENTS/GID/3/RY;;   2.84071045881021e-08;   2e-5%
+
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;   SC/1/DISPLACEMENTS/GID/4/TY,TZ;  RATIO;  -2.0;   2e-5%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;   SC/1/DISPLACEMENTS/GID/11/TY,TZ;  RATIO;  -2.0;   2e-5%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;   SC/1/DISPLACEMENTS/GID/3,7/TX;;   0.003;   2e-5%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;   SC/1/DISPLACEMENTS/GID/4,11/RX;;   0;   1e-15
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;;   0.0024;   2e-5%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;   SC/1/DISPLACEMENTS/GID/11/TY;;   0.0024;  2e-5%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;   SC/1/DISPLACEMENTS/GID/4/TZ;;   -0.0012;  2e-5%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;   SC/1/DISPLACEMENTS/GID/11/TZ;;   -0.0012;   2e-5%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;   SC/1/SHELLSTRAINS/GID/4/ZMID/YY;;   0.0024;   2e-5%
+pth;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;   SC/1/SHELLSTRAINS/GID/11/ZMID/YY;;   0.0024;   0.0005%
+
+pth;    vic/8/NAS B30 MITC4+ MID1 MID2.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;   54.6;   0.5%
+pth;    vic/8/NAS B30 MITC4+ MID1 MID2.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;   54.84;  0.005%
+
+pth;    vic/8/NAS S30 mitc4+ gravity bending.bdf;   SC/1/DISPLACEMENTS/GID/4/TX,TZ;;   1.90030351025955e-05;   2.0%
+
+pth;    vic/8/NAS S30 mitc4+ gravity SNORM.bdf;   SC/1/SPCFORCES/GID/1,2/TY;;   -5760;   0.001%
+
+pth;    vic/8/NAS V30 MITC4+.bdf;   SC/2/REALEIGENVALUES/MODE/1/CYCLES;;   1641;   3.0%
+pth;    vic/8/NAS V30 MITC4+.bdf;   SC/2/REALEIGENVALUES/MODE/2/CYCLES;;   2633;   2.0%
+pth;    vic/8/NAS V30 MITC4+.bdf;   SC/2/REALEIGENVALUES/MODE/3/CYCLES;;   5108;   4.0%
+pth;    vic/8/NAS V30 MITC4+.bdf;   SC/2/REALEIGENVALUES/MODE/4/CYCLES;;   8559;   5.0%
+pth;    vic/8/NAS V30 MITC4+.bdf;   SC/2/REALEIGENVALUES/MODE/1/CYCLES;;   1665.676;   2e-5%
+pth;    vic/8/NAS V30 MITC4+.bdf;   SC/2/REALEIGENVALUES/MODE/2/CYCLES;;   2671.479;   2e-5%
+pth;    vic/8/NAS V30 MITC4+.bdf;   SC/2/REALEIGENVALUES/MODE/3/CYCLES;;   5255.341;   2e-5%
+pth;    vic/8/NAS V30 MITC4+.bdf;   SC/2/REALEIGENVALUES/MODE/4/CYCLES;;   8866.435;   2e-5%
+pth;    vic/8/NAS V30 MITC4+.bdf;   SC/2/MODE/1/EIGENVECTOR/GID/4/TY,TZ;  RATIO;   1.4540229399284923;   2e-5%
+pth;    vic/8/NAS V30 MITC4+.bdf;   SC/2/MODE/4/EIGENVECTOR/GID/4/RX,RY;  RATIO;   0.5211153229071706;   2e-5%
+
+pth;    vic/8/NAS S30 solid stress strain transform.bdf;   SC/1/SOLIDSTRESSES/GID/83,104,120/ZZ;;   266666.6666666667;   5e-05%
+pth;    vic/8/NAS S30 solid stress strain transform.bdf;   SC/1/SOLIDSTRESSES/GID/83,104,120/VONMISES;;   266666.6666666667;   5e-05%
+pth;    vic/8/NAS S30 solid stress strain transform.bdf;   SC/1/SOLIDSTRAINS/GID/83,104,120/ZZ;;   2.4242424242424244e-06;   3e-5%
+pth;    vic/8/NAS S30 solid stress strain transform.bdf;   SC/1/SOLIDSTRESSES/GID/289,329,339/ZZ;;   266666.6666666667;   2e-5%
+pth;    vic/8/NAS S30 solid stress strain transform.bdf;   SC/1/SOLIDSTRESSES/GID/289,329,339/VONMISES;;   266666.6666666667;   2e-5%
+pth;    vic/8/NAS S30 solid stress strain transform.bdf;   SC/1/SOLIDSTRAINS/GID/289,329,339/ZZ;;   2.4242424242424244e-06;   2e-5%
+pth;    vic/8/NAS S30 solid stress strain transform.bdf;   SC/1/SOLIDSTRESSES/GID/11,33,38,60/XY;;   88888.88888888889;   2e-5%
+pth;    vic/8/NAS S30 solid stress strain transform.bdf;   SC/1/SOLIDSTRAINS/GID/11,33,38,60/XY;;   2.1010101010101013e-06;   5e-05%
+pth;    vic/8/NAS S30 solid stress strain transform.bdf;   SC/1/SOLIDSTRESSES/GID/165,181,186,220,259/XY;;   88888.88888888889;   2e-5%
+pth;    vic/8/NAS S30 solid stress strain transform.bdf;   SC/1/SOLIDSTRAINS/GID/165,181,186,220,259/XY;;   2.1010101010101013e-06;   5e-05%
+
+pth;    vic/8/NAS S30 omit bulk data entry.bdf;   SC/1/DISPLACEMENTS/GID/3/TZ;;   0.00586956;   0.001%
+
+pth;    vic/8/S30 node-surface coupling all face types displacement.bdf;   SC/1/DISPLACEMENTS/GID/3,4,7,8,12,16,17,20,24,25,26,27,28,29,30,32,33,34,36,37,38,40,41/TX;;   0.00012;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types displacement.bdf;   SC/1/DISPLACEMENTS/GID/3,4,7,8,12,16,17,20,24,25,26,27,28,29,30,32,33,34,36,37,38,40,41/TY;;   0.000234;  2e-5%
+pth;    vic/8/S30 node-surface coupling all face types displacement.bdf;   SC/1/DISPLACEMENTS/GID/3,4,7,8,12,16,17,20,24,25,26,27,28,29,30,32,33,34,36,37,38,40,41/TZ;;   0.0003;    2e-5%
+pth;    vic/8/S30 node-surface coupling all face types displacement.bdf;   SC/1/DISPLACEMENTS/GID/24,25,26,27,28,29,30,32,33/RX;;   0;   1e-17
+pth;    vic/8/S30 node-surface coupling all face types displacement.bdf;   SC/1/DISPLACEMENTS/GID/24,25,26,27,28,29,30,32,33/RY;;   0;   1e-17
+pth;    vic/8/S30 node-surface coupling all face types displacement.bdf;   SC/1/DISPLACEMENTS/GID/24,25,26,27,28,29,30,32,33/RZ;;   0;   1e-17
+
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/3,12/TY;;   -0.00012;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/24/TY;;   -0.00036;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/29/TY;;   -0.00048;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/30,32,34,36/TY;;   0.00018;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/38,40/TY;;   0.00030;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/22,23,24,25,26,27,28,29,30,31,32,33,9/RX;;   0.00012;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/3/TX;;   0.0002;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/16/TX;;   0.0003;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/24/TX;;   0.0006;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/27/TX;;   0.0008;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/30,32,34,36/TX;;   -0.0003;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/32/TZ;;   -0.0003;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/34/TZ;;   -0.0005;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/36/TZ;;   -0.0007;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/38/TX;;   -0.0005;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/40/TX;;   -0.0005;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/40/TZ;;   -0.0003;   2e-5%
+pth;    vic/8/S30 node-surface coupling all face types rotation X and Y.bdf;   SC/1/DISPLACEMENTS/GID/22,23,24,25,26,27,28,29,30,31,32,33,9/RY;;   0.0002;   2e-5%
+
+pth;    vic/8/S30 node-surface coupling shell rotation Z.bdf;   SC/1/DISPLACEMENTS/GID/3/TY;;   0.0202;   2e-5%
+pth;    vic/8/S30 node-surface coupling shell rotation Z.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;;   0.0101;   2e-5%
+pth;    vic/8/S30 node-surface coupling shell rotation Z.bdf;   SC/1/DISPLACEMENTS/GID/3,4/TX;;   0;   1e-16
+pth;    vic/8/S30 node-surface coupling shell rotation Z.bdf;   SC/1/DISPLACEMENTS/GID/1-6/TZ;;   0;   1e-16
+pth;    vic/8/S30 node-surface coupling shell rotation Z.bdf;   SC/1/DISPLACEMENTS/GID/1-6/RX;;   0;   1e-16
+pth;    vic/8/S30 node-surface coupling shell rotation Z.bdf;   SC/1/DISPLACEMENTS/GID/1-6/RY;;   0;   1e-16
+pth;    vic/8/S30 node-surface coupling shell rotation Z.bdf;   SC/1/DISPLACEMENTS/GID/3/RZ;;   0.0101;   2e-5%
+
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/1/TX;; SC/1/DISPLACEMENTS/GID/10/TX; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/2/TX;; SC/1/DISPLACEMENTS/GID/11/TX; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/3/TX;; SC/1/DISPLACEMENTS/GID/12/TX; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/4/TX;; SC/1/DISPLACEMENTS/GID/13/TX; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/5/TX;; SC/1/DISPLACEMENTS/GID/14/TX; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/1/TY;; SC/1/DISPLACEMENTS/GID/10/TY; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/2/TY;; SC/1/DISPLACEMENTS/GID/11/TY; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/3/TY;; SC/1/DISPLACEMENTS/GID/12/TY; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;; SC/1/DISPLACEMENTS/GID/13/TY; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/5/TY;; SC/1/DISPLACEMENTS/GID/14/TY; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/1/TZ;; SC/1/DISPLACEMENTS/GID/10/TZ; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/2/TZ;; SC/1/DISPLACEMENTS/GID/11/TZ; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/3/TZ;; SC/1/DISPLACEMENTS/GID/12/TZ; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/4/TZ;; SC/1/DISPLACEMENTS/GID/13/TZ; 0.0001%
+pth;    vic/8/NAS S30 node-surface coupling mass.bdf;   SC/1/DISPLACEMENTS/GID/5/TZ;; SC/1/DISPLACEMENTS/GID/14/TZ; 0.0001%
+
+pth;    vic/8/V30 node-surface coupling remote mass.bdf;   SC/2/REALEIGENVALUES/MODE/1/CYCLES;;  SC/2/REALEIGENVALUES/MODE/2/CYCLES;   0.02%
+pth;    vic/8/V30 node-surface coupling remote mass.bdf;   SC/2/REALEIGENVALUES/MODE/3/CYCLES;;  SC/2/REALEIGENVALUES/MODE/4/CYCLES;   0.05%
+pth;    vic/8/V30 node-surface coupling remote mass.bdf;   SC/2/REALEIGENVALUES/MODE/5/CYCLES;;  SC/2/REALEIGENVALUES/MODE/6/CYCLES;   0.05%
+pth;    vic/8/V30 node-surface coupling remote mass.bdf;   SC/2/REALEIGENVALUES/MODE/7/CYCLES;;  SC/2/REALEIGENVALUES/MODE/8/CYCLES;   0.3%
+
+pth;    vic/8/S30 node-surface coupling surface rot dof.bdf;   SC/1/DISPLACEMENTS/GID/3,4/TZ;;   0;   1e-15
+pth;    vic/8/S30 node-surface coupling surface rot dof.bdf;   SC/1/DISPLACEMENTS/GID/5/RX;;   0.02;   2e-5%
+pth;    vic/8/S30 node-surface coupling surface rot dof.bdf;   SC/1/DISPLACEMENTS/GID/8,9/TZ;;  0.005;   1.0%
+pth;    vic/8/S30 node-surface coupling surface rot dof.bdf;   SC/1/DISPLACEMENTS/GID/10/RX;; SC/1/DISPLACEMENTS/GID/8/RX; 0%
+pth;    vic/8/S30 node-surface coupling surface rot dof.bdf;   SC/1/DISPLACEMENTS/GID/10/RX;; SC/1/DISPLACEMENTS/GID/9/RX; 0%
+
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/1,10/TX;  RATIO;  1.0;   0.003%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/1,10/TY;  RATIO;  1.0;   0.003%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/1,10/TZ;  RATIO;  1.0;   0.003%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/2,11/TX;  RATIO;  1.0;   0.002%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/2,11/TY;  RATIO;  1.0;   0.002%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/2,11/TZ;  RATIO;  1.0;   0.002%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/3,12/TX;  RATIO;  1.0;   0.002%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/3,12/TY;  RATIO;  1.0;   0.002%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/3,12/TZ;  RATIO;  1.0;   0.002%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/4,13/TX;  RATIO;  1.0;   0.001%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/4,13/TY;  RATIO;  1.0;   0.001%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/4,13/TZ;  RATIO;  1.0;   0.001%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/5,14/TX;  RATIO;  1.0;   0.0001%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/5,14/TY;  RATIO;  1.0;   0.0001%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/5,14/TZ;  RATIO;  1.0;   0.0001%
+pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLACEMENTS/GID/5,1/TX;   DIFF;   SC/1/DISPLACEMENTS/GID/5/RY; 2e-5%
+
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked 1D.bdf;   SC/1/DISPLACEMENTS/GID/1-81/TX;  NORM;   0;       1e-14
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked 1D.bdf;   SC/1/DISPLACEMENTS/GID/1-81/TY;;         0.01;    1e-09
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked 1D.bdf;   SC/1/DISPLACEMENTS/GID/1-81/TZ;  NORM;   0;       1e-15
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked 1D.bdf;   SC/1/SOLIDSTRESSES/GID/3,7,25,26,48,68/VONMISES;;   0;   7e-05
+
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/1-20/RX;;    0.011;   2e-5%
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/1-20/RY;;    0.022;   2e-5%
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/1-20/RZ;;    0.033;   2e-5%
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/1/TX;; 0.111327556055035; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/1/TY;; 0.056004031754187; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/1/TZ;; 0.158888126812197; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/2/TX;; 0.0952075000824214; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/2/TY;; 0.0866905884360201; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/2/TZ;; 0.143803774348513; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/3/TX;; 0.0675348299151002; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/3/TY;; 0.0793999153494152; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/3/TZ;; 0.157888446462023; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/4/TX;; 0.0836548858877135; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;; 0.0487133586675821; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/4/TZ;; 0.172972798925707; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/5/TX;; 0.163137349827217; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/5/TY;; 0.0889273794437251; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/5/TZ;; 0.119669297095111; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/6/TX;; 0.15378122837958; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/6/TY;; 0.125121240048067; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/6/TZ;; 0.0986587638414283; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/7/TX;; 0.123901677215955; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/7/TY;; 0.122189106154159; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/7/TZ;; 0.110573370158575; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/8/TX;; 0.136904686137843; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;; 0.0839476979216692; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/8/TZ;; 0.131733306006273; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/9/TX;; 0.0789393342540655; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/9/TY;; 0.216635009027769; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/9/TZ;; 0.0625968825634653; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/10/TX;; 0.070738865322388; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/10/TY;; 0.235154118362039; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/10/TZ;; 0.0529842993178448; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/11/TX;; 0.0434899955237237; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/11/TY;; 0.221035883664115; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/11/TZ;; 0.0714794123826822; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/12/TX;; 0.0533071736124063; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/12/TY;; 0.189084057611932; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/12/TZ;; 0.0895082370545762; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/13/TX;; 0.05; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/13/TY;; 0.1; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/13/TZ;; 0.15; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/14/TX;; -0.0383047833442687; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/14/TY;; 0.164068163394928; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/14/TZ;; 0.136722818851471; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/15/TX;; -0.0146460188627243; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/15/TY;; 0.184438258707523; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/15/TZ;; 0.115256500482559; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/16/TX;; 0.00304730021953584; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/16/TY;; 0.213041366755962; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/16/TZ;; 0.0902899887561799; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/17/TX;; 0.00473567128181451; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/17/TY;; 0.121010438919068; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/17/TZ;; 0.15108115029335; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/18/TX;; 0.0479551050513981; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/18/TY;; 0.281184741973877; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/18/TZ;; 0.0298918036669493; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/19/TX;; -0.0335862276554108; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/19/TY;; 0.227526922702789; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/19/TZ;; 0.0928441274166107; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/20/TX;; 0.0407706133127213; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/20/TY;; 0.0383224630951882; 1e-7
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/20/TZ;; 0.194194820165634; 1e-7
+
+pth;    vic/8/S30 RBE2 chained rot release.bdf;   SC/1/DISPLACEMENTS/GID/25,29/TZ;  DIFF;   0.017453292519943295;   2e-5%
+pth;    vic/8/S30 RBE2 chained rot release.bdf;   SC/1/DISPLACEMENTS/GID/17,21/TZ;  DIFF;   0;   0
+pth;    vic/8/S30 RBE2 chained rot release.bdf;   SC/1/DISPLACEMENTS/GID/17/TZ;; SC/1/DISPLACEMENTS/GID/7/TZ; 2e-5%
+
+

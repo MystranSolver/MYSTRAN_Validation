@@ -128,9 +128,13 @@ def read_f06_tree(file_name):
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [str(eid)])
                         corner =0
+                        corner_gid = None
                     elif line[11:11+3] == "GRD":
                         corner += 1
+                        corner_gid = int(number(line, 15, 8))
                     corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                    if corner_gid is not None:
+                        set(corner_node, "GID", corner_gid)
                     set(corner_node, "XX", number(line, 29, 13))
                     set(corner_node, "YY", number(line, 43, 13))
                     set(corner_node, "ZZ", number(line, 57, 13))
@@ -156,10 +160,14 @@ def read_f06_tree(file_name):
                     if line[11:11+6] == "CENTER":
                         eid = int(number(line, 2,8))
                         eid_node = ensure_path(eids_node, [str(eid)])
-                        corner =0
+                        corner = 0
+                        corner_gid = None
                     elif line[11:11+3] == "GRD":
                         corner += 1
+                        corner_gid = int(number(line, 15, 8))
                     corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                    if corner_gid is not None:
+                        set(corner_node, "GID", corner_gid)
                     set(corner_node, "XX", number(line, 29, 13))
                     set(corner_node, "YY", number(line, 43, 13))
                     set(corner_node, "ZZ", number(line, 57, 13))

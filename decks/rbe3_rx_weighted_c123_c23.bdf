@@ -1,0 +1,96 @@
+SOL 1
+CEND
+TITLE = RBE3 RX WEIGHTED C123 C23
+ECHO = NONE
+DISP = ALL
+LOAD = 1
+SPC = 1
+BEGIN BULK
+$
+$
+$ Goal:
+$   Recover reference-grid R1 from independent T2/T3 displacements.
+$
+$ Why two independent sets:
+$   * Grids 1-4 use weight 1.0 with C=123.
+$     This keeps solvers that dislike missing component 1 from flagging the RBE3
+$     element as singular.
+$   * Grids 11-14 use weight 9.0 with C=23.
+$     This is the high-weight part of the same physical unit R1 motion, but it
+$     deliberately omits component 1.
+$
+$ Correct behavior:
+$   Both independent sets prescribe the same pure unit rotation about X:
+$
+$     T2 = -z
+$     T3 =  y
+$
+$   Therefore the weighted average rotation should be exactly:
+$
+$     grid 100, R1 = 1.0
+$
+$
+$ A separate loaded CROD on grids 300-301 exists only so static solvers that
+$ require at least one free analysis DOF do not stop with "no independent
+$ degrees of freedom". It is disconnected from the RBE3 check.
+$
+PARAM,GRDPNT,100
+$
+$ Low-weight C=123 set.
+GRID,1,,0.,-1.,0.
+GRID,2,,0.,1.,0.
+GRID,3,,0.,0.,-1.
+GRID,4,,0.,0.,1.
+$
+$ High-weight C=23 set at the same physical positions.
+GRID,11,,0.,-1.,0.
+GRID,12,,0.,1.,0.
+GRID,13,,0.,0.,-1.
+GRID,14,,0.,0.,1.
+$
+GRID,100,,0.,0.,0.
+GRID,200,,1.,0.,0.
+GRID,300,,10.,0.,0.
+GRID,301,,11.,0.,0.
+MAT1,1,1.,,0.3,1.
+PROD,1,1,1.
+CROD,91,1,1,2
+CROD,92,1,3,4
+CROD,93,1,11,12
+CROD,94,1,13,14
+CROD,98,1,100,200
+CROD,99,1,300,301
+RBE3    10              100     4       1.      123     1       2       +
++       3       4       9.      23      11      12      13      14
+$
+$ Low-weight set displacements: T2=-z, T3=y.
+SPC,1,1,12456,0.
+SPC,1,1,3,-1.
+SPC,1,2,12456,0.
+SPC,1,2,3,1.
+SPC,1,3,13456,0.
+SPC,1,3,2,1.
+SPC,1,4,13456,0.
+SPC,1,4,2,-1.
+$
+$ High-weight set displacements: same unit R1 motion.
+SPC,1,11,12456,0.
+SPC,1,11,3,-1.
+SPC,1,12,12456,0.
+SPC,1,12,3,1.
+SPC,1,13,13456,0.
+SPC,1,13,2,1.
+SPC,1,14,13456,0.
+SPC,1,14,2,-1.
+$
+$ Reference grid 100: leave R1 dependent on the RBE3.
+SPC,1,100,12356,0.
+$
+$ Dummy support grid for the harmless CROD connected to grid 100.
+SPC,1,200,123456,0.
+$
+$ Unrelated loaded one-DOF rod, included only to keep a nonempty static A-set.
+SPC,1,300,23456,0.
+SPC,1,301,123456,0.
+FORCE,1,300,,1.,1.,0.,0.
+ENDDATA

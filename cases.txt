@@ -21,7 +21,7 @@
 #         the same path as the deck but the extension .shell_angles.
 #       - Shell inlayer stress and strain and Z1 and Z2 can be averaged using ZMID.
 #         Eg: SC/1/SHELLSTRESSES/EID/123/CORNER/4/ZMID/XX
-#       - Node averaging is applied if you identify a shell element value by GID.
+#       - Node averaging is applied if you identify a shell or solid element value by GID.
 #         Eg: SC/1/SHELLSTRESSES/GID/123/Z1/XX
 #  [4] Operation:
 #       - Blank: Compare the value to the reference value. If there are multiple values, compare each one independently.
@@ -72,6 +72,10 @@ pth;    bush.dat;   SC/1/BUSHSTRESSES/EID/2/5;;   1.588600E-10; 0
 # From Zach
 msc;    turbo_coarse_bolted_shells_modal.bdf;   ;0;0
 msc;    turbo_coarse_bolted_shells_shear.bdf;   ;0;0
+
+# Possible RBE3 bug
+pth;    rbe3_rx_weighted_c123_c23.bdf;  SC/1/DISPLACEMENTS/GID/100/RX;; 1;  0%
+
 
 INCLUDE cases_vic.txt
 INCLUDE cases_benchmarks.txt

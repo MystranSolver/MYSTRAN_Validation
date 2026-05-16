@@ -60,12 +60,12 @@ bending. This average only equals the midsurface value if Z1 and Z2 were
 specified symmetrically in the PSHELL entry.
 
 ##### Node averaging
-Averaging of shell element corner values to grid points is applied if you identify
-a shell stress, strain or force by GID like `SC/1/SHELLSTRESSES/GID/123/Z1/XX`.
-The mapping from gid to (eid, corner) is obtained from all shell stress,
-strain, and force results in the file. Caution - This mapping may not be complete
-because all-zero rows may be omitted from all of them and therefore won't be included
-in the average.
+Averaging of solid or shell element corner values to grid points is applied if you
+identify a shell stress, strain or force by GID like
+`SC/1/SHELLSTRESSES/GID/123/Z1/XX`. The mapping from gid to (eid, corner) is obtained
+from all shell stress, strain, and force results in the file. Caution - This mapping
+may not be complete because all-zero rows may be omitted from all of them and
+therefore won't be included in the average.
 
 #### Reference value
 
