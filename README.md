@@ -41,8 +41,8 @@ Values are identified by hierarchical paths, which can lead to one or multiple v
 #### Supported data:
 - `DISPLACEMENTS`: TX, TY, TZ, RX, RY, RZ
 - `SPCFORCES`: TX, TY, TZ, RX, RY, RZ
-- `SOLIDSTRESSES`: XX, YY, ZZ, XY, YZ, ZX, VONMISES
-- `SOLIDSTRAINS`: XX, YY, ZZ, XY, YZ, ZX, VONMISES
+- `SOLIDSTRESSES`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
+- `SOLIDSTRAINS`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER
 - `SHELLSTRESSES`: XX, YY, XY, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
 - `SHELLSTRAINS`: XX, YY, XY for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
