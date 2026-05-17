@@ -55,29 +55,33 @@
 #  [6] Comment. Optional. Ignored.
 #
 
-
-# Just trying MSC f06's. Not important tests
-msc;    CQUAD4_shear.bdf;   ;   0.0;    0.0
-msc;    CQUAD8_center.bdf;  ;   0.0;    0.0
-msc;    CQUAD8_hoop.bdf;    ;   0.0;    0.0
-
-pth;    CQUAD8_hoop.bdf; SC/1/DISPLACEMENTS; ABSENT ;   0.0;    0.0; Make sure it fails
-pth;    vic/4/NAS S30 quad8 cylinder distorted.bdf;   SC/1/SHELLSTRAINS/GID/9/Z1/XX;;    0.0003183098861837907; 3%
+# Just exercising bush values because no tests use them yet. Delete later.
 pth;    bush.dat;   SC/1/BUSHFORCES/EID/1/FXE;;   5000; 1%
-pth;    bush.dat;   SC/1/BUSHFORCES/EID/2/MZE;;   0; 1e-11
-pth;    bush.dat;   SC/1/BUSHSTRAINS/EID/1/1;;   SC/1/BUSHSTRAINS/EID/1/1 * 10; 0.1% ; Math expression in reference value
-pth;    bush.dat;   SC/1/BUSHSTRAINS/EID/1/1;;   SC/1/BUSHSTRAINS/EID/1-2/1; 0.1% ; Multiple refrence values
-pth;    bush.dat;   SC/1/BUSHSTRAINS/EID/1-2/1 + SC/1/BUSHSTRAINS/EID/1-2/1,2 ;;   SC/1/BUSHSTRAINS/EID/1/1 * 10; 0.1% ; Math expression in reference value
 pth;    bush.dat;   SC/1/BUSHSTRAINS/EID/2/6;;   -7.191125E-18; 0
-pth;    bush.dat;   SC/1/BUSHSTRESSES/EID/1/2;;   5.701550E-13;0
 pth;    bush.dat;   SC/1/BUSHSTRESSES/EID/2/5;;   1.588600E-10; 0
+
 
 # From Zach
 msc;    turbo_coarse_bolted_shells_modal.bdf;   ;0;0
 msc;    turbo_coarse_bolted_shells_shear.bdf;   ;0;0
 
-# Possible RBE3 bug
+# Possible RBE3 bug from copper280z
 pth;    rbe3_rx_weighted_c123_c23.bdf;  SC/1/DISPLACEMENTS/GID/100/RX;; 1;  0%
+
+# CHEXA.bdf from copper280z
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/XX; ; 1.00000000e-03; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/YY; ; 1.00000000e-03; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/ZZ; ; 1.00000000e-03; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/XY; ; 1.00000000e-03; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/YZ; ; 1.00000000e-03; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/ZX; ; 1.00000000e-03; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XX; ; 2.00000000e+03; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YY; ; 2.00000000e+03; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZZ; ; 2.00000000e+03; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XY; ; 4.00000000e+02; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YZ; ; 4.00000000e+02; 0.1%
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZX; ; 4.00000000e+02; 0.1%
+
 
 
 INCLUDE cases_vic_9.txt
