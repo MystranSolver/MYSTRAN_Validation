@@ -11,6 +11,10 @@ from f06csv_to_magic import f06csv_args_to_magic
 from f06tree import read_f06_tree
 from f06tree import tree_get
 from f06tree import write_structure_dense
+from math_expression import Lexer
+from math_expression import Parser
+from math_expression import Evaluator
+
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
 # Error messages with explanations are for errors in test case definitions/usage.
@@ -568,6 +572,45 @@ def tree_get_layer_5(parsed_f06, path, gp_transforms, shell_angles, gid_to_corne
     return result
 
 
+def tree_get_layer_6(parsed_f06, expression, gp_transforms, shell_angles, gid_to_corners, output_file : io.TextIOWrapper):
+    # Expression is a math expression that can include paths.
+
+    # Tokenize the expression
+    lexer = Lexer(expression)
+    tokens = lexer.tokenize()
+
+    # Parse tokens into abstract syntax tree
+    parser = Parser(tokens)
+    ast = parser.parse()
+
+    # Collect variables' values. Variables are f06 paths with values from f06.
+    variables = {}
+    for token in tokens:
+        if token.type == "VARIABLE":
+            path = token.value.split("/")
+            variable_value = tree_get_layer_5(parsed_f06, path, gp_transforms, shell_angles, gid_to_corners, output_file)
+            variables[token.value] = variable_value
+
+    # Set variables' values.
+    evaluator = Evaluator()
+    for variable_name, variable_value in variables.items():
+
+        # For now, only allow paths that resolve to a single value.
+        # In future, every path in the epxression must resolve to either n or 1 values where n is constant in the whole epxression.
+        # Then evaluate over n to produce n values in the result.
+        if len(variable_value) > 1:
+            output_file.write(f"{INDENT * 2} Path has multiple values:\n")
+            output_file.write(f"{INDENT * 2} {token.value}\n")
+            return [None]
+
+        evaluator.set_variable(variable_name, variable_value[0])
+
+    # Evaluate
+    result = [evaluator.evaluate(ast)]
+
+    return result
+
+
 
 def test_path(root_dir: Path,
               working_dir: Path,
@@ -581,11 +624,11 @@ def test_path(root_dir: Path,
         nonlocal fail_count
 
         if "/" in test_case.reference_value:
-            reference_values = tree_get_layer_5(parsed_f06, test_case.reference_value.split("/"), gp_transforms, shell_angles, gid_to_corners, output_file)
+            reference_values = tree_get_layer_6(parsed_f06, test_case.reference_value, gp_transforms, shell_angles, gid_to_corners, output_file)
             if len(reference_values) > 1:
                 fail_count += 1
-                print(f"ERROR: reference value's path resolves to more than one value.")
-                output_file.write(f"{INDENT * 2}{"FAILED\tERROR: reference value's path resolves to more than one value."}\n")
+                print(f"ERROR: reference value resolves to more than one value.")
+                output_file.write(f"{INDENT * 2}{"FAILED\tERROR: reference value resolves to more than one value."}\n")
                 return
             else:
                 reference_value = reference_values[0]
