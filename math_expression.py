@@ -33,13 +33,24 @@ class Lexer:
             if self.expression[pos].isspace():
                 pos += 1
                 continue
-            
-            # Match numbers (integers or floats)
-            match = re.match(r'\d+(?:\.\d+)?', self.expression[pos:])
+
+            # Match numbers with exponential notation
+            # Pattern for: integer, float, scientific notation (e.g., 1.23e-4, 2E+5, .5e3, 1e10)
+            # Matches: 123, 123.456, 0.123, .123, 123e10, 123E-5, 123.456e+7, etc.
+            match = re.match(r'(\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?', self.expression[pos:])
             if match:
-                value = float(match.group(0))
-                self.tokens.append(Token('NUMBER', value))
-                pos += match.end()
+                value_str = match.group(0)
+                try:
+                    value = float(value_str)
+                    self.tokens.append(Token('NUMBER', value))
+                    pos += match.end()
+                    continue
+                except ValueError:
+                    pass  # If conversion fails, continue to other patterns
+
+            if self.expression[pos:pos+3] == 'nan':
+                self.tokens.append(Token('NUMBER', float('nan')))
+                pos += 3
                 continue
             
             # Match variables: Start with capital letter, then can contain capital letters, digits, /, -, ,

@@ -588,25 +588,44 @@ def tree_get_layer_6(parsed_f06, expression, gp_transforms, shell_angles, gid_to
     for token in tokens:
         if token.type == "VARIABLE":
             path = token.value.split("/")
-            variable_value = tree_get_layer_5(parsed_f06, path, gp_transforms, shell_angles, gid_to_corners, output_file)
-            variables[token.value] = variable_value
+            variable_values = tree_get_layer_5(parsed_f06, path, gp_transforms, shell_angles, gid_to_corners, output_file)
+            variables[token.value] = variable_values
 
-    # Set variables' values.
-    evaluator = Evaluator()
-    for variable_name, variable_value in variables.items():
-
-        # For now, only allow paths that resolve to a single value.
-        # In future, every path in the epxression must resolve to either n or 1 values where n is constant in the whole epxression.
-        # Then evaluate over n to produce n values in the result.
-        if len(variable_value) > 1:
-            output_file.write(f"{INDENT * 2} Path has multiple values:\n")
-            output_file.write(f"{INDENT * 2} {token.value}\n")
+    # Count the number of values in each variable
+    n = None
+    for variable_name, variable_values in variables.items():
+        count = len(variable_values)
+        if count == 1:
+            pass
+        elif n == None:
+            n = count
+        elif n == count:
+            pass
+        else:
+            output_file.write(f"{INDENT * 2} A path resolves to a number of values that's incompatible with other paths in the expression:\n")
+            output_file.write(f"{INDENT * 2} {variable_name} has {count} values but another path has {n} values.\n")
+            output_file.write(f"{INDENT * 2} Every path in the expression must have either the same number of values or 1 value.\n")
             return [None]
 
-        evaluator.set_variable(variable_name, variable_value[0])
+    # If there are no variables, there's one value.
+    if n == None:
+        n = 1
 
-    # Evaluate
-    result = [evaluator.evaluate(ast)]
+    result = []
+    for index in range(n):
+    
+        evaluator = Evaluator()
+
+        # Set variables' values.
+        for variable_name, variable_values in variables.items():
+
+            if len(variable_values) == 1:
+                evaluator.set_variable(variable_name, variable_values[0])
+            elif len(variable_values) > 1:
+                evaluator.set_variable(variable_name, variable_values[index])
+
+        # Evaluate
+        result.append(evaluator.evaluate(ast))
 
     return result
 
@@ -623,17 +642,14 @@ def test_path(root_dir: Path,
         nonlocal worst_error
         nonlocal fail_count
 
-        if "/" in test_case.reference_value:
-            reference_values = tree_get_layer_6(parsed_f06, test_case.reference_value, gp_transforms, shell_angles, gid_to_corners, output_file)
-            if len(reference_values) > 1:
-                fail_count += 1
-                print(f"ERROR: reference value resolves to more than one value.")
-                output_file.write(f"{INDENT * 2}{"FAILED\tERROR: reference value resolves to more than one value."}\n")
-                return
-            else:
-                reference_value = reference_values[0]
+        reference_values = tree_get_layer_6(parsed_f06, test_case.reference_value, gp_transforms, shell_angles, gid_to_corners, output_file)
+        if len(reference_values) > 1:
+            fail_count += 1
+            print(f"ERROR: reference value resolves to more than one value.")
+            output_file.write(f"{INDENT * 2}{"FAILED\tERROR: reference value resolves to more than one value."}\n")
+            return
         else:
-            reference_value = float(test_case.reference_value)
+            reference_value = reference_values[0]
 
         if math.isnan(reference_value):
             # Testing for NaN doesn't use the tolerance or comparison type.
@@ -680,10 +696,7 @@ def test_path(root_dir: Path,
         # Make GID to (EID,corner) reverse lookup
         gid_to_corners = build_gid_to_corners(parsed_f06)
 
-        # Convert path from "/" delimited string to list
-        tree_path = test_case.filter_string.split("/")
-
-        values = tree_get_layer_5(parsed_f06, tree_path, gp_transforms, shell_angles, gid_to_corners, output_file)
+        values = tree_get_layer_6(parsed_f06, test_case.filter_string, gp_transforms, shell_angles, gid_to_corners, output_file)
 
         match test_case.operation:
             case "":
