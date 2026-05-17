@@ -23,17 +23,18 @@
 #         Eg: SC/1/SHELLSTRESSES/EID/123/CORNER/4/ZMID/XX
 #       - Node averaging is applied if you identify a shell or solid element value by GID.
 #         Eg: SC/1/SHELLSTRESSES/GID/123/Z1/XX
+#       - Can be a math expression where paths act as variables.
+#         Eg: 2 * SC/1/DISPLACEMENTS/GID/1/TX + SC/1/DISPLACEMENTS/GID/1/TY
 #  [4] Operation:
 #       - Blank: Compare the value to the reference value. If there are multiple values, compare each one independently.
 #       - SUM: Compare the sum of multiple values to the reference value.
-#       - DIFF: Compare the difference between exactly two values to the reference value.
-#       - RATIO: Compare the ratio of exactly two values to the reference value.
 #       - NORM: Compare the L2 norm of multiple values to the reference value. Reduces to absolute value for a single value.
 #       - ANGLEFROMX: Compare the angle between (TX,TY,TZ) and the X axis to the reference value, ignoring the sign.
 #       - ANGLEFROMY: Compare the angle between (TX,TY,TZ) and the Y axis to the reference value, ignoring the sign.
 #       - ANGLEFROMZ: Compare the angle between (TX,TY,TZ) and the Z axis to the reference value, ignoring the sign.
 #       - ABSENT: Pass if the path doesn't exist. Useful for making sure a model that should fail didn't produce a solution.
-#  [5] Reference value. It can be either a number or a path that leads to a single value.
+#  [5] Reference value. A math expression that resolves to a single value. It can include paths to refer to values
+#      from the f06 file.
 #  [6] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
 #      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
 #  [7] Comment. Optional. Ignored.

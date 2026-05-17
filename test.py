@@ -725,36 +725,6 @@ def test_path(root_dir: Path,
                 else:
                     compare(value_sum)
 
-            case "DIFF":
-
-                comparison_count += 1
-                if len(values) < 2:
-                    fail_count += 1
-                    output_file.write(f"FAIL. Wrong number of values for DIFF. Must be at least two.\n")
-                else:
-                    # Calculate <first value> - <last value>
-                    value1 = values[0]
-                    value2 = values[-1]
-                    if value1 is None or value2 is None:
-                        fail_count += 1
-                        output_file.write(f"{INDENT * 2}FAILED\n")
-                    compare(value1 - value2)
-
-            case "RATIO":
-
-                comparison_count += 1
-                if len(values) < 2:
-                    fail_count += 1
-                    output_file.write(f"FAIL. Wrong number of values for RATIO. Must be at least two.\n")
-                else:
-                    # Calculate <first value> / <last value>
-                    value1 = values[0]
-                    value2 = values[-1]
-                    if value1 is None or value2 is None:
-                        fail_count += 1
-                        output_file.write(f"{INDENT * 2}FAILED\n")
-                    compare(value1 / value2)
-
             case "NORM":
 
                 comparison_count += 1

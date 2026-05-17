@@ -24,16 +24,18 @@ Example line in cases.txt:
 ```
 pth;    my test.dat;   SC/1/DISPLACEMENTS/GID/8/RX;            ;  1.234e-5;     2e-5%
         -----------    ---------------------------  ---------     --------      -----
-       deck filename              path              operation    reference    tolerance
+       deck filename            test value          operation    reference    tolerance
                                                                    value
 ```
 This solves the file `my test.dat` then compares rotation about X at grid point
 8 to 1.234e-5 with a tolerance that's reasonable for single precision or the 7
 digits typical of values in an f06 file.
 
-#### Path
-Values are identified by hierarchical paths, which can lead to one or multiple values. Examples:
+#### Test value
+The test value is a math expression which can include heirarchical paths in the f06 file as variables.
+The paths can resolve to one or multiple values. Examples:
 - `SC/1/DISPLACEMENTS/GID/8/TY` One value
+- `10 * SC/1/DISPLACEMENTS/GID/8/TY` Multiplication
 - `SC/1/SPCFORCES/GID/10-90/TX` A range of 81 grid point IDs.
 - `SC/1/SOLIDSTRESSES/EID/4/CORNER/0/XY,YZ,ZX`   A list of three center stress components.
 - `SC/1/SOLIDSTRAINS/EID/1,5/CORNER/1-6/XX` Both a list of 2 element IDs and a set of 6 corner numbers, giving 12 values.
@@ -69,7 +71,8 @@ therefore won't be included in the average.
 
 #### Reference value
 
-The reference value can be either a number or a path that resolves to a single value.
+The reference value is a math expression which can include heirarchical paths in the f06 file as variables.
+Any paths must resolve to a single value.
 
 #### Tolerance
 If the tolerance ends with a `%`, it means **percentage tolerance**. This
@@ -91,8 +94,6 @@ You can apply an operation before comparing to the reference value:
 values, compare each one independently.
 - `SUM`: Sum multiple values. Useful for validating reaction force balance over
 multiple nodes.
-- `DIFF`: 1st value minus last value. There can be more than two values such as for 34,35/TX,TY, it uses 34/TX - 35/TY.
-- `RATIO`: 1st value divided by last value. There can be more than two values such as for 34,35/TX,TY, it uses 34/TX / 35/TY.
 - `NORM`: L2 norm. Useful for finding vector magnitude, ensuring that a lot of
 values are all zero, or ignoring the sign in an eigenvector.
 - `ANGLEFROMX`: Angle of a translational DOF vector (TX, TY, TZ) from the X axis,
