@@ -1,65 +1,9 @@
-# Each test case is described on one line.
-# Fields are semi-colon delimited.
-# White space between fields is ignored.
-# Blank lines and white-space-only lines are ignored.
-# Comment lines begin with # and are ignored.
-# INCLUDE filename.txt includes the contents of another file of the same format at that point.
-#
-# Fields:
-#
-#   Individual values test case:
-#
-#  [1] Test type. Must be "pth".
-#  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
-#  [3] Path:
-#       - / delimited path within the f06 file.
-#       - Multiple values can be defined by comma-delimited lists. Eg: SC/1/DISPLACEMENTS/GID/1,3,6,8/TX,TY
-#       - Multiple values of integer path nodes can be defined by a range. Eg: SC/1/DISPLACEMENTS/GID/1-8/TX
-#       - Displacements are transformed to a different coordinate system if transformation matrices are provided
-#         in a file with the same path as the deck but the extension .gp_transform.
-#       - Shell stresses, strains, and engineering forces are rotated if angles are provided in a file with
-#         the same path as the deck but the extension .shell_angles.
-#       - Shell inlayer stress and strain and Z1 and Z2 can be averaged using ZMID.
-#         Eg: SC/1/SHELLSTRESSES/EID/123/CORNER/4/ZMID/XX
-#       - Node averaging is applied if you identify a shell or solid element value by GID.
-#         Eg: SC/1/SHELLSTRESSES/GID/123/Z1/XX
-#       - Can be a math expression where paths act as variables.
-#         Eg: 2 * SC/1/DISPLACEMENTS/GID/1/TX + SC/1/DISPLACEMENTS/GID/1/TY
-#  [4] Operation:
-#       - Blank: Compare the value to the reference value. If there are multiple values, compare each one independently.
-#       - SUM: Compare the sum of multiple values to the reference value.
-#       - NORM: Compare the L2 norm of multiple values to the reference value. Reduces to absolute value for a single value.
-#       - ANGLEFROMX: Compare the angle between (TX,TY,TZ) and the X axis to the reference value, ignoring the sign.
-#       - ANGLEFROMY: Compare the angle between (TX,TY,TZ) and the Y axis to the reference value, ignoring the sign.
-#       - ANGLEFROMZ: Compare the angle between (TX,TY,TZ) and the Z axis to the reference value, ignoring the sign.
-#       - ABSENT: Pass if the path doesn't exist. Useful for making sure a model that should fail didn't produce a solution.
-#  [5] Reference value. A math expression that resolves to a single value. It can include paths to refer to values
-#      from the f06 file.
-#  [6] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
-#      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
-#  [7] Comment. Optional. Ignored.
-#
-#
-#   Bulk comparison test case:
-#
-#  [1] Test type.
-#    "mys" means use reference solution in reference_mystran directory.
-#    "msc" means use reference solution in reference_msc directory.
-#  [2] Deck filename. If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
-#  [3] F06csv filters
-#       eg: -b=1 -g=1,3,7
-#       f06csv flags like -H are not allowed.
-#  [4] Threshold for percent tolerance. Ignore (pass) pairs where the absolute value of the reference value is less than this.
-#  [5] If it contains "%", it's percent tolerance. Pass if 100 * abs(test/ref - 1) <= [percent tolerance]
-#      Otherwise, it's difference tolerance. Pass if abs(test - ref) <= [difference tolerance]
-#  [6] Comment. Optional. Ignored.
-#
+
 
 # Just exercising bush values because no tests use them yet. Delete later.
 pth;    bush.dat;   SC/1/BUSHFORCES/EID/1/FXE;;   5000; 1%; KNOWNFAIL doesn't matter why.
 pth;    bush.dat;   SC/1/BUSHSTRAINS/EID/2/6;;   -7.191125E-18; 0
 pth;    bush.dat;   SC/1/BUSHSTRESSES/EID/2/5;;   1.588600E-10; 0
-
 
 # From Zach
 msc;    turbo_coarse_bolted_shells_modal.bdf;   ;0;0

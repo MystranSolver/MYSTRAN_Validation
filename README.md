@@ -12,8 +12,19 @@ py test.py path/to/mystran.exe
 Build f06magic somehow or use the included .exe file on Windows. If
 you're not using Windows, give the binary the .exe extension.
 
-## Features
-Each test case is described by one line in the `cases.txt` file. There are two types - individual values and bulk comparison:
+## Define tests
+Each test case is described by one line in the `cases.txt` file. There are two types - individual values and bulk comparison.
+
+Blank lines and white-space-only lines are ignored.
+
+Lines beginning with `#` are comments and are ignored.
+
+`INCLUDE <filename>` on a line includes the contents of the file <filename> at that
+point. Useful for organizing test cases or to temporarily disable groups of test
+cases you're not using.
+
+White space between fields is ignored.
+
 ### Individual values
 
 Compares values from the f06 file to a reference value defined on the same line.
@@ -24,6 +35,7 @@ Example line in cases.txt:
 ```
 pth;    my test.dat;   SC/1/DISPLACEMENTS/GID/8/RX;            ;  1.234e-5;     2e-5%;      blah
         -----------    ---------------------------  ---------     --------      -----       ----
+Field 1   Field 2                Field 3             Field 4      Field 5      Field 6    Field 7
        deck filename            test value          operation    reference    tolerance   comment
                                                                    value
 ```
@@ -31,7 +43,10 @@ This solves the file `my test.dat` then compares rotation about X at grid point
 8 to 1.234e-5 with a tolerance that's reasonable for single precision or the 7
 digits typical of values in an f06 file.
 
-#### Test value
+#### Field 2. Deck filename
+If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
+
+#### Field 3. Test value
 The test value is a math expression which can include heirarchical paths in the f06 file as variables.
 The paths can resolve to one or multiple values. Examples:
 - `SC/1/DISPLACEMENTS/GID/8/TY` One value
@@ -69,26 +84,7 @@ from all shell stress, strain, and force results in the file. Caution - This map
 may not be complete because all-zero rows may be omitted from all of them and
 therefore won't be included in the average.
 
-#### Reference value
-
-The reference value is a math expression which can include heirarchical paths in the f06 file as variables.
-Any paths must resolve to a single value.
-
-#### Tolerance
-If the tolerance ends with a `%`, it means **percentage tolerance**. This
-criterion is useful for most cases except where the reference value is
-zero. Percentage test passes if:
-```
-100 * |<test value> / <reference value> - 1| <= <tolerance>
-```
-If there's no `%` symbol in the tolerance field, it means **difference tolerance**.
-This criterion is useful where the reference value is zero. Difference test
-passes if:
-```
-|<test value> - <reference value>| <= <tolerance>
-```
-
-#### Operation
+#### Field 4. Operation
 You can apply an operation before comparing to the reference value:
 - None: Simply compare the value to the reference value. If there are multiple
 values, compare each one independently.
@@ -106,8 +102,27 @@ mode shape.
 - `ABSENT`: Pass if the path doesn't exist. Useful for making sure a model that 
 should fail didn't produce a solution.
 
-#### Known failures
-If the comment at the end of the line begins with KNOWNFAIL then the test case's
+#### Field 5. Reference value
+
+The reference value has the same format as test value but it must resolve to a single
+value.
+
+#### Field 6. Tolerance
+If the tolerance ends with a `%`, it means **percentage tolerance**. This
+criterion is useful for most cases except where the reference value is
+zero. Percentage test passes if:
+```
+100 * |<test value> / <reference value> - 1| <= <tolerance>
+```
+If there's no `%` symbol in the tolerance field, it means **difference tolerance**.
+This criterion is useful where the reference value is zero. Difference test
+passes if:
+```
+|<test value> - <reference value>| <= <tolerance>
+```
+
+#### Field 7. Comment and Known failures
+If the comment at the end of the line begins with `KNOWNFAIL` then the test case's
 result is inverted. ie. KNOWNFAILs must fail. This is useful for unfixed bugs so
 they don't pollute the results with fail notices.
 
@@ -131,15 +146,6 @@ Mystran sometimes omits rows with all zero values from the f06 file. These
 are treated as zero instead of errors at specific paths, such as
 `/SC/*/SPCFORCES/GID/#/*`.
 
-#### Multiple test cases on the same deck
-As an optimization, if a test case uses the same input deck as the previous
-test case, it will reuse the previous solution without running Mystran again.
-
-#### Include files
-`INCLUDE <filename>` on a line in the test case definition file includes the
-contents of the file <filename> at that point. Useful for organizing test cases
-or to temporarily disable groups of test cases you're not using.
-
 
 ### Bulk comparison
 
@@ -157,15 +163,30 @@ mys;    my_test.bdf;     -b=1   ;    0.0;    0.0
 This solves my_test.bdf then compares displacements at all grid points to
 the reference f06 file `reference_mystran/my_test.f06`.
 
-The reference f06 file is from either an earlier version of Mystran or MSC
-Nastran and you store it in either the `/reference_mystran` or `/reference_msc`
-directory respectively.
+#### Field 1. Test type
+- `mys` means use reference f06 file in `reference_mystran` directory.
+- `msc` means use reference f06 file in `reference_msc` directory.
 
+#### Field 2. Deck filename
+If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
+
+#### Field 3. Filter string
 Values to compare can be filtered using arguments like `-b=2 -s=1 -g=1,3,7`
+
+F06csv flags like -H are not allowed.
 
 Uses F06magic to emulate F06csv.
 
+#### Fields 4 and 5
 The criteria and tolerances are not defined yet so don't use them.
+
+#### Field 6. Comment and Known failures
+If the comment at the end of the line begins with `KNOWNFAIL` then the test case's
+result is inverted. ie. KNOWNFAILs must fail. This is useful for unfixed bugs so
+they don't pollute the results with fail notices.
+
+
+
 
 
 
