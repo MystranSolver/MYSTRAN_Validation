@@ -234,7 +234,19 @@ criteria = \"only criteria\"
     # Run f06magic
     fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
 
-    return fail_count
+
+    message = ""
+
+    # Known fails must fail.
+    if test_case.knownfail:
+        if fail_count > 0:
+            fail_count = 0
+            message += f"\tKNOWNFAIL failed as expected"
+        else:
+            fail_count += 1
+            message += f"\tKNOWNFAIL passed"
+
+    return fail_count, message
 
 
 
@@ -867,8 +879,7 @@ def run_case(mystran_path: Path,
 
     if test_case.test_type == "mys" or test_case.test_type == "msc":
 
-        fail_count = test_f06csv(root_dir, working_dir, test_f06_path, output_file, test_case)
-        message = ""
+        fail_count, message = test_f06csv(root_dir, working_dir, test_f06_path, output_file, test_case)
         if fail_count == 254:
             # 254 is the maximum that f06magic can report through the exit code.
             count_suffix = "+"

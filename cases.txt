@@ -9,12 +9,9 @@ pth;    bush.dat;   SC/1/BUSHSTRESSES/EID/2/5;;   1.588600E-10; 0
 msc;    turbo_coarse_bolted_shells_modal.bdf;   ;0;0
 msc;    turbo_coarse_bolted_shells_shear.bdf;   ;0;0
 
-# Possible RBE3 bug from copper280z
-# Intuition says 1.0 from 1.0 radian rigid body rotation of all grid points despite weights.
-# Comlab says 1.0
-# MSC says ?
-# Mystran says 0.1
+# RBE3 bug from copper280z
 pth;    rbe3_rx_weighted_c123_c23.bdf;  SC/1/DISPLACEMENTS/GID/100/RX;; 1;  0%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/224
+msc;    rbe3_rx_weighted_c123_c23.bdf;  ; 0 ;  0;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/224
 
 # Macneal-Harder 3D patch test. From copper280z
 pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/XX; ; 1.00000000e-03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
