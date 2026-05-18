@@ -31,6 +31,7 @@ class Definition:
         self.threshold = 0.0
         self.comparison_type = "percent"
         self.tolerance = 0.0
+        self.knownfail = False
 
     def tolerance_suffix(self):
         return "%" if self.comparison_type == "percent" else ""        
@@ -83,6 +84,8 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
                         sys.exit(1)
                     definition.threshold = float(definition_fields_str[3])
                     read_tolerance(definition_fields_str[4])
+                    if len(definition_fields_str) > 5:
+                        definition.knownfail = definition_fields_str[5].startswith("KNOWNFAIL")
                 case "pth":
                     if len(definition_fields_str) < 6:
                         print(f"ERROR: Not enough fields in")
@@ -91,7 +94,8 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
                     definition.operation = definition_fields_str[3]
                     definition.reference_value = definition_fields_str[4]
                     read_tolerance(definition_fields_str[5])
-
+                    if len(definition_fields_str) > 6:
+                        definition.knownfail = definition_fields_str[6].startswith("KNOWNFAIL")
 
             result.append(definition)
     
@@ -804,6 +808,15 @@ def test_path(root_dir: Path,
         message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}"
     else:
         message = ""
+
+    # Known fails must fail.
+    if test_case.knownfail:
+        if fail_count > 0:
+            fail_count = 0
+            message += f"\tKNOWNFAIL failed as expected"
+        else:
+            fail_count += 1
+            message += f"\tKNOWNFAIL passed"
 
     return fail_count, comparison_count, message
    

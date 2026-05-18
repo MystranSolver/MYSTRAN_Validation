@@ -22,9 +22,9 @@ hand calcululations or published benchmark solutions.
 
 Example line in cases.txt:
 ```
-pth;    my test.dat;   SC/1/DISPLACEMENTS/GID/8/RX;            ;  1.234e-5;     2e-5%
-        -----------    ---------------------------  ---------     --------      -----
-       deck filename            test value          operation    reference    tolerance
+pth;    my test.dat;   SC/1/DISPLACEMENTS/GID/8/RX;            ;  1.234e-5;     2e-5%;      blah
+        -----------    ---------------------------  ---------     --------      -----       ----
+       deck filename            test value          operation    reference    tolerance   comment
                                                                    value
 ```
 This solves the file `my test.dat` then compares rotation about X at grid point
@@ -55,13 +55,13 @@ The paths can resolve to one or multiple values. Examples:
 - `EIGENVECTOR`: TX, TY, TZ, RX, RY, RZ
 - `REALEIGENVALUES`: EIGENVALUE, CYCLES
 
-##### Midsurface stress and strain
+#### Midsurface stress and strain
 Use `ZMID` instead of `Z1` or `Z2` to calculate the average of the values at
 Z1 and Z2. This is useful for validating membrane strain when there's also
 bending. This average only equals the midsurface value if Z1 and Z2 were
 specified symmetrically in the PSHELL entry.
 
-##### Node averaging
+#### Node averaging
 Averaging of solid or shell element corner values to grid points is applied if you
 identify a shell stress, strain or force by GID like
 `SC/1/SHELLSTRESSES/GID/123/Z1/XX`. The mapping from gid to (eid, corner) is obtained
@@ -105,6 +105,11 @@ mode shape.
 - `ANGLEFROMZ`: The same as ANGLEFROMX except from the Z axis.
 - `ABSENT`: Pass if the path doesn't exist. Useful for making sure a model that 
 should fail didn't produce a solution.
+
+#### Known failures
+If the comment at the end of the line begins with KNOWNFAIL then the test case's
+result is inverted. ie. KNOWNFAILs must fail. This is useful for unfixed bugs so
+they don't pollute the results with fail notices.
 
 #### Grid point transformations
 Displacements and SPC forces can be transformed by matrices supplied in a separate
