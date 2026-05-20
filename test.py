@@ -15,7 +15,7 @@ from math_expression import Lexer
 from math_expression import Parser
 from math_expression import Evaluator
 from grid_reader import read_nastran_grids
-
+from element_reader import parse_nastran_connectivity
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
 # Error messages with explanations are for errors in test case definitions/usage.
@@ -333,33 +333,44 @@ def read_shell_angles(filepath: str) -> dict:
     return result
         
 
-def build_gid_to_corners(parsed_f06) -> dict:
+def build_gid_to_corners(deck_path: Path) -> dict:
     """Build a reverse lookup from GID to list of (EID, corner) pairs using
-    corner GID numbers."""
+    the input deck."""
 
     result: dict = {}
 
-    subcases_node = parsed_f06.get("SC")
-    if subcases_node is not None:
-        for subcase_node in subcases_node.values():
-            for block_type in ["SHELLSTRESSES", "SHELLSTRAINS", "SHELLFORCES",
-                               "SOLIDSTRESSES", "SOLIDSTRAINS"]:
-                block_node = subcase_node.get(block_type)
-                if block_node is not None:
-                    eids_node = block_node["EID"]
-                    for eid in eids_node.keys():
-                        corners_node = eids_node[eid]["CORNER"]
-                        for corner in corners_node.keys():
-                            gid_int = corners_node[corner].get("GID")
-                            # GID doesn't exist for corner 0 (center).
-                            if gid_int is not None:
-                                gid = str(gid_int)
-                                # Make sure a list exists for this GID
-                                if gid not in result:
-                                    result[gid] = []
-                                # Prevent duplicates from different blocks and subcases.
-                                if (eid, corner) not in result[gid]:
-                                    result[gid].append((eid, corner))
+    records = parse_nastran_connectivity(deck_path)
+
+    for element in records:
+        corners = None
+        match element.elem_type:
+            case "CTRIA3": corners = range(0, 1)
+            case "CQUAD4": corners = range(1, 5)
+            case "CQUAD8": corners = range(1, 5)
+            case "CHEXA": corners = range(1, 9)
+            case "CPENTA": corners = range(1, 7)
+            case "CTETRA": corners = range(1, 5)
+            case _:
+                print(f"ERROR 876287 {element.elem_type}")
+                sys.exit(1)
+        for corner in corners:
+
+            if corner == 0:
+                # Center only
+                for gid_int in element.nodes:
+                    gid = str(gid_int)
+                    # Make sure a list exists for this GID
+                    if gid not in result:
+                        result[gid] = []
+                    result[gid].append((str(element.eid), str(corner)))
+            
+            if corner >= 1:
+                # Corners only
+                gid = str(element.nodes[corner - 1])
+                # Make sure a list exists for this GID
+                if gid not in result:
+                    result[gid] = []
+                result[gid].append((str(element.eid), str(corner)))
 
     return result
 
@@ -747,7 +758,7 @@ def test_path(root_dir: Path,
         gp_coordinates = read_nastran_grids(deck_path)
 
         # Make GID to (EID,corner) reverse lookup
-        gid_to_corners = build_gid_to_corners(parsed_f06)
+        gid_to_corners = build_gid_to_corners(deck_path)
 
         values = tree_get_layer_6(parsed_f06, test_case.filter_string, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
 

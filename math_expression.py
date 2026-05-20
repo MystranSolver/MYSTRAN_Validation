@@ -58,8 +58,18 @@ class Lexer:
             match = re.match(r'[A-Z][A-Z0-9/\-,]*', self.expression[pos:])
             if match:
                 value = match.group(0)
-                # Check if it's a function name (currently only atan2)
-                if value == 'ATAN2':
+                self.tokens.append(Token('VARIABLE', value))
+                pos += match.end()
+                continue
+
+            # Match functions: Start with lower case letter
+            match = re.match(r'[a-z][a-z0-9]*', self.expression[pos:])
+            if match:
+                value = match.group(0)
+                # Check if it's a function name
+                if value == 'atan2':
+                    self.tokens.append(Token('FUNCTION', value.lower()))
+                elif value == 'sqrt':
                     self.tokens.append(Token('FUNCTION', value.lower()))
                 else:
                     self.tokens.append(Token('VARIABLE', value))
@@ -287,6 +297,10 @@ class Evaluator:
                 if len(args) != 2:
                     raise MathExpressionError(f"atan2 requires exactly 2 arguments, got {len(args)}")
                 return math.atan2(args[0], args[1])
+            elif func_name == 'sqrt':
+                if len(args) != 1:
+                    raise MathExpressionError(f"sqrt requires exactly 1 argument, got {len(args)}")
+                return math.sqrt(args[0])
             else:
                 raise MathExpressionError(f"Unknown function: {func_name}")
         

@@ -511,7 +511,12 @@ def tree_get(parsed_f06, path):
             
             # /SC/#/SPCFORCES/GID/#/##
             #                     ^--- not present.
-            if index == 4 and len(path) == 6 and path[0] == "SC" and path[2] == "SPCFORCES" and path[3] == "GID":
+            if index == 4 \
+            and len(path) == 6 \
+            and path[0] == "SC" \
+            and path[2] in("SPCFORCES", "MPCFORCES") \
+            and path[3] == "GID" \
+            and path[5] in("TX","TY","TZ","RX","RY","RZ"):
                 value = 0.0
                 break
             else:

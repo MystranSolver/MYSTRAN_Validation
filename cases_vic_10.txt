@@ -1,0 +1,147 @@
+########################
+# Vic test case set 10 #
+########################
+
+
+pth;    vic/10/NAS S30 all zero SPC forces.bdf; SC/1/SPCFORCES/GID/4/TX,TY,TZ;  NORM;   0;  0
+pth;    vic/10/NAS S30 all zero SPC forces.bdf; SC/1/SPCFORCES/GID/4/RX;;               0;  0
+pth;    vic/10/NAS S30 all zero SPC forces.bdf; SC/1/SPCFORCES/GID/3/TZ;;               0;  0
+pth;    vic/10/NAS S30 all zero SPC forces.bdf; SC/1/SPCFORCES/GID/3/RZ;;               0;  0
+
+pth;	vic/10/NAS S30 all zero MPC forces.bdf;	SC/1/MPCFORCES/GID/4/TX,TY,TZ;NORM;	0;	0
+pth;	vic/10/NAS S30 all zero MPC forces.bdf;	SC/1/MPCFORCES/GID/4/RX;;	0;	0
+pth;	vic/10/NAS S30 all zero MPC forces.bdf;	SC/1/MPCFORCES/GID/3/TZ;;	0;	0
+pth;	vic/10/NAS S30 all zero MPC forces.bdf;	SC/1/MPCFORCES/GID/3/RZ;;	0;	0
+pth;	vic/10/NAS S30 all zero MPC forces.bdf;	SC/1/MPCFORCES/GID/11/TY;;	0;	0
+pth;	vic/10/NAS S30 all zero MPC forces.bdf;	SC/1/MPCFORCES/GID/11/RY;;	0;	0
+
+pth;	vic/10/NAS S30 AUTOSPC reaction forces.bdf;	SC/1/SPCFORCES/GID/10/TX;;	-11111;	2e-5%
+pth;	vic/10/NAS S30 AUTOSPC reaction forces.bdf;	SC/1/SPCFORCES/GID/9/RZ;;	-22222;	2e-5%
+
+pth;	vic/10/NAS S30 MITC4+ corner stress order.bdf;	SC/1/SHELLSTRESSES/GID/2,3,6,7,10,11,14,15/ZMID/XX;;	-75;	2e-5%
+pth;	vic/10/NAS S30 MITC4+ corner stress order.bdf;	SC/1/SHELLSTRAINS/GID/2,3,6,7,10,11,14,15/ZMID/XX;;	-0.0000025;	2e-5%
+pth;	vic/10/NAS S30 MITC4+ corner stress order.bdf;	SC/1/SHELLFORCES/GID/2,3,6,7,10,11,14,15/NXX;;	-1.5;	2e-5%
+pth;	vic/10/NAS S30 MITC4+ corner stress order.bdf;	SC/1/SHELLSTRESSES/GID/1,4,5,8,9,12,13,16/ZMID/XX;;	25;	2e-5%
+pth;	vic/10/NAS S30 MITC4+ corner stress order.bdf;	SC/1/SHELLSTRAINS/GID/1,4,5,8,9,12,13,16/ZMID/XX;;	0.000000833333333333333;	0.0001%
+pth;	vic/10/NAS S30 MITC4+ corner stress order.bdf;	SC/1/SHELLFORCES/GID/1,4,5,8,9,12,13,16/NXX;;	0.5;	2e-5%
+
+pth;	vic/10/NAS S30 mitc4 Raasch hook SNORM.bdf;	SC/1/DISPLACEMENTS/GID/40/TY;;	5 * 0.0254;	15%
+pth;	vic/10/NAS S30 mitc4 Raasch hook SNORM.bdf;	SC/1/DISPLACEMENTS/GID/98/TY;;	5 * 0.0254;	6%
+pth;	vic/10/NAS S30 mitc4 Raasch hook SNORM.bdf;	SC/1/DISPLACEMENTS/GID/311/TY;;	5 * 0.0254;	2%
+pth;	vic/10/NAS S30 mitc4 Raasch hook SNORM.bdf;	SC/1/DISPLACEMENTS/GID/2648/TY;;	5 * 0.0254;	0.1%
+
+pth;	vic/10/NAS S30 mitc8 Raasch hook.bdf;	SC/1/DISPLACEMENTS/GID/40/TY;;	5 * 0.0254;	4%
+pth;	vic/10/NAS S30 mitc8 Raasch hook.bdf;	SC/1/DISPLACEMENTS/GID/98/TY;;	5 * 0.0254;	5%
+pth;	vic/10/NAS S30 mitc8 Raasch hook.bdf;	SC/1/DISPLACEMENTS/GID/311/TY;;	5 * 0.0254;	15%
+pth;	vic/10/NAS S30 mitc8 Raasch hook.bdf;	SC/1/DISPLACEMENTS/GID/2648/TY;;	5 * 0.0254;	3%
+
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/3/RZ;;	0.00011111;	0.01%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/18/RZ;;	0;	0
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/7/RZ;;	0.00005555;	0.1%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/43/RZ;;	0.00011111;	0.01%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/11/RZ;;	0.00011111;	0.01%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/23/RZ;;	0.00011111 / sqrt(2);	0.01%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/27/RZ;;	0.00005555 / sqrt(2);	0.1%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/47/RZ;;	0.00011111 / sqrt(2);	0.01%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/31/RZ;;	0.00011111 / sqrt(2);	0.01%
+
+pth;	vic/10/NAS S30 K6ROT MITC4+.bdf;	SC/1/DISPLACEMENTS/GID/3/RZ;;	0.00011111;	0.01%
+pth;	vic/10/NAS S30 K6ROT MITC4+.bdf;	SC/1/DISPLACEMENTS/GID/18/RZ;;	0;	0
+pth;	vic/10/NAS S30 K6ROT MITC4+.bdf;	SC/1/DISPLACEMENTS/GID/7/RZ;;	0.00005555;	0.1%
+pth;	vic/10/NAS S30 K6ROT MITC4+.bdf;	SC/1/DISPLACEMENTS/GID/43/RZ;;	0.00011111;	0.01%
+pth;	vic/10/NAS S30 K6ROT MITC4+.bdf;	SC/1/DISPLACEMENTS/GID/11/RZ;;	0.00011111;	0.01%
+pth;	vic/10/NAS S30 K6ROT MITC4+.bdf;	SC/1/DISPLACEMENTS/GID/23/RZ;;	0.00011111 / sqrt(2);	0.01%
+pth;	vic/10/NAS S30 K6ROT MITC4+.bdf;	SC/1/DISPLACEMENTS/GID/27/RZ;;	0.00005555 / sqrt(2);	0.1%
+pth;	vic/10/NAS S30 K6ROT MITC4+.bdf;	SC/1/DISPLACEMENTS/GID/47/RZ;;	0.00011111 / sqrt(2);	0.01%
+pth;	vic/10/NAS S30 K6ROT MITC4+.bdf;	SC/1/DISPLACEMENTS/GID/31/RZ;;	0.00011111 / sqrt(2);	0.01%
+
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/9,11/Z1/XX;;	 0.13 / 1.2;	0.0005%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/9,11/ZMID/XX;;	 0.13 / 1.2;	0.0005%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/9,11/Z2/XX;;	 0.13 / 1.2;	0.0005%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/21,22,23,24/Z1/XX;;	-0.06666666666666;	0.0001%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/21,22,23,24/ZMID/XX;;	0;	1e-11
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/21,22,23,24/Z2/XX;;	0.06666666666666;	0.0001%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/13,14/Z1/YY;;	0.13 / 1.2;	0.0005%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/13,14/ZMID/YY;;	0.13 / 1.2;	0.0005%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/13,14/Z2/YY;;	0.13 / 1.2;	0.0005%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/1,2,3,4/Z1/XY;;	0.012 / 1.2;	0.0001%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/1,2,3,4/ZMID/XY;;	0.012 / 1.2;	0.0001%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/1,2,3,4/Z2/XY;;	0.012 / 1.2;	0.0001%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/17,18,19,20/YZ;;	0.1 / 1.2;	0.0001%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/5,6,7,8/ZX;;	0.1 / 1.2;	0.0001%
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/25,26,27,28/Z1/XX;;	0;  1e-12
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/25,26,27,28/Z1/YY;;   0;  1e-12
+pth;	vic/10/S30 mitc3 strain.bdf;	SC/1/SHELLSTRAINS/GID/25,26,27,28/Z1/XY;;	0.07 / 1.2;	0.0002%
+
+
+
+#todo below
+
+pth;	vic/10/NAS S30 tiny principal stress and strain angle bug.bdf;	SC/1/SHELLSTRESSES/EID/1/CENTER/ZMID/ANGLE;;	90;	2e-5%
+pth;	vic/10/NAS S30 tiny principal stress and strain angle bug.bdf;	SC/1/SHELLSTRAINS/EID/1/CENTER/ZMID/ANGLE;;	90;	2e-5%
+
+# Nastran11DofReleaseFrequency
+
+pth;	vic/11/NAS S30 multiple custom texts.bdf;	SC/1/DISPLACEMENTS/GID/8/TY;;	0.005;	2e-5%
+pth;	vic/11/NAS S30 multiple custom texts.bdf;	SC/1/DISPLACEMENTS/GID/3/TY;;	0.005;	2e-5%
+
+pth;	vic/11/S30 Shell pinned support multiple nodes.bdf;	SC/1/DISPLACEMENTS/GID/1/TX;;	-0.1;	2e-5%
+pth;	vic/11/S30 Shell pinned support multiple nodes.bdf;	SC/1/DISPLACEMENTS/GID/2/TY;;	-0.1;	2e-5%
+pth;	vic/11/S30 Shell pinned support multiple nodes.bdf;	SC/1/DISPLACEMENTS/GID/3/TX;;	0.1;	2e-5%
+pth;	vic/11/S30 Shell pinned support multiple nodes.bdf;	SC/1/DISPLACEMENTS/GID/4/TX;;	0.1;	2e-5%
+pth;	vic/11/S30 Shell pinned support multiple nodes.bdf;	SC/1/DISPLACEMENTS/GID/1/TY;;	0.1;	2e-5%
+pth;	vic/11/S30 Shell pinned support multiple nodes.bdf;	SC/1/DISPLACEMENTS/GID/2/TY;;	-0.1;	2e-5%
+pth;	vic/11/S30 Shell pinned support multiple nodes.bdf;	SC/1/DISPLACEMENTS/GID/3/TY;;	-0.1;	2e-5%
+pth;	vic/11/S30 Shell pinned support multiple nodes.bdf;	SC/1/DISPLACEMENTS/GID/4/TY;;	0.1;	2e-5%
+
+pth;	vic/11/NAS S30 Solid pinned support nonuniform face sizes.bdf;	SC/1/DISPLACEMENTS/GID/20/TY;;	-0.1875;	2e-5%
+pth;	vic/11/NAS S30 Solid pinned support nonuniform face sizes.bdf;	SC/1/DISPLACEMENTS/GID/7/TY;;	-SC/1/DISPLACEMENTS/GID/8/TY;	2e-5%
+pth;	vic/11/NAS S30 Solid pinned support nonuniform face sizes.bdf;	SC/1/DISPLACEMENTS/GID/11/TY;;	0;	0.0000000000001
+pth;	vic/11/NAS S30 Solid pinned support nonuniform face sizes.bdf;	SC/1/DISPLACEMENTS/GID/12/TY;;	0;	0.0000000000001
+
+pth;	vic/11/NAS V30 hex20 pinned support.bdf;	SC/1/REALEIGENVALUES/MODE/1/FREQUENCY;;	287.6472;	2e-5%
+pth;	vic/11/NAS V30 hex20 pinned support.bdf;	SC/1/REALEIGENVALUES/MODE/2/FREQUENCY;;	287.6472;	2e-5%
+pth;	vic/11/NAS V30 hex20 pinned support.bdf;	SC/1/REALEIGENVALUES/MODE/3/FREQUENCY;;	792.3835;	2e-5%
+pth;	vic/11/NAS V30 hex20 pinned support.bdf;	SC/1/REALEIGENVALUES/MODE/4/FREQUENCY;;	1084.762;	2e-5%
+pth;	vic/11/NAS V30 hex20 pinned support.bdf;	SC/1/MODE/3/EIGENVECTOR/GID/23/TX;;	SC/1/MODE/3/EIGENVECTOR/GID/23/TZ;	2e-5%
+pth;	vic/11/NAS V30 hex20 pinned support.bdf;	SC/1/MODE/3/EIGENVECTOR/GID/28/TX;;	-SC/1/MODE/3/EIGENVECTOR/GID/28/TZ;	2e-5%
+#pth;	vic/11/NAS V30 hex20 pinned support.bdf;	SC/1/MODE/4/EIGENVECTOR/GID/6/TX,TY,TZ;NORM;	SC/1/MODE/4/EIGENVECTOR/GID/30/TX,TY,TZ;NORM;	0.009%
+
+pth;	vic/11/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/5/TX;;	SC/1/DISPLACEMENTS/GID/9/TX;	0.00000000001%
+pth;	vic/11/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/5/TY;;	SC/1/DISPLACEMENTS/GID/9/TY;	0.00000000001%
+pth;	vic/11/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/5/TZ;;	SC/1/DISPLACEMENTS/GID/9/TZ;	0.00000000001%
+#pth;	vic/11/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/6/TX,TY,TZ;NORM;	SC/1/DISPLACEMENTS/GID/10/TX,TY,TZ;NORM;	0.00000000001%
+#pth;	vic/11/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/7/TX,TY,TZ;NORM;	SC/1/DISPLACEMENTS/GID/11/TX,TY,TZ;NORM;	0.00000000001%
+#pth;	vic/11/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/8/TX,TY,TZ;NORM;	SC/1/DISPLACEMENTS/GID/12/TX,TY,TZ;NORM;	0.00000000001%
+pth;	vic/11/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/2/TY;;	0;	0.00000000001
+pth;	vic/11/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/2/TZ;;	0;	0.00000000001
+pth;	vic/11/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/3/TZ;;	0;	0.00000000001
+
+pth;	vic/11/S30 Beam MPC on constrained dof.bdf;	SC/1/DISPLACEMENTS/GID/2/TY;;	0.00001;	2e-5%
+pth;	vic/11/S30 Beam MPC on constrained dof.bdf;	SC/1/DISPLACEMENTS/GID/3/TY;;	0.00001;	2e-5%
+pth;	vic/11/S30 Beam MPC on constrained dof.bdf;	SC/1/DISPLACEMENTS/GID/4/TY;;	-0.00007247967;	2e-5%
+pth;	vic/11/S30 Beam MPC on constrained dof.bdf;	SC/1/DISPLACEMENTS/GID/10/TY;;	0.00001422365;	2e-5%
+pth;	vic/11/S30 Beam MPC on constrained dof.bdf;	SC/1/DISPLACEMENTS/GID/2/RX;;	SC/1/DISPLACEMENTS/GID/4/RX / 2;	2e-5%
+pth;	vic/11/S30 Beam MPC on constrained dof.bdf;	SC/1/DISPLACEMENTS/GID/2/TX;;	SC/1/DISPLACEMENTS/GID/4/TX / 2;	0.00005%
+pth;	vic/11/S30 Beam MPC on constrained dof.bdf;	SC/1/DISPLACEMENTS/GID/3/RX;;	SC/1/DISPLACEMENTS/GID/4/RX / 2;	2e-5%
+
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/DISPLACEMENTS/GID/2/TX;;	0.05;	2e-5%
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/DISPLACEMENTS/GID/3/TX - SC/1/DISPLACEMENTS/GID/4/TX;;	0.025;	0.00005%
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/DISPLACEMENTS/GID/2/TX;;	SC/1/DISPLACEMENTS/GID/4/TX - 0.2;	2e-5%
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/SPCFORCES/GID/1/TX;;	-4;	2e-5%
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/SPCFORCES/GID/2/TX;;	4;	2e-5%
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/SPCFORCES/GID/4/TX;;	-4;	2e-5%
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/DISPLACEMENTS/GID/2/TY;;	0;	0.00000000001
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/DISPLACEMENTS/GID/4/TZ;;	0;	0.00000000001
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/DISPLACEMENTS/GID/1/TY;;	0;	0.00000000001
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/DISPLACEMENTS/GID/1/TZ;;	0;	0.00000000001
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/DISPLACEMENTS/GID/1/RX;;	0;	0.00000000001
+pth;	vic/11/S30 Beam MPC nonhomogenous.bdf;	SC/1/DISPLACEMENTS/GID/3/RY;;	0;	0.00000000001
+
+pth;	vic/11/NAS S30 Beam MPC nonhomogenous 9 equations.bdf;	SC/1/DISPLACEMENTS/GID/3,7,11,15,19,23,27,31,35/RZ;;	0.04;	2e-5%
+pth;	vic/11/NAS S30 Beam MPC nonhomogenous 9 equations.bdf;	SC/1/DISPLACEMENTS/GID/3,7,11,15,19,23,27,31,35/TY;;	0.02;	2e-5%
+
+# Nastran12
+
+pth;	vic/12/NAS S30 gravity node order.bdf;	SC/1/DISPLACEMENTS/GID/1,2,5,6/TY;;	-0.00000005;	2e-5%
+pth;	vic/12/NAS S30 gravity node order.bdf;	SC/1/DISPLACEMENTS/GID/9,10,13,14/TY;;	-0.0000000125;	2e-5%
