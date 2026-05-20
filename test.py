@@ -14,6 +14,7 @@ from f06tree import write_structure_dense
 from math_expression import Lexer
 from math_expression import Parser
 from math_expression import Evaluator
+from grid_reader import read_nastran_grids
 
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
@@ -384,13 +385,9 @@ def tree_get_layer_1(parsed_f06, path, output_file : io.TextIOWrapper):
 
 
 def tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file : io.TextIOWrapper):
-    # Get a value from the f06 file with optional coordinate system transformations applied.
-    #
-    # If it's a kind that's stored in displacement coordinates and we have a 
-    # transformation matrix available, then transform it to basic coordinates.
-    #
-    # If it's a shell stress, strain or engineering force and we have shell angles 
-    # available then rotate it by those angles.
+    # Get a value from layer 1 and optionally:
+    # - Transform vectors at grid points according to the supplied transformation matrices.
+    # - Transform shell stress/strain/force according to the supplied element rotation angles.
 
     result = tree_get_layer_1(parsed_f06, path, output_file)
     
@@ -511,8 +508,10 @@ def tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file 
     return result
 
 
-def tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, output_file : io.TextIOWrapper):
-    # Get a value from the parsed f06 file with optional shell midsurface as well as the effects of lower layers.
+def tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, gp_coordinates, output_file : io.TextIOWrapper):
+    # Get a value from layer 2 and optionally:
+    # - ZMID for shell midsurface
+    # - MXORIGIN, MYORIGIN, MZORIGIN for moment about the origin from SPCFORCES
 
     if len(path) > 7 \
     and path[0] == "SC" \
@@ -520,14 +519,47 @@ def tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, output_file 
     and path[3] == "EID" \
     and path[5] == "CORNER" \
     and path[7] == "ZMID":
+
         z1_path = path.copy(); z1_path[7] = "Z1"; z1 = tree_get_layer_2(parsed_f06, z1_path, gp_transforms, shell_angles, output_file)
         z2_path = path.copy(); z2_path[7] = "Z2"; z2 = tree_get_layer_2(parsed_f06, z2_path, gp_transforms, shell_angles, output_file)
         return (z1 + z2) / 2
+
+    elif len(path) > 5 \
+    and path[0] == "SC" \
+    and path[2] == "SPCFORCES" \
+    and path[3] == "GID" \
+    and (path[5] == "MXORIGIN" or path[5] == "MYORIGIN" or path[5] == "MZORIGIN"):
+
+        fx_path = path.copy(); fx_path[5] = "TX"
+        fx = tree_get_layer_2(parsed_f06, fx_path, gp_transforms, shell_angles, output_file)
+        fy_path = path.copy(); fy_path[5] = "TY"
+        fy = tree_get_layer_2(parsed_f06, fy_path, gp_transforms, shell_angles, output_file)
+        fz_path = path.copy(); fz_path[5] = "TZ"
+        fz = tree_get_layer_2(parsed_f06, fz_path, gp_transforms, shell_angles, output_file)
+        mx_path = path.copy(); mx_path[5] = "RX"
+        mx = tree_get_layer_2(parsed_f06, mx_path, gp_transforms, shell_angles, output_file)
+        my_path = path.copy(); my_path[5] = "RY"
+        my = tree_get_layer_2(parsed_f06, my_path, gp_transforms, shell_angles, output_file)
+        mz_path = path.copy(); mz_path[5] = "RZ"
+        mz = tree_get_layer_2(parsed_f06, mz_path, gp_transforms, shell_angles, output_file)
+
+        gid = int(path[4])
+       
+        match path[5][1]:
+           case "X": moment = mx + gp_coordinates[gid][1] * fz - gp_coordinates[gid][2] * fy 
+           case "Y": moment = my + gp_coordinates[gid][2] * fx - gp_coordinates[gid][0] * fz
+           case "Z": moment = mz + gp_coordinates[gid][0] * fy - gp_coordinates[gid][1] * fx
+
+        return moment
+
     else:
+
         return tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file)
 
-def tree_get_layer_4(parsed_f06, path, gp_transforms, shell_angles, gid_to_corners, output_file : io.TextIOWrapper):
-    # Get a value from the parsed f06 file with optional node averaging as well as the effects of lower layers.
+
+def tree_get_layer_4(parsed_f06, path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file : io.TextIOWrapper):
+    # Get a value from layer 3 and optionally:
+    # - Node averaging
     
     if (len(path) > 5
             and path[0] == "SC"
@@ -552,7 +584,7 @@ def tree_get_layer_4(parsed_f06, path, gp_transforms, shell_angles, gid_to_corne
         output_file.write(f"{INDENT * 2}Node averaging from element values:\n")
         for eid, corner in gid_to_corners[gid]:
             element_path = [path[0], path[1], path[2], "EID", eid, "CORNER", corner] + rest
-            value = tree_get_layer_3(parsed_f06, element_path, gp_transforms, shell_angles, output_file)
+            value = tree_get_layer_3(parsed_f06, element_path, gp_transforms, shell_angles, gp_coordinates, output_file)
             output_file.write(f"{INDENT * 3}{"/".join(element_path)} =\t{value}\n")
             if value is not None:
                 total += value
@@ -572,24 +604,26 @@ def tree_get_layer_4(parsed_f06, path, gp_transforms, shell_angles, gid_to_corne
 
     else:
 
-        return tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, output_file)
+        return tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, gp_coordinates, output_file)
 
 
-def tree_get_layer_5(parsed_f06, path, gp_transforms, shell_angles, gid_to_corners, output_file : io.TextIOWrapper):
-    # Path can describe multiple values. Returns a list.
+def tree_get_layer_5(parsed_f06, path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file : io.TextIOWrapper):
+    # Get a value from layer 4 and:
+    # - Path can describe multiple values.
     
     single_paths = expand_lists(path)
 
     result = []
 
     for single_path in single_paths:
-        result.append(tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gid_to_corners, output_file))
+        result.append(tree_get_layer_4(parsed_f06, single_path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file))
 
     return result
 
 
-def tree_get_layer_6(parsed_f06, expression, gp_transforms, shell_angles, gid_to_corners, output_file : io.TextIOWrapper):
-    # Expression is a math expression that can include paths.
+def tree_get_layer_6(parsed_f06, expression, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file : io.TextIOWrapper):
+    # Get values from layer 5 and:
+    # - Use a math expression.
 
     # Tokenize the expression
     lexer = Lexer(expression)
@@ -604,7 +638,7 @@ def tree_get_layer_6(parsed_f06, expression, gp_transforms, shell_angles, gid_to
     for token in tokens:
         if token.type == "VARIABLE":
             path = token.value.split("/")
-            variable_values = tree_get_layer_5(parsed_f06, path, gp_transforms, shell_angles, gid_to_corners, output_file)
+            variable_values = tree_get_layer_5(parsed_f06, path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
             variables[token.value] = variable_values
 
     # Count the number of values in each variable
@@ -658,7 +692,7 @@ def test_path(root_dir: Path,
         nonlocal worst_error
         nonlocal fail_count
 
-        reference_values = tree_get_layer_6(parsed_f06, test_case.reference_value, gp_transforms, shell_angles, gid_to_corners, output_file)
+        reference_values = tree_get_layer_6(parsed_f06, test_case.reference_value, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
         if len(reference_values) > 1:
             fail_count += 1
             print(f"ERROR: reference value resolves to more than one value.")
@@ -709,10 +743,13 @@ def test_path(root_dir: Path,
         # Read shell angles file
         shell_angles = read_shell_angles(deck_path.with_suffix(".shellangles"))
 
+        # Read grid point coordinates from the input deck
+        gp_coordinates = read_nastran_grids(deck_path)
+
         # Make GID to (EID,corner) reverse lookup
         gid_to_corners = build_gid_to_corners(parsed_f06)
 
-        values = tree_get_layer_6(parsed_f06, test_case.filter_string, gp_transforms, shell_angles, gid_to_corners, output_file)
+        values = tree_get_layer_6(parsed_f06, test_case.filter_string, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
 
         match test_case.operation:
             case "":

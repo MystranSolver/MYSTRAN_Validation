@@ -84,6 +84,15 @@ from all shell stress, strain, and force results in the file. Caution - This map
 may not be complete because all-zero rows may be omitted from all of them and
 therefore won't be included in the average.
 
+#### Moment due to SPC forces
+`SC/*/SPCFORCES/GID/*/MXORIGIN`, `SC/*/SPCFORCES/GID/*/MYORIGIN`, and
+`SC/*/SPCFORCES/GID/*/MZORIGIN` calculate the components of the moment
+about the basic coordinate system origin due to all 6 components of the
+SPC force and moment on the grid point. Useful for validating reaction
+moment balance. This calculation requires the coordinates of the grid
+point so they are read from the input deck and must be defined in the basic
+coordinate system.
+
 #### Field 4. Operation
 You can apply an operation before comparing to the reference value:
 - None: Simply compare the value to the reference value. If there are multiple

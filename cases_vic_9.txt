@@ -73,9 +73,9 @@ pth;    vic/9/S30 node-surface coupling RBE3 5.bdf;    SC/1/DISPLACEMENTS/GID/9/
 pth;    vic/9/S30 node-surface coupling RBE3 6.bdf;    SC/1/SPCFORCES/GID/1-3/TX;  SUM;    -1700;  0.0001%
 pth;    vic/9/S30 node-surface coupling RBE3 6.bdf;    SC/1/SPCFORCES/GID/1-3/TY;  SUM;    2100;   2e-5%
 pth;    vic/9/S30 node-surface coupling RBE3 6.bdf;    SC/1/SPCFORCES/GID/1-3/TZ;  SUM;    600;    2e-5%
-pth;    vic/9/S30 node-surface coupling RBE3 6.bdf; -0.866025403784439*SC/1/SPCFORCES/GID/1/TZ - 0*SC/1/SPCFORCES/GID/1/TY + 0*SC/1/SPCFORCES/GID/2/TZ - 0*SC/1/SPCFORCES/GID/2/TY + 0.866025403784439*SC/1/SPCFORCES/GID/3/TZ - 0*SC/1/SPCFORCES/GID/3/TY;;       -5700;   2e-5%
-pth;    vic/9/S30 node-surface coupling RBE3 6.bdf; 0*SC/1/SPCFORCES/GID/1/TX - -0.5*SC/1/SPCFORCES/GID/1/TZ + 0*SC/1/SPCFORCES/GID/2/TX - 1*SC/1/SPCFORCES/GID/2/TZ + 0*SC/1/SPCFORCES/GID/3/TX - -0.5*SC/1/SPCFORCES/GID/3/TZ;;                                  -6300;   2e-5%
-pth;    vic/9/S30 node-surface coupling RBE3 6.bdf; -0.5*SC/1/SPCFORCES/GID/1/TY - -0.866025403784439*SC/1/SPCFORCES/GID/1/TX + 1*SC/1/SPCFORCES/GID/2/TY - 0*SC/1/SPCFORCES/GID/2/TX + -0.5*SC/1/SPCFORCES/GID/3/TY - 0.866025403784439*SC/1/SPCFORCES/GID/3/TX;;  5900;   2e-5%
+pth;    vic/9/S30 node-surface coupling RBE3 6.bdf;    SC/1/SPCFORCES/GID/1-3/MXORIGIN; SUM;   -5700;   2e-5%
+pth;    vic/9/S30 node-surface coupling RBE3 6.bdf;    SC/1/SPCFORCES/GID/1-3/MYORIGIN; SUM;   -6300;   2e-5%
+pth;    vic/9/S30 node-surface coupling RBE3 6.bdf;    SC/1/SPCFORCES/GID/1-3/MZORIGIN; SUM;    5900;   2e-5%
 pth;    vic/9/S30 node-surface coupling RBE3 6.bdf;    SC/1/DISPLACEMENTS/GID/8/TX;;    SC/1/DISPLACEMENTS/GID/4/TX;    0.00000000001
 pth;    vic/9/S30 node-surface coupling RBE3 6.bdf;    SC/1/DISPLACEMENTS/GID/8/TY;;    SC/1/DISPLACEMENTS/GID/4/TY;    0.00000000001
 pth;    vic/9/S30 node-surface coupling RBE3 6.bdf;    SC/1/DISPLACEMENTS/GID/8/TZ;;    SC/1/DISPLACEMENTS/GID/4/TZ;    0.00000000001
@@ -83,7 +83,9 @@ pth;    vic/9/S30 node-surface coupling RBE3 6.bdf;    SC/1/DISPLACEMENTS/GID/8/
 pth;    vic/9/S30 node-surface coupling RBE3 7.bdf;    SC/1/SPCFORCES/GID/1-4/TX;  SUM;    0;  0.01
 pth;    vic/9/S30 node-surface coupling RBE3 7.bdf;    SC/1/SPCFORCES/GID/1-4/TY;  SUM;    0;  0.0000000001
 pth;    vic/9/S30 node-surface coupling RBE3 7.bdf;    SC/1/SPCFORCES/GID/1-4/TZ;  SUM;    0;  0.0000000001
-#todo moment balance
+pth;    vic/9/S30 node-surface coupling RBE3 7.bdf;    SC/1/SPCFORCES/GID/1-4/MXORIGIN; SUM;   0;      0.0000000001
+pth;    vic/9/S30 node-surface coupling RBE3 7.bdf;    SC/1/SPCFORCES/GID/1-4/MYORIGIN; SUM;   0;      0.0000000001
+pth;    vic/9/S30 node-surface coupling RBE3 7.bdf;    SC/1/SPCFORCES/GID/1-4/MZORIGIN; SUM;  -100000; 2e-5%
 pth;    vic/9/S30 node-surface coupling RBE3 7.bdf;    SC/1/DISPLACEMENTS/GID/9/TX;;    (SC/1/DISPLACEMENTS/GID/5/TX + SC/1/DISPLACEMENTS/GID/6/TX + SC/1/DISPLACEMENTS/GID/7/TX + SC/1/DISPLACEMENTS/GID/8/TX) / 4;    0.0000000000001
 pth;    vic/9/S30 node-surface coupling RBE3 7.bdf;    SC/1/DISPLACEMENTS/GID/9/TY;;    0;  0.000000000000001
 pth;    vic/9/S30 node-surface coupling RBE3 7.bdf;    SC/1/DISPLACEMENTS/GID/9/TZ;;    0;  0.000000000000001
@@ -94,7 +96,9 @@ pth;    vic/9/S30 node-surface coupling RBE3 7.bdf;    SC/1/DISPLACEMENTS/GID/9/
 pth;    vic/9/S30 node-surface coupling RBE3 8.bdf;    SC/1/SPCFORCES/GID/1-3/TX;  SUM;    0;  0.0000001
 pth;    vic/9/S30 node-surface coupling RBE3 8.bdf;    SC/1/SPCFORCES/GID/1-3/TY;  SUM;    0;  0.0000001
 pth;    vic/9/S30 node-surface coupling RBE3 8.bdf;    SC/1/SPCFORCES/GID/1-3/TZ;  SUM;    0;  0.00000000001
-#todo moment balance
+pth;    vic/9/S30 node-surface coupling RBE3 8.bdf;    SC/1/SPCFORCES/GID/1-3/MXORIGIN; SUM;  -0.00123;     0.0001%
+pth;    vic/9/S30 node-surface coupling RBE3 8.bdf;    SC/1/SPCFORCES/GID/1-3/MYORIGIN; SUM;  -0.00201;     0.0001%
+pth;    vic/9/S30 node-surface coupling RBE3 8.bdf;    SC/1/SPCFORCES/GID/1-3/MZORIGIN; SUM;   0.0033;      0.00001%
 pth;    vic/9/S30 node-surface coupling RBE3 8.bdf;    SC/1/DISPLACEMENTS/GID/4/TX;;    SC/1/DISPLACEMENTS/GID/11/TX;   0.0000001%
 pth;    vic/9/S30 node-surface coupling RBE3 8.bdf;    SC/1/DISPLACEMENTS/GID/5/TY;;    SC/1/DISPLACEMENTS/GID/12/TY;   0.000001%
 pth;    vic/9/S30 node-surface coupling RBE3 8.bdf;    SC/1/DISPLACEMENTS/GID/6/TZ;;    SC/1/DISPLACEMENTS/GID/13/TZ;   0.0000001%
@@ -108,7 +112,9 @@ pth;    vic/9/S30 node-surface coupling RBE3 8.bdf;    SC/1/DISPLACEMENTS/GID/7/
 pth;    vic/9/S30 node-surface coupling RBE3 9.bdf;    SC/1/SPCFORCES/GID/9,10,13,14,38,45,48,50/TX;  SUM;    0;  0.1
 pth;    vic/9/S30 node-surface coupling RBE3 9.bdf;    SC/1/SPCFORCES/GID/9,10,13,14,38,45,48,50/TY;  SUM;    -76500; 0.01
 pth;    vic/9/S30 node-surface coupling RBE3 9.bdf;    SC/1/SPCFORCES/GID/9,10,13,14,38,45,48,50/TZ;  SUM;    0;  0.1
-#todo moment balance
+pth;    vic/9/S30 node-surface coupling RBE3 9.bdf;    SC/1/SPCFORCES/GID/9,10,13,14,38,45,48,50/MXORIGIN; SUM;  76500 * 0.5;           2e-5%
+pth;    vic/9/S30 node-surface coupling RBE3 9.bdf;    SC/1/SPCFORCES/GID/9,10,13,14,38,45,48,50/MYORIGIN; SUM;  -1230000;              2e-5%
+pth;    vic/9/S30 node-surface coupling RBE3 9.bdf;    SC/1/SPCFORCES/GID/9,10,13,14,38,45,48,50/MZORIGIN; SUM;  -33400 - 76500 * 1.5;  2e-5%
 pth;    vic/9/S30 node-surface coupling RBE3 9.bdf;    SC/1/DISPLACEMENTS/GID/104/TX;;    SC/1/DISPLACEMENTS/GID/221/TX;  2%
 pth;    vic/9/S30 node-surface coupling RBE3 9.bdf;    SC/1/DISPLACEMENTS/GID/104/TY;;    SC/1/DISPLACEMENTS/GID/221/TY;  2%
 pth;    vic/9/S30 node-surface coupling RBE3 9.bdf;    SC/1/DISPLACEMENTS/GID/104/TZ;;    SC/1/DISPLACEMENTS/GID/221/TZ;  0.1%
@@ -122,7 +128,9 @@ pth;    vic/9/S30 node-surface coupling RBE3 9.bdf;    SC/1/DISPLACEMENTS/GID/40
 pth;    vic/9/S30 node-surface coupling RBE3 10.bdf;    SC/1/SPCFORCES/GID/7,8,9,10,11,12,14,46,47,48,49,50,51,58,59,60,61,62,63,327,330,331,335,336,338,345,348,349,462,463,467,469,475,478,479,483,485,494,495,499,500,502,776,778,786,787,791,792,793,1125,1130,1168,1169,1171,1172,1174,1237,1240,1257,1258,1259/TX;  SUM;    0;   0.0001
 pth;    vic/9/S30 node-surface coupling RBE3 10.bdf;    SC/1/SPCFORCES/GID/7,8,9,10,11,12,14,46,47,48,49,50,51,58,59,60,61,62,63,327,330,331,335,336,338,345,348,349,462,463,467,469,475,478,479,483,485,494,495,499,500,502,776,778,786,787,791,792,793,1125,1130,1168,1169,1171,1172,1174,1237,1240,1257,1258,1259/TY;  SUM;    0;   0.0001
 pth;    vic/9/S30 node-surface coupling RBE3 10.bdf;    SC/1/SPCFORCES/GID/7,8,9,10,11,12,14,46,47,48,49,50,51,58,59,60,61,62,63,327,330,331,335,336,338,345,348,349,462,463,467,469,475,478,479,483,485,494,495,499,500,502,776,778,786,787,791,792,793,1125,1130,1168,1169,1171,1172,1174,1237,1240,1257,1258,1259/TZ;  SUM;   -4;   0.0000001
-#todo moment balance
+pth;    vic/9/S30 node-surface coupling RBE3 10.bdf;    SC/1/SPCFORCES/GID/7,8,9,10,11,12,14,46,47,48,49,50,51,58,59,60,61,62,63,327,330,331,335,336,338,345,348,349,462,463,467,469,475,478,479,483,485,494,495,499,500,502,776,778,786,787,791,792,793,1125,1130,1168,1169,1171,1172,1174,1237,1240,1257,1258,1259/MXORIGIN; SUM;  0;         0.0000001
+pth;    vic/9/S30 node-surface coupling RBE3 10.bdf;    SC/1/SPCFORCES/GID/7,8,9,10,11,12,14,46,47,48,49,50,51,58,59,60,61,62,63,327,330,331,335,336,338,345,348,349,462,463,467,469,475,478,479,483,485,494,495,499,500,502,776,778,786,787,791,792,793,1125,1130,1168,1169,1171,1172,1174,1237,1240,1257,1258,1259/MYORIGIN; SUM;  0;         0.0000001
+pth;    vic/9/S30 node-surface coupling RBE3 10.bdf;    SC/1/SPCFORCES/GID/7,8,9,10,11,12,14,46,47,48,49,50,51,58,59,60,61,62,63,327,330,331,335,336,338,345,348,349,462,463,467,469,475,478,479,483,485,494,495,499,500,502,776,778,786,787,791,792,793,1125,1130,1168,1169,1171,1172,1174,1237,1240,1257,1258,1259/MZORIGIN; SUM;  -0.0002;   0.00000001
 pth;    vic/9/S30 node-surface coupling RBE3 10.bdf;    SC/1/DISPLACEMENTS/GID/5/TX;;    1.303049E-06 ;   0.00000001
 pth;    vic/9/S30 node-surface coupling RBE3 10.bdf;    SC/1/DISPLACEMENTS/GID/5/TY;;    3.827337E-06 ;   0.00000001
 pth;    vic/9/S30 node-surface coupling RBE3 10.bdf;    SC/1/DISPLACEMENTS/GID/5/TZ;;    1.671925E-06 ;   0.00000001
@@ -148,12 +156,16 @@ pth;    vic/9/S30 node-surface coupling RBE3 10.bdf;    SC/1/DISPLACEMENTS/GID/9
 pth;    vic/9/S30 node-surface coupling RBE3 11.bdf;    SC/1/SPCFORCES/GID/3,4,7,8/TX;  SUM;    -1000000.0; 0.00000001
 pth;    vic/9/S30 node-surface coupling RBE3 11.bdf;    SC/1/SPCFORCES/GID/3,4,7,8/TY;  SUM;    -2000000.0; 0.00000001
 pth;    vic/9/S30 node-surface coupling RBE3 11.bdf;    SC/1/SPCFORCES/GID/3,4,7,8/TZ;  SUM;    -3000000.0; 0.00000001
-#todo moment balance
+pth;    vic/9/S30 node-surface coupling RBE3 11.bdf;    SC/1/SPCFORCES/GID/3,4,7,8/MXORIGIN; SUM;   -3700000.0;  0.00000001
+pth;    vic/9/S30 node-surface coupling RBE3 11.bdf;    SC/1/SPCFORCES/GID/3,4,7,8/MYORIGIN; SUM;   -2100000.0;  0.00000001
+pth;    vic/9/S30 node-surface coupling RBE3 11.bdf;    SC/1/SPCFORCES/GID/3,4,7,8/MZORIGIN; SUM;   -1200000.0;  0.00000001
 
 pth;    vic/9/S30 node-surface coupling RBE3 12.bdf;    SC/1/SPCFORCES/GID/1-4/TX;  SUM;    -3300 * 10; 0.001
 pth;    vic/9/S30 node-surface coupling RBE3 12.bdf;    SC/1/SPCFORCES/GID/1-4/TY;  SUM;    0;  0.0000000001
 pth;    vic/9/S30 node-surface coupling RBE3 12.bdf;    SC/1/SPCFORCES/GID/1-4/TZ;  SUM;    0;  0.0000000001
-#todo moment balance
+pth;    vic/9/S30 node-surface coupling RBE3 12.bdf;    SC/1/SPCFORCES/GID/1-4/MXORIGIN; SUM;   0;      0.0000000001
+pth;    vic/9/S30 node-surface coupling RBE3 12.bdf;    SC/1/SPCFORCES/GID/1-4/MYORIGIN; SUM;   -66000; 0.0000000001
+pth;    vic/9/S30 node-surface coupling RBE3 12.bdf;    SC/1/SPCFORCES/GID/1-4/MZORIGIN; SUM;   0 + 10*3300*0.5;      0.0000000001
 
 pth;    vic/9/V30 node-surface coupling RBE3 13.bdf;    SC/2/REALEIGENVALUES/MODE/1/CYCLES;;    32.52;  0.1%
 pth;    vic/9/V30 node-surface coupling RBE3 13.bdf;    SC/2/REALEIGENVALUES/MODE/2/CYCLES;;    32.52;  0.1%
