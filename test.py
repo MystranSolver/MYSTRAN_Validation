@@ -511,7 +511,7 @@ def tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file 
 def tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, gp_coordinates, output_file : io.TextIOWrapper):
     # Get a value from layer 2 and optionally:
     # - ZMID for shell midsurface
-    # - MXORIGIN, MYORIGIN, MZORIGIN for moment about the origin from SPCFORCES
+    # - MXORIGIN, MYORIGIN, MZORIGIN for moment about the origin from SPCFORCES and MPCFORCES
 
     if len(path) > 7 \
     and path[0] == "SC" \
@@ -526,7 +526,7 @@ def tree_get_layer_3(parsed_f06, path, gp_transforms, shell_angles, gp_coordinat
 
     elif len(path) > 5 \
     and path[0] == "SC" \
-    and path[2] == "SPCFORCES" \
+    and (path[2] == "SPCFORCES" or path[2] == "MPCFORCES") \
     and path[3] == "GID" \
     and (path[5] == "MXORIGIN" or path[5] == "MYORIGIN" or path[5] == "MZORIGIN"):
 

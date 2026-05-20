@@ -58,6 +58,7 @@ The paths can resolve to one or multiple values. Examples:
 #### Supported data:
 - `DISPLACEMENTS`: TX, TY, TZ, RX, RY, RZ
 - `SPCFORCES`: TX, TY, TZ, RX, RY, RZ
+- `MPCFORCES`: TX, TY, TZ, RX, RY, RZ
 - `SOLIDSTRESSES`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `SOLIDSTRAINS`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER
@@ -86,12 +87,12 @@ therefore won't be included in the average.
 
 #### Moment due to SPC forces
 `SC/*/SPCFORCES/GID/*/MXORIGIN`, `SC/*/SPCFORCES/GID/*/MYORIGIN`, and
-`SC/*/SPCFORCES/GID/*/MZORIGIN` calculate the components of the moment
-about the basic coordinate system origin due to all 6 components of the
-SPC force and moment on the grid point. Useful for validating reaction
-moment balance. This calculation requires the coordinates of the grid
-point so they are read from the input deck and must be defined in the basic
-coordinate system.
+`SC/*/SPCFORCES/GID/*/MZORIGIN`, as well as the equivalent for `MPCFORCES`
+calculate the components of the moment about the basic coordinate system 
+origin due to all 6 components of the SPC force and moment on the grid point.
+Useful for validating reaction moment balance. This calculation requires the
+coordinates of the grid point so they are read from the input deck and must
+be defined in the basic coordinate system.
 
 #### Field 4. Operation
 You can apply an operation before comparing to the reference value:

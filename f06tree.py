@@ -73,7 +73,26 @@ def read_f06_tree(file_name):
 
         elif "S P C   F O R C E S" in line:
             subcase = read_subcase()
-            gids_node = ensure_path(root, ["SC", str(subcase), "SPCFORCES","GID"])
+            gids_node = ensure_path(root, ["SC", str(subcase), "SPCFORCES", "GID"])
+            get_next_line()
+            get_next_line()
+            get_next_line()
+            while True:
+                line = get_next_line()
+                if line.strip().startswith("---") or len(line.strip()) == 0:
+                    break
+                gid = int(number(line, 8, 8))
+                gid_node = ensure_path(gids_node, [str(gid)])
+                set(gid_node, "TX", number(line, 26, 13))
+                set(gid_node, "TY", number(line, 40, 13))
+                set(gid_node, "TZ", number(line, 54, 13))
+                set(gid_node, "RX", number(line, 68, 13))
+                set(gid_node, "RY", number(line, 82, 13))
+                set(gid_node, "RZ", number(line, 96, 13))
+
+        elif "M P C   F O R C E S" in line:
+            subcase = read_subcase()
+            gids_node = ensure_path(root, ["SC", str(subcase), "MPCFORCES", "GID"])
             get_next_line()
             get_next_line()
             get_next_line()
