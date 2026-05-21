@@ -204,8 +204,8 @@ name = \"only criteria\"
 # todo max_ratio is not the same kind of test as percent. Even scaling by 100 can't make it the same.
     if test_case.comparison_type == "percent":
         script = script + f"""
-max_ratio = {str(test_case.tolerance)}
-threshold = {str(test_case.threshold)}
+percent_tolerance = {str(test_case.tolerance)}
+epsilon = {str(test_case.threshold)}
         """
     elif test_case.comparison_type == "difference":
         script = script + f"""
@@ -230,7 +230,7 @@ criteria = \"only criteria\"
     with open(f06magic_script_path, "w") as script_file:
         script_file.write(script)
 
-    args = [f06magic_script_path]
+    args = ["--verbose", f06magic_script_path]
 
     # Run f06magic
     fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
