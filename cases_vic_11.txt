@@ -121,14 +121,16 @@ pth;	vic/12/NAS V30 hex20 pinned support.bdf;	SC/2/REALEIGENVALUES/MODE/3/CYCLES
 pth;	vic/12/NAS V30 hex20 pinned support.bdf;	SC/2/REALEIGENVALUES/MODE/4/CYCLES;;	1084.762;	2e-5%
 pth;	vic/12/NAS V30 hex20 pinned support.bdf;	SC/2/MODE/3/EIGENVECTOR/GID/23/TX;;	SC/2/MODE/3/EIGENVECTOR/GID/23/TZ;	2e-5%
 pth;	vic/12/NAS V30 hex20 pinned support.bdf;	SC/2/MODE/3/EIGENVECTOR/GID/28/TX;;	-SC/2/MODE/3/EIGENVECTOR/GID/28/TZ;	2e-5%
-#todo NORM pth;	vic/12/NAS V30 hex20 pinned support.bdf;	SC/2/MODE/4/EIGENVECTOR/GID/6/TX,TY,TZ;NORM;	SC/2/MODE/4/EIGENVECTOR/GID/30/TX,TY,TZ;NORM;	0.009%
+pth;	vic/12/NAS V30 hex20 pinned support.bdf;	SC/2/MODE/4/EIGENVECTOR/GID/6/TX;;	-SC/2/MODE/4/EIGENVECTOR/GID/30/TX;	0.00001
+pth;	vic/12/NAS V30 hex20 pinned support.bdf;	SC/2/MODE/4/EIGENVECTOR/GID/6/TY;;	-SC/2/MODE/4/EIGENVECTOR/GID/30/TY;	0.00001
+pth;	vic/12/NAS V30 hex20 pinned support.bdf;	SC/2/MODE/4/EIGENVECTOR/GID/6/TZ;;	-SC/2/MODE/4/EIGENVECTOR/GID/30/TZ;	0.00001
 
 pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/5/TX;;	SC/1/DISPLACEMENTS/GID/9/TX;	0.00000000001%
 pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/5/TY;;	SC/1/DISPLACEMENTS/GID/9/TY;	0.00000000001%
 pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/5/TZ;;	SC/1/DISPLACEMENTS/GID/9/TZ;	0.00000000001%
-#todo NORM pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/6/TX,TY,TZ;NORM;	SC/1/DISPLACEMENTS/GID/10/TX,TY,TZ;NORM;	0.00000000001%
-#todo NORM pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/7/TX,TY,TZ;NORM;	SC/1/DISPLACEMENTS/GID/11/TX,TY,TZ;NORM;	0.00000000001%
-#todo NORM pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/8/TX,TY,TZ;NORM;	SC/1/DISPLACEMENTS/GID/12/TX,TY,TZ;NORM;	0.00000000001%
+pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/6/TX,TY,TZ;NORM;	sqrt(SC/1/DISPLACEMENTS/GID/10/TX**2 + SC/1/DISPLACEMENTS/GID/10/TY**2 + SC/1/DISPLACEMENTS/GID/10/TZ**2);	0.00000000001%
+pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/7/TX,TY,TZ;NORM;	sqrt(SC/1/DISPLACEMENTS/GID/11/TX**2 + SC/1/DISPLACEMENTS/GID/11/TY**2 + SC/1/DISPLACEMENTS/GID/11/TZ**2);	0.00000000001%
+pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/8/TX,TY,TZ;NORM;	sqrt(SC/1/DISPLACEMENTS/GID/12/TX**2 + SC/1/DISPLACEMENTS/GID/12/TY**2 + SC/1/DISPLACEMENTS/GID/12/TZ**2);	0.00000000001%
 pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/SOLIDSTRESSES/EID/1/CORNER/7/VONMISES;;	SC/1/SOLIDSTRESSES/EID/3/CORNER/7/VONMISES;	0.00000000001%
 pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/2/TY;;	0;	0.00000000001
 pth;	vic/12/S30 Solid MPC 2 terms coupled.bdf;	SC/1/DISPLACEMENTS/GID/2/TZ;;	0;	0.00000000001
@@ -207,25 +209,39 @@ pth;	vic/12/B21 Constraint equations isolated node.bdf;	SC/2/REALEIGENVALUES/MOD
 pth;	vic/12/B21 Constraint equations isolated node.bdf;	SC/2/REALEIGENVALUES/MODE/3/EIGENVALUE;;	0.0006168994;	0.00001%
 pth;	vic/12/B21 Constraint equations isolated node.bdf;	SC/2/REALEIGENVALUES/MODE/4/EIGENVALUE;;	0.001209392;	0.0001%
 
-#todo   B21 Constraint equations
+pth;	vic/12/B21 Constraint equations.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	0.00180162163738604;	0.00003%
+pth;	vic/12/B21 Constraint equations.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/4/TY;;  0;  0.00000000001
+pth;	vic/12/B21 Constraint equations.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/5/TY;;  0;  0.00000000001
+pth;	vic/12/B21 Constraint equations.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/6/TY;;  0;  0.00000000001
+pth;	vic/12/B21 Constraint equations.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/4/TX;;  SC/2/MODE/1/EIGENVECTOR/GID/5/TX;       0.00000000001%
+pth;	vic/12/B21 Constraint equations.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/7/TX;;  SC/2/MODE/1/EIGENVECTOR/GID/5/TX / 2;   0.00000000001%
+pth;	vic/12/B21 Constraint equations.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/7/RZ;;  SC/2/MODE/1/EIGENVECTOR/GID/5/RZ;       0.00000000001%
+pth;	vic/12/B21 Constraint equations.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/3/RZ;;  SC/2/MODE/1/EIGENVECTOR/GID/5/RZ;       0.00000000001%
+pth;	vic/12/B21 Constraint equations.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/5/RZ;;  SC/2/MODE/1/EIGENVECTOR/GID/5/TX / 0.25;       0.00000000001%
 
-#todo   B30 Constraint equations EulerSolid
+pth;	vic/12/B30 Constraint equations EulerSolid.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/95/TZ / SC/2/MODE/1/EIGENVECTOR/GID/62/TZ;;    3.616195 / 0.2883044;     2e-5%
+pth;	vic/12/B30 Constraint equations EulerSolid.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/36/TZ / SC/2/MODE/1/EIGENVECTOR/GID/46/TZ;;    2.46628 / 1.768739;     2e-5%
+pth;	vic/12/B30 Constraint equations EulerSolid.bdf;	SC/2/MODE/2/EIGENVECTOR/GID/95/TX / SC/2/MODE/2/EIGENVECTOR/GID/62/TX;;     -3.628052 / -0.2991126;     2e-5%
+pth;	vic/12/B30 Constraint equations EulerSolid.bdf;	SC/2/MODE/2/EIGENVECTOR/GID/36/TX / SC/2/MODE/2/EIGENVECTOR/GID/46/TX;;      -2.475088 / -1.775968;     2e-5%
+pth;	vic/12/B30 Constraint equations EulerSolid.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	2555.675;   2e-5%
+pth;	vic/12/B30 Constraint equations EulerSolid.bdf;	SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;	10123.3;   2e-5%
 
-#todo   B30 beam pinned-sliding and fixed-free
+pth;	vic/12/B30 beam pinned-sliding and fixed-free.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	1 * pi**2 * 200000000000.0 * 0.00000000026 / 3**2;   30%
+pth;	vic/12/B30 beam pinned-sliding and fixed-free.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/1/TX,TY,TZ; NORM;  0;  0.0000000000001
+pth;	vic/12/B30 beam pinned-sliding and fixed-free.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/2/TX,TY,TZ; NORM;  0;  0.0000000000001
+pth;	vic/12/B30 beam pinned-sliding and fixed-free.bdf;	SC/2/MODE/1/EIGENVECTOR/GID/1/RZ;; -SC/2/MODE/1/EIGENVECTOR/GID/2/RZ;   0.00000000001%
+pth;	vic/12/B30 beam pinned-sliding and fixed-free.bdf;	SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;	0.25 * pi**2 * 200000000000.0 * 0.0000000065 / 3**2;   5%
 
-#todo   B30 beam pinned-sliding and fixed-free refined
+pth;	vic/12/B30 beam pinned-sliding and fixed-free refined.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	1 * pi**2 * 200000000000.0 * 0.00000000026 / 3**2;   0.001%
+pth;	vic/12/B30 beam pinned-sliding and fixed-free refined.bdf;	SC/2/REALEIGENVALUES/MODE/3/EIGENVALUE;;	0.25 * pi**2 * 200000000000.0 * 0.0000000065 / 3**2;   0.0001%
 
-#todo   B30 pinned support hex20
+pth;	vic/12/B30 pinned support hex20.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	1 * pi**2 * 210000000000 * 0.125**4 / 12 / 4**2;   0.5%
+pth;	vic/12/B30 pinned support hex20.bdf;	SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;	1 * pi**2 * 210000000000 * 0.125**4 / 12 / 4**2;   0.5%
 
 pth;	vic/12/NAS S30 gravity node order.bdf;	SC/1/DISPLACEMENTS/GID/1,2,5,6/TY;;	-0.00000005;	2e-5%
 pth;	vic/12/NAS S30 gravity node order.bdf;	SC/1/DISPLACEMENTS/GID/9,10,13,14/TY;;	-0.0000000125;	2e-5%
 
 
-
-
-
-
-
-
-
-
+###########
+# The end #
+###########

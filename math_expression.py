@@ -52,6 +52,11 @@ class Lexer:
                 self.tokens.append(Token('NUMBER', float('nan')))
                 pos += 3
                 continue
+
+            if self.expression[pos:pos+2] == 'pi':
+                self.tokens.append(Token('NUMBER', math.pi))
+                pos += 2
+                continue
             
             # Match variables: Start with capital letter, then can contain capital letters, digits, /, -, ,
             # Variable pattern: [A-Z][A-Z0-9/-,]*
