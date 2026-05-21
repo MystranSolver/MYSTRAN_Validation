@@ -229,12 +229,14 @@ def read_f06_tree(file_name):
                     set(z1_node, "XX", number(line, 35, 12))
                     set(z1_node, "YY", number(line, 48, 12))
                     set(z1_node, "XY", number(line, 61, 12))
+                    set(z1_node, "PRINCIPALANGLE", number(line, 75, 6))
                     set(z1_node, "VONMISES", number(line, 108, 12))
                     line = get_next_line()
                     z2_node = ensure_path(corner_node, ["Z2"])
                     set(z2_node, "XX", number(line, 35, 12))
                     set(z2_node, "YY", number(line, 48, 12))
                     set(z2_node, "XY", number(line, 61, 12))
+                    set(z2_node, "PRINCIPALANGLE", number(line, 75, 6))
                     set(z2_node, "VONMISES", number(line, 108, 12))
 
             elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
@@ -258,12 +260,14 @@ def read_f06_tree(file_name):
                         set(z1_node, "XX", number(line, 38, 12))
                         set(z1_node, "YY", number(line, 51, 12))
                         set(z1_node, "XY", number(line, 64, 12))
+                        set(z1_node, "PRINCIPALANGLE", number(line, 78, 7))
                         set(z1_node, "VONMISES", number(line, 112, 12))
                         line = get_next_line()
                         z2_node = ensure_path(corner_node, ["Z2"])
                         set(z2_node, "XX", number(line, 38, 12))
                         set(z2_node, "YY", number(line, 51, 12))
                         set(z2_node, "XY", number(line, 64, 12))
+                        set(z2_node, "PRINCIPALANGLE", number(line, 78, 7))
                         set(z2_node, "VONMISES", number(line, 112, 12))
 
             elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
@@ -318,11 +322,13 @@ def read_f06_tree(file_name):
                     set(z1_node, "XX", number(line, 35, 12))
                     set(z1_node, "YY", number(line, 48, 12))
                     set(z1_node, "XY", number(line, 61, 12))
+                    set(z1_node, "PRINCIPALANGLE", number(line, 75, 6))
                     line = get_next_line()
                     z2_node = ensure_path(corner_node, ["Z2"])
                     set(z2_node, "XX", number(line, 35, 12))
                     set(z2_node, "YY", number(line, 48, 12))
                     set(z2_node, "XY", number(line, 61, 12))
+                    set(z2_node, "PRINCIPALANGLE", number(line, 75, 6))
 
             elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
                 eids_node = ensure_path(root, ["SC", str(subcase), "SHELLSTRAINS","EID"])
@@ -345,11 +351,13 @@ def read_f06_tree(file_name):
                         set(z1_node, "XX", number(line, 38, 12))
                         set(z1_node, "YY", number(line, 51, 12))
                         set(z1_node, "XY", number(line, 64, 12))
+                        set(z1_node, "PRINCIPALANGLE", number(line, 78, 7))
                         line = get_next_line()
                         z2_node = ensure_path(corner_node, ["Z2"])
                         set(z2_node, "XX", number(line, 38, 12))
                         set(z2_node, "YY", number(line, 51, 12))
                         set(z2_node, "XY", number(line, 64, 12))
+                        set(z2_node, "PRINCIPALANGLE", number(line, 78, 7))
 
             elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
                 eids_node = ensure_path(root, ["SC", str(subcase), "BUSHSTRAINS","EID"])

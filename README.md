@@ -81,9 +81,7 @@ specified symmetrically in the PSHELL entry.
 Averaging of solid or shell element corner values to grid points is applied if you
 identify a shell stress, strain or force by GID like
 `SC/1/SHELLSTRESSES/GID/123/Z1/XX`. The mapping from gid to (eid, corner) is obtained
-from all shell stress, strain, and force results in the file. Caution - This mapping
-may not be complete because all-zero rows may be omitted from all of them and
-therefore won't be included in the average.
+from the input deck.
 
 #### Moment due to SPC forces
 `SC/*/SPCFORCES/GID/*/MXORIGIN`, `SC/*/SPCFORCES/GID/*/MYORIGIN`, and

@@ -456,6 +456,8 @@ def tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file 
                 yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get_layer_1(parsed_f06, yy_path, output_file)
                 xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get_layer_1(parsed_f06, xy_path, output_file)
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[8])
+            elif len(path) > 8 and path[8] == "PRINCIPALANGLE":
+                result = tree_get_layer_1(parsed_f06, path, output_file) + angle
 
     if len(path) > 6 \
     and path[0] == "SC" \
@@ -482,6 +484,8 @@ def tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file 
                 yy_path = path.copy(); yy_path[8] = "YY"; yy = tree_get_layer_1(parsed_f06, yy_path, output_file)
                 xy_path = path.copy(); xy_path[8] = "XY"; xy = tree_get_layer_1(parsed_f06, xy_path, output_file)
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 2, path[8])
+            elif len(path) > 8 and path[8] == "PRINCIPALANGLE":
+                result = tree_get_layer_1(parsed_f06, path, output_file) + angle
 
     if len(path) > 6 \
     and path[0] == "SC" \
@@ -515,7 +519,7 @@ def tree_get_layer_2(parsed_f06, path, gp_transforms, shell_angles, output_file 
                 yy_path = path.copy(); yy_path[7] = "MYY"; yy = tree_get_layer_1(parsed_f06, yy_path, output_file)
                 xy_path = path.copy(); xy_path[7] = "MXY"; xy = tree_get_layer_1(parsed_f06, xy_path, output_file)
                 result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7][-2:])
-    
+
     return result
 
 
@@ -602,8 +606,6 @@ def tree_get_layer_4(parsed_f06, path, gp_transforms, shell_angles, gp_coordinat
                 count += 1
             else:
                 # gid_to_corners might be inconsistent with the data.
-                # Or there might be a row omitted from f06 becuase it's all-zero. In that case,
-                # update the all-zero code to include this block type.
                 output_file.write(f"{INDENT * 2}Strangely no value.\n")
                 return None
 
