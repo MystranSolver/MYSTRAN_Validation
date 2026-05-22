@@ -201,7 +201,6 @@ reference_file = \"{reference_f06_path}\"
 [[criteria]]
 name = \"only criteria\"
     """
-# todo max_ratio is not the same kind of test as percent. Even scaling by 100 can't make it the same.
     if test_case.comparison_type == "percent":
         script = script + f"""
 percent_tolerance = {str(test_case.tolerance)}
@@ -949,6 +948,7 @@ def run_case(mystran_path: Path,
     print(f"{pass_fail}\t{fail_count}{count_suffix}\t{test_case.deck_filename}\t{message}")
         
     # Save a copy of failed F06 for inspecting after.
+
     if fail_count != 0:
         destination = (fails_dir / test_case.deck_filename).with_suffix(".F06").resolve()
         destination.parent.mkdir(parents=True, exist_ok=True)
