@@ -51,12 +51,16 @@ class F06Query:
                 return float(segment)
 
         def read_subcase():
-            if "OUTPUT FOR SUBCASE" in peek_line_delta(-3):
-                # Subcase is here if there's a title at two lines prior
-                sc_line = -3
-            else:
-                sc_line = -2
-            return int(number(peek_line_delta(sc_line), 21, 8))
+            # There are 0-3 lines of text (TITLE, SUBT, LABEL) and 1 blank line.
+            for sc_line in range(-2,-6,-1):
+                if "OUTPUT FOR SUBCASE" in peek_line_delta(sc_line):
+                    return int(number(peek_line_delta(sc_line), 21, 8))
+
+        def read_mode():
+            # There are 0-3 lines of text (TITLE, SUBT, LABEL) and 1 blank line.
+            for mode_line in range(-2,-6,-1):
+                if "OUTPUT FOR EIGENVECTOR" in peek_line_delta(mode_line):
+                    return int(number(peek_line_delta(mode_line), 25, 8))
 
         while line_no <= len(lines) - 1:
             line = get_next_line()
@@ -120,7 +124,7 @@ class F06Query:
 
             if "E I G E N V E C T O R" in line:
                 subcase = 2
-                mode = int(number(peek_line_delta(-2), 25, 8))
+                mode = read_mode()
                 gids_node = ensure_path(root, ["SC", str(subcase), "MODE", str(mode), "EIGENVECTOR", "GID"])
                 get_next_line()
                 get_next_line()
@@ -442,7 +446,12 @@ class F06Query:
                             corner += 1
                             corner_gid = int(number(line, 15, 8))
                         else:
-                            eid = int(number(line, 2,8))
+                            if "CENTER" in line:
+                                # Some elements (QUAD8) say "CENTER"
+                                eid = int(number(line, 2,8))
+                            else:
+                                # Some elements (QUAD4, TRIA3) don't say "CENTER" and older Mystran put EID futher right
+                                eid = int(number(line, 2,23))
                             eid_node = ensure_path(eids_node, [str(eid)])
                             corner = 0
                             corner_gid = None
@@ -497,13 +506,15 @@ class F06Query:
                         break
                     if buckling:
                         mode = int(number(line, 39, 8))
-                        eigenvalue = number(line, 62, 13)
                         mode_node = ensure_path(modes_node, [str(mode)])
+                        eigenvalue = number(line, 62, 13)
                         set(mode_node, "EIGENVALUE", eigenvalue)
                     else:
                         mode = int(number(line, 2, 8))
-                        cycles = number(line, 65, 13)
                         mode_node = ensure_path(modes_node, [str(mode)])
+                        eigenvalue = number(line, 25, 13)
+                        cycles = number(line, 65, 13)
+                        set(mode_node, "EIGENVALUE", eigenvalue)
                         set(mode_node, "CYCLES", cycles)
                     
 
@@ -547,7 +558,7 @@ class F06Query:
                 if index == 4 \
                 and len(path) == 6 \
                 and path[0] == "SC" \
-                and path[2] in("SPCFORCES", "MPCFORCES") \
+                and path[2] in("SPCFORCES", "MPCFORCES", "DISPLACEMENTS") \
                 and path[3] == "GID" \
                 and path[5] in("TX","TY","TZ","RX","RY","RZ"):
                     value = 0.0

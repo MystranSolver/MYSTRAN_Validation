@@ -19,6 +19,9 @@ from f06_query import F06Query
 # Error messages with explanations are for errors in test case definitions/usage.
 
 INDENT = "  "
+null_output = open(os.devnull, "w")
+
+
 
 class Definition:
     def __init__(self):
@@ -574,6 +577,8 @@ def test_path(root_dir: Path,
     except Exception as e:
         fail_count += 1
         output_file.write(f"{INDENT * 2}ERROR: {e}\n")
+    finally:
+        pass
    
     if worst_error > 0:
         message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}"
@@ -598,27 +603,132 @@ def test_bulk_auto(root_dir: Path,
                    output_file: io.TextIOWrapper,
                    test_case: Definition) -> int:
 
+    tolerance = 2e-5 # in percent
     fail_count = 0
     comparison_count = 0
+    worst_error = 0
+    worst_path = ""
+
+    def compare(path, maximum):
+        nonlocal fail_count
+        nonlocal worst_error
+        nonlocal worst_path
+        nonlocal comparison_count
+
+        ref_value = ref_f06.get_layer_4(path, {}, {}, {}, {}, output_file)
+        tst_value = tst_f06.get_layer_4(path, {}, {}, {}, {}, output_file)
+
+        comparison_count += 1
+
+        if math.isnan(ref_value):
+            # Testing for NaN doesn't use the tolerance or comparison type.
+            if math.isnan(tst_value):
+                error = 0 # Force pass
+            else:
+                error = float('inf') # Force fail
+        elif maximum == 0:
+            # With zero maximum, if we tolerate any small non-zero values, we
+            # need to choose a tolerance somehow so default to exact comparison.
+            error = float('inf') if ref_value != 0 else 0
+        else:
+            error = 100 * abs(tst_value-ref_value) / maximum
+        
+
+        if error <= tolerance:
+            pass_fail = "PASS"
+        else:
+            # Fail is the else clause so that NaN fails.
+            path_str = "/".join(path)
+            if error >= worst_error:
+                worst_error = error
+                worst_path = path_str
+            fail_count += 1
+            output_file.write(f"{INDENT * 3}FAILED\tError = {error:.2g}% ({tolerance}%)\t{path_str}\tValue = {tst_value} ({ref_value:.9g})\n")
+
 
     try:
 
-        # Read f06 file
-        parsed_f06 = F06Query(str(test_f06_path))
+        if test_case.test_type == "my2":
+            reference_f06_path = (root_dir / "reference_mystran" / test_case.deck_filename).with_suffix(".F06").resolve()
+        elif test_case.test_type == "ms2":
+            reference_f06_path = (root_dir / "reference_msc" / test_case.deck_filename).with_suffix(".f06").resolve()
+
+        # Read f06 files
+        ref_f06 = F06Query(str(reference_f06_path))
+        tst_f06 = F06Query(str(test_f06_path))
 
         # Read grid point IDs from the input deck
         gp_coordinates = read_grids(deck_path)
-        
-        # todo compare everything
+
+        # Compare DISPLACEMENTS in each subcase
+        subcases_block = ref_f06.get_layer_4(["SC"], {}, {}, {}, {}, null_output)
+        for subcase in subcases_block.keys():
+            block_path = ["SC",subcase,"DISPLACEMENTS"] # Doesn't include GID here because there may be none if all zero.
+            output_file.write(f"{INDENT * 2}COMPARING\t{"/".join(block_path)}")
+            ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+            tst_block = tst_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+            if ref_block is None:
+                output_file.write(f"\tNot present in reference solution. That's OK\n")
+            elif tst_block is None:
+                comparison_count += 1
+                fail_count += 1
+                output_file.write(f"{INDENT * 3}FAIL\t{"/".join(block_path)} is not present in the test solution.\n")
+            else:
+                comparison_count += 1
+                # Find the maximum of all values we'll be testing in the block
+                maximum = 0
+                for gid in gp_coordinates.keys():
+                    for component in ["TX", "TY", "TZ"]:
+                        value = ref_f06.get_layer_4(block_path + ["GID",str(gid),component], {}, {}, {}, {}, output_file)
+                        maximum = max(maximum, abs(value))
+                output_file.write(f"\tMaximum value = {maximum}\n")
+                # Compare each value normalized by the maximum
+                for gid in gp_coordinates.keys():
+                    for component in ["TX", "TY", "TZ"]:
+                        compare(block_path + ["GID",str(gid),component], maximum)
+
+        # Compare REALEIGENVALUES
+        block_path = ["SC","2","REALEIGENVALUES","MODE"] # Includes MODE here so it's easier to safely enumerate mode numbers.
+        output_file.write(f"{INDENT * 2}COMPARING\t{"/".join(block_path)}")
+        ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+        tst_block = tst_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+        if ref_block is None:
+            output_file.write(f"\tNot present in reference solution. That's OK\n")
+        elif tst_block is None:
+            comparison_count += 1
+            fail_count += 1
+            output_file.write(f"{INDENT * 3}FAIL\t{"/".join(block_path)} is not present in the test solution.\n")
+        else:
+            comparison_count += 1
+            # Find the maximum of all values we'll be testing in the block
+            maximum = 0
+            for mode in ref_block.keys():
+                for component in ["EIGENVALUE"]:
+                    value = ref_f06.get_layer_4(block_path + [str(mode),component], {}, {}, {}, {}, output_file)
+                    maximum = max(maximum, abs(value))
+            output_file.write(f"\tMaximum value = {maximum}\n")
+            # Compare each value normalized by the maximum
+            for mode in ref_block.keys():
+                for component in ["EIGENVALUE"]:
+                    compare(block_path + [str(mode),component], maximum)
+
+
+
+        # todo compare everything else
         
   
     except Exception as e:
         fail_count += 1
         output_file.write(f"{INDENT * 2}ERROR: {e}\n")
+    finally:
+        pass
    
+    if worst_error > 0:
+        message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()} {worst_path}"
+    else:
+        message = ""
 
     # Known fails must fail.
-    message = ""
     if test_case.knownfail:
         if fail_count > 0:
             fail_count = 0
@@ -658,24 +768,17 @@ def run_case(mystran_path: Path,
             working_deck_filename_str = shutil.copyfile(deck_path, working_dir / deck_path.name)
 
             # Run Mystran
-            with open(os.devnull, "w") as null_output:
-                run_program(mystran_path, [working_deck_filename_str], working_dir, null_output, null_output)
+            run_program(mystran_path, [working_deck_filename_str], working_dir, null_output, null_output)
 
         except Exception as e:
             output_file.write(f"{INDENT * 1}ERROR: {e}\n")
             fail_count = 1
-        
-    match test_case.test_type:
-        case "mys" | "msc":
-            output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
-        case "pth":
-            output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.operation}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
-        case "my2":
-            output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}\n")
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".F06").resolve()
 
     if test_case.test_type == "mys" or test_case.test_type == "msc":
+
+        output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
 
         fail_count, message = test_f06csv(root_dir, working_dir, test_f06_path, output_file, test_case)
         if fail_count == 254:
@@ -686,10 +789,14 @@ def run_case(mystran_path: Path,
 
     elif test_case.test_type == "pth":
 
+        output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.operation}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
+
         fail_count, comparison_count, message = test_path(root_dir, working_dir, test_f06_path, deck_path, output_file, test_case)
         count_suffix = "/" + str(comparison_count)
 
-    elif test_case.test_type == "my2":
+    elif test_case.test_type == "my2" or test_case.test_type == "ms2":
+
+        output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}\n")
 
         fail_count, comparison_count, message = test_bulk_auto(root_dir, working_dir, test_f06_path, deck_path, output_file, test_case)
         count_suffix = "/" + str(comparison_count)
@@ -714,6 +821,8 @@ def run_case(mystran_path: Path,
                 pass
 
     return fail_count == 0
+
+
 
 
 def main():
