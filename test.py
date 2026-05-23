@@ -11,8 +11,8 @@ from f06csv_to_magic import f06csv_args_to_magic
 from math_expression import Lexer
 from math_expression import Parser
 from math_expression import Evaluator
-from grid_reader import read_nastran_grids
-from element_reader import parse_nastran_connectivity
+from grid_reader import read_grids
+from element_reader import read_elements
 from f06_query import F06Query
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
@@ -67,20 +67,20 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
         else:
             definition_fields_str = definition_str.split(";")
             definition_fields_str = [s.strip() for s in definition_fields_str]
-            if len(definition_fields_str) < 3:
+            if len(definition_fields_str) < 2:
                 print(f"ERROR: Not enough fields in")
                 print(f"{definition_str}")
                 sys.exit(1)
             definition = Definition()
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
-            definition.filter_string = definition_fields_str[2]
             match definition.test_type:
                 case "mys" | "msc":
                     if len(definition_fields_str) < 5:
                         print(f"ERROR: Not enough fields in")
                         print(f"{definition_str}")
                         sys.exit(1)
+                    definition.filter_string = definition_fields_str[2]
                     definition.threshold = float(definition_fields_str[3])
                     read_tolerance(definition_fields_str[4])
                     if len(definition_fields_str) > 5:
@@ -90,11 +90,16 @@ def read_definitions(definitions_path: Path) -> list[Definition]:
                         print(f"ERROR: Not enough fields in")
                         print(f"{definition_str}")
                         sys.exit(1)
+                    definition.filter_string = definition_fields_str[2]
                     definition.operation = definition_fields_str[3]
                     definition.reference_value = definition_fields_str[4]
                     read_tolerance(definition_fields_str[5])
                     if len(definition_fields_str) > 6:
                         definition.knownfail = definition_fields_str[6].startswith("KNOWNFAIL")
+                case "my2":
+                    if len(definition_fields_str) > 2:
+                        definition.knownfail = definition_fields_str[2].startswith("KNOWNFAIL")
+                
 
             result.append(definition)
     
@@ -297,13 +302,13 @@ def read_shell_angles(filepath: str) -> dict:
     return result
         
 
-def build_gid_to_corners(deck_path: Path) -> dict:
+def read_gid_to_corners(deck_path: Path) -> dict:
     """Build a reverse lookup from GID to list of (EID, corner) pairs using
     the input deck."""
 
     result: dict = {}
 
-    records = parse_nastran_connectivity(deck_path)
+    records = read_elements(deck_path)
 
     for element in records:
         corners = None
@@ -461,10 +466,10 @@ def test_path(root_dir: Path,
         shell_angles = read_shell_angles(deck_path.with_suffix(".shellangles"))
 
         # Read grid point coordinates from the input deck
-        gp_coordinates = read_nastran_grids(deck_path)
+        gp_coordinates = read_grids(deck_path)
 
         # Make GID to (EID,corner) reverse lookup
-        gid_to_corners = build_gid_to_corners(deck_path)
+        gid_to_corners = read_gid_to_corners(deck_path)
 
         values = get_layer_6(parsed_f06, test_case.filter_string, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
 
@@ -586,6 +591,44 @@ def test_path(root_dir: Path,
 
     return fail_count, comparison_count, message
 
+def test_bulk_auto(root_dir: Path,
+                   working_dir: Path,
+                   test_f06_path: Path,
+                   deck_path: Path,
+                   output_file: io.TextIOWrapper,
+                   test_case: Definition) -> int:
+
+    fail_count = 0
+    comparison_count = 0
+
+    try:
+
+        # Read f06 file
+        parsed_f06 = F06Query(str(test_f06_path))
+
+        # Read grid point IDs from the input deck
+        gp_coordinates = read_grids(deck_path)
+        
+        # todo compare everything
+        
+  
+    except Exception as e:
+        fail_count += 1
+        output_file.write(f"{INDENT * 2}ERROR: {e}\n")
+   
+
+    # Known fails must fail.
+    message = ""
+    if test_case.knownfail:
+        if fail_count > 0:
+            fail_count = 0
+            message += f"\tKNOWNFAIL failed as expected"
+        else:
+            fail_count += 1
+            message += f"\tKNOWNFAIL passed"
+
+    return fail_count, comparison_count, message
+
 
 def run_case(mystran_path: Path,
              root_dir: Path,
@@ -627,6 +670,8 @@ def run_case(mystran_path: Path,
             output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
         case "pth":
             output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.operation}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
+        case "my2":
+            output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}\n")
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".F06").resolve()
 
@@ -642,6 +687,11 @@ def run_case(mystran_path: Path,
     elif test_case.test_type == "pth":
 
         fail_count, comparison_count, message = test_path(root_dir, working_dir, test_f06_path, deck_path, output_file, test_case)
+        count_suffix = "/" + str(comparison_count)
+
+    elif test_case.test_type == "my2":
+
+        fail_count, comparison_count, message = test_bulk_auto(root_dir, working_dir, test_f06_path, deck_path, output_file, test_case)
         count_suffix = "/" + str(comparison_count)
   
     else:

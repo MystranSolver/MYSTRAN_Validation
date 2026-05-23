@@ -273,7 +273,7 @@ def _build_element(keyword: str, data: list[str]) -> ElementRecord | None:
 # Public API
 # ---------------------------------------------------------------------------
 
-def parse_nastran_connectivity(
+def read_elements(
     source: str | Path,
     *,
     bulk_only: bool = True,
@@ -329,44 +329,3 @@ def parse_nastran_connectivity(
             elements.append(rec)
 
     return elements
-
-# ---------------------------------------------------------------------------
-# CLI / quick test
-# ---------------------------------------------------------------------------
-
-if __name__ == "__main__":
-    import sys
-    import textwrap
-
-    SAMPLE_DECK = textwrap.dedent("""\
-        $ Simple test deck
-        BEGIN BULK
-        $ --- Short-field CTRIA3 ---
-        CTRIA3  101     1       11      12      13
-        $ --- Short-field CQUAD4 ---
-        CQUAD4  201     2       21      22      23      24
-        $ --- Short-field CQUAD8 (two lines) ---
-        CQUAD8  301     3       31      32      33      34      35      36
-        +       37      38
-        $ --- Long-field CHEXA ---
-        CHEXA*  401             4               101             102
-        *       103             104             105             106
-        *       107             108             109             110
-        *       111             112             113             114
-        *       115             116             117             118
-        *       119             120
-        $ --- Free-field CTETRA ---
-        CTETRA, 501, 5, 201, 202, 203, 204, 205, 206,
-        +, 207, 208, 209, 210
-        $ --- CPENTA short field ---
-        CPENTA  601     6       301     302     303     304     305     306
-        +       307     308     309     310     311     312     313     314
-        +       315
-        CPENTA  602     6       301     302     303     304     305 
-        ENDDATA
-    """)
-
-    records = parse_nastran_connectivity(SAMPLE_DECK)
-
-    for r in records:
-        print(f"{r.elem_type}  EID={r.eid}  nodes={r.nodes}")

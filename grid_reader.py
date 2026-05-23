@@ -38,7 +38,7 @@ def _long_fields(line: str) -> list[str]:
     ]
 
 
-def read_nastran_grids(filename: str) -> Dict[int, Tuple[float, float, float]]:
+def read_grids(filename: str) -> Dict[int, Tuple[float, float, float]]:
     """
     Read a Nastran input deck and return a dict mapping grid-point IDs to
     (x, y, z) coordinate tuples.  Only grid points defined in the global

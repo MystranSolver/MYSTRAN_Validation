@@ -510,9 +510,9 @@ class F06Query:
         return root
 
 
-    def write_structure_dense(self, file, prefix="", parent_key=""):
+    def write_structure_dense(self, tree_node, file, prefix="", parent_key=""):
         is_first = True
-        for key, value in self.parsed_f06.items():
+        for key, value in tree_node.items():
             # Only show the first GID and EID as an example because there could be a lot.
             if (not is_first) and (parent_key == "GID" \
                                 or parent_key == "EID" \
@@ -522,7 +522,7 @@ class F06Query:
             is_first = False
 
             if isinstance(value, dict):
-                write_structure_dense(value, file, prefix + str(key) + "/", key)
+                self.write_structure_dense(value, file, prefix + str(key) + "/", key)
             else:
                 file.write(prefix + str(key) + "\n")
 
@@ -572,7 +572,7 @@ class F06Query:
         if value is None:
             output_file.write(f"{INDENT * 2}No value at path: {"/".join(path)}\n")
             output_file.write(f"{INDENT * 2}Available paths existing in F06 file:\n")
-            self.write_structure_dense(output_file, f"{INDENT * 2}")
+            self.write_structure_dense(self.parsed_f06, output_file, f"{INDENT * 2}")
 
         return value
 

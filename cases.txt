@@ -27,5 +27,9 @@ pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XY; ; 4.00000000e+02; 0.1%; 
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YZ; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZX; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 
+# Exploring automatic bulk comparison
+my2;    CHEXA.bdf
+my2;    CHEXA.bdf;  KNOWNFAIL
+
 INCLUDE cases_benchmarks.txt
 INCLUDE cases_vic.txt
