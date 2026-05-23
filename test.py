@@ -693,6 +693,32 @@ def test_bulk_auto(root_dir: Path,
                     for component in ["TX", "TY", "TZ"]:
                         compare(block_path + ["GID",str(gid),component], maximum)
 
+            # APPLIEDFORCES TX, TY, TZ in each subcase
+            #-----------------------------------------
+            block_path = ["SC",subcase,"APPLIEDFORCES"] # Doesn't include GID here because there may be none if all zero.
+            output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
+            ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+            tst_block = tst_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+            if ref_block is None:
+                output_file.write(f"\tNot present in reference solution. That's OK\n")
+            elif tst_block is None:
+                comparison_count += 1
+                fail_count += 1
+                output_file.write(f"{INDENT * 3}FAIL\t{"/".join(block_path)} is not present in the test solution.\n")
+            else:
+                comparison_count += 1
+                # Find the maximum of all values we'll be testing in the block
+                maximum = 0
+                for gid in gp_coordinates.keys():
+                    for component in ["TX", "TY", "TZ"]:
+                        value = ref_f06.get_layer_4(block_path + ["GID",str(gid),component], {}, {}, {}, {}, output_file)
+                        maximum = max(maximum, abs(value))
+                output_file.write(f"\tMaximum value = {maximum}\n")
+                # Compare each value normalized by the maximum
+                for gid in gp_coordinates.keys():
+                    for component in ["TX", "TY", "TZ"]:
+                        compare(block_path + ["GID",str(gid),component], maximum)
+
             # BARSTRESSES
             # -----------
             block_path = ["SC", subcase, "BARSTRESSES"]
@@ -723,6 +749,7 @@ def test_bulk_auto(root_dir: Path,
 
             # BARFORCES
             # -----------
+            #todo moments and forces should be normalized separately.
             block_path = ["SC", subcase, "BARFORCES"]
             output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
             ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
@@ -838,6 +865,7 @@ def test_bulk_auto(root_dir: Path,
 
                 # BARFORCES
                 # -----------
+                #todo moments and forces should be normalized separately.
                 block_path = ["SC", "2", "MODE", mode, "BARFORCES"]
                 output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
                 ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
