@@ -484,62 +484,91 @@ class F06Query:
             elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
                 subcase = read_subcase()
                 if subcase is not None:
-                    line = get_next_line()
-                    if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
-                    or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
-                    or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "SHELLFORCES","EID"])
-                        get_next_line()
-                        get_next_line()
-                        get_next_line()
-                        corner = None
-                        while True:
-                            line = get_next_line()
-                            if line.strip().startswith("---") or len(line.strip()) == 0:
-                                break
-                            if line[11:11+3] == "GRD":
-                                corner += 1
-                                corner_gid = int(number(line, 15, 8))
+                    prefix = ["SC", str(subcase)]
+                else:
+                    mode = read_mode()
+                    if mode is None:
+                        print("ERROR: No subcase or eigenvector found.")
+                        sys.exit(1)
+                    prefix = ["SC", "2", "MODE", str(mode)]
+                line = get_next_line()
+                if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
+                or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
+                or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
+                    eids_node = ensure_path(root, prefix + ["SHELLFORCES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    get_next_line()
+                    corner = None
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("---") or len(line.strip()) == 0:
+                            break
+                        if line[11:11+3] == "GRD":
+                            corner += 1
+                            corner_gid = int(number(line, 15, 8))
+                        else:
+                            if "CENTER" in line:
+                                # Some elements (QUAD8) say "CENTER"
+                                eid = int(number(line, 2,8))
                             else:
-                                if "CENTER" in line:
-                                    # Some elements (QUAD8) say "CENTER"
-                                    eid = int(number(line, 2,8))
-                                else:
-                                    # Some elements (QUAD4, TRIA3) don't say "CENTER" and older Mystran put EID futher right
-                                    eid = int(number(line, 2,23))
-                                eid_node = ensure_path(eids_node, [str(eid)])
-                                corner = 0
-                                corner_gid = None
-                            corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
-                            if corner_gid is not None:
-                                set(corner_node, "GID", corner_gid)
-                            set(corner_node, "NXX", number(line, 26, 13))
-                            set(corner_node, "NYY", number(line, 40, 13))
-                            set(corner_node, "NXY", number(line, 54, 13))
-                            set(corner_node, "MXX", number(line, 68, 13))
-                            set(corner_node, "MYY", number(line, 82, 13))
-                            set(corner_node, "MXY", number(line, 96, 13))
-                            set(corner_node, "QX", number(line, 110, 13))
-                            set(corner_node, "QY", number(line, 124, 13))
+                                # Some elements (QUAD4, TRIA3) don't say "CENTER" and older Mystran put EID futher right
+                                eid = int(number(line, 2,23))
+                            eid_node = ensure_path(eids_node, [str(eid)])
+                            corner = 0
+                            corner_gid = None
+                        corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                        if corner_gid is not None:
+                            set(corner_node, "GID", corner_gid)
+                        set(corner_node, "NXX", number(line, 26, 13))
+                        set(corner_node, "NYY", number(line, 40, 13))
+                        set(corner_node, "NXY", number(line, 54, 13))
+                        set(corner_node, "MXX", number(line, 68, 13))
+                        set(corner_node, "MYY", number(line, 82, 13))
+                        set(corner_node, "MXY", number(line, 96, 13))
+                        set(corner_node, "QX", number(line, 110, 13))
+                        set(corner_node, "QY", number(line, 124, 13))
 
-                    if "F O R   E L E M E N T   T Y P E   B U S H" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "BUSHFORCES","EID"])
-                        get_next_line()
-                        get_next_line()
-                        corner = None
-                        while True:
-                            line = get_next_line()
-                            if line.strip().startswith("---") or len(line.strip()) == 0:
-                                break
-                            else:
-                                eid = int(number(line, 17, 8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
-                            set(eid_node, "FXE", number(line, 26, 13))
-                            set(eid_node, "FYE", number(line, 40, 13))
-                            set(eid_node, "FZE", number(line, 54, 13))
-                            set(eid_node, "MXE", number(line, 68, 13))
-                            set(eid_node, "MYE", number(line, 82, 13))
-                            set(eid_node, "MZE", number(line, 96, 13))
+                if "F O R   E L E M E N T   T Y P E   B U S H" in line:
+                    eids_node = ensure_path(root, prefix + ["BUSHFORCES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("---") or len(line.strip()) == 0:
+                            break
+                        else:
+                            eid = int(number(line, 17, 8))
+                            eid_node = ensure_path(eids_node, [str(eid)])
+                        set(eid_node, "FXE", number(line, 26, 13))
+                        set(eid_node, "FYE", number(line, 40, 13))
+                        set(eid_node, "FZE", number(line, 54, 13))
+                        set(eid_node, "MXE", number(line, 68, 13))
+                        set(eid_node, "MYE", number(line, 82, 13))
+                        set(eid_node, "MZE", number(line, 96, 13))
+
+                if "F O R   E L E M E N T   T Y P E   B A R" in line:
+                    eids_node = ensure_path(root, prefix + ["BARFORCES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("OUTPUT FOR"):
+                            # Mystran v15- would sometimes include this spurious line.
+                            continue
+                        if line.strip().startswith("---") or len(line.strip()) == 0:
+                            break
+                        else:
+                            eid = int(number(line, 17, 8))
+                            eid_node = ensure_path(eids_node, [str(eid)])
+                        set(eid_node, "MA1", number(line, 26, 13))
+                        set(eid_node, "MA2", number(line, 40, 13))
+                        set(eid_node, "MB1", number(line, 54, 13))
+                        set(eid_node, "MB2", number(line, 68, 13))
+                        set(eid_node, "S1", number(line, 82, 13))
+                        set(eid_node, "S2", number(line, 96, 13))
+                        set(eid_node, "AXIAL", number(line, 110, 13))
+                        set(eid_node, "TORQUE", number(line, 124, 13))
 
 
             elif "R E A L   E I G E N V A L U E S" in line:

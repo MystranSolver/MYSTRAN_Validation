@@ -574,9 +574,10 @@ def test_path(root_dir: Path,
                 fail_count +=1
                 output_file.write(f"{INDENT * 2}FAILED. Invalid operation\n")
 
-    except Exception as e:
-        fail_count += 1
-        output_file.write(f"{INDENT * 2}ERROR: {e}\n")
+    # todo re-enable later
+    # except Exception as e:
+        # fail_count += 1
+        # output_file.write(f"{INDENT * 2}ERROR: {e}\n")
     finally:
         pass
    
@@ -716,10 +717,37 @@ def test_bulk_auto(root_dir: Path,
                         maximum = max(maximum, abs(value))
                 output_file.write(f"\tMaximum value = {maximum}\n")
                 # Compare each value normalized by the maximum
-                for gid in gp_coordinates.keys():
+                for eid in eids:
                     for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
                         compare(block_path + ["EID",str(eid),component], maximum)
 
+            # BARFORCES
+            # -----------
+            block_path = ["SC", subcase, "BARFORCES"]
+            output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
+            ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+            tst_block = tst_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+            if ref_block is None:
+                output_file.write(f"\tNot present in reference solution. That's OK\n")
+            elif tst_block is None:
+                comparison_count += 1
+                fail_count += 1
+                output_file.write(f"{INDENT * 3}FAIL\t{"/".join(block_path)} is not present in the test solution.\n")
+            else:
+                comparison_count += 1
+                # Identify EIDs from the union of the test and reference blocks
+                eids = ref_block["EID"].keys() | tst_block["EID"].keys()
+                # Find the maximum of all values we'll be testing in the block
+                maximum = 0
+                for eid in eids:
+                    for component in ["MA1", "MA2", "MB1", "MB2", "S1", "S2", "AXIAL", "TORQUE"]:
+                        value = ref_f06.get_layer_4(block_path + ["EID",str(eid),component], {}, {}, {}, {}, output_file)
+                        maximum = max(maximum, abs(value))
+                output_file.write(f"\tMaximum value = {maximum}\n")
+                # Compare each value normalized by the maximum
+                for eid in eids:
+                    for component in ["MA1", "MA2", "MB1", "MB2", "S1", "S2", "AXIAL", "TORQUE"]:
+                        compare(block_path + ["EID",str(eid),component], maximum)
 
 
         # Eigenvalues
@@ -804,15 +832,42 @@ def test_bulk_auto(root_dir: Path,
                             maximum = max(maximum, abs(value))
                     output_file.write(f"\tMaximum value = {maximum}\n")
                     # Compare each value normalized by the maximum
-                    for gid in gp_coordinates.keys():
+                    for eid in eids:
                         for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
                             compare(block_path + ["EID",str(eid),component], maximum)
 
+                # BARFORCES
+                # -----------
+                block_path = ["SC", "2", "MODE", mode, "BARFORCES"]
+                output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
+                ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+                tst_block = tst_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+                if ref_block is None:
+                    output_file.write(f"\tNot present in reference solution. That's OK\n")
+                elif tst_block is None:
+                    comparison_count += 1
+                    fail_count += 1
+                    output_file.write(f"{INDENT * 3}FAIL\t{"/".join(block_path)} is not present in the test solution.\n")
+                else:
+                    comparison_count += 1
+                    # Identify EIDs from the union of the test and reference blocks
+                    eids = ref_block["EID"].keys() | tst_block["EID"].keys()
+                    # Find the maximum of all values we'll be testing in the block
+                    maximum = 0
+                    for eid in eids:
+                        for component in ["MA1", "MA2", "MB1", "MB2", "S1", "S2", "AXIAL", "TORQUE"]:
+                            value = ref_f06.get_layer_4(block_path + ["EID",str(eid),component], {}, {}, {}, {}, output_file)
+                            maximum = max(maximum, abs(value))
+                    output_file.write(f"\tMaximum value = {maximum}\n")
+                    # Compare each value normalized by the maximum
+                    for eid in eids:
+                        for component in ["MA1", "MA2", "MB1", "MB2", "S1", "S2", "AXIAL", "TORQUE"]:
+                            compare(block_path + ["EID",str(eid),component], maximum)
 
-        
-    except Exception as e:
-        fail_count += 1
-        output_file.write(f"{INDENT * 2}ERROR: {e}\n")
+    # todo re-enable later
+    # except Exception as e:
+        # fail_count += 1
+        # output_file.write(f"{INDENT * 2}ERROR: {e}\n")
     finally:
         pass
    
