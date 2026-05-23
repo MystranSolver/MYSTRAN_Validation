@@ -55,8 +55,7 @@ class F06Query:
             for sc_line in range(-2,-6,-1):
                 if "OUTPUT FOR SUBCASE" in peek_line_delta(sc_line):
                     return int(number(peek_line_delta(sc_line), 21, 8))
-            # If it wasn't found, it could be an eigenvector's stress/force/etc
-            # We don't currently support them so discard.
+            # If it wasn't found, it could be an eigenvector's stress/force/etc.
             return None
 
         def read_mode():
@@ -64,6 +63,8 @@ class F06Query:
             for mode_line in range(-2,-6,-1):
                 if "OUTPUT FOR EIGENVECTOR" in peek_line_delta(mode_line):
                     return int(number(peek_line_delta(mode_line), 25, 8))
+            # If it wasn't found, it could be a subcase's stress/force/etc
+            return None
 
         while line_no <= len(lines) - 1:
             line = get_next_line()
@@ -133,21 +134,30 @@ class F06Query:
                 get_next_line()
                 get_next_line()
                 get_next_line()
+                had_blank_line = False
                 while True:
                     line = get_next_line()
-                    if line.strip().startswith("---"):
+                    if len(line) >= 27 and line[0:15].strip().isdigit():
+                        # This line has data.
+                        had_blank_line = False
+                        gid = int(number(line, 8, 8))
+                        gid_node = ensure_path(gids_node, [str(gid)])
+                        set(gid_node, "TX", number(line, 26, 13))
+                        set(gid_node, "TY", number(line, 40, 13))
+                        set(gid_node, "TZ", number(line, 54, 13))
+                        set(gid_node, "RX", number(line, 68, 13))
+                        set(gid_node, "RY", number(line, 82, 13))
+                        set(gid_node, "RZ", number(line, 96, 13))
+                    elif had_blank_line:
+                        # A non-data line after a blank line is past the end of the block.
                         break
                     elif len(line.strip()) == 0:
-                        # Skip the blank lines at GID gaps.
+                        # Skip blank line at GID gaps.
+                        had_blank_line = True
                         continue
-                    gid = int(number(line, 8, 8))
-                    gid_node = ensure_path(gids_node, [str(gid)])
-                    set(gid_node, "TX", number(line, 26, 13))
-                    set(gid_node, "TY", number(line, 40, 13))
-                    set(gid_node, "TZ", number(line, 54, 13))
-                    set(gid_node, "RX", number(line, 68, 13))
-                    set(gid_node, "RY", number(line, 82, 13))
-                    set(gid_node, "RZ", number(line, 96, 13))
+                    else:
+                        # Not data and not blank. Might be ---
+                        break
 
             elif "E L E M E N T   S T R E S S E S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
                 subcase = read_subcase()
@@ -220,95 +230,127 @@ class F06Query:
             elif "E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
                 subcase = read_subcase()
                 if subcase is not None:
-                    line = get_next_line()
-                    if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
-                    or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "SHELLSTRESSES","EID"])
-                        get_next_line()
-                        get_next_line()
-                        get_next_line()
-                        corner = None
-                        while True:
-                            line = get_next_line()
-                            if line.strip().startswith("---"):
-                                break
-                            if line[11:11+6] == "CENTER":
-                                eid = int(number(line, 2,8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
-                                corner = 0
-                                corner_gid = None
-                            elif line[11:11+3] == "GRD":
-                                corner += 1
-                                corner_gid = int(number(line, 15, 8))
-                            else:
-                                # Skip the blank lines between corners
-                                continue
+                    prefix = ["SC", str(subcase)]
+                else:
+                    mode = read_mode()
+                    if mode is None:
+                        print("ERROR: No subcase or eigenvector found.")
+                        sys.exit(1)
+                    prefix = ["SC", "2", "MODE", str(mode)]
+                line = get_next_line()
+                if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
+                or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
+                    eids_node = ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    get_next_line()
+                    corner = None
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("---"):
+                            break
+                        if line[11:11+6] == "CENTER":
+                            eid = int(number(line, 2,8))
+                            eid_node = ensure_path(eids_node, [str(eid)])
+                            corner = 0
+                            corner_gid = None
+                        elif line[11:11+3] == "GRD":
+                            corner += 1
+                            corner_gid = int(number(line, 15, 8))
+                        else:
+                            # Skip the blank lines between corners
+                            continue
+                        corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                        if corner_gid is not None:
+                            set(corner_node, "GID", corner_gid)
+                        set(corner_node, "ZX", number(line, 121, 12))
+                        set(corner_node, "YZ", number(line, 134, 12))
+                        z1_node = ensure_path(corner_node, ["Z1"])
+                        set(z1_node, "XX", number(line, 35, 12))
+                        set(z1_node, "YY", number(line, 48, 12))
+                        set(z1_node, "XY", number(line, 61, 12))
+                        set(z1_node, "PRINCIPALANGLE", number(line, 75, 6))
+                        set(z1_node, "VONMISES", number(line, 108, 12))
+                        line = get_next_line()
+                        z2_node = ensure_path(corner_node, ["Z2"])
+                        set(z2_node, "XX", number(line, 35, 12))
+                        set(z2_node, "YY", number(line, 48, 12))
+                        set(z2_node, "XY", number(line, 61, 12))
+                        set(z2_node, "PRINCIPALANGLE", number(line, 75, 6))
+                        set(z2_node, "VONMISES", number(line, 108, 12))
+
+                elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
+                    eids_node = ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    get_next_line()
+                    corner = None
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("---"):
+                            break
+                        if line[13:13+8] == "Anywhere":
+                            eid = int(number(line, 2,8))
+                            eid_node = ensure_path(eids_node, [str(eid)])
+                            corner =0
                             corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
-                            if corner_gid is not None:
-                                set(corner_node, "GID", corner_gid)
-                            set(corner_node, "ZX", number(line, 121, 12))
-                            set(corner_node, "YZ", number(line, 134, 12))
+                            set(corner_node, "ZX", number(line, 125, 12))
+                            set(corner_node, "YZ", number(line, 138, 12))
                             z1_node = ensure_path(corner_node, ["Z1"])
-                            set(z1_node, "XX", number(line, 35, 12))
-                            set(z1_node, "YY", number(line, 48, 12))
-                            set(z1_node, "XY", number(line, 61, 12))
-                            set(z1_node, "PRINCIPALANGLE", number(line, 75, 6))
-                            set(z1_node, "VONMISES", number(line, 108, 12))
+                            set(z1_node, "XX", number(line, 38, 12))
+                            set(z1_node, "YY", number(line, 51, 12))
+                            set(z1_node, "XY", number(line, 64, 12))
+                            set(z1_node, "PRINCIPALANGLE", number(line, 78, 7))
+                            set(z1_node, "VONMISES", number(line, 112, 12))
                             line = get_next_line()
                             z2_node = ensure_path(corner_node, ["Z2"])
-                            set(z2_node, "XX", number(line, 35, 12))
-                            set(z2_node, "YY", number(line, 48, 12))
-                            set(z2_node, "XY", number(line, 61, 12))
-                            set(z2_node, "PRINCIPALANGLE", number(line, 75, 6))
-                            set(z2_node, "VONMISES", number(line, 108, 12))
+                            set(z2_node, "XX", number(line, 38, 12))
+                            set(z2_node, "YY", number(line, 51, 12))
+                            set(z2_node, "XY", number(line, 64, 12))
+                            set(z2_node, "PRINCIPALANGLE", number(line, 78, 7))
+                            set(z2_node, "VONMISES", number(line, 112, 12))
 
-                    elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "SHELLSTRESSES","EID"])
-                        get_next_line()
-                        get_next_line()
-                        get_next_line()
-                        corner = None
-                        while True:
-                            line = get_next_line()
-                            if line.strip().startswith("---"):
-                                break
-                            if line[13:13+8] == "Anywhere":
-                                eid = int(number(line, 2,8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
-                                corner =0
-                                corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
-                                set(corner_node, "ZX", number(line, 125, 12))
-                                set(corner_node, "YZ", number(line, 138, 12))
-                                z1_node = ensure_path(corner_node, ["Z1"])
-                                set(z1_node, "XX", number(line, 38, 12))
-                                set(z1_node, "YY", number(line, 51, 12))
-                                set(z1_node, "XY", number(line, 64, 12))
-                                set(z1_node, "PRINCIPALANGLE", number(line, 78, 7))
-                                set(z1_node, "VONMISES", number(line, 112, 12))
-                                line = get_next_line()
-                                z2_node = ensure_path(corner_node, ["Z2"])
-                                set(z2_node, "XX", number(line, 38, 12))
-                                set(z2_node, "YY", number(line, 51, 12))
-                                set(z2_node, "XY", number(line, 64, 12))
-                                set(z2_node, "PRINCIPALANGLE", number(line, 78, 7))
-                                set(z2_node, "VONMISES", number(line, 112, 12))
+                elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
+                    eids_node = ensure_path(root, prefix + ["BUSHSTRESSES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("---") or len(line.strip()) == 0:
+                            break
+                        eid = int(number(line, 20, 8))
+                        eid_node = ensure_path(eids_node, [str(eid)])
+                        set(eid_node, "1", number(line, 29, 13))
+                        set(eid_node, "2", number(line, 43, 13))
+                        set(eid_node, "3", number(line, 57, 13))
+                        set(eid_node, "4", number(line, 71, 13))
+                        set(eid_node, "5", number(line, 85, 13))
+                        set(eid_node, "6", number(line, 99, 13))
 
-                    elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "BUSHSTRESSES","EID"])
-                        get_next_line()
-                        get_next_line()
-                        while True:
-                            line = get_next_line()
-                            if line.strip().startswith("---") or len(line.strip()) == 0:
-                                break
-                            eid = int(number(line, 20, 8))
+                elif "F O R   E L E M E N T   T Y P E   B A R" in line:
+                    eids_node = ensure_path(root, prefix + ["BARSTRESSES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    get_next_line()
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("---"):
+                            break
+                        elif len(line.strip()) == 0:
+                            continue # Skip blank lines
+                        else:
+                            eid = int(number(line, 2,8))
                             eid_node = ensure_path(eids_node, [str(eid)])
-                            set(eid_node, "1", number(line, 29, 13))
-                            set(eid_node, "2", number(line, 43, 13))
-                            set(eid_node, "3", number(line, 57, 13))
-                            set(eid_node, "4", number(line, 71, 13))
-                            set(eid_node, "5", number(line, 85, 13))
-                            set(eid_node, "6", number(line, 99, 13))
+                            set(eid_node, "SA1", number(line, 11, 13))
+                            set(eid_node, "SA2", number(line, 25, 13))
+                            set(eid_node, "SA3", number(line, 39, 13))
+                            set(eid_node, "SA4", number(line, 53, 13))
+                            set(eid_node, "AXIAL", number(line, 67, 13))
+                            line = get_next_line()
+                            set(eid_node, "SB1", number(line, 11, 13))
+                            set(eid_node, "SB2", number(line, 25, 13))
+                            set(eid_node, "SB3", number(line, 39, 13))
+                            set(eid_node, "SB4", number(line, 53, 13))
 
 
             elif "E L E M E N T   S T R A I N S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:

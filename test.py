@@ -660,10 +660,14 @@ def test_bulk_auto(root_dir: Path,
         # Read grid point IDs from the input deck
         gp_coordinates = read_grids(deck_path)
 
-        # DISPLACEMENTS TX, TY, TZ in each subcase
-        #-----------------------------------------
+
+        # Subcases
+        # ========
         subcases_block = ref_f06.get_layer_4(["SC"], {}, {}, {}, {}, null_output)
         for subcase in subcases_block.keys():
+
+            # DISPLACEMENTS TX, TY, TZ in each subcase
+            #-----------------------------------------
             block_path = ["SC",subcase,"DISPLACEMENTS"] # Doesn't include GID here because there may be none if all zero.
             output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
             ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
@@ -688,8 +692,38 @@ def test_bulk_auto(root_dir: Path,
                     for component in ["TX", "TY", "TZ"]:
                         compare(block_path + ["GID",str(gid),component], maximum)
 
-        # REALEIGENVALUES EIGENVALUE
-        #---------------------------
+            # BARSTRESSES
+            # -----------
+            block_path = ["SC", subcase, "BARSTRESSES"]
+            output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
+            ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+            tst_block = tst_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+            if ref_block is None:
+                output_file.write(f"\tNot present in reference solution. That's OK\n")
+            elif tst_block is None:
+                comparison_count += 1
+                fail_count += 1
+                output_file.write(f"{INDENT * 3}FAIL\t{"/".join(block_path)} is not present in the test solution.\n")
+            else:
+                comparison_count += 1
+                # Identify EIDs from the union of the test and reference blocks
+                eids = ref_block["EID"].keys() | tst_block["EID"].keys()
+                # Find the maximum of all values we'll be testing in the block
+                maximum = 0
+                for eid in eids:
+                    for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
+                        value = ref_f06.get_layer_4(block_path + ["EID",str(eid),component], {}, {}, {}, {}, output_file)
+                        maximum = max(maximum, abs(value))
+                output_file.write(f"\tMaximum value = {maximum}\n")
+                # Compare each value normalized by the maximum
+                for gid in gp_coordinates.keys():
+                    for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
+                        compare(block_path + ["EID",str(eid),component], maximum)
+
+
+
+        # Eigenvalues
+        #------------
         block_path = ["SC","2","REALEIGENVALUES","MODE"] # Includes MODE here so it's easier to safely enumerate mode numbers.
         output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
         ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
@@ -714,11 +748,14 @@ def test_bulk_auto(root_dir: Path,
                 for component in ["EIGENVALUE"]:
                     compare(block_path + [str(mode),component], maximum)
 
-        # EIGENVECTORS TX, TY, TZ in each mode
-        #-------------------------------------
+        # Modes
+        # =====
         modes_block = ref_f06.get_layer_4(["SC","2","MODE"], {}, {}, {}, {}, null_output)
         if modes_block is not None:
             for mode in modes_block.keys():
+            
+                # EIGENVECTORS TX, TY, TZ
+                #------------------------
                 block_path = ["SC", "2", "MODE", mode, "EIGENVECTOR"]
                 output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
                 ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
@@ -743,10 +780,36 @@ def test_bulk_auto(root_dir: Path,
                         for component in ["TX", "TY", "TZ"]:
                             compare(block_path + ["GID",str(gid),component], maximum)
 
+                # BARSTRESSES
+                # -----------
+                block_path = ["SC", "2", "MODE", mode, "BARSTRESSES"]
+                output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
+                ref_block = ref_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+                tst_block = tst_f06.get_layer_4(block_path, {}, {}, {}, {}, null_output)
+                if ref_block is None:
+                    output_file.write(f"\tNot present in reference solution. That's OK\n")
+                elif tst_block is None:
+                    comparison_count += 1
+                    fail_count += 1
+                    output_file.write(f"{INDENT * 3}FAIL\t{"/".join(block_path)} is not present in the test solution.\n")
+                else:
+                    comparison_count += 1
+                    # Identify EIDs from the union of the test and reference blocks
+                    eids = ref_block["EID"].keys() | tst_block["EID"].keys()
+                    # Find the maximum of all values we'll be testing in the block
+                    maximum = 0
+                    for eid in eids:
+                        for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
+                            value = ref_f06.get_layer_4(block_path + ["EID",str(eid),component], {}, {}, {}, {}, output_file)
+                            maximum = max(maximum, abs(value))
+                    output_file.write(f"\tMaximum value = {maximum}\n")
+                    # Compare each value normalized by the maximum
+                    for gid in gp_coordinates.keys():
+                        for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
+                            compare(block_path + ["EID",str(eid),component], maximum)
 
-        # todo compare everything else
+
         
-  
     except Exception as e:
         fail_count += 1
         output_file.write(f"{INDENT * 2}ERROR: {e}\n")

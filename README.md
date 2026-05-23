@@ -62,11 +62,12 @@ The paths can resolve to one or multiple values. Examples:
 - `SOLIDSTRESSES`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `SOLIDSTRAINS`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER
-- `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
+- `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER. For eigenvectors and not.
 - `SHELLSTRAINS`: XX, YY, XY, PRINCIPALANGLE for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
 - `COMPOSITESTRESSES`: 11, 22, 12, 13, 23 for each PLY
+- `BARSTRESSES:` SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL. For eigenvectors and not.
 - `BUSHFORCES`: FXE, FYE, FZE, MXE, MYE, MZE
-- `BUSHSTRESSES`: 1, 2, 3, 4, 5, 6
+- `BUSHSTRESSES`: 1, 2, 3, 4, 5, 6. For eigenvectors and not.
 - `BUSHSTRAINS`: 1, 2, 3, 4, 5, 6
 - `EIGENVECTOR`: TX, TY, TZ, RX, RY, RZ
 - `REALEIGENVALUES`: EIGENVALUE, CYCLES
