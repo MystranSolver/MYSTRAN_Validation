@@ -849,6 +849,40 @@ def test_bulk_auto(root_dir: Path,
                         for component in ["MA1", "MA2", "MB1", "MB2", "S1", "S2", "AXIAL", "TORQUE"]:
                             compare(block_path + ["EID",str(eid),component], maximum)
 
+            # RODSTRESSES
+            # -----------
+            #todo safety margins
+            block_path = ["SC", subcase, "RODSTRESSES"]
+            ref_block = ref_f06.get_layer_0(block_path)
+            tst_block = tst_f06.get_layer_0(block_path)
+            if ref_block is not None:
+                output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
+                comparison_count += 1
+                if tst_block is None:
+                    fail_count += 1
+                    output_file.write(f"\n")
+                    output_file.write(f"{INDENT * 3}FAILED\t{"/".join(block_path)} is not present in the test solution.\n")
+                else:
+                    # Identify EIDs from the union of the test and reference blocks
+                    eids = ref_block["EID"].keys() | tst_block["EID"].keys()
+                    # Find the maximum of all values we'll be testing in the block
+                    maximum_axial = 0
+                    maximum_torsional = 0
+                    for eid in eids:
+                        for component in ["AXIAL"]:
+                            value = ref_f06.get_layer_1(block_path + ["EID",str(eid),component], output_file)
+                            maximum_axial = max(maximum_axial, abs(value))
+                        for component in ["TORSIONAL"]:
+                            value = ref_f06.get_layer_1(block_path + ["EID",str(eid),component], output_file)
+                            maximum_torsional = max(maximum_torsional, abs(value))
+                    output_file.write(f"\tMaximum AXIAL value = {maximum_axial}\tMaximum TORSIONAL value = {maximum_torsional}\n")
+                    # Compare each value normalized by the maximum
+                    for eid in eids:
+                        for component in ["AXIAL"]:
+                            compare(block_path + ["EID",str(eid),component], maximum_axial)
+                        for component in ["TORSIONAL"]:
+                            compare(block_path + ["EID",str(eid),component], maximum_torsional)
+
 
         # Eigenvalues
         #------------
@@ -1040,6 +1074,41 @@ def test_bulk_auto(root_dir: Path,
                         for eid in eids:
                             for component in ["MA1", "MA2", "MB1", "MB2", "S1", "S2", "AXIAL", "TORQUE"]:
                                 compare(block_path + ["EID",str(eid),component], maximum)
+
+                # RODSTRESSES
+                # -----------
+                #todo safety margins
+                block_path = ["SC", "2", "MODE", mode, "RODSTRESSES"]
+                ref_block = ref_f06.get_layer_0(block_path)
+                tst_block = tst_f06.get_layer_0(block_path)
+                if ref_block is not None:
+                    output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
+                    comparison_count += 1
+                    if tst_block is None:
+                        fail_count += 1
+                        output_file.write(f"\n")
+                        output_file.write(f"{INDENT * 3}FAILED\t{"/".join(block_path)} is not present in the test solution.\n")
+                    else:
+                        # Identify EIDs from the union of the test and reference blocks
+                        eids = ref_block["EID"].keys() | tst_block["EID"].keys()
+                        # Find the maximum of all values we'll be testing in the block
+                        maximum_axial = 0
+                        maximum_torsional = 0
+                        for eid in eids:
+                            for component in ["AXIAL"]:
+                                value = ref_f06.get_layer_1(block_path + ["EID",str(eid),component], output_file)
+                                maximum_axial = max(maximum_axial, abs(value))
+                            for component in ["TORSIONAL"]:
+                                value = ref_f06.get_layer_1(block_path + ["EID",str(eid),component], output_file)
+                                maximum_torsional = max(maximum_torsional, abs(value))
+                        output_file.write(f"\tMaximum AXIAL value = {maximum_axial}\tMaximum TORSIONAL value = {maximum_torsional}\n")
+                        # Compare each value normalized by the maximum
+                        for eid in eids:
+                            for component in ["AXIAL"]:
+                                compare(block_path + ["EID",str(eid),component], maximum_axial)
+                            for component in ["TORSIONAL"]:
+                                compare(block_path + ["EID",str(eid),component], maximum_torsional)
+
 
     # todo re-enable later
     # except Exception as e:

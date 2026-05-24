@@ -48,8 +48,10 @@ class F06Query:
         def peek_line_delta(delta):
             return lines[line_no - 1 + delta]
 
-        def number(line, start, length):
+        def number(line, start, length, blank_is_inf=False):
             segment = line[start - 1:start - 1 + length].strip()
+            if blank_is_inf and segment == "":
+                return float('inf')
             try:
                 return float(segment)
             except Exception as e:
@@ -490,6 +492,28 @@ class F06Query:
                             set(eid_node, "SB3", number(line, 39, 13))
                             set(eid_node, "SB4", number(line, 53, 13))
 
+                elif "F O R   E L E M E N T   T Y P E   R O D" in line:
+                    eids_node = ensure_path(root, prefix + ["RODSTRESSES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("---"):
+                            break
+                        else:
+                            eid = int(number(line, 2,8))
+                            eid_node = ensure_path(eids_node, [str(eid)])
+                            set(eid_node, "AXIAL", number(line, 11, 13))
+                            set(eid_node, "AXIALSAFETY", number(line, 25, 9, blank_is_inf=True))
+                            set(eid_node, "TORSIONAL", number(line, 36, 13))
+                            set(eid_node, "TORSIONALSAFETY", number(line, 50, 9, blank_is_inf=True))
+                            if len(line) > 67 and line[66] != " ":
+                                eid = int(number(line, 2,8))
+                                eid_node = ensure_path(eids_node, [str(eid)])
+                                set(eid_node, "AXIAL", number(line, 69, 13))
+                                set(eid_node, "AXIALSAFETY", number(line, 83, 9, blank_is_inf=True))
+                                set(eid_node, "TORSIONAL", number(line, 94, 13))
+                                set(eid_node, "TORSIONALSAFETY", number(line, 108, 9, blank_is_inf=True))
 
             elif "E L E M E N T   S T R A I N S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
                 subcase = read_subcase()
