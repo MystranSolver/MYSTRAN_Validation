@@ -1,5 +1,7 @@
 import math
+import sys
 from io import TextIOWrapper
+
 
 INDENT = "  "
 
@@ -51,20 +53,36 @@ class F06Query:
                 return float(segment)
 
         def read_subcase():
-            # There are 0-3 lines of text (TITLE, SUBT, LABEL) and 1 blank line.
-            for sc_line in range(-2,-6,-1):
-                if "OUTPUT FOR SUBCASE" in peek_line_delta(sc_line):
-                    return int(number(peek_line_delta(sc_line), 21, 8))
-            # If it wasn't found, it could be an eigenvector's stress/force/etc.
-            return None
-
+            # Search backwards not more than up to 4 non-blank lines and skipping blank lines
+            # Non-blank lines are typically TITLE, SUBT, LABEL
+            # Blank lines are sometimes a lot due to a possible Mystran bug
+            non_blanks = 0
+            delta = -2
+            while True:
+                line = peek_line_delta(delta)
+                if "OUTPUT FOR SUBCASE" in line:
+                    return int(number(line, 21, 8))
+                if line.strip() != "":
+                    non_blanks += 1
+                if non_blanks > 4:
+                    return None
+                delta -= 1        
+      
         def read_mode():
-            # There are 0-3 lines of text (TITLE, SUBT, LABEL) and 1 blank line.
-            for mode_line in range(-2,-6,-1):
-                if "OUTPUT FOR EIGENVECTOR" in peek_line_delta(mode_line):
-                    return int(number(peek_line_delta(mode_line), 25, 8))
-            # If it wasn't found, it could be a subcase's stress/force/etc
-            return None
+            # Search backwards not more than up to 4 non-blank lines and skipping blank lines
+            # Non-blank lines are typically TITLE, SUBT, LABEL and sometimes a duplicated TITLE
+            # Blank lines are sometimes a lot due to a possible Mystran bug
+            non_blanks = 0
+            delta = -2
+            while True:
+                line = peek_line_delta(delta)
+                if "OUTPUT FOR EIGENVECTOR" in line:
+                    return int(number(line, 25, 8))
+                if line.strip() != "":
+                    non_blanks += 1
+                if non_blanks > 4:
+                    return None
+                delta -= 1
 
         while line_no <= len(lines) - 1:
             line = get_next_line()
@@ -127,11 +145,13 @@ class F06Query:
                     set(gid_node, "RY", number(line, 82, 13))
                     set(gid_node, "RZ", number(line, 96, 13))
 
-            if "A P P L I E D    F O R C E S" in line:
+            elif "A P P L I E D    F O R C E S" in line:
                 subcase = read_subcase()
                 gids_node = ensure_path(root, ["SC", str(subcase), "APPLIEDFORCES","GID"])
                 get_next_line()
-                get_next_line()
+                line = get_next_line()
+                if "(including equivalent thermal loads)" in line:
+                    get_next_line()
                 get_next_line()
                 while True:
                     line = get_next_line()
@@ -146,7 +166,92 @@ class F06Query:
                     set(gid_node, "RY", number(line, 82, 13))
                     set(gid_node, "RZ", number(line, 96, 13))
 
-            if "E I G E N V E C T O R" in line:
+            elif "G R I D   P O I N T   F O R C E   B A L A N C E" in line:
+                subcase = read_subcase()
+                if subcase is not None:
+                    prefix = ["SC", str(subcase)]
+                else:
+                    mode = read_mode()
+                    if mode is None:
+                        # Some v15 files (SS-BAR-10-BUCKLING-CF-LOAD-LAN-3D.F06) have no subcase or
+                        # mode for GPFORCE. Just assume it's subcase 1. I don't know if it should even
+                        # be present but this will reveal it with test fails when it's absent in later versions.
+                        prefix = ["SC", str(1)]
+                        print(f"WARNING: no subcase found for GPFORCE in {self.file_name} line {line_no}. Assuming SC/1.")
+                    else:
+                        prefix = ["SC", "2", "MODE", str(mode)]
+                get_next_line()
+                get_next_line()
+                gids_node = ensure_path(root, prefix + ["GPFORCE","GID"])
+                # Read grid point sub-blocks
+                while True:
+                    line = get_next_line()
+                    if "FORCE BALANCE FOR GRID POINT" in line:
+                        gid = int(number(line, 62, 8))
+                        get_next_line()
+                        get_next_line()
+                        get_next_line()
+                        gid_node = ensure_path(gids_node, [str(gid)])
+                        # Rows in sub-block
+                        while True:
+                            line = get_next_line()
+                            if "APPLIED FORCE" in line:
+                                applied_node = ensure_path(gid_node, ["APPLIED"])
+                                set(applied_node, "TX", number(line, 26, 13))
+                                set(applied_node, "TY", number(line, 40, 13))
+                                set(applied_node, "TZ", number(line, 54, 13))
+                                set(applied_node, "RX", number(line, 68, 13))
+                                set(applied_node, "RY", number(line, 82, 13))
+                                set(applied_node, "RZ", number(line, 96, 13))
+                            elif "SPC FORCE" in line:
+                                spc_node = ensure_path(gid_node, ["SPC"])
+                                set(spc_node, "TX", number(line, 26, 13))
+                                set(spc_node, "TY", number(line, 40, 13))
+                                set(spc_node, "TZ", number(line, 54, 13))
+                                set(spc_node, "RX", number(line, 68, 13))
+                                set(spc_node, "RY", number(line, 82, 13))
+                                set(spc_node, "RZ", number(line, 96, 13))
+                            elif "MPC FORCE" in line:
+                                mpc_node = ensure_path(gid_node, ["MPC"])
+                                set(mpc_node, "TX", number(line, 26, 13))
+                                set(mpc_node, "TY", number(line, 40, 13))
+                                set(mpc_node, "TZ", number(line, 54, 13))
+                                set(mpc_node, "RX", number(line, 68, 13))
+                                set(mpc_node, "RY", number(line, 82, 13))
+                                set(mpc_node, "RZ", number(line, 96, 13))
+                            elif "INTERTIA FORCE" in line:
+                                inertia_node = ensure_path(gid_node, ["INERTIA"])
+                                set(inertia_node, "TX", number(line, 26, 13))
+                                set(inertia_node, "TY", number(line, 40, 13))
+                                set(inertia_node, "TZ", number(line, 54, 13))
+                                set(inertia_node, "RX", number(line, 68, 13))
+                                set(inertia_node, "RY", number(line, 82, 13))
+                                set(inertia_node, "RZ", number(line, 96, 13))
+                            elif "ELEM" in line:
+                                eid = int(number(line, 17, 8))
+                                eids_node = ensure_path(gid_node, ["EID"])
+                                eid_node = ensure_path(eids_node, [str(eid)])
+                                set(eid_node, "TX", number(line, 26, 13))
+                                set(eid_node, "TY", number(line, 40, 13))
+                                set(eid_node, "TZ", number(line, 54, 13))
+                                set(eid_node, "RX", number(line, 68, 13))
+                                set(eid_node, "RY", number(line, 82, 13))
+                                set(eid_node, "RZ", number(line, 96, 13))
+                            else:
+                                # End of sub-block
+                                break
+                    elif line.startswith(" TOTALS"):
+                        continue
+                    elif line.startswith(" (should all be 0)"):
+                        continue
+                    elif line.strip() == "":
+                        continue
+                    else:
+                        # End of block
+                        break
+            
+
+            elif "E I G E N V E C T O R" in line:
                 subcase = 2
                 mode = read_mode()
                 gids_node = ensure_path(root, ["SC", str(subcase), "MODE", str(mode), "EIGENVECTOR", "GID"])
@@ -253,7 +358,8 @@ class F06Query:
                 else:
                     mode = read_mode()
                     if mode is None:
-                        print("ERROR: No subcase or eigenvector found.")
+                        print(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}:")
+                        print(line)
                         sys.exit(1)
                     prefix = ["SC", "2", "MODE", str(mode)]
                 line = get_next_line()
@@ -507,7 +613,8 @@ class F06Query:
                 else:
                     mode = read_mode()
                     if mode is None:
-                        print("ERROR: No subcase or eigenvector found.")
+                        print(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}:")
+                        print(line)
                         sys.exit(1)
                     prefix = ["SC", "2", "MODE", str(mode)]
                 line = get_next_line()
@@ -654,7 +761,7 @@ class F06Query:
             if not node in current_node:
                 # Some types of missing node represent zero values.
                 
-                # /SC/#/SPCFORCES/GID/#/##
+                # /SC/#/SPCFORCES/GID/#/#
                 #                     ^--- not present.
                 if index == 4 \
                 and len(path) == 6 \
@@ -664,6 +771,19 @@ class F06Query:
                 and path[5] in("TX","TY","TZ","RX","RY","RZ"):
                     value = 0.0
                     break
+
+                # /SC/#/GPFORCES/GID/#/#/#
+                #                      ^--- not present.
+                elif index == 5 \
+                and len(path) == 7 \
+                and path[0] == "SC" \
+                and path[2] == "GPFORCE" \
+                and path[3] == "GID" \
+                and path[5] in("APPLIED", "SPC", "MPC", "INERTIA") \
+                and path[6] in("TX","TY","TZ","RX","RY","RZ"):
+                    value = 0.0
+                    break
+
                 else:
                     # Otherwise, fail if a node in the path isn't present.
                     value = None
