@@ -63,44 +63,33 @@ class F06Query:
                 segment = segment[:-4] + "E" + segment[-4:]
                 return float(segment)
 
-        def read_subcase():
-            # Search backwards not more than up to 4 non-blank lines and skipping blank lines
+        def subcase_or_mode():
+            # Search backwards not more than up to 8 non-blank lines and skipping blank lines
             # Non-blank lines are typically TITLE, SUBT, LABEL
+            # Sometimes TITLE appears 2-6 times due to a possible Mystran bug
             # Blank lines are sometimes a lot due to a possible Mystran bug
             non_blanks = 0
             delta = -2
             while True:
                 line = peek_line_delta(delta)
                 if "OUTPUT FOR SUBCASE" in line:
-                    return int(number(line, 21, 8))
+                    subcase = int(number(line, 21, 8))
+                    return ["SC", str(subcase)]
+                if "OUTPUT FOR EIGENVECTOR" in line:
+                    mode = int(number(line, 25, 8))
+                    return ["SC", "2", "MODE", str(mode)]
                 if line.strip() != "":
                     non_blanks += 1
-                if non_blanks > 4:
+                if non_blanks > 8:
                     return None
                 delta -= 1        
       
-        def read_mode():
-            # Search backwards not more than up to 4 non-blank lines and skipping blank lines
-            # Non-blank lines are typically TITLE, SUBT, LABEL and sometimes a duplicated TITLE
-            # Blank lines are sometimes a lot due to a possible Mystran bug
-            non_blanks = 0
-            delta = -2
-            while True:
-                line = peek_line_delta(delta)
-                if "OUTPUT FOR EIGENVECTOR" in line:
-                    return int(number(line, 25, 8))
-                if line.strip() != "":
-                    non_blanks += 1
-                if non_blanks > 4:
-                    return None
-                delta -= 1
-
         while line_no <= len(lines) - 1:
             line = get_next_line()
 
             if "D I S P L A C E M E N T S" in line:
-                subcase = read_subcase()
-                gids_node = ensure_path(root, ["SC", str(subcase), "DISPLACEMENTS","GID"])
+                prefix = subcase_or_mode()
+                gids_node = ensure_path(root, prefix +["DISPLACEMENTS","GID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -118,12 +107,7 @@ class F06Query:
                     set(gid_node, "RZ", number(line, 96, 13))
 
             elif "S P C   F O R C E S" in line:
-                subcase = read_subcase()
-                if subcase is not None:
-                    prefix = ["SC", str(subcase)]
-                else:
-                    mode = read_mode()
-                    prefix = ["SC", "2", "MODE", str(mode)]
+                prefix = subcase_or_mode()
                 gids_node = ensure_path(root, prefix + ["SPCFORCES", "GID"])
                 get_next_line()
                 get_next_line()
@@ -142,8 +126,8 @@ class F06Query:
                     set(gid_node, "RZ", number(line, 96, 13))
 
             elif "M P C   F O R C E S" in line:
-                subcase = read_subcase()
-                gids_node = ensure_path(root, ["SC", str(subcase), "MPCFORCES", "GID"])
+                prefix = subcase_or_mode()
+                gids_node = ensure_path(root, prefix + ["MPCFORCES", "GID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -161,8 +145,8 @@ class F06Query:
                     set(gid_node, "RZ", number(line, 96, 13))
 
             elif "A P P L I E D    F O R C E S" in line:
-                subcase = read_subcase()
-                gids_node = ensure_path(root, ["SC", str(subcase), "APPLIEDFORCES","GID"])
+                prefix = subcase_or_mode()
+                gids_node = ensure_path(root, prefix + ["APPLIEDFORCES","GID"])
                 get_next_line()
                 line = get_next_line()
                 if "(including equivalent thermal loads)" in line:
@@ -182,19 +166,13 @@ class F06Query:
                     set(gid_node, "RZ", number(line, 96, 13))
 
             elif "G R I D   P O I N T   F O R C E   B A L A N C E" in line:
-                subcase = read_subcase()
-                if subcase is not None:
-                    prefix = ["SC", str(subcase)]
-                else:
-                    mode = read_mode()
-                    if mode is None:
-                        # Some v15 files (SS-BAR-10-BUCKLING-CF-LOAD-LAN-3D.F06) have no subcase or
-                        # mode for GPFORCE. Just assume it's subcase 1. I don't know if it should even
-                        # be present but this will reveal it with test fails when it's absent in later versions.
-                        prefix = ["SC", str(1)]
-                        print(f"WARNING: no subcase found for GPFORCE in {self.file_name} line {line_no}. Assuming SC/1.")
-                    else:
-                        prefix = ["SC", "2", "MODE", str(mode)]
+                prefix = subcase_or_mode()
+                if prefix is None:
+                    # Some v15 files (SS-BAR-10-BUCKLING-CF-LOAD-LAN-3D.F06) have no subcase or
+                    # mode for GPFORCE. Just assume it's subcase 1. I don't know if it should even
+                    # be present but this will reveal it with test fails when it's absent in later versions.
+                    prefix = ["SC", str(1)]
+                    print(f"WARNING: no subcase found for GPFORCE in {self.file_name} line {line_no}. Assuming SC/1.")
                 get_next_line()
                 get_next_line()
                 gids_node = ensure_path(root, prefix + ["GPFORCE","GID"])
@@ -267,9 +245,8 @@ class F06Query:
             
 
             elif "E I G E N V E C T O R" in line:
-                subcase = 2
-                mode = read_mode()
-                gids_node = ensure_path(root, ["SC", str(subcase), "MODE", str(mode), "EIGENVECTOR", "GID"])
+                prefix = subcase_or_mode()
+                gids_node = ensure_path(root, prefix + ["EIGENVECTOR", "GID"])
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -299,13 +276,13 @@ class F06Query:
                         break
 
             elif "E L E M E N T   S T R E S S E S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
-                subcase = read_subcase()
-                if subcase is not None:
+                prefix = subcase_or_mode()
+                if prefix is not None:
                     line = get_next_line()
                     if "F O R   E L E M E N T   T Y P E   H E X A" in line \
                     or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
                     or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "SOLIDSTRESSES","EID"])
+                        eids_node = ensure_path(root, prefix + ["SOLIDSTRESSES","EID"])
                         get_next_line()
                         get_next_line()
                         corner = None
@@ -333,13 +310,13 @@ class F06Query:
                             set(corner_node, "VONMISES", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
             elif "E L E M E N T   S T R A I N S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
-                subcase = read_subcase()
-                if subcase is not None:
+                prefix = subcase_or_mode()
+                if prefix is not None:
                     line = get_next_line()
                     if "F O R   E L E M E N T   T Y P E   H E X A" in line \
                     or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
                     or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "SOLIDSTRAINS","EID"])
+                        eids_node = ensure_path(root, prefix + ["SOLIDSTRAINS","EID"])
                         get_next_line()
                         get_next_line()
                         corner = None
@@ -367,16 +344,11 @@ class F06Query:
                             set(corner_node, "VONMISES", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
             elif "E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
-                subcase = read_subcase()
-                if subcase is not None:
-                    prefix = ["SC", str(subcase)]
-                else:
-                    mode = read_mode()
-                    if mode is None:
-                        print(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}:")
-                        print(line)
-                        sys.exit(1)
-                    prefix = ["SC", "2", "MODE", str(mode)]
+                prefix = subcase_or_mode()
+                if prefix is None:
+                    print(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}:")
+                    print(line)
+                    sys.exit(1)
                 line = get_next_line()
                 if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                 or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
@@ -516,12 +488,12 @@ class F06Query:
                                 set(eid_node, "TORSIONALSAFETY", number(line, 108, 9, blank_is_inf=True))
 
             elif "E L E M E N T   S T R A I N S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
-                subcase = read_subcase()
-                if subcase is not None:
+                prefix = subcase_or_mode()
+                if prefix is not None:
                     line = get_next_line()
                     if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                     or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "SHELLSTRAINS","EID"])
+                        eids_node = ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
                         get_next_line()
                         get_next_line()
                         get_next_line()
@@ -559,7 +531,7 @@ class F06Query:
                             set(z2_node, "PRINCIPALANGLE", number(line, 75, 6))
 
                     elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "SHELLSTRAINS","EID"])
+                        eids_node = ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
                         get_next_line()
                         get_next_line()
                         get_next_line()
@@ -588,7 +560,7 @@ class F06Query:
                                 set(z2_node, "PRINCIPALANGLE", number(line, 78, 7))
 
                     elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "BUSHSTRAINS","EID"])
+                        eids_node = ensure_path(root, prefix + ["BUSHSTRAINS","EID"])
                         get_next_line()
                         get_next_line()
                         while True:
@@ -606,8 +578,8 @@ class F06Query:
 
 
             elif "S T R E S S E S   I N   L A Y E R E D   C O M P O S I T E   E L E M E N T S" in line:
-                subcase = read_subcase()
-                if subcase is not None:
+                prefix = subcase_or_mode()
+                if prefix is not None:
                     get_next_line()
                     get_next_line()
                     get_next_line()
@@ -615,7 +587,7 @@ class F06Query:
                     if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                     or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
                     or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                        eids_node = ensure_path(root, ["SC", str(subcase), "COMPOSITESTRESSES","EID"])
+                        eids_node = ensure_path(root, prefix + ["COMPOSITESTRESSES","EID"])
                         get_next_line()
                         get_next_line()
                         get_next_line()
@@ -644,16 +616,11 @@ class F06Query:
 
 
             elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
-                subcase = read_subcase()
-                if subcase is not None:
-                    prefix = ["SC", str(subcase)]
-                else:
-                    mode = read_mode()
-                    if mode is None:
-                        print(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}:")
-                        print(line)
-                        sys.exit(1)
-                    prefix = ["SC", "2", "MODE", str(mode)]
+                prefix = subcase_or_mode()
+                if prefix is None:
+                    print(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}:")
+                    print(line)
+                    sys.exit(1)
                 line = get_next_line()
                 if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                 or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
