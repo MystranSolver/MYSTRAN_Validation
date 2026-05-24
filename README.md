@@ -57,8 +57,10 @@ The paths can resolve to one or multiple values. Examples:
 
 #### Supported data:
 - `DISPLACEMENTS`: TX, TY, TZ, RX, RY, RZ
-- `SPCFORCES`: TX, TY, TZ, RX, RY, RZ
+- `SPCFORCES`: TX, TY, TZ, RX, RY, RZ. For eigenvectors and not.
 - `MPCFORCES`: TX, TY, TZ, RX, RY, RZ
+- `APPLIEDFORCES`: TX, TY, TZ, RX, RY, RZ
+- `GPFORCE`: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*). For eigenvectors and not.
 - `SOLIDSTRESSES`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `SOLIDSTRAINS`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER. For eigenvectors and not.

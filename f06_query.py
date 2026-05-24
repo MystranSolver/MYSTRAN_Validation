@@ -13,8 +13,17 @@ class F06Query:
         
     def _read(self):
 
-        with open(self.file_name, 'r') as f:
-            lines = f.readlines()
+        try:
+            # Unicode by default for U-dot-dot character in GPFORCE's INERTIA FORCE
+            with open(self.file_name, mode='r', encoding='utf-8') as f:
+                lines = f.readlines()
+        except UnicodeDecodeError:
+            # Unicode fails on older versions of Mystran that use some 
+            # other encoding for U-dot-dot.
+            # We can't always use this default encoding because it treats
+            # the unicode U-dot-dot as two characters and misaligns the line.
+            with open(self.file_name, mode='r') as f:
+                lines = f.readlines()
 
         root = {}
 
@@ -109,22 +118,26 @@ class F06Query:
             elif "S P C   F O R C E S" in line:
                 subcase = read_subcase()
                 if subcase is not None:
-                    gids_node = ensure_path(root, ["SC", str(subcase), "SPCFORCES", "GID"])
-                    get_next_line()
-                    get_next_line()
-                    get_next_line()
-                    while True:
-                        line = get_next_line()
-                        if line.strip().startswith("---") or len(line.strip()) == 0:
-                            break
-                        gid = int(number(line, 8, 8))
-                        gid_node = ensure_path(gids_node, [str(gid)])
-                        set(gid_node, "TX", number(line, 26, 13))
-                        set(gid_node, "TY", number(line, 40, 13))
-                        set(gid_node, "TZ", number(line, 54, 13))
-                        set(gid_node, "RX", number(line, 68, 13))
-                        set(gid_node, "RY", number(line, 82, 13))
-                        set(gid_node, "RZ", number(line, 96, 13))
+                    prefix = ["SC", str(subcase)]
+                else:
+                    mode = read_mode()
+                    prefix = ["SC", "2", "MODE", str(mode)]
+                gids_node = ensure_path(root, prefix + ["SPCFORCES", "GID"])
+                get_next_line()
+                get_next_line()
+                get_next_line()
+                while True:
+                    line = get_next_line()
+                    if line.strip().startswith("---") or len(line.strip()) == 0:
+                        break
+                    gid = int(number(line, 8, 8))
+                    gid_node = ensure_path(gids_node, [str(gid)])
+                    set(gid_node, "TX", number(line, 26, 13))
+                    set(gid_node, "TY", number(line, 40, 13))
+                    set(gid_node, "TZ", number(line, 54, 13))
+                    set(gid_node, "RX", number(line, 68, 13))
+                    set(gid_node, "RY", number(line, 82, 13))
+                    set(gid_node, "RZ", number(line, 96, 13))
 
             elif "M P C   F O R C E S" in line:
                 subcase = read_subcase()
@@ -219,7 +232,7 @@ class F06Query:
                                 set(mpc_node, "RX", number(line, 68, 13))
                                 set(mpc_node, "RY", number(line, 82, 13))
                                 set(mpc_node, "RZ", number(line, 96, 13))
-                            elif "INTERTIA FORCE" in line:
+                            elif "INERTIA FORCE" in line:
                                 inertia_node = ensure_path(gid_node, ["INERTIA"])
                                 set(inertia_node, "TX", number(line, 26, 13))
                                 set(inertia_node, "TY", number(line, 40, 13))
@@ -761,8 +774,8 @@ class F06Query:
             if not node in current_node:
                 # Some types of missing node represent zero values.
                 
-                # /SC/#/SPCFORCES/GID/#/#
-                #                     ^--- not present.
+                # /SC/#/SPCFORCES/GID/#/##
+                #                     ^--- gid not present.
                 if index == 4 \
                 and len(path) == 6 \
                 and path[0] == "SC" \
@@ -772,8 +785,8 @@ class F06Query:
                     value = 0.0
                     break
 
-                # /SC/#/GPFORCES/GID/#/#/#
-                #                      ^--- not present.
+                # /SC/#/GPFORCES/GID/#/#####/##
+                #                        ^--- force type not present.
                 elif index == 5 \
                 and len(path) == 7 \
                 and path[0] == "SC" \
@@ -781,6 +794,19 @@ class F06Query:
                 and path[3] == "GID" \
                 and path[5] in("APPLIED", "SPC", "MPC", "INERTIA") \
                 and path[6] in("TX","TY","TZ","RX","RY","RZ"):
+                    value = 0.0
+                    break
+
+                # /SC/#/MODE/#/GPFORCES/GID/#/#####/##
+                #                               ^--- force type not present.
+                elif index == 7 \
+                and len(path) == 9 \
+                and path[0] == "SC" \
+                and path[2] == "MODE" \
+                and path[4] == "GPFORCE" \
+                and path[5] == "GID" \
+                and path[7] in("APPLIED", "SPC", "MPC", "INERTIA") \
+                and path[8] in("TX","TY","TZ","RX","RY","RZ"):
                     value = 0.0
                     break
 
@@ -797,7 +823,8 @@ class F06Query:
         
 
     def get_layer_1(self, path, output_file : TextIOWrapper):
-        # Get a value from the parsed f06 file without any modification.
+        # Get a value from layer 0 and:
+        # - Write a message if it doesn't exist.
         
         value = self.get_layer_0(path)
 
