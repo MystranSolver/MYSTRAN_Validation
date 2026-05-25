@@ -61,18 +61,21 @@ The paths can resolve to one or multiple values. Examples:
 - `MPCFORCES`: TX, TY, TZ, RX, RY, RZ
 - `APPLIEDFORCES`: TX, TY, TZ, RX, RY, RZ
 - `GPFORCE`: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*). For eigenvectors and not.
-- `SOLIDSTRESSES`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
-- `SOLIDSTRAINS`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
-- `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER. For eigenvectors and not.
-- `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER. For eigenvectors and not.
-- `SHELLSTRAINS`: XX, YY, XY, PRINCIPALANGLE for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
-- `COMPOSITESTRESSES`: 11, 22, 12, 13, 23 for each PLY
+- `ELAS1FORCES`
+- `ELAS1STRESSES`
+- `RODFORCES`: AXIAL, TORQUE
 - `RODSTRESSES`: AXIAL, AXIALSAFETY, TORSIONAL, TORSIONALSAFETY. For eigenvectors and not.
 - `BARFORCES:` MA1, MA2, MB1, MB2, S1, S2, AXIAL, TORQUE. For eigenvectors and not.
 - `BARSTRESSES:` SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL. For eigenvectors and not.
 - `BUSHFORCES`: FXE, FYE, FZE, MXE, MYE, MZE. For eigenvectors and not.
 - `BUSHSTRESSES`: 1, 2, 3, 4, 5, 6. For eigenvectors and not.
 - `BUSHSTRAINS`: 1, 2, 3, 4, 5, 6
+- `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER. For eigenvectors and not.
+- `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER. For eigenvectors and not.
+- `SHELLSTRAINS`: XX, YY, XY, PRINCIPALANGLE for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
+- `COMPOSITESTRESSES`: 11, 22, 12, 13, 23 for each PLY
+- `SOLIDSTRESSES`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
+- `SOLIDSTRAINS`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `EIGENVECTOR`: TX, TY, TZ, RX, RY, RZ
 - `REALEIGENVALUES`: EIGENVALUE, CYCLES
 

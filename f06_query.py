@@ -452,12 +452,28 @@ class F06Query:
                             set(eid_node, "TORSIONAL", number(line, 36, 13))
                             set(eid_node, "TORSIONALSAFETY", number(line, 50, 9, blank_is_inf=True))
                             if len(line) > 67 and line[66] != " ":
-                                eid = int(number(line, 2,8))
+                                eid = int(number(line, 60,8))
                                 eid_node = ensure_path(eids_node, [str(eid)])
                                 set(eid_node, "AXIAL", number(line, 69, 13))
                                 set(eid_node, "AXIALSAFETY", number(line, 83, 9, blank_is_inf=True))
                                 set(eid_node, "TORSIONAL", number(line, 94, 13))
                                 set(eid_node, "TORSIONALSAFETY", number(line, 108, 9, blank_is_inf=True))
+
+                elif "F O R   E L E M E N T   T Y P E   E L A S 1" in line:
+                    eids_node = ensure_path(root, prefix + ["ELAS1STRESSES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("---") or len(line.strip()) == 0:
+                            break
+                        else:
+                            for element_col in range(5):
+                                start = element_col * 23
+                                if len(line) > start+9 and line[start+8] != " ":
+                                    eid = int(number(line, start + 2,8))
+                                    set(eids_node, str(eid), number(line, start + 11, 13))
+
 
             elif "S T R E S S E S   I N   L A Y E R E D   C O M P O S I T E   E L E M E N T S" in line:
                 prefix = subcase_or_mode()
@@ -727,6 +743,21 @@ class F06Query:
                             set(eid_node, "AXIAL", number(line, 98, 13))
                             set(eid_node, "TORQUE", number(line, 112, 13))
 
+                elif "F O R   E L E M E N T   T Y P E   E L A S 1" in line:
+                    eids_node = ensure_path(root, prefix + ["ELAS1FORCES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("---") or len(line.strip()) == 0:
+                            break
+                        else:
+                            for element_col in range(5):
+                                start = 16 + element_col * 22
+                                if len(line) > start+8 and line[start+7] != " ":
+                                    eid = int(number(line, start+1, 8))
+                                    set(eids_node, str(eid), number(line, start + 10, 13))
+
 
             elif "R E A L   E I G E N V A L U E S" in line:
                 subcase = 2
@@ -790,7 +821,7 @@ class F06Query:
             if isinstance(value, dict):
                 self.dump(file, value, prefix + str(key) + "/", key)
             else:
-                file.write(f"{prefix} {key} = {value}\n")
+                file.write(f"{prefix}{key} = {value}\n")
 
 
     def get_layer_0(self, path):

@@ -462,134 +462,125 @@ def test_path(root_dir: Path,
     comparison_count = 0
     worst_error = 0
 
-    try:
+    # Read f06 file
+    parsed_f06 = F06Query(str(test_f06_path))
 
-        # Read f06 file
-        parsed_f06 = F06Query(str(test_f06_path))
+    # Read grid point transformations file
+    gp_transforms = read_gp_transforms(deck_path.with_suffix(".gptransform"))
 
-        # Read grid point transformations file
-        gp_transforms = read_gp_transforms(deck_path.with_suffix(".gptransform"))
+    # Read shell angles file
+    shell_angles = read_shell_angles(deck_path.with_suffix(".shellangles"))
 
-        # Read shell angles file
-        shell_angles = read_shell_angles(deck_path.with_suffix(".shellangles"))
+    # Read grid point coordinates from the input deck
+    gp_coordinates = read_grids(deck_path)
 
-        # Read grid point coordinates from the input deck
-        gp_coordinates = read_grids(deck_path)
+    # Make GID to (EID,corner) reverse lookup
+    gid_to_corners = read_gid_to_corners(deck_path)
 
-        # Make GID to (EID,corner) reverse lookup
-        gid_to_corners = read_gid_to_corners(deck_path)
+    values = get_layer_6(parsed_f06, test_case.filter_string, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
 
-        values = get_layer_6(parsed_f06, test_case.filter_string, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
+    match test_case.operation:
+        case "":
 
-        match test_case.operation:
-            case "":
-
-                for value in values:
-                    comparison_count += 1
-                    if value is None:
-                        fail_count += 1
-                        output_file.write(f"{INDENT * 2}FAILED\n")
-                    else:
-                        compare(value)
-
-            case "SUM":
-
+            for value in values:
                 comparison_count += 1
-                value_sum = 0
-                for value in values:
-                    if value is None:
-                        value_sum = None
-                        break
-                    else:
-                       value_sum += value
-                if value_sum is None:
+                if value is None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
                 else:
-                    compare(value_sum)
+                    compare(value)
 
-            case "NORM":
+        case "SUM":
 
+            comparison_count += 1
+            value_sum = 0
+            for value in values:
+                if value is None:
+                    value_sum = None
+                    break
+                else:
+                   value_sum += value
+            if value_sum is None:
+                fail_count += 1
+                output_file.write(f"{INDENT * 2}FAILED\n")
+            else:
+                compare(value_sum)
+
+        case "NORM":
+
+            comparison_count += 1
+            value_squared_sum = 0
+            for value in values:
+                if value is None:
+                    value_squared_sum = None
+                    break
+                else:
+                   value_squared_sum += value**2
+            if value_squared_sum is None:
+                fail_count += 1
+                output_file.write(f"{INDENT * 2}FAILED\n")
+            else:
+                compare(math.sqrt(value_squared_sum))
+
+        case "ANGLEFROMX" | "ANGLEFROMY" | "ANGLEFROMZ":
+
+            # Uses incomplete paths without the trailing DOF name.
+            # 1 grid point:
+            #   SC/2/MODE/1/EIGENVECTOR/GID/10
+            # or multiple grid points to sum:
+            #   SC/2/MODE/1/EIGENVECTOR/GID/10,13
+            # Also works for displacement and other types of vector with DOF immediately after GID.
+            comparison_count += 1
+            x_sum = 0
+            y_sum = 0
+            z_sum = 0
+            for value in values:
+                if value is None:
+                    x_sum = None
+                    y_sum = None
+                    z_sum = None
+                    break
+                x = value["TX"]
+                y = value["TY"]
+                z = value["TZ"]
+                if x is None or y is None or z is None:
+                    x_sum = None
+                    y_sum = None
+                    z_sum = None
+                    break
+                else:
+                   x_sum += x
+                   y_sum += y
+                   z_sum += z
+            if x_sum is None:
+                fail_count += 1
+                output_file.write(f"{INDENT * 2}FAILED\n")
+            else:
+                match test_case.operation[-1]:
+                    case "X": v_ref = [1.0, 0.0, 0.0]
+                    case "Y": v_ref = [0.0, 1.0, 0.0]
+                    case "Z": v_ref = [0.0, 0.0, 1.0]
+                v_mag = math.sqrt(x_sum**2 + y_sum**2 + z_sum**2)
+                v_hat = [x_sum / v_mag, y_sum / v_mag, z_sum / v_mag]
+                v_dot_ref = v_hat[0] * v_ref[0] \
+                          + v_hat[1] * v_ref[1] \
+                          + v_hat[2] * v_ref[2]
+                compare(math.acos(abs(v_dot_ref)))
+
+        case "ABSENT":
+
+            for value in values:
                 comparison_count += 1
-                value_squared_sum = 0
-                for value in values:
-                    if value is None:
-                        value_squared_sum = None
-                        break
-                    else:
-                       value_squared_sum += value**2
-                if value_squared_sum is None:
+                if value is not None:
                     fail_count += 1
                     output_file.write(f"{INDENT * 2}FAILED\n")
                 else:
-                    compare(math.sqrt(value_squared_sum))
-
-            case "ANGLEFROMX" | "ANGLEFROMY" | "ANGLEFROMZ":
-
-                # Uses incomplete paths without the trailing DOF name.
-                # 1 grid point:
-                #   SC/2/MODE/1/EIGENVECTOR/GID/10
-                # or multiple grid points to sum:
-                #   SC/2/MODE/1/EIGENVECTOR/GID/10,13
-                # Also works for displacement and other types of vector with DOF immediately after GID.
-                comparison_count += 1
-                x_sum = 0
-                y_sum = 0
-                z_sum = 0
-                for value in values:
-                    if value is None:
-                        x_sum = None
-                        y_sum = None
-                        z_sum = None
-                        break
-                    x = value["TX"]
-                    y = value["TY"]
-                    z = value["TZ"]
-                    if x is None or y is None or z is None:
-                        x_sum = None
-                        y_sum = None
-                        z_sum = None
-                        break
-                    else:
-                       x_sum += x
-                       y_sum += y
-                       z_sum += z
-                if x_sum is None:
-                    fail_count += 1
-                    output_file.write(f"{INDENT * 2}FAILED\n")
-                else:
-                    match test_case.operation[-1]:
-                        case "X": v_ref = [1.0, 0.0, 0.0]
-                        case "Y": v_ref = [0.0, 1.0, 0.0]
-                        case "Z": v_ref = [0.0, 0.0, 1.0]
-                    v_mag = math.sqrt(x_sum**2 + y_sum**2 + z_sum**2)
-                    v_hat = [x_sum / v_mag, y_sum / v_mag, z_sum / v_mag]
-                    v_dot_ref = v_hat[0] * v_ref[0] \
-                              + v_hat[1] * v_ref[1] \
-                              + v_hat[2] * v_ref[2]
-                    compare(math.acos(abs(v_dot_ref)))
-
-            case "ABSENT":
-
-                for value in values:
-                    comparison_count += 1
-                    if value is not None:
-                        fail_count += 1
-                        output_file.write(f"{INDENT * 2}FAILED\n")
-                    else:
-                        pass
-       
-            case _:
-            
-                fail_count +=1
-                output_file.write(f"{INDENT * 2}FAILED. Invalid operation\n")
-
-    # todo re-enable later
-    # except Exception as e:
-        # fail_count += 1
-        # output_file.write(f"{INDENT * 2}ERROR: {e}\n")
-    finally:
-        pass
+                    pass
+   
+        case _:
+        
+            fail_count +=1
+            output_file.write(f"{INDENT * 2}FAILED. Invalid operation\n")
    
     if worst_error > 0:
         message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}"
