@@ -41,6 +41,9 @@ class F06Query:
 
         def get_next_line():
             nonlocal line_no
+            if line_no >= len(lines):
+                print(f"ERROR: Unexpected end of file at line {line_no} of self.file_name")
+                return ""
             line = lines[line_no]
             line_no += 1
             return line
@@ -84,7 +87,7 @@ class F06Query:
                     return None
                 delta -= 1        
       
-        while line_no <= len(lines) - 1:
+        while line_no < len(lines):
             line = get_next_line()
 
             if "D I S P L A C E M E N T S" in line:
@@ -134,6 +137,10 @@ class F06Query:
                 while True:
                     line = get_next_line()
                     if line.strip().startswith("---") or len(line.strip()) == 0:
+                        break
+                    if line.startswith(" *INFORMATION:"):
+                        # It can be this:
+                        # *INFORMATION: COORD SYSTEM       -2 FOR STRESS TRANSFORMATION IS UNDEFINED. LOCAL ELEMENT COORD SYSTEM WILL BE USED
                         break
                     gid = int(number(line, 8, 8))
                     gid_node = ensure_path(gids_node, [str(gid)])
@@ -243,7 +250,6 @@ class F06Query:
                         # End of block
                         break
             
-
             elif "E I G E N V E C T O R" in line:
                 prefix = subcase_or_mode()
                 gids_node = ensure_path(root, prefix + ["EIGENVECTOR", "GID"])
@@ -294,40 +300,6 @@ class F06Query:
                                 eid = int(number(line, 2,8))
                                 eid_node = ensure_path(eids_node, [str(eid)])
                                 corner =0
-                                corner_gid = None
-                            elif line[11:11+3] == "GRD":
-                                corner += 1
-                                corner_gid = int(number(line, 15, 8))
-                            corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
-                            if corner_gid is not None:
-                                set(corner_node, "GID", corner_gid)
-                            set(corner_node, "XX", number(line, 29, 13))
-                            set(corner_node, "YY", number(line, 43, 13))
-                            set(corner_node, "ZZ", number(line, 57, 13))
-                            set(corner_node, "XY", number(line, 71, 13))
-                            set(corner_node, "YZ", number(line, 85, 13))
-                            set(corner_node, "ZX", number(line, 99, 13))
-                            set(corner_node, "VONMISES", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
-
-            elif "E L E M E N T   S T R A I N S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
-                prefix = subcase_or_mode()
-                if prefix is not None:
-                    line = get_next_line()
-                    if "F O R   E L E M E N T   T Y P E   H E X A" in line \
-                    or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
-                    or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
-                        eids_node = ensure_path(root, prefix + ["SOLIDSTRAINS","EID"])
-                        get_next_line()
-                        get_next_line()
-                        corner = None
-                        while True:
-                            line = get_next_line()
-                            if line.strip().startswith("---") or len(line.strip()) == 0:
-                                break
-                            if line[11:11+6] == "CENTER":
-                                eid = int(number(line, 2,8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
-                                corner = 0
                                 corner_gid = None
                             elif line[11:11+3] == "GRD":
                                 corner += 1
@@ -487,6 +459,77 @@ class F06Query:
                                 set(eid_node, "TORSIONAL", number(line, 94, 13))
                                 set(eid_node, "TORSIONALSAFETY", number(line, 108, 9, blank_is_inf=True))
 
+            elif "S T R E S S E S   I N   L A Y E R E D   C O M P O S I T E   E L E M E N T S" in line:
+                prefix = subcase_or_mode()
+                if prefix is not None:
+                    get_next_line()
+                    get_next_line()
+                    get_next_line()
+                    line = get_next_line()
+                    if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
+                    or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
+                    or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
+                        eids_node = ensure_path(root, prefix + ["COMPOSITESTRESSES","EID"])
+                        get_next_line()
+                        get_next_line()
+                        get_next_line()
+                        get_next_line()
+                        get_next_line()
+                        get_next_line()
+                        get_next_line()
+                        get_next_line()
+                        while True:
+                            line = get_next_line()
+                            if line.strip().startswith("---"):
+                                break
+                            if line[1:1+8].strip() != "":
+                                eid = int(number(line, 2,8))
+                                eid_node = ensure_path(eids_node, [str(eid)])
+                            elif line.strip() == "":
+                                # Skip the blank lines between elements
+                                continue
+                            ply_num = int(number(line, 11,5))
+                            ply_node = ensure_path(eid_node, ["PLY", str(ply_num)])
+                            set(ply_node, "11", number(line, 17, 12))
+                            set(ply_node, "22", number(line, 30, 12))
+                            set(ply_node, "12", number(line, 43, 12))
+                            set(ply_node, "13", number(line, 59, 12))
+                            set(ply_node, "23", number(line, 73, 12))
+
+            elif "E L E M E N T   S T R A I N S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
+                prefix = subcase_or_mode()
+                if prefix is not None:
+                    line = get_next_line()
+                    if "F O R   E L E M E N T   T Y P E   H E X A" in line \
+                    or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
+                    or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
+                        eids_node = ensure_path(root, prefix + ["SOLIDSTRAINS","EID"])
+                        get_next_line()
+                        get_next_line()
+                        corner = None
+                        while True:
+                            line = get_next_line()
+                            if line.strip().startswith("---") or len(line.strip()) == 0:
+                                break
+                            if line[11:11+6] == "CENTER":
+                                eid = int(number(line, 2,8))
+                                eid_node = ensure_path(eids_node, [str(eid)])
+                                corner = 0
+                                corner_gid = None
+                            elif line[11:11+3] == "GRD":
+                                corner += 1
+                                corner_gid = int(number(line, 15, 8))
+                            corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                            if corner_gid is not None:
+                                set(corner_node, "GID", corner_gid)
+                            set(corner_node, "XX", number(line, 29, 13))
+                            set(corner_node, "YY", number(line, 43, 13))
+                            set(corner_node, "ZZ", number(line, 57, 13))
+                            set(corner_node, "XY", number(line, 71, 13))
+                            set(corner_node, "YZ", number(line, 85, 13))
+                            set(corner_node, "ZX", number(line, 99, 13))
+                            set(corner_node, "VONMISES", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
+
             elif "E L E M E N T   S T R A I N S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
                 prefix = subcase_or_mode()
                 if prefix is not None:
@@ -576,45 +619,6 @@ class F06Query:
                             set(eid_node, "5", number(line, 85, 13))
                             set(eid_node, "6", number(line, 99, 13))
 
-
-            elif "S T R E S S E S   I N   L A Y E R E D   C O M P O S I T E   E L E M E N T S" in line:
-                prefix = subcase_or_mode()
-                if prefix is not None:
-                    get_next_line()
-                    get_next_line()
-                    get_next_line()
-                    line = get_next_line()
-                    if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
-                    or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
-                    or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                        eids_node = ensure_path(root, prefix + ["COMPOSITESTRESSES","EID"])
-                        get_next_line()
-                        get_next_line()
-                        get_next_line()
-                        get_next_line()
-                        get_next_line()
-                        get_next_line()
-                        get_next_line()
-                        get_next_line()
-                        while True:
-                            line = get_next_line()
-                            if line.strip().startswith("---"):
-                                break
-                            if line[1:1+8].strip() != "":
-                                eid = int(number(line, 2,8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
-                            elif line.strip() == "":
-                                # Skip the blank lines between elements
-                                continue
-                            ply_num = int(number(line, 11,5))
-                            ply_node = ensure_path(eid_node, ["PLY", str(ply_num)])
-                            set(ply_node, "11", number(line, 17, 12))
-                            set(ply_node, "22", number(line, 30, 12))
-                            set(ply_node, "12", number(line, 43, 12))
-                            set(ply_node, "13", number(line, 59, 12))
-                            set(ply_node, "23", number(line, 73, 12))
-
-
             elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
                 prefix = subcase_or_mode()
                 if prefix is None:
@@ -700,6 +704,29 @@ class F06Query:
                         set(eid_node, "AXIAL", number(line, 110, 13))
                         set(eid_node, "TORQUE", number(line, 124, 13))
 
+                if "F O R   E L E M E N T   T Y P E   R O D" in line:
+                    eids_node = ensure_path(root, prefix + ["RODFORCES","EID"])
+                    get_next_line()
+                    get_next_line()
+                    while True:
+                        line = get_next_line()
+                        if line.strip().startswith("---"):
+                            break
+                        eid = int(number(line, 17, 8))
+                        eid_node = ensure_path(eids_node, [str(eid)])
+                        set(eid_node, "AXIAL", number(line, 26, 13))
+                        set(eid_node, "TORQUE", number(line, 40, 13))
+                        if len(line) > 60 and line[59] != " ":
+                            eid = int(number(line, 53,8))
+                            eid_node = ensure_path(eids_node, [str(eid)])
+                            set(eid_node, "AXIAL", number(line, 62, 13))
+                            set(eid_node, "TORQUE", number(line, 76, 13))
+                        if len(line) > 96 and line[95] != " ":
+                            eid = int(number(line, 89,8))
+                            eid_node = ensure_path(eids_node, [str(eid)])
+                            set(eid_node, "AXIAL", number(line, 98, 13))
+                            set(eid_node, "TORQUE", number(line, 112, 13))
+
 
             elif "R E A L   E I G E N V A L U E S" in line:
                 subcase = 2
@@ -733,7 +760,11 @@ class F06Query:
         return root
 
 
-    def write_structure_dense(self, tree_node, file, prefix="", parent_key=""):
+    def write_structure_dense(self, file, tree_node, prefix="", parent_key=""):
+        # Start at the root
+        if tree_node is None:
+            tree_node = self.parsed_f06
+
         is_first = True
         for key, value in tree_node.items():
             # Only show the first GID and EID as an example because there could be a lot.
@@ -745,9 +776,21 @@ class F06Query:
             is_first = False
 
             if isinstance(value, dict):
-                self.write_structure_dense(value, file, prefix + str(key) + "/", key)
+                self.write_structure_dense(file, value, prefix + str(key) + "/", key)
             else:
                 file.write(prefix + str(key) + "\n")
+
+
+    def dump(self, file, tree_node=None, prefix="", parent_key=""):
+        # Start at the root
+        if tree_node is None:
+            tree_node = self.parsed_f06
+
+        for key, value in tree_node.items():
+            if isinstance(value, dict):
+                self.dump(file, value, prefix + str(key) + "/", key)
+            else:
+                file.write(f"{prefix} {key} = {value}\n")
 
 
     def get_layer_0(self, path):
@@ -822,7 +865,7 @@ class F06Query:
         if value is None:
             output_file.write(f"{INDENT * 2}No value at path: {"/".join(path)}\n")
             output_file.write(f"{INDENT * 2}Available paths existing in F06 file:\n")
-            self.write_structure_dense(self.parsed_f06, output_file, f"{INDENT * 2}")
+            self.write_structure_dense(output_file, self.parsed_f06, f"{INDENT * 2}")
 
         return value
 
@@ -833,13 +876,13 @@ class F06Query:
         # - Transform shell stress/strain/force according to the supplied element rotation angles.
 
         def rotate_2D_rank2_tensor(xx, yy, xy, angle, shear_factor, component):
+            if xx is None or yy is None or xy is None:
+                return None
             match component:
                 case "XX": return (xx + yy) / 2 + (xx - yy) / 2 * math.cos(2*angle) - xy/shear_factor * math.sin(2*angle)
                 case "YY": return (xx + yy) / 2 - (xx - yy) / 2 * math.cos(2*angle) + xy/shear_factor * math.sin(2*angle)
                 case "XY": return                ((xx - yy) / 2 * math.sin(2*angle) + xy/shear_factor * math.cos(2*angle)) * shear_factor
 
-
-        result = self.get_layer_1(path, output_file)
         
         # Transform displacement components
         if len(path) > 5 \
@@ -859,7 +902,10 @@ class F06Query:
                     if path[5][1] == "Y": component = 1
                     if path[5][1] == "Z": component = 2
                     row = gp_transforms[gid][component]
-                    result = row[0] * x + row[1] * y + row[2] * z
+                    if x is None or y is None or z is None:
+                        result = None
+                    else:
+                        result = row[0] * x + row[1] * y + row[2] * z
 
         # Transform shell stress, strain, and engineering forces
 
@@ -877,7 +923,9 @@ class F06Query:
                     # SC/#/SHELLSTRESSES/EID/#/CORNER/#/YZ,ZX
                     x_path = path.copy(); x_path[7] = "ZX"; x = self.get_layer_1(x_path, output_file)
                     y_path = path.copy(); y_path[7] = "YZ"; y = self.get_layer_1(y_path, output_file)
-                    if path[7] == "ZX":
+                    if x is None or y is None:
+                        result = None
+                    elif path[7] == "ZX":
                         result = x * math.cos(angle) - y * math.sin(angle)
                     else:
                         result = x * math.sin(angle) + y * math.cos(angle)
@@ -905,7 +953,9 @@ class F06Query:
                     # SC/#/SHELLSTRAINS/EID/#/CORNER/#/YZ,ZX
                     x_path = path.copy(); x_path[7] = "ZX"; x = self.get_layer_1(x_path, output_file)
                     y_path = path.copy(); y_path[7] = "YZ"; y = self.get_layer_1(y_path, output_file)
-                    if path[7] == "ZX":
+                    if x is None or y is None:
+                        result = None
+                    elif path[7] == "ZX":
                         result = x * math.cos(angle) - y * math.sin(angle)
                     else:
                         result = x * math.sin(angle) + y * math.cos(angle)
@@ -933,7 +983,9 @@ class F06Query:
                     # SC/#/SHELLFORCES/EID/#/CORNER/#/QX,QY
                     x_path = path.copy(); x_path[7] = "QX"; x = self.get_layer_1(x_path, output_file)
                     y_path = path.copy(); y_path[7] = "QY"; y = self.get_layer_1(y_path, output_file)
-                    if path[7] == "QX":
+                    if x is None or y is None:
+                        result = None
+                    elif path[7] == "QX":
                         result = x * math.cos(angle) - y * math.sin(angle)
                     else:
                         result = x * math.sin(angle) + y * math.cos(angle)
@@ -952,8 +1004,12 @@ class F06Query:
                     xy_path = path.copy(); xy_path[7] = "MXY"; xy = self.get_layer_1(xy_path, output_file)
                     result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7][-2:])
 
-        return result
-
+        try:
+            return result
+        except NameError:
+            # No change
+            return self.get_layer_1(path, output_file)
+            
 
     def get_layer_3(self, path, gp_transforms, shell_angles, gp_coordinates, output_file : TextIOWrapper):
         # Get a value from layer 2 and optionally:
@@ -969,7 +1025,10 @@ class F06Query:
 
             z1_path = path.copy(); z1_path[7] = "Z1"; z1 = self.get_layer_2(z1_path, gp_transforms, shell_angles, output_file)
             z2_path = path.copy(); z2_path[7] = "Z2"; z2 = self.get_layer_2(z2_path, gp_transforms, shell_angles, output_file)
-            return (z1 + z2) / 2
+            if z1 is None or z2 is None:
+                return None
+            else:
+                return (z1 + z2) / 2
 
         elif len(path) > 5 \
         and path[0] == "SC" \
@@ -993,9 +1052,21 @@ class F06Query:
             gid = int(path[4])
            
             match path[5][1]:
-               case "X": moment = mx + gp_coordinates[gid][1] * fz - gp_coordinates[gid][2] * fy 
-               case "Y": moment = my + gp_coordinates[gid][2] * fx - gp_coordinates[gid][0] * fz
-               case "Z": moment = mz + gp_coordinates[gid][0] * fy - gp_coordinates[gid][1] * fx
+                case "X": 
+                    if mx is None or fy is None or fz is None:
+                        moment = None
+                    else:
+                        moment = mx + gp_coordinates[gid][1] * fz - gp_coordinates[gid][2] * fy 
+                case "Y":
+                    if my is None or fz is None or fx is None:
+                        moment = None
+                    else:
+                        moment = my + gp_coordinates[gid][2] * fx - gp_coordinates[gid][0] * fz
+                case "Z":
+                    if mz is None or fx is None or fy is None:
+                        moment = None
+                    else:
+                        moment = mz + gp_coordinates[gid][0] * fy - gp_coordinates[gid][1] * fx
 
             return moment
 

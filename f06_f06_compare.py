@@ -67,6 +67,9 @@ def test_bulk_auto(root_dir: Path,
         ref_f06 = F06Query(str(reference_f06_path))
         tst_f06 = F06Query(str(test_f06_path))
 
+        # todo remove
+        if "ALL-ELEM" in test_case.deck_filename:
+            ref_f06.dump(output_file)
 
         # Subcases
         # ========
@@ -277,22 +280,16 @@ def test_bulk_auto(root_dir: Path,
                     # Identify EIDs from the union of the test and reference blocks
                     eids = ref_block["EID"].keys() | tst_block["EID"].keys()
                     # Find the maximum of all values we'll be testing in the block
-                    maximum_axial = 0
-                    maximum_torsional = 0
+                    maximum = 0
                     for eid in eids:
-                        for component in ["AXIAL"]:
+                        for component in ["AXIAL", "TORSIONAL"]:
                             value = ref_f06.get_layer_1(block_path + ["EID",str(eid),component], output_file)
-                            maximum_axial = max(maximum_axial, abs(value))
-                        for component in ["TORSIONAL"]:
-                            value = ref_f06.get_layer_1(block_path + ["EID",str(eid),component], output_file)
-                            maximum_torsional = max(maximum_torsional, abs(value))
-                    output_file.write(f"\tMaximum AXIAL value = {maximum_axial}\tMaximum TORSIONAL value = {maximum_torsional}\n")
+                            maximum = max(maximum, abs(value))
+                    output_file.write(f"\tMaximum value = {maximum}\n")
                     # Compare each value normalized by the maximum
                     for eid in eids:
-                        for component in ["AXIAL"]:
-                            compare(block_path + ["EID",str(eid),component], maximum_axial)
-                        for component in ["TORSIONAL"]:
-                            compare(block_path + ["EID",str(eid),component], maximum_torsional)
+                        for component in ["AXIAL", "TORSIONAL"]:
+                            compare(block_path + ["EID",str(eid),component], maximum)
 
 
         # Eigenvalues
@@ -503,22 +500,17 @@ def test_bulk_auto(root_dir: Path,
                         # Identify EIDs from the union of the test and reference blocks
                         eids = ref_block["EID"].keys() | tst_block["EID"].keys()
                         # Find the maximum of all values we'll be testing in the block
-                        maximum_axial = 0
-                        maximum_torsional = 0
+                        maximum = 0
                         for eid in eids:
-                            for component in ["AXIAL"]:
+                            for component in ["AXIAL", "TORSIONAL"]:
                                 value = ref_f06.get_layer_1(block_path + ["EID",str(eid),component], output_file)
-                                maximum_axial = max(maximum_axial, abs(value))
-                            for component in ["TORSIONAL"]:
-                                value = ref_f06.get_layer_1(block_path + ["EID",str(eid),component], output_file)
-                                maximum_torsional = max(maximum_torsional, abs(value))
-                        output_file.write(f"\tMaximum AXIAL value = {maximum_axial}\tMaximum TORSIONAL value = {maximum_torsional}\n")
+                                maximum = max(maximum, abs(value))
+                        output_file.write(f"\tMaximum value = {maximum}\n")
                         # Compare each value normalized by the maximum
                         for eid in eids:
-                            for component in ["AXIAL"]:
-                                compare(block_path + ["EID",str(eid),component], maximum_axial)
-                            for component in ["TORSIONAL"]:
-                                compare(block_path + ["EID",str(eid),component], maximum_torsional)
+                            for component in ["AXIAL", "TORSIONAL"]:
+                                compare(block_path + ["EID",str(eid),component], maximum)
+
 
 
     # todo re-enable later

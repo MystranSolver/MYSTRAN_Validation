@@ -11,6 +11,7 @@ from f06csv_to_magic import f06csv_args_to_magic
 from math_expression import Lexer
 from math_expression import Parser
 from math_expression import Evaluator
+from math_expression import MathExpressionError
 from grid_reader import read_grids
 from element_reader import read_elements
 from f06_query import F06Query
@@ -380,15 +381,30 @@ def get_layer_6(parsed_f06, expression, gp_transforms, shell_angles, gp_coordina
         evaluator = Evaluator()
 
         # Set variables' values.
+        hasNone = False
         for variable_name, variable_values in variables.items():
 
             if len(variable_values) == 1:
-                evaluator.set_variable(variable_name, variable_values[0])
+                value = variable_values[0]
             elif len(variable_values) > 1:
-                evaluator.set_variable(variable_name, variable_values[index])
+                value = variable_values[index]
+            else:
+                print(f"ERROR: 963217")
+                sys.exit(1)
+            evaluator.set_variable(variable_name, value)
+
+            hasNone = hasNone or value is None
 
         # Evaluate
-        result.append(evaluator.evaluate(ast))
+        if hasNone:
+            # If any variable is None, skip evaluation so the evaluator doesn't 
+            # have to cope with None.
+            result.append(None)
+        else:
+            try:
+                result.append(evaluator.evaluate(ast))
+            except MathExpressionError:
+                result.append(None)
 
     return result
 
@@ -419,7 +435,10 @@ def test_path(root_dir: Path,
             else:
                 error = float('inf') # Force fail
         elif test_case.comparison_type == "percent":
-            error = 100 * abs(test_value / reference_value - 1)
+            try:
+                error = 100 * abs(test_value / reference_value - 1)
+            except ZeroDivisionError:
+                error = float('inf')
         elif test_case.comparison_type == "difference":
             error = abs(test_value - reference_value)
         else:
@@ -518,6 +537,11 @@ def test_path(root_dir: Path,
                 y_sum = 0
                 z_sum = 0
                 for value in values:
+                    if value is None:
+                        x_sum = None
+                        y_sum = None
+                        z_sum = None
+                        break
                     x = value["TX"]
                     y = value["TY"]
                     z = value["TZ"]
