@@ -25,9 +25,8 @@ def test_bulk_auto(root_dir: Path,
         nonlocal worst_path
         nonlocal comparison_count
 
-#todo use a lower layer
-        ref_value = ref_f06.get_layer_5(path, {}, {}, {}, {}, output_file)
-        tst_value = tst_f06.get_layer_5(path, {}, {}, {}, {}, output_file)
+        ref_value = ref_f06.get_layer_2(path, output_file)
+        tst_value = tst_f06.get_layer_2(path, output_file)
 
         comparison_count += 1
 

@@ -894,69 +894,6 @@ class F06Query:
         return value
 
 
-    def get_layer_1_old(self, path):
-        current_node = self.parsed_f06
-       
-        value = None
-
-        for index, node in enumerate(path):
-
-            if not isinstance(current_node, dict):
-                # Fail if we reached the leaf before the end of the path.
-                value = None
-                break
-
-            if not node in current_node:
-                # Some types of missing node represent zero values.
-                
-                # /SC/#/SPCFORCES/GID/#/##
-                #                     ^--- gid not present.
-                if index == 4 \
-                and len(path) == 6 \
-                and path[0] == "SC" \
-                and path[2] in("DISPLACEMENTS", "SPCFORCES", "MPCFORCES", "APPLIEDFORCES") \
-                and path[3] == "GID" \
-                and path[5] in("TX","TY","TZ","RX","RY","RZ"):
-                    value = 0.0
-                    break
-
-                # /SC/#/GPFORCES/GID/#/#####/##
-                #                        ^--- force type not present.
-                elif index == 5 \
-                and len(path) == 7 \
-                and path[0] == "SC" \
-                and path[2] == "GPFORCE" \
-                and path[3] == "GID" \
-                and path[5] in("APPLIED", "SPC", "MPC", "INERTIA") \
-                and path[6] in("TX","TY","TZ","RX","RY","RZ"):
-                    value = 0.0
-                    break
-
-                # /SC/#/MODE/#/GPFORCES/GID/#/#####/##
-                #                               ^--- force type not present.
-                elif index == 7 \
-                and len(path) == 9 \
-                and path[0] == "SC" \
-                and path[2] == "MODE" \
-                and path[4] == "GPFORCE" \
-                and path[5] == "GID" \
-                and path[7] in("APPLIED", "SPC", "MPC", "INERTIA") \
-                and path[8] in("TX","TY","TZ","RX","RY","RZ"):
-                    value = 0.0
-                    break
-
-                else:
-                    # Otherwise, fail if a node in the path isn't present.
-                    value = None
-                    break
-            else:
-
-                current_node = current_node[node]
-                value = current_node
-
-        return value
-        
-
     def get_layer_2(self, path, output_file : TextIOWrapper):
         # Get a value from layer 1 and:
         # - Write a message if it doesn't exist.
