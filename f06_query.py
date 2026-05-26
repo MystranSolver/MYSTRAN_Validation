@@ -824,7 +824,77 @@ class F06Query:
                 file.write(f"{prefix}{key} = {value}\n")
 
 
+
     def get_layer_0(self, path):
+        # Get a value from the file unmolested.
+        
+        current_node = self.parsed_f06
+       
+        value = None
+
+        for index, node in enumerate(path):
+
+            if not isinstance(current_node, dict):
+                # Fail if we reached the leaf before the end of the path.
+                value = None
+                break
+            if not node in current_node:
+                value = None
+                break
+            else:
+                current_node = current_node[node]
+                value = current_node
+
+        return value
+
+
+    def get_layer_1(self, path):
+        # Get a value from layer 0 and:
+        # - Return 0.0 for missing data in cases where it logically means 0.0.
+
+        value = self.get_layer_0(path)
+
+        if value is None:
+            # Some types of missing node represent zero values.
+            # But only if the block is present.
+            
+            # /SC/#/SPCFORCES/GID/#/##
+            #                     ^--- gid not present.
+            if len(path) == 6 \
+            and path[0] == "SC" \
+            and path[2] in("DISPLACEMENTS", "SPCFORCES", "MPCFORCES", "APPLIEDFORCES") \
+            and path[3] == "GID" \
+            and path[5] in("TX","TY","TZ","RX","RY","RZ"):
+                if self.get_layer_0(path[0:4]) is not None:
+                    value = 0.0
+
+            # /SC/#/GPFORCES/GID/#/#####/##
+            #                        ^--- force type not present.
+            elif len(path) == 7 \
+            and path[0] == "SC" \
+            and path[2] == "GPFORCE" \
+            and path[3] == "GID" \
+            and path[5] in("APPLIED", "SPC", "MPC", "INERTIA") \
+            and path[6] in("TX","TY","TZ","RX","RY","RZ"):
+                if self.get_layer_0(path[0:5]) is not None:
+                    value = 0.0
+
+            # /SC/#/MODE/#/GPFORCES/GID/#/#####/##
+            #                               ^--- force type not present.
+            elif len(path) == 9 \
+            and path[0] == "SC" \
+            and path[2] == "MODE" \
+            and path[4] == "GPFORCE" \
+            and path[5] == "GID" \
+            and path[7] in("APPLIED", "SPC", "MPC", "INERTIA") \
+            and path[8] in("TX","TY","TZ","RX","RY","RZ"):
+                if self.get_layer_0(path[0:7]) is not None:
+                    value = 0.0
+
+        return value
+
+
+    def get_layer_1_old(self, path):
         current_node = self.parsed_f06
        
         value = None
@@ -887,11 +957,11 @@ class F06Query:
         return value
         
 
-    def get_layer_1(self, path, output_file : TextIOWrapper):
-        # Get a value from layer 0 and:
+    def get_layer_2(self, path, output_file : TextIOWrapper):
+        # Get a value from layer 1 and:
         # - Write a message if it doesn't exist.
         
-        value = self.get_layer_0(path)
+        value = self.get_layer_1(path)
 
         if value is None:
             output_file.write(f"{INDENT * 2}No value at path: {"/".join(path)}\n")
@@ -901,8 +971,8 @@ class F06Query:
         return value
 
 
-    def get_layer_2(self, path, gp_transforms, shell_angles, output_file : TextIOWrapper):
-        # Get a value from layer 1 and optionally:
+    def get_layer_3(self, path, gp_transforms, shell_angles, output_file : TextIOWrapper):
+        # Get a value from layer 2 and optionally:
         # - Transform vectors at grid points according to the supplied transformation matrices.
         # - Transform shell stress/strain/force according to the supplied element rotation angles.
 
@@ -924,9 +994,9 @@ class F06Query:
             if gid in gp_transforms:
                 # Get the 3-component displacement (translation or rotation) vector
                 if path[5][0] == "T" or path[5][0] == "R":
-                    x_path = path.copy(); x_path[5] = f"{path[5][0]}X"; x = self.get_layer_1(x_path, output_file)
-                    y_path = path.copy(); y_path[5] = f"{path[5][0]}Y"; y = self.get_layer_1(y_path, output_file)
-                    z_path = path.copy(); z_path[5] = f"{path[5][0]}Z"; z = self.get_layer_1(z_path, output_file)
+                    x_path = path.copy(); x_path[5] = f"{path[5][0]}X"; x = self.get_layer_2(x_path, output_file)
+                    y_path = path.copy(); y_path[5] = f"{path[5][0]}Y"; y = self.get_layer_2(y_path, output_file)
+                    z_path = path.copy(); z_path[5] = f"{path[5][0]}Z"; z = self.get_layer_2(z_path, output_file)
 
                     # Transform it but only calculate the requested component
                     if path[5][1] == "X": component = 0
@@ -952,8 +1022,8 @@ class F06Query:
                 if len(path) > 7 and (path[7] == "YZ" or path[7] == "ZX"):
                     # Transverse shear stress:
                     # SC/#/SHELLSTRESSES/EID/#/CORNER/#/YZ,ZX
-                    x_path = path.copy(); x_path[7] = "ZX"; x = self.get_layer_1(x_path, output_file)
-                    y_path = path.copy(); y_path[7] = "YZ"; y = self.get_layer_1(y_path, output_file)
+                    x_path = path.copy(); x_path[7] = "ZX"; x = self.get_layer_2(x_path, output_file)
+                    y_path = path.copy(); y_path[7] = "YZ"; y = self.get_layer_2(y_path, output_file)
                     if x is None or y is None:
                         result = None
                     elif path[7] == "ZX":
@@ -963,12 +1033,12 @@ class F06Query:
                 elif len(path) > 8 and (path[8] == "XX" or path[8] == "YY" or path[8] == "XY"):
                     # In-layer stress:
                     # SC/#/SHELLSTRESSES/EID/#/CORNER/#/Z#/XX,YY,XY
-                    xx_path = path.copy(); xx_path[8] = "XX"; xx = self.get_layer_1(xx_path, output_file)
-                    yy_path = path.copy(); yy_path[8] = "YY"; yy = self.get_layer_1(yy_path, output_file)
-                    xy_path = path.copy(); xy_path[8] = "XY"; xy = self.get_layer_1(xy_path, output_file)
+                    xx_path = path.copy(); xx_path[8] = "XX"; xx = self.get_layer_2(xx_path, output_file)
+                    yy_path = path.copy(); yy_path[8] = "YY"; yy = self.get_layer_2(yy_path, output_file)
+                    xy_path = path.copy(); xy_path[8] = "XY"; xy = self.get_layer_2(xy_path, output_file)
                     result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[8])
                 elif len(path) > 8 and path[8] == "PRINCIPALANGLE":
-                    result = self.get_layer_1(path, output_file) + angle
+                    result = self.get_layer_2(path, output_file) + angle
 
         if len(path) > 6 \
         and path[0] == "SC" \
@@ -982,8 +1052,8 @@ class F06Query:
                 if len(path) > 7 and (path[7] == "YZ" or path[7] == "ZX"):
                     # Transverse shear strain:
                     # SC/#/SHELLSTRAINS/EID/#/CORNER/#/YZ,ZX
-                    x_path = path.copy(); x_path[7] = "ZX"; x = self.get_layer_1(x_path, output_file)
-                    y_path = path.copy(); y_path[7] = "YZ"; y = self.get_layer_1(y_path, output_file)
+                    x_path = path.copy(); x_path[7] = "ZX"; x = self.get_layer_2(x_path, output_file)
+                    y_path = path.copy(); y_path[7] = "YZ"; y = self.get_layer_2(y_path, output_file)
                     if x is None or y is None:
                         result = None
                     elif path[7] == "ZX":
@@ -993,12 +1063,12 @@ class F06Query:
                 elif len(path) > 8 and (path[8] == "XX" or path[8] == "YY" or path[8] == "XY"):
                     # In-layer strain:
                     # SC/#/SHELLSTRAINS/EID/#/CORNER/#/Z#/XX,YY,XY
-                    xx_path = path.copy(); xx_path[8] = "XX"; xx = self.get_layer_1(xx_path, output_file)
-                    yy_path = path.copy(); yy_path[8] = "YY"; yy = self.get_layer_1(yy_path, output_file)
-                    xy_path = path.copy(); xy_path[8] = "XY"; xy = self.get_layer_1(xy_path, output_file)
+                    xx_path = path.copy(); xx_path[8] = "XX"; xx = self.get_layer_2(xx_path, output_file)
+                    yy_path = path.copy(); yy_path[8] = "YY"; yy = self.get_layer_2(yy_path, output_file)
+                    xy_path = path.copy(); xy_path[8] = "XY"; xy = self.get_layer_2(xy_path, output_file)
                     result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 2, path[8])
                 elif len(path) > 8 and path[8] == "PRINCIPALANGLE":
-                    result = self.get_layer_1(path, output_file) + angle
+                    result = self.get_layer_2(path, output_file) + angle
 
         if len(path) > 6 \
         and path[0] == "SC" \
@@ -1012,8 +1082,8 @@ class F06Query:
                 if len(path) > 7 and (path[7] == "QX" or path[7] == "QY"):
                     # Transverse shear force resultant:
                     # SC/#/SHELLFORCES/EID/#/CORNER/#/QX,QY
-                    x_path = path.copy(); x_path[7] = "QX"; x = self.get_layer_1(x_path, output_file)
-                    y_path = path.copy(); y_path[7] = "QY"; y = self.get_layer_1(y_path, output_file)
+                    x_path = path.copy(); x_path[7] = "QX"; x = self.get_layer_2(x_path, output_file)
+                    y_path = path.copy(); y_path[7] = "QY"; y = self.get_layer_2(y_path, output_file)
                     if x is None or y is None:
                         result = None
                     elif path[7] == "QX":
@@ -1023,27 +1093,27 @@ class F06Query:
                 elif len(path) > 7 and (path[7] == "NXX" or path[7] == "NYY" or path[7] == "NXY"):
                     # In-layer force resultants:
                     # SC/#/SHELLFORCES/EID/#/CORNER/#/NXX,NYY,NXY
-                    xx_path = path.copy(); xx_path[7] = "NXX"; xx = self.get_layer_1(xx_path, output_file)
-                    yy_path = path.copy(); yy_path[7] = "NYY"; yy = self.get_layer_1(yy_path, output_file)
-                    xy_path = path.copy(); xy_path[7] = "NXY"; xy = self.get_layer_1(xy_path, output_file)
+                    xx_path = path.copy(); xx_path[7] = "NXX"; xx = self.get_layer_2(xx_path, output_file)
+                    yy_path = path.copy(); yy_path[7] = "NYY"; yy = self.get_layer_2(yy_path, output_file)
+                    xy_path = path.copy(); xy_path[7] = "NXY"; xy = self.get_layer_2(xy_path, output_file)
                     result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7][-2:])
                 elif len(path) > 7 and (path[7] == "MXX" or path[7] == "MYY" or path[7] == "MXY"):
                     # Moment resultants:
                     # SC/#/SHELLFORCES/EID/#/CORNER/#/MXX,MYY,MXY
-                    xx_path = path.copy(); xx_path[7] = "MXX"; xx = self.get_layer_1(xx_path, output_file)
-                    yy_path = path.copy(); yy_path[7] = "MYY"; yy = self.get_layer_1(yy_path, output_file)
-                    xy_path = path.copy(); xy_path[7] = "MXY"; xy = self.get_layer_1(xy_path, output_file)
+                    xx_path = path.copy(); xx_path[7] = "MXX"; xx = self.get_layer_2(xx_path, output_file)
+                    yy_path = path.copy(); yy_path[7] = "MYY"; yy = self.get_layer_2(yy_path, output_file)
+                    xy_path = path.copy(); xy_path[7] = "MXY"; xy = self.get_layer_2(xy_path, output_file)
                     result = rotate_2D_rank2_tensor(xx, yy, xy, angle, 1, path[7][-2:])
 
         try:
             return result
         except NameError:
             # No change
-            return self.get_layer_1(path, output_file)
+            return self.get_layer_2(path, output_file)
             
 
-    def get_layer_3(self, path, gp_transforms, shell_angles, gp_coordinates, output_file : TextIOWrapper):
-        # Get a value from layer 2 and optionally:
+    def get_layer_4(self, path, gp_transforms, shell_angles, gp_coordinates, output_file : TextIOWrapper):
+        # Get a value from layer 3 and optionally:
         # - ZMID for shell midsurface
         # - MXORIGIN, MYORIGIN, MZORIGIN for moment about the origin from SPCFORCES and MPCFORCES
 
@@ -1054,8 +1124,8 @@ class F06Query:
         and path[5] == "CORNER" \
         and path[7] == "ZMID":
 
-            z1_path = path.copy(); z1_path[7] = "Z1"; z1 = self.get_layer_2(z1_path, gp_transforms, shell_angles, output_file)
-            z2_path = path.copy(); z2_path[7] = "Z2"; z2 = self.get_layer_2(z2_path, gp_transforms, shell_angles, output_file)
+            z1_path = path.copy(); z1_path[7] = "Z1"; z1 = self.get_layer_3(z1_path, gp_transforms, shell_angles, output_file)
+            z2_path = path.copy(); z2_path[7] = "Z2"; z2 = self.get_layer_3(z2_path, gp_transforms, shell_angles, output_file)
             if z1 is None or z2 is None:
                 return None
             else:
@@ -1068,17 +1138,17 @@ class F06Query:
         and (path[5] == "MXORIGIN" or path[5] == "MYORIGIN" or path[5] == "MZORIGIN"):
 
             fx_path = path.copy(); fx_path[5] = "TX"
-            fx = self.get_layer_2(fx_path, gp_transforms, shell_angles, output_file)
+            fx = self.get_layer_3(fx_path, gp_transforms, shell_angles, output_file)
             fy_path = path.copy(); fy_path[5] = "TY"
-            fy = self.get_layer_2(fy_path, gp_transforms, shell_angles, output_file)
+            fy = self.get_layer_3(fy_path, gp_transforms, shell_angles, output_file)
             fz_path = path.copy(); fz_path[5] = "TZ"
-            fz = self.get_layer_2(fz_path, gp_transforms, shell_angles, output_file)
+            fz = self.get_layer_3(fz_path, gp_transforms, shell_angles, output_file)
             mx_path = path.copy(); mx_path[5] = "RX"
-            mx = self.get_layer_2(mx_path, gp_transforms, shell_angles, output_file)
+            mx = self.get_layer_3(mx_path, gp_transforms, shell_angles, output_file)
             my_path = path.copy(); my_path[5] = "RY"
-            my = self.get_layer_2(my_path, gp_transforms, shell_angles, output_file)
+            my = self.get_layer_3(my_path, gp_transforms, shell_angles, output_file)
             mz_path = path.copy(); mz_path[5] = "RZ"
-            mz = self.get_layer_2(mz_path, gp_transforms, shell_angles, output_file)
+            mz = self.get_layer_3(mz_path, gp_transforms, shell_angles, output_file)
 
             gid = int(path[4])
            
@@ -1103,11 +1173,11 @@ class F06Query:
 
         else:
 
-            return self.get_layer_2(path, gp_transforms, shell_angles, output_file)
+            return self.get_layer_3(path, gp_transforms, shell_angles, output_file)
 
 
-    def get_layer_4(self, path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file : TextIOWrapper):
-        # Get a value from layer 3 and optionally:
+    def get_layer_5(self, path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file : TextIOWrapper):
+        # Get a value from layer 4 and optionally:
         # - Node averaging
         
         if (len(path) > 5
@@ -1133,7 +1203,7 @@ class F06Query:
             output_file.write(f"{INDENT * 2}Node averaging from element values:\n")
             for eid, corner in gid_to_corners[gid]:
                 element_path = [path[0], path[1], path[2], "EID", eid, "CORNER", corner] + rest
-                value = self.get_layer_3(element_path, gp_transforms, shell_angles, gp_coordinates, output_file)
+                value = self.get_layer_4(element_path, gp_transforms, shell_angles, gp_coordinates, output_file)
                 output_file.write(f"{INDENT * 3}{"/".join(element_path)} =\t{value}\n")
                 if value is not None:
                     total += value
@@ -1151,11 +1221,11 @@ class F06Query:
 
         else:
 
-            return self.get_layer_3(path, gp_transforms, shell_angles, gp_coordinates, output_file)
+            return self.get_layer_4(path, gp_transforms, shell_angles, gp_coordinates, output_file)
 
 
-    def get_layer_5(self, path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file : TextIOWrapper):
-        # Get a value from layer 4 and:
+    def get_layer_6(self, path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file : TextIOWrapper):
+        # Get a value from layer 5 and:
         # - Path can describe multiple values.
         
         def expand_lists(path, expanded_paths=None):
@@ -1194,6 +1264,6 @@ class F06Query:
         result = []
 
         for single_path in single_paths:
-            result.append(self.get_layer_4(single_path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file))
+            result.append(self.get_layer_5(single_path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file))
 
         return result

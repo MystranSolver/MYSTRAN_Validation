@@ -335,8 +335,8 @@ def read_gid_to_corners(deck_path: Path) -> dict:
     return result
 
 
-def get_layer_6(parsed_f06, expression, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file : io.TextIOWrapper):
-    # Get values from layer 5 and:
+def get_layer_7(parsed_f06, expression, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file : io.TextIOWrapper):
+    # Get values from layer 6 and:
     # - Use a math expression.
 
     # Tokenize the expression
@@ -352,7 +352,7 @@ def get_layer_6(parsed_f06, expression, gp_transforms, shell_angles, gp_coordina
     for token in tokens:
         if token.type == "VARIABLE":
             path = token.value.split("/")
-            variable_values = parsed_f06.get_layer_5(path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
+            variable_values = parsed_f06.get_layer_6(path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
             variables[token.value] = variable_values
 
     # Count the number of values in each variable
@@ -419,7 +419,7 @@ def test_path(root_dir: Path,
         nonlocal worst_error
         nonlocal fail_count
 
-        reference_values = get_layer_6(parsed_f06, test_case.reference_value, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
+        reference_values = get_layer_7(parsed_f06, test_case.reference_value, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
         if len(reference_values) > 1:
             fail_count += 1
             print(f"ERROR: reference value resolves to more than one value.")
@@ -477,7 +477,7 @@ def test_path(root_dir: Path,
     # Make GID to (EID,corner) reverse lookup
     gid_to_corners = read_gid_to_corners(deck_path)
 
-    values = get_layer_6(parsed_f06, test_case.filter_string, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
+    values = get_layer_7(parsed_f06, test_case.filter_string, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file)
 
     match test_case.operation:
         case "":
