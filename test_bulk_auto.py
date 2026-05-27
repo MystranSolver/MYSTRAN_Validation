@@ -19,7 +19,7 @@ def test_bulk_auto(root_dir: Path,
     worst_error = 0
     worst_path = ""
 
-    def compare2(paths):
+    def compare(paths):
         nonlocal fail_count
         nonlocal worst_error
         nonlocal worst_path
@@ -95,8 +95,8 @@ def test_bulk_auto(root_dir: Path,
     subcases_block = ref_f06.get_layer_1(["SC"])
     for subcase in subcases_block.keys():
 
-        # DISPLACEMENTS, APPLIEDFORCES, SPCFORCES TX, TY, TZ
-        #---------------------------------------------------
+        # DISPLACEMENTS, APPLIEDFORCES, SPCFORCES
+        #----------------------------------------
         for block_name in ["DISPLACEMENTS", "APPLIEDFORCES", "SPCFORCES"]:
             block_path = ["SC", subcase, block_name, "GID"]
             output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
@@ -108,30 +108,47 @@ def test_bulk_auto(root_dir: Path,
             for gid in ref_gids | tst_gids:
                 for component in ["TX", "TY", "TZ"]:
                     paths.append(block_path + [str(gid),component])
-            compare2(paths)
+            compare(paths)
+            paths = []
+            for gid in ref_gids | tst_gids:
+                for component in ["RX", "RY", "RZ"]:
+                    paths.append(block_path + [str(gid),component])
+            compare(paths)
 
-        # GPFORCE TX, TY, TZ
-        #-------------------
+        # GPFORCE
+        #--------
         block_path = ["SC",subcase,"GPFORCE","GID"]
         output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
         ref_block = ref_f06.get_layer_0(block_path)
         tst_block = tst_f06.get_layer_0(block_path)
         ref_gids = ref_block.keys() if ref_block is not None else set()
         tst_gids = tst_block.keys() if tst_block is not None else set()
+        # Identify EIDs from the union of the test and reference sub-blocks for each GID.
+        gid_eids = {}
+        for gid in ref_gids | tst_gids:
+            eid_ref_block = ref_f06.get_layer_0(block_path + [gid,"EID"])
+            eid_tst_block = tst_f06.get_layer_0(block_path + [gid,"EID"])
+            eids_ref = eid_ref_block.keys() if eid_ref_block is not None else set()
+            eids_tst = eid_tst_block.keys() if eid_tst_block is not None else set() 
+            gid_eids[gid] = eids_ref | eids_tst
         paths = []
         for gid in ref_gids | tst_gids:
             for force_type in ["APPLIED", "SPC", "MPC", "INERTIA"]:
                 for component in ["TX", "TY", "TZ"]:
                     paths.append(block_path + [str(gid),force_type,component])
-            # Identify EIDs from the union of the test and reference sub-blocks for this GID.
-            eid_ref_block = ref_f06.get_layer_0(block_path + [gid,"EID"])
-            eid_tst_block = tst_f06.get_layer_0(block_path + [gid,"EID"])
-            eids_ref = eid_ref_block.keys() if eid_ref_block is not None else set()
-            eids_tst = eid_tst_block.keys() if eid_tst_block is not None else set() 
-            for eid in eids_ref | eids_tst:
-                for component in ["TX", "TY", "TZ"]:
+            for eid in gid_eids[gid]:
+                for component in ["RX", "RY", "RZ"]:
                     paths.append(block_path + [str(gid),"EID",eid,component])
-        compare2(paths)
+        compare(paths)
+        paths = []
+        for gid in ref_gids | tst_gids:
+            for force_type in ["APPLIED", "SPC", "MPC", "INERTIA"]:
+                for component in ["RX", "RY", "RZ"]:
+                    paths.append(block_path + [str(gid),force_type,component])
+            for eid in gid_eids[gid]:
+                for component in ["RX", "RY", "RZ"]:
+                    paths.append(block_path + [str(gid),"EID",eid,component])
+        compare(paths)
 
         # BARSTRESSES
         # -----------
@@ -145,7 +162,7 @@ def test_bulk_auto(root_dir: Path,
         for eid in ref_eids | tst_eids:
             for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
                 paths.append(block_path + [str(eid), component])
-        compare2(paths)
+        compare(paths)
 
         # BARFORCES
         # -----------
@@ -159,12 +176,12 @@ def test_bulk_auto(root_dir: Path,
         for eid in ref_eids | tst_eids:
             for component in ["MA1", "MA2", "MB1", "MB2", "TORQUE"]:
                 paths.append(block_path + [str(eid),component])
-        compare2(paths)
+        compare(paths)
         paths = []
         for eid in ref_eids | tst_eids:
             for component in ["S1", "S2", "AXIAL"]:
                 paths.append(block_path + [str(eid),component])
-        compare2(paths)
+        compare(paths)
 
         # RODSTRESSES
         # -----------
@@ -179,7 +196,7 @@ def test_bulk_auto(root_dir: Path,
         for eid in ref_eids | tst_eids:
             for component in ["AXIAL", "TORSIONAL"]:
                 paths.append(block_path + [str(eid),component])
-        compare2(paths)
+        compare(paths)
 
         # RODFORCES
         # ---------
@@ -192,11 +209,11 @@ def test_bulk_auto(root_dir: Path,
         paths = []
         for eid in ref_eids | tst_eids:
             paths.append(block_path + [str(eid),"AXIAL"])
-        compare2(paths)
+        compare(paths)
         paths = []
         for eid in ref_eids | tst_eids:
             paths.append(block_path + [str(eid),"TORQUE"])
-        compare2(paths)
+        compare(paths)
 
         # ELAS1STRESSES
         # -------------
@@ -209,7 +226,7 @@ def test_bulk_auto(root_dir: Path,
         paths = []
         for eid in ref_eids | tst_eids:
             paths.append(block_path + [str(eid)])
-        compare2(paths)
+        compare(paths)
 
         # ELAS1FORCES
         # -----------
@@ -222,7 +239,7 @@ def test_bulk_auto(root_dir: Path,
         paths = []
         for eid in ref_eids | tst_eids:
             paths.append(block_path + [str(eid)])
-        compare2(paths)
+        compare(paths)
 
 
 
@@ -238,7 +255,7 @@ def test_bulk_auto(root_dir: Path,
     paths = []
     for mode in modes:
         paths.append(block_path + [str(mode),"EIGENVALUE"])
-    compare2(paths)
+    compare(paths)
 
 
     # Modes
@@ -250,8 +267,8 @@ def test_bulk_auto(root_dir: Path,
         modes = modes_block.keys()
     for mode in modes:
 
-        # DISPLACEMENTS, APPLIEDFORCES, SPCFORCES, EIGENVECTOR TX, TY, TZ
-        #-----------------------------------------------------------------
+        # DISPLACEMENTS, APPLIEDFORCES, SPCFORCES, EIGENVECTOR
+        #-----------------------------------------------------
         for block_name in ["DISPLACEMENTS", "APPLIEDFORCES", "SPCFORCES", "EIGENVECTOR"]:
             block_path = ["SC", "2", "MODE", mode, block_name, "GID"]
             output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
@@ -263,31 +280,47 @@ def test_bulk_auto(root_dir: Path,
             for gid in ref_gids | tst_gids:
                 for component in ["TX", "TY", "TZ"]:
                     paths.append(block_path + [str(gid),component])
-            compare2(paths)
+            compare(paths)
+            paths = []
+            for gid in ref_gids | tst_gids:
+                for component in ["RX", "RY", "RZ"]:
+                    paths.append(block_path + [str(gid),component])
+            compare(paths)
 
-
-        # GPFORCE TX, TY, TZ
-        #-------------------
+        # GPFORCE
+        #--------
         block_path = ["SC", "2", "MODE", mode, "GPFORCE", "GID"]
         output_file.write(f"{INDENT * 2}{"/".join(block_path)}")
         ref_block = ref_f06.get_layer_0(block_path)
         tst_block = tst_f06.get_layer_0(block_path)
         ref_gids = ref_block.keys() if ref_block is not None else set()
         tst_gids = tst_block.keys() if tst_block is not None else set()
+        # Identify EIDs from the union of the test and reference sub-blocks for each GID.
+        gid_eids = {}
+        for gid in ref_gids | tst_gids:
+            eid_ref_block = ref_f06.get_layer_0(block_path + [gid,"EID"])
+            eid_tst_block = tst_f06.get_layer_0(block_path + [gid,"EID"])
+            eids_ref = eid_ref_block.keys() if eid_ref_block is not None else set()
+            eids_tst = eid_tst_block.keys() if eid_tst_block is not None else set() 
+            gid_eids[gid] = eids_ref | eids_tst
         paths = []
         for gid in ref_gids | tst_gids:
             for force_type in ["APPLIED", "SPC", "MPC", "INERTIA"]:
                 for component in ["TX", "TY", "TZ"]:
                     paths.append(block_path + [str(gid),force_type,component])
-            # Identify EIDs from the union of the test and reference sub-blocks for this GID.
-            eid_ref_block = ref_f06.get_layer_0(block_path + [gid,"EID"])
-            eid_tst_block = tst_f06.get_layer_0(block_path + [gid,"EID"])
-            eids_ref = eid_ref_block.keys() if eid_ref_block is not None else set()
-            eids_tst = eid_tst_block.keys() if eid_tst_block is not None else set() 
-            for eid in eids_ref | eids_tst:
-                for component in ["TX", "TY", "TZ"]:
+            for eid in gid_eids[gid]:
+                for component in ["RX", "RY", "RZ"]:
                     paths.append(block_path + [str(gid),"EID",eid,component])
-        compare2(paths)
+        compare(paths)
+        paths = []
+        for gid in ref_gids | tst_gids:
+            for force_type in ["APPLIED", "SPC", "MPC", "INERTIA"]:
+                for component in ["RX", "RY", "RZ"]:
+                    paths.append(block_path + [str(gid),force_type,component])
+            for eid in gid_eids[gid]:
+                for component in ["RX", "RY", "RZ"]:
+                    paths.append(block_path + [str(gid),"EID",eid,component])
+        compare(paths)
       
         # BARSTRESSES
         # -----------
@@ -301,7 +334,7 @@ def test_bulk_auto(root_dir: Path,
         for eid in ref_eids | tst_eids:
             for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
                 paths.append(block_path + [str(eid), component])
-        compare2(paths)
+        compare(paths)
 
         # BARFORCES
         # -----------
@@ -315,12 +348,12 @@ def test_bulk_auto(root_dir: Path,
         for eid in ref_eids | tst_eids:
             for component in ["MA1", "MA2", "MB1", "MB2", "TORQUE"]:
                 paths.append(block_path + [str(eid),component])
-        compare2(paths)
+        compare(paths)
         paths = []
         for eid in ref_eids | tst_eids:
             for component in ["S1", "S2", "AXIAL"]:
                 paths.append(block_path + [str(eid),component])
-        compare2(paths)
+        compare(paths)
 
         # RODSTRESSES
         # -----------
@@ -335,7 +368,7 @@ def test_bulk_auto(root_dir: Path,
         for eid in ref_eids | tst_eids:
             for component in ["AXIAL", "TORSIONAL"]:
                 paths.append(block_path + [str(eid),component])
-        compare2(paths)
+        compare(paths)
 
         # RODFORCES
         # ---------
@@ -348,11 +381,11 @@ def test_bulk_auto(root_dir: Path,
         paths = []
         for eid in ref_eids | tst_eids:
             paths.append(block_path + [str(eid),"AXIAL"])
-        compare2(paths)
+        compare(paths)
         paths = []
         for eid in ref_eids | tst_eids:
             paths.append(block_path + [str(eid),"TORQUE"])
-        compare2(paths)
+        compare(paths)
 
         # ELAS1STRESSES
         # -------------
@@ -365,7 +398,7 @@ def test_bulk_auto(root_dir: Path,
         paths = []
         for eid in ref_eids | tst_eids:
             paths.append(block_path + [str(eid)])
-        compare2(paths)
+        compare(paths)
 
         # ELAS1FORCES
         # -----------
@@ -378,7 +411,7 @@ def test_bulk_auto(root_dir: Path,
         paths = []
         for eid in ref_eids | tst_eids:
             paths.append(block_path + [str(eid)])
-        compare2(paths)
+        compare(paths)
 
    
     if worst_error > 0:
