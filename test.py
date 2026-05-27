@@ -256,20 +256,57 @@ def test_bulk_auto_magic(root_dir: Path,
         reference_file = \"{reference_f06_path}\"
 
         [[extractions]]
-        name = \"all\"
+        name = \"displacementsT\"
+        block   = "displacements"
+        cols    = ["tx", "ty", "tz"]
+        [[extractions]]
+        name = \"appliedforcesT\"
+        block   = "appliedforces"
+        cols    = ["tx", "ty", "tz"]
+        [[extractions]]
+        name = \"SPCforcesT\"
+        block   = "SPCforces"
+        cols    = ["tx", "ty", "tz"]
+        [[extractions]]
+        name = \"eigenvectorT\"
+        block   = "eigenvector"
+        cols    = ["tx", "ty", "tz"]
 
         [[criteria]]
         name = \"only criteria\"
-        percent_tolerance = 2
-        epsilon = 1e-8
-        max_difference = 1e-8
 
         [[comparison]]
-        name = \"{test_case.deck_filename}\"
+        name = \"{test_case.deck_filename} displacementsT\"
         reference_f06 = \"reference_file\"
         test_f06 = \"test_file\"
-        extraction = \"all\"
+        extraction = \"displacementsT\"
         criteria = \"only criteria\"
+        predicate = "abs(t - r) / rmaxa <= 2e-7"
+
+        [[comparison]]
+        name = \"{test_case.deck_filename} appliedforcesT\"
+        reference_f06 = \"reference_file\"
+        test_f06 = \"test_file\"
+        extraction = \"appliedforcesT\"
+        criteria = \"only criteria\"
+        predicate = "abs(t - r) / rmaxa <= 2e-7"
+
+        [[comparison]]
+        name = \"{test_case.deck_filename} SPCforcesT\"
+        reference_f06 = \"reference_file\"
+        test_f06 = \"test_file\"
+        extraction = \"SPCforcesT\"
+        criteria = \"only criteria\"
+        predicate = "abs(t - r) / rmaxa <= 2e-7"
+
+        [[comparison]]
+        name = \"{test_case.deck_filename} eigenvectorT\"
+        reference_f06 = \"reference_file\"
+        test_f06 = \"test_file\"
+        extraction = \"eigenvectorT\"
+        criteria = \"only criteria\"
+        predicate = "abs(t - r) / rmaxa <= 2e-7"
+
     """)
 
     # Escape \ to \\ for TOML
@@ -376,7 +413,9 @@ def run_case(mystran_path: Path,
         return False
 
     pass_fail = "PASS" if fail_count == 0 else "FAILED"
-    print(f"{pass_fail}\t{fail_count}{count_suffix}\t{test_case.deck_filename}\t{message}")
+    display_message = f"{pass_fail}\t{fail_count}{count_suffix}\t{test_case.deck_filename}\t{message}"
+    print(display_message)
+    output_file.write(f"{INDENT * 2}{display_message}\n")
         
     # Save a copy of failed F06 for inspecting after.
 

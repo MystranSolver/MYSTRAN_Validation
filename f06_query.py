@@ -90,96 +90,60 @@ class F06Query:
         while line_no < len(lines):
             line = get_next_line()
 
-            if "D I S P L A C E M E N T S" in line:
+            
+            if "D I S P L A C E M E N T S" in line \
+            or "E I G E N V E C T O R" in line \
+            or "S P C   F O R C E S" in line \
+            or "M P C   F O R C E S" in line \
+            or "A P P L I E D    F O R C E S" in line:
+                if "D I S P L A C E M E N T S" in line:     block_name = "DISPLACEMENTS"
+                if "E I G E N V E C T O R" in line:         block_name = "EIGENVECTOR"
+                if "S P C   F O R C E S" in line:           block_name = "SPCFORCES"
+                if "M P C   F O R C E S" in line:           block_name = "MPCFORCES"
+                if "A P P L I E D    F O R C E S" in line:  block_name = "APPLIEDFORCES"
                 prefix = subcase_or_mode()
-                gids_node = ensure_path(root, prefix +["DISPLACEMENTS","GID"])
-                get_next_line()
-                get_next_line()
-                get_next_line()
-                while True:
-                    line = get_next_line()
-                    if line.strip().startswith("---") or len(line.strip()) == 0:
-                        break
-                    gid = int(number(line, 8, 8))
-                    gid_node = ensure_path(gids_node, [str(gid)])
-                    set(gid_node, "TX", number(line, 26, 13))
-                    set(gid_node, "TY", number(line, 40, 13))
-                    set(gid_node, "TZ", number(line, 54, 13))
-                    set(gid_node, "RX", number(line, 68, 13))
-                    set(gid_node, "RY", number(line, 82, 13))
-                    set(gid_node, "RZ", number(line, 96, 13))
-
-            elif "S P C   F O R C E S" in line:
-                prefix = subcase_or_mode()
-                gids_node = ensure_path(root, prefix + ["SPCFORCES", "GID"])
-                get_next_line()
-                get_next_line()
-                get_next_line()
-                while True:
-                    line = get_next_line()
-                    if line.strip().startswith("---") or len(line.strip()) == 0:
-                        break
-                    gid = int(number(line, 8, 8))
-                    gid_node = ensure_path(gids_node, [str(gid)])
-                    set(gid_node, "TX", number(line, 26, 13))
-                    set(gid_node, "TY", number(line, 40, 13))
-                    set(gid_node, "TZ", number(line, 54, 13))
-                    set(gid_node, "RX", number(line, 68, 13))
-                    set(gid_node, "RY", number(line, 82, 13))
-                    set(gid_node, "RZ", number(line, 96, 13))
-
-            elif "M P C   F O R C E S" in line:
-                prefix = subcase_or_mode()
-                gids_node = ensure_path(root, prefix + ["MPCFORCES", "GID"])
-                get_next_line()
-                get_next_line()
-                get_next_line()
-                while True:
-                    line = get_next_line()
-                    if line.strip().startswith("---") or len(line.strip()) == 0:
-                        break
-                    if line.startswith(" *INFORMATION:"):
-                        # It can be this:
-                        # *INFORMATION: COORD SYSTEM       -2 FOR STRESS TRANSFORMATION IS UNDEFINED. LOCAL ELEMENT COORD SYSTEM WILL BE USED
-                        break
-                    gid = int(number(line, 8, 8))
-                    gid_node = ensure_path(gids_node, [str(gid)])
-                    set(gid_node, "TX", number(line, 26, 13))
-                    set(gid_node, "TY", number(line, 40, 13))
-                    set(gid_node, "TZ", number(line, 54, 13))
-                    set(gid_node, "RX", number(line, 68, 13))
-                    set(gid_node, "RY", number(line, 82, 13))
-                    set(gid_node, "RZ", number(line, 96, 13))
-
-            elif "A P P L I E D    F O R C E S" in line:
-                prefix = subcase_or_mode()
-                gids_node = ensure_path(root, prefix + ["APPLIEDFORCES","GID"])
+                gids_node = ensure_path(root, prefix + [block_name, "GID"])
                 get_next_line()
                 line = get_next_line()
                 if "(including equivalent thermal loads)" in line:
                     get_next_line()
                 get_next_line()
+                had_blank_line = False
                 while True:
                     line = get_next_line()
-                    if line.strip().startswith("---") or len(line.strip()) == 0:
+                    if len(line) >= 27 and line[0:15].strip().isdigit():
+                        # This line has data.
+                        had_blank_line = False
+                        gid = int(number(line, 8, 8))
+                        gid_node = ensure_path(gids_node, [str(gid)])
+                        set(gid_node, "TX", number(line, 26, 13))
+                        set(gid_node, "TY", number(line, 40, 13))
+                        set(gid_node, "TZ", number(line, 54, 13))
+                        set(gid_node, "RX", number(line, 68, 13))
+                        set(gid_node, "RY", number(line, 82, 13))
+                        set(gid_node, "RZ", number(line, 96, 13))
+                    elif line.startswith(" *INFORMATION:"):
+                        # It can be this:
+                        # *INFORMATION: COORD SYSTEM       -2 FOR STRESS TRANSFORMATION IS UNDEFINED. LOCAL ELEMENT COORD SYSTEM WILL BE USED
+                        had_blank_line = False
                         break
-                    gid = int(number(line, 8, 8))
-                    gid_node = ensure_path(gids_node, [str(gid)])
-                    set(gid_node, "TX", number(line, 26, 13))
-                    set(gid_node, "TY", number(line, 40, 13))
-                    set(gid_node, "TZ", number(line, 54, 13))
-                    set(gid_node, "RX", number(line, 68, 13))
-                    set(gid_node, "RY", number(line, 82, 13))
-                    set(gid_node, "RZ", number(line, 96, 13))
+                    elif had_blank_line:
+                        # A non-data line after a blank line is past the end of the block.
+                        break
+                    elif len(line.strip()) == 0:
+                        # Skip blank line at GID gaps.
+                        had_blank_line = True
+                        continue
+                    else:
+                        # Not data and not blank. Might be ---
+                        break
 
             elif "G R I D   P O I N T   F O R C E   B A L A N C E" in line:
                 prefix = subcase_or_mode()
                 if prefix is None:
                     # Some v15 files (SS-BAR-10-BUCKLING-CF-LOAD-LAN-3D.F06) have no subcase or
-                    # mode for GPFORCE. Just assume it's subcase 1. I don't know if it should even
-                    # be present but this will reveal it with test fails when it's absent in later versions.
+                    # mode for GPFORCE. Assume it's subcase 1 which it is in that case.
                     prefix = ["SC", str(1)]
-                    print(f"WARNING: no subcase found for GPFORCE in {self.file_name} line {line_no}. Assuming SC/1.")
                 get_next_line()
                 get_next_line()
                 gids_node = ensure_path(root, prefix + ["GPFORCE","GID"])
@@ -248,37 +212,6 @@ class F06Query:
                         continue
                     else:
                         # End of block
-                        break
-            
-            elif "E I G E N V E C T O R" in line:
-                prefix = subcase_or_mode()
-                gids_node = ensure_path(root, prefix + ["EIGENVECTOR", "GID"])
-                get_next_line()
-                get_next_line()
-                get_next_line()
-                had_blank_line = False
-                while True:
-                    line = get_next_line()
-                    if len(line) >= 27 and line[0:15].strip().isdigit():
-                        # This line has data.
-                        had_blank_line = False
-                        gid = int(number(line, 8, 8))
-                        gid_node = ensure_path(gids_node, [str(gid)])
-                        set(gid_node, "TX", number(line, 26, 13))
-                        set(gid_node, "TY", number(line, 40, 13))
-                        set(gid_node, "TZ", number(line, 54, 13))
-                        set(gid_node, "RX", number(line, 68, 13))
-                        set(gid_node, "RY", number(line, 82, 13))
-                        set(gid_node, "RZ", number(line, 96, 13))
-                    elif had_blank_line:
-                        # A non-data line after a blank line is past the end of the block.
-                        break
-                    elif len(line.strip()) == 0:
-                        # Skip blank line at GID gaps.
-                        had_blank_line = True
-                        continue
-                    else:
-                        # Not data and not blank. Might be ---
                         break
 
             elif "E L E M E N T   S T R E S S E S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:

@@ -6,9 +6,40 @@ use crate::utils::{AnyAmount, NumListRange};
 use f06::prelude::*;
 use serde::{Deserialize, Serialize};
 
+/// Returns the default value of the various `allow_*_empty` flags (true).
+fn default_allow_empty() -> bool {
+  return true;
+}
+
+/// Per-extraction empty-match flags carried into [`crate::script::ReadyScript`]
+/// after the [`SimpleExtraction`] is resolved.
+#[derive(Clone, Copy, Debug)]
+pub(crate) struct ExtractionFlags {
+  /// If `false`, the surrounding check or comparison fails when the
+  /// extraction matches zero datums overall (the union of sides, for
+  /// comparisons). See [`SimpleExtraction::allow_empty`].
+  pub(crate) allow_empty: bool,
+  /// Comparison-only. If `false`, fails when the extraction matches zero
+  /// datums on the reference file. Ignored for checks.
+  pub(crate) allow_reference_empty: bool,
+  /// Comparison-only. If `false`, fails when the extraction matches zero
+  /// datums on the test file. Ignored for checks.
+  pub(crate) allow_test_empty: bool,
+}
+
+impl Default for ExtractionFlags {
+  fn default() -> Self {
+    return Self {
+      allow_empty: true,
+      allow_reference_empty: true,
+      allow_test_empty: true,
+    };
+  }
+}
+
 /// Represents a procedure for extracting values from an F06. Converts into a
 /// real libf06 Extraction.
-#[derive(Default, Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(default)]
 pub(crate) struct SimpleExtraction {
   /// Extraction name -- must be unique.
@@ -49,6 +80,55 @@ pub(crate) struct SimpleExtraction {
   /// Raw row indices. Use only when `rows` cannot express the filter.
   #[serde(default)]
   pub(crate) raw_rows: AnyAmount<usize>,
+  /// If `true` (the default), an extraction that matches zero datums is
+  /// silently allowed: the surrounding check/comparison still PASSES.
+  /// If `false`, an empty union is reported as a failure of the check or
+  /// comparison that referenced this extraction. For comparisons see also
+  /// `allow_reference_empty` and `allow_test_empty`, which target one
+  /// specific side and are evaluated independently of this flag.
+  #[serde(default = "default_allow_empty")]
+  pub(crate) allow_empty: bool,
+  /// Comparison-only. If `false`, the comparison fails when the
+  /// extraction matches zero datums on the **reference** file (even if
+  /// the test file has hits). Default `true`. Ignored for checks.
+  #[serde(default = "default_allow_empty")]
+  pub(crate) allow_reference_empty: bool,
+  /// Comparison-only. If `false`, the comparison fails when the
+  /// extraction matches zero datums on the **test** file (even if the
+  /// reference file has hits). Default `true`. Ignored for checks.
+  #[serde(default = "default_allow_empty")]
+  pub(crate) allow_test_empty: bool,
+}
+
+impl SimpleExtraction {
+  /// Returns the per-extraction flags consumed by [`ReadyScript`].
+  pub(crate) fn flags(&self) -> ExtractionFlags {
+    return ExtractionFlags {
+      allow_empty: self.allow_empty,
+      allow_reference_empty: self.allow_reference_empty,
+      allow_test_empty: self.allow_test_empty,
+    };
+  }
+}
+
+impl Default for SimpleExtraction {
+  fn default() -> Self {
+    return Self {
+      name: String::new(),
+      blocks: AnyAmount::default(),
+      subcases: NumListRange::default(),
+      nodes: NumListRange::default(),
+      elements: NumListRange::default(),
+      element_types: AnyAmount::default(),
+      cols: AnyAmount::default(),
+      rows: AnyAmount::default(),
+      raw_cols: AnyAmount::default(),
+      raw_rows: AnyAmount::default(),
+      allow_empty: true,
+      allow_reference_empty: true,
+      allow_test_empty: true,
+    };
+  }
 }
 
 impl SimpleExtraction {
