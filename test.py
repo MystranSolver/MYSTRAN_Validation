@@ -243,69 +243,80 @@ def test_bulk_auto_magic(root_dir: Path,
                          output_file: TextIOWrapper,
                          test_case: CaseDefinition) -> int:
 
+    def block(extraction_name, block, cols):
+        return dedent(f"""\
+        [[extractions]]
+        name          = "{extraction_name}"
+        block         = "{block}"
+        cols          = {str(cols)}
+        [[comparison]]
+        name          = "{test_case.deck_filename} {extraction_name}"
+        reference_f06 = "reference_file"
+        test_f06      = "test_file"
+        extraction    = "{extraction_name}"
+        criteria      = "only criteria"
+        predicate     = "(rmaxa != 0 and (abs(t - r) / rmaxa <= 2e-7)) or (rmaxa == 0 and t == 0)"
+        printout      = "P {extraction_name}"
+        [[printout]]
+        name          = "P {extraction_name}"
+        max           = "rmaxa"
+        error_percent = "abs(t - r) / rmaxa * 100"
+        """)
+
     if test_case.test_type == "my3":
         reference_f06_path = (root_dir / "reference_mystran" / test_case.deck_filename).with_suffix(".F06").resolve()
     elif test_case.test_type == "ms3":
         reference_f06_path = (root_dir / "reference_msc" / test_case.deck_filename).with_suffix(".f06").resolve()
     
     # Make script for f06magic
-    # todo adapt script to use automatic tolerance
     script = dedent(f"""\
         [files]
-        test_file = \"{test_f06_path}\"
+        test_file      = \"{test_f06_path}\"
         reference_file = \"{reference_f06_path}\"
 
-        [[extractions]]
-        name = \"displacementsT\"
-        block   = "displacements"
-        cols    = ["tx", "ty", "tz"]
-        [[extractions]]
-        name = \"appliedforcesT\"
-        block   = "appliedforces"
-        cols    = ["tx", "ty", "tz"]
-        [[extractions]]
-        name = \"SPCforcesT\"
-        block   = "SPCforces"
-        cols    = ["tx", "ty", "tz"]
-        [[extractions]]
-        name = \"eigenvectorT\"
-        block   = "eigenvector"
-        cols    = ["tx", "ty", "tz"]
-
         [[criteria]]
-        name = \"only criteria\"
+        name           = \"only criteria\"
 
-        [[comparison]]
-        name = \"{test_case.deck_filename} displacementsT\"
-        reference_f06 = \"reference_file\"
-        test_f06 = \"test_file\"
-        extraction = \"displacementsT\"
-        criteria = \"only criteria\"
-        predicate = "abs(t - r) / rmaxa <= 2e-7"
+        {block("displacements T", "displacements", ["tx", "ty", "tz"])}
+        {block("displacements R", "displacements", ["rx", "ry", "rz"])}
 
-        [[comparison]]
-        name = \"{test_case.deck_filename} appliedforcesT\"
-        reference_f06 = \"reference_file\"
-        test_f06 = \"test_file\"
-        extraction = \"appliedforcesT\"
-        criteria = \"only criteria\"
-        predicate = "abs(t - r) / rmaxa <= 2e-7"
+        {block("eigenvector T", "eigenvector", ["tx", "ty", "tz"])}
+        {block("eigenvector R", "eigenvector", ["rx", "ry", "rz"])}
 
-        [[comparison]]
-        name = \"{test_case.deck_filename} SPCforcesT\"
-        reference_f06 = \"reference_file\"
-        test_f06 = \"test_file\"
-        extraction = \"SPCforcesT\"
-        criteria = \"only criteria\"
-        predicate = "abs(t - r) / rmaxa <= 2e-7"
+        {block("spc_forces T", "spc_forces", ["tx", "ty", "tz"])}
+        {block("spc_forces R", "spc_forces", ["rx", "ry", "rz"])}
 
-        [[comparison]]
-        name = \"{test_case.deck_filename} eigenvectorT\"
-        reference_f06 = \"reference_file\"
-        test_f06 = \"test_file\"
-        extraction = \"eigenvectorT\"
-        criteria = \"only criteria\"
-        predicate = "abs(t - r) / rmaxa <= 2e-7"
+        {block("applied_forces T", "applied_forces", ["tx", "ty", "tz"])}
+        {block("applied_forces R", "applied_forces", ["rx", "ry", "rz"])}
+
+        {block("grid_point_force_balance T", "grid_point_force_balance", ["tx", "ty", "tz"])}
+        {block("grid_point_force_balance R", "grid_point_force_balance", ["rx", "ry", "rz"])}
+
+        {block("elas_1_forces", "elas_1_forces", ["force"])}
+
+        {block("elas_1_stresses", "elas_1_stresses", ["stress"])}
+
+        {block("rod_forces F", "rod_forces", ["axial_force"])}
+        {block("rod_forces M", "rod_forces", ["torque"])}
+
+        {block("rod_stresses", "rod_stresses", ["axial", "torsional"])}
+
+        {block("bar_forces F", "bar_forces", ["shear_plane_1", "shear_plane_2", "axial_force"])}
+        {block("bar_forces M", "bar_forces", ["bend_moment_end_a_plane_1",
+                                              "bend_moment_end_a_plane_2",
+                                              "bend_moment_end_b_plane_1",
+                                              "bend_moment_end_b_plane_2",
+                                              "torque"])}
+
+        {block("bar_stresses", "bar_stresses", ["end_a_recovery_point_1", 
+                                                "end_a_recovery_point_2",
+                                                "end_a_recovery_point_3",
+                                                "end_a_recovery_point_4", 
+                                                "end_b_recovery_point_1",
+                                                "end_b_recovery_point_2",
+                                                "end_b_recovery_point_3",
+                                                "end_b_recovery_point_4",
+                                                "axial"])}
 
     """)
 
@@ -460,21 +471,24 @@ def main():
 
     test_cases = read_definitions(definitions_path)
 
-    fails = 0
-    count = len(test_cases)
-
-    previous_deck_filename = ""
 
     with open(output_path, "w") as output_file:
+        fails = 0
+        count = len(test_cases)
+        previous_deck_filename = ""
         for test_case in test_cases:
             if not run_case(mystran_path, root_dir, fails_dir, output_file, test_case, previous_deck_filename):
                 fails += 1
             previous_deck_filename = test_case.deck_filename
 
-    print()
-    exit_code = 0 if fails == 0 and count > 0 else 1
-    print(f"{fails}/{count} failed -> {"PASS" if exit_code == 0 else "FAIL"}.")
-    print()
+        exit_code = 0 if fails == 0 and count > 0 else 1
+        final_summary = f"{fails}/{count} failed -> {"PASS" if exit_code == 0 else "FAIL"}."
+        print("="*len(final_summary))
+        print(final_summary)
+        print("="*len(final_summary))
+        output_file.write(f"{"="*len(final_summary)}\n")
+        output_file.write(f"{final_summary}\n")
+        output_file.write(f"{"="*len(final_summary)}\n")
 
     # Return exit code 0 for pass and 1 for fail
     sys.exit(exit_code)

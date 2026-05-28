@@ -108,9 +108,9 @@ def test_bulk_auto(root_dir: Path,
 
         for group_number in ref_group_numbers | tst_group_numbers:
         
-            # DISPLACEMENTS, EIGENVECTOR, APPLIEDFORCES, SPCFORCES
+            # DISPLACEMENTS, EIGENVECTOR, SPCFORCES, APPLIEDFORCES
             #-----------------------------------------------------
-            for block_name in ["DISPLACEMENTS", "EIGENVECTOR", "APPLIEDFORCES", "SPCFORCES"]:
+            for block_name in ["DISPLACEMENTS", "EIGENVECTOR", "SPCFORCES", "APPLIEDFORCES"]:
                 block_path = prefix + [group_number, block_name, "GID"]
                 ref_block = ref_f06.get_layer_0(block_path)
                 tst_block = tst_f06.get_layer_0(block_path)
@@ -161,50 +161,29 @@ def test_bulk_auto(root_dir: Path,
                         paths.append(block_path + [str(gid),"EID",eid,component])
             compare("/".join(block_path) + "/*/APPLIED,SPC,MPC,INERTIA/RX,RY,RZ and /EID/*/RX,RY,RZ", paths)
 
-            # BARSTRESSES
+            # ELAS1FORCES
             # -----------
-            block_path = prefix + [group_number, "BARSTRESSES", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
+            block_path = prefix + [group_number, "ELAS1FORCES", "EID"]
+            ref_block = ref_f06.get_layer_1(block_path)
+            tst_block = tst_f06.get_layer_1(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
             paths = []
             for eid in ref_eids | tst_eids:
-                for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
-                    paths.append(block_path + [str(eid), component])
-            compare("/".join(block_path) + "/*/SA1,SA2,SA3,SA4,SB1,SB2,SB3,SB4,AXIAL", paths)
+                paths.append(block_path + [str(eid)])
+            compare("/".join(block_path) + "/*", paths)
 
-            # BARFORCES
-            # -----------
-            block_path = prefix + [group_number, "BARFORCES", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
+            # ELAS1STRESSES
+            # -------------
+            block_path = prefix + [group_number, "ELAS1STRESSES", "EID"]
+            ref_block = ref_f06.get_layer_1(block_path)
+            tst_block = tst_f06.get_layer_1(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
             paths = []
             for eid in ref_eids | tst_eids:
-                for component in ["MA1", "MA2", "MB1", "MB2", "TORQUE"]:
-                    paths.append(block_path + [str(eid),component])
-            compare("/".join(block_path) + "/*/MA1,MA2,MB1,MB2,TORQUE", paths)
-            paths = []
-            for eid in ref_eids | tst_eids:
-                for component in ["S1", "S2", "AXIAL"]:
-                    paths.append(block_path + [str(eid),component])
-            compare("/".join(block_path) + "/*/S1,S2,AXIAL", paths)
-
-            # RODSTRESSES
-            # -----------
-            #todo safety margins
-            block_path = prefix + [group_number, "RODSTRESSES", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
-            for eid in ref_eids | tst_eids:
-                for component in ["AXIAL", "TORSIONAL"]:
-                    paths.append(block_path + [str(eid),component])
-            compare("/".join(block_path) + "/*/AXIAL,TORSIONAL", paths)
+                paths.append(block_path + [str(eid)])
+            compare("/".join(block_path) + "/*", paths)
 
             # RODFORCES
             # ---------
@@ -222,29 +201,51 @@ def test_bulk_auto(root_dir: Path,
                 paths.append(block_path + [str(eid),"TORQUE"])
             compare("/".join(block_path) + "/*/TORQUE", paths)
 
-            # ELAS1STRESSES
-            # -------------
-            block_path = prefix + [group_number, "ELAS1STRESSES", "EID"]
-            ref_block = ref_f06.get_layer_1(block_path)
-            tst_block = tst_f06.get_layer_1(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
-            for eid in ref_eids | tst_eids:
-                paths.append(block_path + [str(eid)])
-            compare("/".join(block_path) + "/*", paths)
-
-            # ELAS1FORCES
+            # RODSTRESSES
             # -----------
-            block_path = prefix + [group_number, "ELAS1FORCES", "EID"]
-            ref_block = ref_f06.get_layer_1(block_path)
-            tst_block = tst_f06.get_layer_1(block_path)
+            #todo safety margins
+            block_path = prefix + [group_number, "RODSTRESSES", "EID"]
+            ref_block = ref_f06.get_layer_0(block_path)
+            tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
             paths = []
             for eid in ref_eids | tst_eids:
-                paths.append(block_path + [str(eid)])
-            compare("/".join(block_path) + "/*", paths)
+                for component in ["AXIAL", "TORSIONAL"]:
+                    paths.append(block_path + [str(eid),component])
+            compare("/".join(block_path) + "/*/AXIAL,TORSIONAL", paths)
+
+            # BARFORCES
+            # -----------
+            block_path = prefix + [group_number, "BARFORCES", "EID"]
+            ref_block = ref_f06.get_layer_0(block_path)
+            tst_block = tst_f06.get_layer_0(block_path)
+            ref_eids = ref_block.keys() if ref_block is not None else set()
+            tst_eids = tst_block.keys() if tst_block is not None else set()
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for component in ["S1", "S2", "AXIAL"]:
+                    paths.append(block_path + [str(eid),component])
+            compare("/".join(block_path) + "/*/S1,S2,AXIAL", paths)
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for component in ["MA1", "MA2", "MB1", "MB2", "TORQUE"]:
+                    paths.append(block_path + [str(eid),component])
+            compare("/".join(block_path) + "/*/MA1,MA2,MB1,MB2,TORQUE", paths)
+
+            # BARSTRESSES
+            # -----------
+            block_path = prefix + [group_number, "BARSTRESSES", "EID"]
+            ref_block = ref_f06.get_layer_0(block_path)
+            tst_block = tst_f06.get_layer_0(block_path)
+            ref_eids = ref_block.keys() if ref_block is not None else set()
+            tst_eids = tst_block.keys() if tst_block is not None else set()
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
+                    paths.append(block_path + [str(eid), component])
+            compare("/".join(block_path) + "/*/SA1,SA2,SA3,SA4,SB1,SB2,SB3,SB4,AXIAL", paths)
+
 
     
 
