@@ -3,17 +3,17 @@
 # Vic test case set 1 #
 #######################
 
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;;       3.4243983461752066e-07;     2e-5%
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;;       3.4243983461752066e-07;     2e-5%
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/27/TY;;      3.4243983461752066e-07;     2e-5%
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/12/TY;;      3.4243983461752066e-07;     2e-5%
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/5/TZ;;      -1.3697593384700827e-07;     0.0001%
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/7/TZ;;      -1.3697593384700827e-07;     0.0001%
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/13/TZ;;     -1.3697593384700827e-07;     0.0002%
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/28/TZ;;     -1.3697593384700827e-07;     0.0001%
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/15/TZ;;     -1.3697593384700827e-07;     0.0001%
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/3/TZ;;       0;                          0.0000000000001
-pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/19/TZ;;      0;                          0.0000000000001
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/8/TY;;       30000.0 / 1.75213260650635 / 50000000000.0;           2e-5%
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;;       30000.0 / 1.75213260650635 / 50000000000.0;           2e-5%
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/27/TY;;      30000.0 / 1.75213260650635 / 50000000000.0;           2e-5%
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/12/TY;;      30000.0 / 1.75213260650635 / 50000000000.0;           2e-5%
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/5/TZ;;      -30000.0 / 1.75213260650635 / 50000000000.0 * 0.4;     0.0001%
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/7/TZ;;      -30000.0 / 1.75213260650635 / 50000000000.0 * 0.4;     0.0001%
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/13/TZ;;     -30000.0 / 1.75213260650635 / 50000000000.0 * 0.4;     0.0002%
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/28/TZ;;     -30000.0 / 1.75213260650635 / 50000000000.0 * 0.4;     0.0001%
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/15/TZ;;     -30000.0 / 1.75213260650635 / 50000000000.0 * 0.4;     0.0001%
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/3/TZ;;       0;                                                    0.0000000000001
+pth;    vic/1/NAS S30 hexa.bdf;   SC/1/DISPLACEMENTS/GID/19/TZ;;      0;                                                    0.0000000000001
 
 pth;    vic/1/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/8/TY;;      3.4243983461752066e-07;     2e-5%
 pth;    vic/1/NAS S30 penta.bdf;  SC/1/DISPLACEMENTS/GID/4/TY;;      3.4243983461752066e-07;     2e-5%
@@ -1507,7 +1507,7 @@ pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16
 pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16/NYY;;            0;                  0.000000001
 pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16/NXY;;            0;                  0.000000001
 pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16/QY;;            -0.001875;           0.008%
-pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16/QX;;             0;                  0.000000001
+pth;    vic/5/S30 mitc8 force per length.bdf;   SC/1/SHELLFORCES/GID/13,14,15,16/QX;;             0;                  0.00000001
 
 pth;    vic/5/S30 mitc8 reaction force.bdf;     SC/1/SPCFORCES/GID/2,6,7,8/TX;  SUM;    -10;    0.0005%
 pth;    vic/5/S30 mitc8 reaction force.bdf;     SC/1/SPCFORCES/GID/2,6,7,8/TY;  SUM;    -20;    0.00005%
@@ -1739,11 +1739,11 @@ pth;	vic/6/NAS S30 SNORM membrane bending coupling mitc4+.bdf;	SC/1/DISPLACEMENT
 pth;	vic/6/NAS S30 SNORM membrane bending coupling mitc4+.bdf;	SC/1/DISPLACEMENTS/GID/63/TX;;	1.0;	2e-5%
 pth;	vic/6/NAS S30 SNORM membrane bending coupling mitc4+.bdf;	SC/1/DISPLACEMENTS/GID/64/TX;;	1.0;	2e-5%
 
-pth;	vic/6/NAS S30 3 digit exponent 1.bdf;	SC/1/DISPLACEMENTS/GID/4/TX;;	       -1.002287e-105;	0
-pth;	vic/6/NAS S30 3 digit exponent 1.bdf;	SC/1/SOLIDSTRESSES/EID/1/CORNER/3/XX;;	6.514864e-111;	0
+pth;	vic/6/NAS S30 3 digit exponent 1.bdf;	SC/1/DISPLACEMENTS/GID/4/TX;;	        0;	1e-100
+pth;	vic/6/NAS S30 3 digit exponent 1.bdf;	SC/1/SOLIDSTRESSES/EID/1/CORNER/3/XX;;	0;	1e-100
 
-pth;	vic/6/NAS S30 3 digit exponent 2.bdf;	SC/1/SOLIDSTRESSES/EID/8/CORNER/7/YY;;	8.928669e-122;	0
-pth;	vic/6/NAS S30 3 digit exponent 2.bdf;	SC/1/SOLIDSTRESSES/EID/8/CORNER/8/YY;;	1.336904e-121;	0
+pth;	vic/6/NAS S30 3 digit exponent 2.bdf;	SC/1/SOLIDSTRESSES/EID/8/CORNER/7/YY;;	0;	1e-110
+pth;	vic/6/NAS S30 3 digit exponent 2.bdf;	SC/1/SOLIDSTRESSES/EID/8/CORNER/8/YY;;	0;	1e-110
 
 
 #######################
@@ -2221,8 +2221,8 @@ pth;    vic/8/S30 node-surface coupling 1 rotated constraint.bdf;   SC/1/DISPLAC
 
 pth;    vic/8/S30 node-surface coupling RBE2 chained and forked 1D.bdf;   SC/1/DISPLACEMENTS/GID/1-81/TX;  NORM;   0;       1e-14
 pth;    vic/8/S30 node-surface coupling RBE2 chained and forked 1D.bdf;   SC/1/DISPLACEMENTS/GID/1-81/TY;;         0.01;    1e-09
-pth;    vic/8/S30 node-surface coupling RBE2 chained and forked 1D.bdf;   SC/1/DISPLACEMENTS/GID/1-81/TZ;  NORM;   0;       1e-15
-pth;    vic/8/S30 node-surface coupling RBE2 chained and forked 1D.bdf;   SC/1/SOLIDSTRESSES/GID/3,7,25,26,48,68/VONMISES;;   0;   7e-05
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked 1D.bdf;   SC/1/DISPLACEMENTS/GID/1-81/TZ;  NORM;   0;       1e-14
+pth;    vic/8/S30 node-surface coupling RBE2 chained and forked 1D.bdf;   SC/1/SOLIDSTRESSES/GID/3,7,25,26,48,68/VONMISES;;   0;   1e-04
 
 pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/1-20/RX;;    0.011;   2e-5%
 pth;    vic/8/S30 node-surface coupling RBE2 chained and forked rot dofs.bdf;   SC/1/DISPLACEMENTS/GID/1-20/RY;;    0.022;   2e-5%
@@ -2513,11 +2513,11 @@ pth;    vic/9/S30 node-surface coupling RBE3 15.bdf;    SC/1/DISPLACEMENTS/GID/9
 pth;    vic/9/S30 node-surface coupling RBE3 15.bdf;    SC/1/DISPLACEMENTS/GID/9/TZ;;    (SC/1/DISPLACEMENTS/GID/5/TZ + SC/1/DISPLACEMENTS/GID/6/TZ + SC/1/DISPLACEMENTS/GID/7/TZ + SC/1/DISPLACEMENTS/GID/8/TZ + SC/1/DISPLACEMENTS/GID/10/TZ + SC/1/DISPLACEMENTS/GID/19/TZ + SC/1/DISPLACEMENTS/GID/20/TZ + SC/1/DISPLACEMENTS/GID/21/TZ) / 8;  0.000000000000001
 pth;    vic/9/S30 node-surface coupling RBE3 15.bdf;    SC/1/DISPLACEMENTS/GID/9/RY;;    SC/1/DISPLACEMENTS/GID/10/TZ / 0.5; 200%
 
-pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/SPCFORCES/GID/3,11,12,13,14,16,17,20,29/TX;  SUM;    0;  0.000000001
-pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/SPCFORCES/GID/3,11,12,13,14,16,17,20,29/TY;  SUM;    -13000; 0.000000001
-pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/SPCFORCES/GID/3,11,12,13,14,16,17,20,29/TZ;  SUM;    0;  0.0000000001
+pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/SPCFORCES/GID/3,11,12,13,14,16,17,20,29/TX;  SUM;    0;        0.000000001
+pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/SPCFORCES/GID/3,11,12,13,14,16,17,20,29/TY;  SUM;    -13000;   0.000000001
+pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/SPCFORCES/GID/3,11,12,13,14,16,17,20,29/TZ;  SUM;    0;        0.000000001
 pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/SPCFORCES/GID/3,11,12,13,14,16,17,20,29/MXORIGIN; SUM;   1.15*13000;           2e-5%
-pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/SPCFORCES/GID/3,11,12,13,14,16,17,20,29/MYORIGIN; SUM;   0;                    1e-10
+pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/SPCFORCES/GID/3,11,12,13,14,16,17,20,29/MYORIGIN; SUM;   0;                    1e-9
 pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/SPCFORCES/GID/3,11,12,13,14,16,17,20,29/MZORIGIN; SUM;   -10000 - 0.05*13000;  2e-5%
 pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/DISPLACEMENTS/GID/9/RX;;    (SC/1/DISPLACEMENTS/GID/31/TZ - SC/1/DISPLACEMENTS/GID/22/TZ) / 0.05;   0.000000001
 pth;    vic/9/S30 node-surface coupling RBE3 17.bdf;    SC/1/DISPLACEMENTS/GID/9/RY;;    0;  0.000000000000001

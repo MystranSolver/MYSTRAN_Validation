@@ -341,11 +341,16 @@ def test_individual_values(root_dir: Path,
                     case "Y": v_ref = [0.0, 1.0, 0.0]
                     case "Z": v_ref = [0.0, 0.0, 1.0]
                 v_mag = math.sqrt(x_sum**2 + y_sum**2 + z_sum**2)
-                v_hat = [x_sum / v_mag, y_sum / v_mag, z_sum / v_mag]
-                v_dot_ref = v_hat[0] * v_ref[0] \
-                          + v_hat[1] * v_ref[1] \
-                          + v_hat[2] * v_ref[2]
-                compare(math.acos(abs(v_dot_ref)))
+                try:
+                    v_hat = [x_sum / v_mag, y_sum / v_mag, z_sum / v_mag]
+                except ZeroDivisionError:
+                    fail_count += 1
+                    output_file.write(f"{INDENT * 2}FAILED. vector magnitude is zero.\n")
+                else:
+                    v_dot_ref = v_hat[0] * v_ref[0] \
+                              + v_hat[1] * v_ref[1] \
+                              + v_hat[2] * v_ref[2]
+                    compare(math.acos(abs(v_dot_ref)))
 
         case "ABSENT":
 
