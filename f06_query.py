@@ -80,7 +80,7 @@ class F06Query:
                     return ["SC", str(subcase)]
                 if "OUTPUT FOR EIGENVECTOR" in line:
                     mode = int(number(line, 25, 8))
-                    return ["SC", "2", "MODE", str(mode)]
+                    return ["MODE", str(mode)]
                 if line.strip() != "":
                     non_blanks += 1
                 if non_blanks > 8:
@@ -693,8 +693,7 @@ class F06Query:
 
 
             elif "R E A L   E I G E N V A L U E S" in line:
-                subcase = 2
-                modes_node = ensure_path(root, ["SC", str(subcase), "REALEIGENVALUES","MODE"])
+                modes_node = ensure_path(root, ["REALEIGENVALUES","MODE"])
                 line = get_next_line()
                 buckling = "buckling" in line
                 get_next_line()
@@ -801,27 +800,15 @@ class F06Query:
                 if self.get_layer_0(path[0:4]) is not None:
                     value = 0.0
 
-            # /SC/#/GPFORCES/GID/#/#####/##
-            #                        ^--- force type not present.
+            # /SC,MODE/#/GPFORCES/GID/#/#####/##
+            #                             ^--- force type not present.
             elif len(path) == 7 \
-            and path[0] == "SC" \
+            and path[0] in("SC","MODE") \
             and path[2] == "GPFORCE" \
             and path[3] == "GID" \
             and path[5] in("APPLIED", "SPC", "MPC", "INERTIA") \
             and path[6] in("TX","TY","TZ","RX","RY","RZ"):
                 if self.get_layer_0(path[0:5]) is not None:
-                    value = 0.0
-
-            # /SC/#/MODE/#/GPFORCES/GID/#/#####/##
-            #                               ^--- force type not present.
-            elif len(path) == 9 \
-            and path[0] == "SC" \
-            and path[2] == "MODE" \
-            and path[4] == "GPFORCE" \
-            and path[5] == "GID" \
-            and path[7] in("APPLIED", "SPC", "MPC", "INERTIA") \
-            and path[8] in("TX","TY","TZ","RX","RY","RZ"):
-                if self.get_layer_0(path[0:7]) is not None:
                     value = 0.0
 
         return value
