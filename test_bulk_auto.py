@@ -262,7 +262,7 @@ def test_bulk_auto(root_dir: Path,
 
    
     if worst_error > 0:
-        message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()} {worst_path}"
+        message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}\t{worst_path}"
     else:
         message = ""
 

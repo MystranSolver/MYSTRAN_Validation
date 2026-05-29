@@ -11,6 +11,7 @@ from f06csv_to_magic import f06csv_args_to_magic
 from test_bulk_auto import test_bulk_auto
 from test_individual_values import test_individual_values
 from case_definition import CaseDefinition
+from datetime import datetime
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
 # Error messages with explanations are for errors in test case definitions/usage.
@@ -18,6 +19,16 @@ from case_definition import CaseDefinition
 INDENT = "  "
 null_output = open(os.devnull, "w")
 
+messages = []
+
+def show_message(message):
+    print(message)
+    messages.append(message)
+
+
+def fatal(message):
+    print(message)
+    sys.exit(1)
 
 
 def read_definitions(definitions_path: Path) -> list[CaseDefinition]:
@@ -53,18 +64,14 @@ def read_definitions(definitions_path: Path) -> list[CaseDefinition]:
             definition_fields_str = definition_str.split(";")
             definition_fields_str = [s.strip() for s in definition_fields_str]
             if len(definition_fields_str) < 2:
-                print(f"ERROR: Not enough fields in")
-                print(f"{definition_str}")
-                sys.exit(1)
+                fatal(f"ERROR: Not enough fields in\n{definition_str}")
             definition = CaseDefinition()
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
             match definition.test_type:
                 case "mys" | "msc":
                     if len(definition_fields_str) < 5:
-                        print(f"ERROR: Not enough fields in")
-                        print(f"{definition_str}")
-                        sys.exit(1)
+                        fatal(f"ERROR: Not enough fields in\n{definition_str}")
                     definition.filter_string = definition_fields_str[2]
                     definition.threshold = float(definition_fields_str[3])
                     read_tolerance(definition_fields_str[4])
@@ -75,9 +82,7 @@ def read_definitions(definitions_path: Path) -> list[CaseDefinition]:
                         definition.knownfail = definition_fields_str[2].startswith("KNOWNFAIL")
                 case "pth":
                     if len(definition_fields_str) < 6:
-                        print(f"ERROR: Not enough fields in")
-                        print(f"{definition_str}")
-                        sys.exit(1)
+                        show_message(f"ERROR: Not enough fields in\n{definition_str}")
                     definition.filter_string = definition_fields_str[2]
                     definition.operation = definition_fields_str[3]
                     definition.reference_value = definition_fields_str[4]
@@ -95,15 +100,13 @@ def clear_fails_directory(path: Path) -> bool:
     
     # Safety check to avoid clearing the wrong directory.
     if path.stem != "fails":
-        print("ERROR 235476")
-        sys.exit(1)
+        fatal("ERROR 235476")
 
     # Create fails directory if it doesn't exist.
     path.mkdir(exist_ok=True)
 
     if not os.path.isdir(path):
-        print("ERROR 222476")
-        sys.exit(1)
+        fatal("ERROR 222476")
 
     # Delete only the expected file type (F06) to reduce blast radius of a bug.
     for item_path in path.rglob("*.F06"):
@@ -117,15 +120,13 @@ def clear_working_directory(path: Path) -> bool:
     
     # Safety check to avoid clearing the wrong directory.
     if path.stem != "working":
-        print("ERROR 911875")
-        return False
+        fatal("ERROR 911875")
 
     # Create working directory if it doesn't exist.
     path.mkdir(exist_ok=True)
 
     if not os.path.isdir(path):
-        print("ERROR 911279")
-        sys.exit(1)
+        fatal("ERROR 911279")
 
     for item in os.listdir(path):
         item_path = path / item
@@ -199,8 +200,7 @@ epsilon = {str(test_case.threshold)}
 max_difference = {str(test_case.tolerance)}
         """
     else:
-        print("ERROR 986251")
-        sys.exit(1)
+        fatal("ERROR 986251")
     
     script = script + f"""
 [[comparison]]
@@ -420,13 +420,12 @@ def run_case(mystran_path: Path,
         count_suffix = "/" + str(comparison_count)
   
     else:
-        print(f"ERROR: {test_case.test_type} is invalid.\t{test_case.deck_filename}")
+        show_message(f"ERROR: {test_case.test_type} is invalid.\t{test_case.deck_filename}")
         return False
 
     pass_fail = "PASS" if fail_count == 0 else "FAILED"
-    display_message = f"{pass_fail}\t{fail_count}{count_suffix}\t{test_case.deck_filename}\t{message}"
-    print(display_message)
-    output_file.write(f"{INDENT * 2}{display_message}\n")
+    fails_text = f"{fail_count}{count_suffix}".ljust(10)
+    show_message(f"{pass_fail}\t{fails_text}{test_case.deck_filename.ljust(50)} {message}")
         
     # Save a copy of failed F06 for inspecting after.
 
@@ -447,17 +446,17 @@ def run_case(mystran_path: Path,
 
 def main():
 
-    print("========================")
-    print("Mystran validation suite")
-    print("========================")
+    show_message("========================")
+    show_message("Mystran validation suite")
+    show_message("========================")
+
+    show_message(datetime.now().isoformat())
 
     # Get Mystran binary path from command line
     if len(sys.argv) > 1:
         mystran_path = Path(sys.argv[1]).resolve()
     else:
-        print(f"ERROR: No command line argument. Use the path to the mystran binary.")
-        sys.exit(1)
-
+        fatal(f"ERROR: No command line argument. Use the path to the mystran binary.")
 
     root_dir = Path(__file__).resolve().parent
     fails_dir = root_dir / "fails"
@@ -467,10 +466,10 @@ def main():
     # Clear any fail outputs from the previous run.
     clear_fails_directory(fails_dir)
 
-    print()
+    show_message(str(mystran_path))
+    show_message("")
 
     test_cases = read_definitions(definitions_path)
-
 
     with open(output_path, "w") as output_file:
         fails = 0
@@ -483,12 +482,10 @@ def main():
 
         exit_code = 0 if fails == 0 and count > 0 else 1
         final_summary = f"{fails}/{count} failed -> {"PASS" if exit_code == 0 else "FAIL"}."
-        print("="*len(final_summary))
-        print(final_summary)
-        print("="*len(final_summary))
-        output_file.write(f"{"="*len(final_summary)}\n")
-        output_file.write(f"{final_summary}\n")
-        output_file.write(f"{"="*len(final_summary)}\n")
+        show_message("="*len(final_summary))
+        show_message(final_summary)
+        show_message("="*len(final_summary))
+        output_file.write("\n".join(messages))
 
     # Return exit code 0 for pass and 1 for fail
     sys.exit(exit_code)

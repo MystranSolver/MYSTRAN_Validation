@@ -42,7 +42,7 @@ class F06Query:
         def get_next_line():
             nonlocal line_no
             if line_no >= len(lines):
-                print(f"ERROR: Unexpected end of file at line {line_no} of self.file_name")
+                print(f"ERROR: Unexpected end of file at line {line_no} of {self.file_name}")
                 return ""
             line = lines[line_no]
             line_no += 1
@@ -821,9 +821,7 @@ class F06Query:
         value = self.get_layer_1(path)
 
         if value is None:
-            output_file.write(f"{INDENT * 2}No value at path: {"/".join(path)}\n")
-            output_file.write(f"{INDENT * 2}Available paths existing in F06 file:\n")
-            self.write_structure_dense(output_file, self.parsed_f06, f"{INDENT * 2}")
+            output_file.write(f"{INDENT * 2}No value at: {"/".join(path)}\n")
 
         return value
 
