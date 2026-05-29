@@ -26,8 +26,8 @@ class F06Query:
                 lines = f.readlines()
 
         root = {}
-
         line_no = 0
+        previous_prefix = None
 
         def ensure_path(current_node, path):
             for node in path:
@@ -71,16 +71,19 @@ class F06Query:
             # Non-blank lines are typically TITLE, SUBT, LABEL
             # Sometimes TITLE appears 2-6 times due to a possible Mystran bug
             # Blank lines are sometimes a lot due to a possible Mystran bug
+            nonlocal previous_prefix
             non_blanks = 0
             delta = -2
             while True:
                 line = peek_line_delta(delta)
                 if "OUTPUT FOR SUBCASE" in line:
                     subcase = int(number(line, 21, 8))
-                    return ["SC", str(subcase)]
+                    previous_prefix = ["SC", str(subcase)]
+                    return previous_prefix
                 if "OUTPUT FOR EIGENVECTOR" in line:
                     mode = int(number(line, 25, 8))
-                    return ["MODE", str(mode)]
+                    previous_prefix = ["MODE", str(mode)]
+                    return previous_prefix
                 if line.strip() != "":
                     non_blanks += 1
                 if non_blanks > 8:
@@ -141,9 +144,16 @@ class F06Query:
             elif "G R I D   P O I N T   F O R C E   B A L A N C E" in line:
                 prefix = subcase_or_mode()
                 if prefix is None:
-                    # Some v15 files (SS-BAR-10-BUCKLING-CF-LOAD-LAN-3D.F06) have no subcase or
-                    # mode for GPFORCE. Assume it's subcase 1 which it is in that case.
-                    prefix = ["SC", str(1)]
+                    if previous_prefix is not None:
+                        # Some v15 files (SS-BAR-10-BUCKLING-CF-LOAD-LAN-3D.F06) have no subcase or
+                        # mode for GPFORCE. Use the subcase or mode that was last read, from the 
+                        # previous block.
+                        prefix = previous_prefix
+                    else:
+                        # Can't know what to do.
+                        print(f"ERROR reading {self.file_name}: No previous block with subcase or eigenvector before line {line_no}:")
+                        print(line)
+                        sys.exit(1)
                 get_next_line()
                 get_next_line()
                 gids_node = ensure_path(root, prefix + ["GPFORCE","GID"])

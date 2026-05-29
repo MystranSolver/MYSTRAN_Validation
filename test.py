@@ -437,6 +437,7 @@ def run_case(mystran_path: Path,
             try:
                 copyfile(test_f06_path, destination)
             except Exception:
+                # Swallow exception if file didn't exist or whatever.
                 pass
 
     return fail_count == 0
