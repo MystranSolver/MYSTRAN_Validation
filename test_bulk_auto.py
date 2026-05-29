@@ -41,6 +41,9 @@ def test_bulk_auto(root_dir: Path,
     
         output_file.write(f"{INDENT * 2}{title}\n")
     
+        # Sort for easier side-by-side comparison between runs
+        paths.sort()
+    
         # Compare them
         for path in paths:
             batch_comparison_count += 1
@@ -96,14 +99,16 @@ def test_bulk_auto(root_dir: Path,
     ref_f06 = F06Query(str(reference_f06_path))
     tst_f06 = F06Query(str(test_f06_path))
 
-    for group_type in ["SC", "MODE"]:
+#   for group_type in ["SC", "MODE"]:
+#   Don't bother comparing modes because we don't have a reliable way (like MAC) yet.
+    for group_type in ["SC"]:
         prefix = [group_type]
         ref_groups_block = ref_f06.get_layer_0(prefix)
         tst_groups_block = tst_f06.get_layer_0(prefix)
         ref_group_numbers = ref_groups_block.keys() if ref_groups_block is not None else set()
         tst_group_numbers = tst_groups_block.keys() if tst_groups_block is not None else set()
 
-        for group_number in ref_group_numbers | tst_group_numbers:
+        for group_number in sorted(ref_group_numbers | tst_group_numbers):
         
             # DISPLACEMENTS, EIGENVECTOR, SPCFORCES, APPLIEDFORCES
             #-----------------------------------------------------
@@ -255,7 +260,7 @@ def test_bulk_auto(root_dir: Path,
     tst_modes = tst_block.keys() if tst_block is not None else set()
     modes = ref_modes | tst_modes
     paths = []
-    for mode in modes:
+    for mode in sorted(modes):
         paths.append(block_path + [str(mode),"EIGENVALUE"])
     compare("/".join(block_path), paths)
 
