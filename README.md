@@ -57,21 +57,21 @@ The paths can resolve to one or multiple values. Examples:
 
 #### Supported data:
 - `DISPLACEMENTS`: TX, TY, TZ, RX, RY, RZ
-- `SPCFORCES`: TX, TY, TZ, RX, RY, RZ. For eigenvectors and not.
+- `SPCFORCES`: TX, TY, TZ, RX, RY, RZ
 - `MPCFORCES`: TX, TY, TZ, RX, RY, RZ
 - `APPLIEDFORCES`: TX, TY, TZ, RX, RY, RZ
-- `GPFORCE`: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*). For eigenvectors and not.
+- `GPFORCE`: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*)
 - `ELAS1FORCES`
 - `ELAS1STRESSES`
 - `RODFORCES`: AXIAL, TORQUE
-- `RODSTRESSES`: AXIAL, AXIALSAFETY, TORSIONAL, TORSIONALSAFETY. For eigenvectors and not.
-- `BARFORCES:` MA1, MA2, MB1, MB2, S1, S2, AXIAL, TORQUE. For eigenvectors and not.
-- `BARSTRESSES:` SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL. For eigenvectors and not.
-- `BUSHFORCES`: FXE, FYE, FZE, MXE, MYE, MZE. For eigenvectors and not.
-- `BUSHSTRESSES`: 1, 2, 3, 4, 5, 6. For eigenvectors and not.
-- `BUSHSTRAINS`: 1, 2, 3, 4, 5, 6
-- `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER. For eigenvectors and not.
-- `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER. For eigenvectors and not.
+- `RODSTRESSES`: AXIAL, AXIALSAFETY, TORSIONAL, TORSIONALSAFETY
+- `BARFORCES:` MA1, MA2, MB1, MB2, S1, S2, AXIAL, TORQUE
+- `BARSTRESSES:` SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL
+- `BUSHFORCES`: TX, TY, TZ, RX, RY, RZ
+- `BUSHSTRESSES`: TX, TY, TZ, RX, RY, RZ
+- `BUSHSTRAINS`: TX, TY, TZ, RX, RY, RZ
+- `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER
+- `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
 - `SHELLSTRAINS`: XX, YY, XY, PRINCIPALANGLE for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
 - `COMPOSITESTRESSES`: 11, 22, 12, 13, 23 for each PLY
 - `SOLIDSTRESSES`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
@@ -174,10 +174,13 @@ regressions -- when compared to an older Mystran solution.
 
 Example line in cases.txt:
 ```
-mys;    my_test.bdf;     -b=1   ;    0.0;    0.0
+mys;    my test.dat;   blah
+---     -----------    ----
+Field 1   Field 2      Field 3
+       deck filename   comment
 ```
-This solves my_test.bdf then compares displacements at all grid points to
-the reference f06 file `reference_mystran/my_test.f06`.
+This solves my_test.bdf then compares the solution to the reference f06 file
+`reference_mystran/my_test.f06`.
 
 #### Field 1. Test type
 - `mys` means use reference f06 file in `reference_mystran` directory.
@@ -186,22 +189,27 @@ the reference f06 file `reference_mystran/my_test.f06`.
 #### Field 2. Deck filename
 If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
 
-#### Field 3. Filter string
-Values to compare can be filtered using arguments like `-b=2 -s=1 -g=1,3,7`
-
-F06csv flags like -H are not allowed.
-
-Uses F06magic to emulate F06csv.
-
-#### Fields 4 and 5
-The criteria and tolerances are not defined yet so don't use them.
-
-#### Field 6. Comment and Known failures
+#### Field 3. Comment and Known failures
 If the comment at the end of the line begins with `KNOWNFAIL` then the test case's
 result is inverted. ie. KNOWNFAILs must fail. This is useful for unfixed bugs so
 they don't pollute the results with fail notices.
 
-
+#### Compared data:
+All subcases but not eigenvectors.
+- `DISPLACEMENTS`: TX, TY, TZ, RX, RY, RZ
+- `SPCFORCES`: TX, TY, TZ, RX, RY, RZ
+- `APPLIEDFORCES`: TX, TY, TZ, RX, RY, RZ
+- `GPFORCE`: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*)
+- `ELAS1FORCES`
+- `ELAS1STRESSES`
+- `RODFORCES`: AXIAL, TORQUE
+- `RODSTRESSES`: AXIAL, TORSIONAL
+- `BARFORCES:` MA1, MA2, MB1, MB2, S1, S2, AXIAL, TORQUE
+- `BARSTRESSES:` SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL
+- `BUSHFORCES`: TX, TY, TZ, RX, RY, RZ
+- `BUSHSTRESSES`: TX, TY, TZ, RX, RY, RZ
+- `BUSHSTRAINS`: TX, TY, TZ, RX, RY, RZ
+- `REALEIGENVALUES`: EIGENVALUE
 
 
 

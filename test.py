@@ -7,8 +7,7 @@ from shutil import copyfile
 from io import TextIOWrapper
 from textwrap import dedent
 from pathlib import Path
-from f06csv_to_magic import f06csv_args_to_magic
-from test_bulk_auto import test_bulk_auto
+from test_bulk import test_bulk
 from test_individual_values import test_individual_values
 from case_definition import CaseDefinition
 from datetime import datetime
@@ -69,15 +68,7 @@ def read_definitions(definitions_path: Path) -> list[CaseDefinition]:
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
             match definition.test_type:
-                case "mys" | "msc":
-                    if len(definition_fields_str) < 5:
-                        fatal(f"ERROR: Not enough fields in\n{definition_str}")
-                    definition.filter_string = definition_fields_str[2]
-                    definition.threshold = float(definition_fields_str[3])
-                    read_tolerance(definition_fields_str[4])
-                    if len(definition_fields_str) > 5:
-                        definition.knownfail = definition_fields_str[5].startswith("KNOWNFAIL")
-                case "my2" | "ms2" | "my3" | "ms3":
+                case "mys" | "msc" | "my3" | "ms3":
                     if len(definition_fields_str) > 2:
                         definition.knownfail = definition_fields_str[2].startswith("KNOWNFAIL")
                 case "pth":
@@ -167,77 +158,6 @@ def run_program(program_path: Path,
         
 
 def test_bulk_magic(root_dir: Path,
-                    working_dir: Path,
-                    test_f06_path: Path,
-                    output_file: TextIOWrapper,
-                    test_case: CaseDefinition) -> int:
-
-    if test_case.test_type == "mys":
-        reference_f06_path = (root_dir / "reference_mystran" / test_case.deck_filename).with_suffix(".F06").resolve()
-    elif test_case.test_type == "msc":
-        reference_f06_path = (root_dir / "reference_msc" / test_case.deck_filename).with_suffix(".f06").resolve()
-
-    # Convert f06csv args to f06magic
-    extraction_name = test_case.filter_string
-    extraction_lines = f06csv_args_to_magic(test_case.filter_string, name=extraction_name)
-    
-    # Make script for f06magic
-    script = f"""
-[files]
-test_file = \"{test_f06_path}\"
-reference_file = \"{reference_f06_path}\"
-{extraction_lines}
-[[criteria]]
-name = \"only criteria\"
-    """
-    if test_case.comparison_type == "percent":
-        script = script + f"""
-percent_tolerance = {str(test_case.tolerance)}
-epsilon = {str(test_case.threshold)}
-        """
-    elif test_case.comparison_type == "difference":
-        script = script + f"""
-max_difference = {str(test_case.tolerance)}
-        """
-    else:
-        fatal("ERROR 986251")
-    
-    script = script + f"""
-[[comparison]]
-name = \"{test_case.deck_filename}\"
-reference_f06 = \"reference_file\"
-test_f06 = \"test_file\"
-extraction = \"{extraction_name}\"
-criteria = \"only criteria\"
-    """
-
-    # Escape \ to \\ for TOML
-    script = script.replace("\\", "\\\\")
-    f06magic_script_path = working_dir / "f06magic_script.toml"
-    with open(f06magic_script_path, "w") as script_file:
-        script_file.write(script)
-
-    args = ["--verbose", f06magic_script_path]
-
-    # Run f06magic
-    fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
-
-
-    message = ""
-
-    # Known fails must fail.
-    if test_case.knownfail:
-        if fail_count > 0:
-            fail_count = 0
-            message += f"\tKNOWNFAIL failed as expected"
-        else:
-            fail_count += 1
-            message += f"\tKNOWNFAIL passed"
-
-    return fail_count, message
-
-
-def test_bulk_auto_magic(root_dir: Path,
                          working_dir: Path,
                          test_f06_path: Path,
                          output_file: TextIOWrapper,
@@ -318,6 +238,13 @@ def test_bulk_auto_magic(root_dir: Path,
                                                 "end_b_recovery_point_4",
                                                 "axial"])}
 
+        {block("bush_forces T", "bush_forces", ["tx", "ty", "tz"])}
+        {block("bush_forces R", "bush_forces", ["rx", "ry", "rz"])}
+
+        {block("bush_stresses", "bush_stresses", ["tx", "ty", "tz", "rx", "ry", "rz"])}
+
+        {block("bush_strains", "bush_strains", ["tx", "ty", "tz", "rx", "ry", "rz"])}
+
     """)
 
     # Escape \ to \\ for TOML
@@ -385,27 +312,16 @@ def run_case(mystran_path: Path,
 
     if test_case.test_type == "mys" or test_case.test_type == "msc":
 
-        output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
-
-        fail_count, message = test_bulk_magic(root_dir, working_dir, test_f06_path, output_file, test_case)
-        if fail_count == 254:
-            # 254 is the maximum that f06magic can report through the exit code.
-            count_suffix = "+"
-        else:
-            count_suffix = ""
-
-    elif test_case.test_type == "my2" or test_case.test_type == "ms2":
-
         output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}\n")
 
-        fail_count, comparison_count, message = test_bulk_auto(root_dir, test_f06_path, deck_path, output_file, test_case)
+        fail_count, comparison_count, message = test_bulk(root_dir, test_f06_path, deck_path, output_file, test_case)
         count_suffix = "/" + str(comparison_count)
 
     elif test_case.test_type == "my3" or test_case.test_type == "ms3":
 
         output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
 
-        fail_count, message = test_bulk_auto_magic(root_dir, working_dir, test_f06_path, output_file, test_case)
+        fail_count, message = test_bulk_magic(root_dir, working_dir, test_f06_path, output_file, test_case)
         if fail_count == 254:
             # 254 is the maximum that f06magic can report through the exit code.
             count_suffix = "+"

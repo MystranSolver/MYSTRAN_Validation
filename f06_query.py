@@ -347,12 +347,12 @@ class F06Query:
                             break
                         eid = int(number(line, 20, 8))
                         eid_node = ensure_path(eids_node, [str(eid)])
-                        set(eid_node, "1", number(line, 29, 13))
-                        set(eid_node, "2", number(line, 43, 13))
-                        set(eid_node, "3", number(line, 57, 13))
-                        set(eid_node, "4", number(line, 71, 13))
-                        set(eid_node, "5", number(line, 85, 13))
-                        set(eid_node, "6", number(line, 99, 13))
+                        set(eid_node, "TX", number(line, 29, 13))
+                        set(eid_node, "TY", number(line, 43, 13))
+                        set(eid_node, "TZ", number(line, 57, 13))
+                        set(eid_node, "RX", number(line, 71, 13))
+                        set(eid_node, "RY", number(line, 85, 13))
+                        set(eid_node, "RZ", number(line, 99, 13))
 
                 elif "F O R   E L E M E N T   T Y P E   B A R" in line:
                     eids_node = ensure_path(root, prefix + ["BARSTRESSES","EID"])
@@ -571,12 +571,12 @@ class F06Query:
                                 break
                             eid = int(number(line, 20, 8))
                             eid_node = ensure_path(eids_node, [str(eid)])
-                            set(eid_node, "1", number(line, 29, 13))
-                            set(eid_node, "2", number(line, 43, 13))
-                            set(eid_node, "3", number(line, 57, 13))
-                            set(eid_node, "4", number(line, 71, 13))
-                            set(eid_node, "5", number(line, 85, 13))
-                            set(eid_node, "6", number(line, 99, 13))
+                            set(eid_node, "TX", number(line, 29, 13))
+                            set(eid_node, "TY", number(line, 43, 13))
+                            set(eid_node, "TZ", number(line, 57, 13))
+                            set(eid_node, "RX", number(line, 71, 13))
+                            set(eid_node, "RY", number(line, 85, 13))
+                            set(eid_node, "RZ", number(line, 99, 13))
 
             elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
                 prefix = subcase_or_mode()
@@ -633,12 +633,12 @@ class F06Query:
                         else:
                             eid = int(number(line, 17, 8))
                             eid_node = ensure_path(eids_node, [str(eid)])
-                        set(eid_node, "FXE", number(line, 26, 13))
-                        set(eid_node, "FYE", number(line, 40, 13))
-                        set(eid_node, "FZE", number(line, 54, 13))
-                        set(eid_node, "MXE", number(line, 68, 13))
-                        set(eid_node, "MYE", number(line, 82, 13))
-                        set(eid_node, "MZE", number(line, 96, 13))
+                        set(eid_node, "TX", number(line, 26, 13))
+                        set(eid_node, "TY", number(line, 40, 13))
+                        set(eid_node, "TZ", number(line, 54, 13))
+                        set(eid_node, "RX", number(line, 68, 13))
+                        set(eid_node, "RY", number(line, 82, 13))
+                        set(eid_node, "RZ", number(line, 96, 13))
 
                 if "F O R   E L E M E N T   T Y P E   B A R" in line:
                     eids_node = ensure_path(root, prefix + ["BARFORCES","EID"])

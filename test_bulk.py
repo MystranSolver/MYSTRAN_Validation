@@ -7,11 +7,11 @@ import math
 
 INDENT = "  "
 
-def test_bulk_auto(root_dir: Path,
-                   test_f06_path: Path,
-                   deck_path: Path,
-                   output_file: io.TextIOWrapper,
-                   test_case: CaseDefinition) -> int:
+def test_bulk(root_dir: Path,
+              test_f06_path: Path,
+              deck_path: Path,
+              output_file: io.TextIOWrapper,
+              test_case: CaseDefinition) -> int:
 
     tolerance = 2e-5 # in percent
     fail_count = 0
@@ -90,14 +90,27 @@ def test_bulk_auto(root_dir: Path,
         fail_count += batch_fail_count
         
 
-    if test_case.test_type == "my2":
+    if test_case.test_type == "mys":
         reference_f06_path = (root_dir / "reference_mystran" / test_case.deck_filename).with_suffix(".F06").resolve()
-    elif test_case.test_type == "ms2":
+    elif test_case.test_type == "msc":
         reference_f06_path = (root_dir / "reference_msc" / test_case.deck_filename).with_suffix(".f06").resolve()
 
     # Read f06 files
     ref_f06 = F06Query(str(reference_f06_path))
     tst_f06 = F06Query(str(test_f06_path))
+
+    # Eigenvalues
+    #------------
+    block_path = ["REALEIGENVALUES","MODE"]
+    ref_block = ref_f06.get_layer_0(block_path)
+    tst_block = tst_f06.get_layer_0(block_path)
+    ref_modes = ref_block.keys() if ref_block is not None else set()
+    tst_modes = tst_block.keys() if tst_block is not None else set()
+    modes = ref_modes | tst_modes
+    paths = []
+    for mode in sorted(modes):
+        paths.append(block_path + [str(mode),"EIGENVALUE"])
+    compare("/".join(block_path), paths)
 
 #   for group_type in ["SC", "MODE"]:
 #   Don't bother comparing modes because we don't have a reliable way (like MAC) yet.
@@ -218,7 +231,7 @@ def test_bulk_auto(root_dir: Path,
             compare("/".join(block_path) + "/*/AXIAL,TORSIONAL", paths)
 
             # BARFORCES
-            # -----------
+            # ---------
             block_path = prefix + [group_number, "BARFORCES", "EID"]
             ref_block = ref_f06.get_layer_0(block_path)
             tst_block = tst_f06.get_layer_0(block_path)
@@ -248,21 +261,49 @@ def test_bulk_auto(root_dir: Path,
                     paths.append(block_path + [str(eid), component])
             compare("/".join(block_path) + "/*/SA1,SA2,SA3,SA4,SB1,SB2,SB3,SB4,AXIAL", paths)
 
+            # BUSHFORCES
+            # ----------
+            block_path = prefix + [group_number, "BUSHFORCES", "EID"]
+            ref_block = ref_f06.get_layer_0(block_path)
+            tst_block = tst_f06.get_layer_0(block_path)
+            ref_eids = ref_block.keys() if ref_block is not None else set()
+            tst_eids = tst_block.keys() if tst_block is not None else set()
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for component in ["TX", "TY", "TZ"]:
+                    paths.append(block_path + [str(eid),component])
+            compare("/".join(block_path) + "/*/TX,TY,TZ", paths)
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for component in ["RX","RY","RZ"]:
+                    paths.append(block_path + [str(eid),component])
+            compare("/".join(block_path) + "/*/RX,RY,RZ", paths)
 
-    
+            # BUSHSTRESSES
+            # ------------
+            block_path = prefix + [group_number, "BUSHSTRESSES", "EID"]
+            ref_block = ref_f06.get_layer_0(block_path)
+            tst_block = tst_f06.get_layer_0(block_path)
+            ref_eids = ref_block.keys() if ref_block is not None else set()
+            tst_eids = tst_block.keys() if tst_block is not None else set()
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for component in ["TX", "TY", "TZ", "RX", "RY", "RZ"]:
+                    paths.append(block_path + [str(eid), component])
+            compare("/".join(block_path) + "/*/*", paths)
 
-    # Eigenvalues
-    #------------
-    block_path = ["REALEIGENVALUES","MODE"]
-    ref_block = ref_f06.get_layer_0(block_path)
-    tst_block = tst_f06.get_layer_0(block_path)
-    ref_modes = ref_block.keys() if ref_block is not None else set()
-    tst_modes = tst_block.keys() if tst_block is not None else set()
-    modes = ref_modes | tst_modes
-    paths = []
-    for mode in sorted(modes):
-        paths.append(block_path + [str(mode),"EIGENVALUE"])
-    compare("/".join(block_path), paths)
+            # BUSHSTRAINS
+            # -----------
+            block_path = prefix + [group_number, "BUSHSTRAINS", "EID"]
+            ref_block = ref_f06.get_layer_0(block_path)
+            tst_block = tst_f06.get_layer_0(block_path)
+            ref_eids = ref_block.keys() if ref_block is not None else set()
+            tst_eids = tst_block.keys() if tst_block is not None else set()
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for component in ["TX", "TY", "TZ", "RX", "RY", "RZ"]:
+                    paths.append(block_path + [str(eid), component])
+            compare("/".join(block_path) + "/*/*", paths)    
 
 
    
