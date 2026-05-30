@@ -96,7 +96,11 @@ def test_bulk(root_dir: Path,
         reference_f06_path = (root_dir / "reference_msc" / test_case.deck_filename).with_suffix(".f06").resolve()
 
     # Read f06 files
-    ref_f06 = F06Query(str(reference_f06_path))
+    try:
+        ref_f06 = F06Query(str(reference_f06_path))
+    except FileNotFoundError as e:
+        output_file.write(f"{INDENT * 2}{e}\n")
+        return 1, 1, "ERROR: Reference solution not found"
     tst_f06 = F06Query(str(test_f06_path))
 
     # Eigenvalues
