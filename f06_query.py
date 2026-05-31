@@ -28,6 +28,7 @@ class F06Query:
         root = {}
         line_no = 0
         previous_prefix = None
+        major_version = None
 
         def ensure_path(current_node, path):
             for node in path:
@@ -93,8 +94,10 @@ class F06Query:
         while line_no < len(lines):
             line = get_next_line()
 
+            if  "MYSTRAN Version" in line:
+                major_version = int(line[17:25].split(".")[0])
             
-            if "D I S P L A C E M E N T S" in line \
+            elif "D I S P L A C E M E N T S" in line \
             or "E I G E N V E C T O R" in line \
             or "S P C   F O R C E S" in line \
             or "M P C   F O R C E S" in line \
@@ -631,9 +634,8 @@ class F06Query:
                         line = get_next_line()
                         if line.strip().startswith("---") or len(line.strip()) == 0:
                             break
-                        else:
-                            eid = int(number(line, 17, 8))
-                            eid_node = ensure_path(eids_node, [str(eid)])
+                        eid = int(number(line, 17, 8))
+                        eid_node = ensure_path(eids_node, [str(eid)])
                         set(eid_node, "TX", number(line, 26, 13))
                         set(eid_node, "TY", number(line, 40, 13))
                         set(eid_node, "TZ", number(line, 54, 13))
@@ -652,17 +654,29 @@ class F06Query:
                             continue
                         if line.strip().startswith("---") or len(line.strip()) == 0:
                             break
+                        if major_version <= 12:
+                            # Different indenting
+                            eid = int(number(line, 2,8))
+                            eid_node = ensure_path(eids_node, [str(eid)])
+                            set(eid_node, "MA1", number(line, 11, 13))
+                            set(eid_node, "MA2", number(line, 25, 13))
+                            set(eid_node, "MB1", number(line, 39, 13))
+                            set(eid_node, "MB2", number(line, 53, 13))
+                            set(eid_node, "S1", number(line, 67, 13))
+                            set(eid_node, "S2", number(line, 81, 13))
+                            set(eid_node, "AXIAL", number(line, 95, 13))
+                            set(eid_node, "TORQUE", number(line, 109, 13))
                         else:
                             eid = int(number(line, 17, 8))
                             eid_node = ensure_path(eids_node, [str(eid)])
-                        set(eid_node, "MA1", number(line, 26, 13))
-                        set(eid_node, "MA2", number(line, 40, 13))
-                        set(eid_node, "MB1", number(line, 54, 13))
-                        set(eid_node, "MB2", number(line, 68, 13))
-                        set(eid_node, "S1", number(line, 82, 13))
-                        set(eid_node, "S2", number(line, 96, 13))
-                        set(eid_node, "AXIAL", number(line, 110, 13))
-                        set(eid_node, "TORQUE", number(line, 124, 13))
+                            set(eid_node, "MA1", number(line, 26, 13))
+                            set(eid_node, "MA2", number(line, 40, 13))
+                            set(eid_node, "MB1", number(line, 54, 13))
+                            set(eid_node, "MB2", number(line, 68, 13))
+                            set(eid_node, "S1", number(line, 82, 13))
+                            set(eid_node, "S2", number(line, 96, 13))
+                            set(eid_node, "AXIAL", number(line, 110, 13))
+                            set(eid_node, "TORQUE", number(line, 124, 13))
 
                 if "F O R   E L E M E N T   T Y P E   R O D" in line:
                     eids_node = ensure_path(root, prefix + ["RODFORCES","EID"])
