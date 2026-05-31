@@ -7,10 +7,14 @@ Automated test suite for validation of Mystran.
 ```
 py test.py path/to/mystran.exe
 ```
-
 Any new builds of Mystran should have zero fails reported at the end which
-means it didn't find any regressions. Sometimes a change will cause tests to
-fail when nothing's wrong and in that case, you should update those test cases
+means it didn't find any regressions.
+```
+======================
+0/#### failed -> PASS.
+======================
+```
+If a change causes tests to fail when nothing's wrong, update those test cases
 so they pass.
 
 Test cases marked `KNOWNFAIL` must fail but are counted as passed
