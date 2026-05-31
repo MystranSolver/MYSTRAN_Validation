@@ -8,6 +8,15 @@ Automated test suite for validation of Mystran.
 py test.py path/to/mystran.exe
 ```
 
+Any new builds of Mystran should have zero fails reported at the end which
+means it didn't find any regressions. Sometimes a change will cause tests to
+fail when nothing's wrong and in that case, you should update those test cases
+so they pass.
+
+Test cases marked `KNOWNFAIL` must fail but are counted as passed
+when they do. These represent bugs in either Mystran, the test case, or the
+validation suite and we should aim to eventually fix them all so they pass.
+
 ## Build
 Build f06magic somehow or use the included .exe file on Windows. If
 you're not using Windows, give the binary the .exe extension.

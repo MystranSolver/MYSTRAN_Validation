@@ -141,7 +141,8 @@ class F06Query:
                         # Not data and not blank. Might be ---
                         break
 
-            elif "G R I D   P O I N T   F O R C E   B A L A N C E" in line:
+            elif "G R I D   P O I N T   F O R C E   B A L A N C E" in line \
+            and not "C B   G R I D   P O I N T   F O R C E   B A L A N C E   O T M" in line:
                 prefix = subcase_or_mode()
                 if prefix is None:
                     if previous_prefix is not None:
