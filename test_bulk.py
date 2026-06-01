@@ -105,7 +105,7 @@ def test_bulk(root_dir: Path,
 
     # Eigenvalues
     #------------
-    block_path = ["REALEIGENVALUES","MODE"]
+    block_path = ["SC","2","REALEIGENVALUES","MODE"]
     ref_block = ref_f06.get_layer_0(block_path)
     tst_block = tst_f06.get_layer_0(block_path)
     ref_modes = ref_block.keys() if ref_block is not None else set()
@@ -119,7 +119,11 @@ def test_bulk(root_dir: Path,
 #   for group_type in ["SC", "MODE"]:
 #   Don't bother comparing modes because we don't have a reliable way (like MAC) yet.
     for group_type in ["SC"]:
-        prefix = [group_type]
+        match group_type:
+            case "SC":
+                prefix = ["SC"]
+            case "MODE":
+                prefix = ["SC", "2", "MODE"]
         ref_groups_block = ref_f06.get_layer_0(prefix)
         tst_groups_block = tst_f06.get_layer_0(prefix)
         ref_group_numbers = ref_groups_block.keys() if ref_groups_block is not None else set()

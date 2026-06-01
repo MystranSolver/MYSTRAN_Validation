@@ -306,9 +306,9 @@ def test_individual_values(root_dir: Path,
 
             # Uses incomplete paths without the trailing DOF name.
             # 1 grid point:
-            #   MODE/1/EIGENVECTOR/GID/10
+            #   SC/2/MODE/1/EIGENVECTOR/GID/10
             # or multiple grid points to sum:
-            #   MODE/1/EIGENVECTOR/GID/10,13
+            #   SC/2/MODE/1/EIGENVECTOR/GID/10,13
             # Also works for displacement and other types of vector with DOF immediately after GID.
             comparison_count += 1
             x_sum = 0
