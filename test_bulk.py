@@ -19,7 +19,7 @@ def test_bulk(root_dir: Path,
     worst_error = 0
     worst_path = ""
 
-    def compare(title, paths):
+    def compare(title, paths, principal_angle = False):
         nonlocal fail_count
         nonlocal worst_error
         nonlocal worst_path
@@ -30,11 +30,14 @@ def test_bulk(root_dir: Path,
             return
         
         # Find the maximum of all values we'll be testing in the block
-        maximum = 0
-        for path in paths:
-            value = ref_f06.get_layer_0(path)
-            if value is not None:
-                maximum = max(maximum, abs(value))
+        if principal_angle:
+            maximum = 90
+        else:
+            maximum = 0
+            for path in paths:
+                value = ref_f06.get_layer_0(path)
+                if value is not None:
+                    maximum = max(maximum, abs(value))
 
         batch_comparison_count = 0
         batch_fail_count = 0
@@ -51,10 +54,17 @@ def test_bulk(root_dir: Path,
             ref_value = ref_f06.get_layer_0(path)
             tst_value = tst_f06.get_layer_0(path)
 
+            # This handles the case of rows of all-zeros being omitted from the .f06 file.
             if tst_value is None:
                 tst_value = 0
             if ref_value is None:
                 ref_value = 0
+
+            if principal_angle:
+                # Principal angles are in the closed interval [-90,90]
+                # -90 and +90 have the same meaning and their sign is random.
+                tst_value = 90 if tst_value == -90 else tst_value
+                ref_value = 90 if ref_value == -90 else ref_value
 
             if math.isnan(ref_value):
                 # Testing for NaN doesn't use the tolerance or comparison type.
@@ -355,9 +365,7 @@ def test_bulk(root_dir: Path,
                 for corner in ["0", "1", "2", "3", "4"]:
                     for z in ["Z1", "Z2"]:
                         paths.append(block_path + [str(eid), "CORNER", corner, z, "PRINCIPALANGLE"])
-            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/PRINCIPALANGLE", paths)
-            # todo special logic for principal angle to allow +/- 180 degree rotation, especially when it's +/-90
-            # and special tolerance that's related to 90 deg, not the maxabs in the file.
+            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/PRINCIPALANGLE", paths, principal_angle = True)
 
             # SHELLSTRAINS
             # ------------
@@ -380,9 +388,7 @@ def test_bulk(root_dir: Path,
                 for corner in ["0", "1", "2", "3", "4"]:
                     for z in ["Z1", "Z2"]:
                         paths.append(block_path + [str(eid), "CORNER", corner, z, "PRINCIPALANGLE"])
-            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/PRINCIPALANGLE", paths)
-            # todo special logic for principal angle to allow +/- 180 degree rotation, especially when it's +/-90
-            # and special tolerance that's related to 90 deg, not the maxabs in the file.
+            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/PRINCIPALANGLE", paths, principal_angle = True)
 
    
    
