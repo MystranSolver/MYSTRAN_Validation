@@ -84,7 +84,7 @@ def test_bulk(root_dir: Path,
                 output_file.write(f"{INDENT * 3}FAILED\tError = {error:.2g}% ({tolerance}%)\t{path_str}\tValue = {tst_str} ({ref_str})\n")
 
         pass_fail = "PASS" if batch_fail_count == 0 else "FAILED"
-        output_file.write(f"{INDENT * 3}{pass_fail}\t{batch_fail_count}/{batch_comparison_count}\tMaximum value = {maximum}\n")
+        output_file.write(f"{INDENT * 3}{pass_fail}\t{batch_fail_count}/{batch_comparison_count}\tMaxabs = {maximum}\n")
 
         comparison_count += batch_comparison_count
         fail_count += batch_fail_count
@@ -314,6 +314,77 @@ def test_bulk(root_dir: Path,
             compare("/".join(block_path) + "/*/*", paths)    
 
 
+            # SHELLFORCES
+            # -----------
+            block_path = prefix + [group_number, "SHELLFORCES", "EID"]
+            ref_block = ref_f06.get_layer_0(block_path)
+            tst_block = tst_f06.get_layer_0(block_path)
+            ref_eids = ref_block.keys() if ref_block is not None else set()
+            tst_eids = tst_block.keys() if tst_block is not None else set()
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for corner in ["0", "1", "2", "3", "4"]:
+                    for component in ["NXX", "NYY", "NXY", "QX", "QY"]:
+                        paths.append(block_path + [str(eid), "CORNER", corner, component])
+            compare("/".join(block_path) + "/*/CORNER/*/NXX,NYY,NXY,QX,QY", paths)
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for corner in ["0", "1", "2", "3", "4"]:
+                    for component in ["MXX","MYY","MXY"]:
+                        paths.append(block_path + [str(eid), "CORNER", corner, component])
+            compare("/".join(block_path) + "/*/CORNER/*/MXX,MYY,MXY", paths)
+
+            # SHELLSTRESSES
+            # -------------
+            block_path = prefix + [group_number, "SHELLSTRESSES", "EID"]
+            ref_block = ref_f06.get_layer_0(block_path)
+            tst_block = tst_f06.get_layer_0(block_path)
+            ref_eids = ref_block.keys() if ref_block is not None else set()
+            tst_eids = tst_block.keys() if tst_block is not None else set()
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for corner in ["0", "1", "2", "3", "4"]:
+                    for z in ["Z1", "Z2"]:
+                        for component in ["XX", "YY", "XY", "VONMISES"]:
+                            paths.append(block_path + [str(eid), "CORNER", corner, z, component])
+                    for component in ["ZX", "YZ"]:
+                        paths.append(block_path + [str(eid), "CORNER", corner, component])
+            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/XX,YY,XY,VONMISES and /CORNER/*/ZX,YZ", paths)
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for corner in ["0", "1", "2", "3", "4"]:
+                    for z in ["Z1", "Z2"]:
+                        paths.append(block_path + [str(eid), "CORNER", corner, z, "PRINCIPALANGLE"])
+            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/PRINCIPALANGLE", paths)
+            # todo special logic for principal angle to allow +/- 180 degree rotation, especially when it's +/-90
+            # and special tolerance that's related to 90 deg, not the maxabs in the file.
+
+            # SHELLSTRAINS
+            # ------------
+            block_path = prefix + [group_number, "SHELLSTRAINS", "EID"]
+            ref_block = ref_f06.get_layer_0(block_path)
+            tst_block = tst_f06.get_layer_0(block_path)
+            ref_eids = ref_block.keys() if ref_block is not None else set()
+            tst_eids = tst_block.keys() if tst_block is not None else set()
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for corner in ["0", "1", "2", "3", "4"]:
+                    for z in ["Z1", "Z2"]:
+                        for component in ["XX", "YY", "XY"]:
+                            paths.append(block_path + [str(eid), "CORNER", corner, z, component])
+                    for component in ["ZX", "YZ"]:
+                        paths.append(block_path + [str(eid), "CORNER", corner, component])
+            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/XX,YY,XY and /CORNER/*/ZX,YZ", paths)
+            paths = []
+            for eid in ref_eids | tst_eids:
+                for corner in ["0", "1", "2", "3", "4"]:
+                    for z in ["Z1", "Z2"]:
+                        paths.append(block_path + [str(eid), "CORNER", corner, z, "PRINCIPALANGLE"])
+            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/PRINCIPALANGLE", paths)
+            # todo special logic for principal angle to allow +/- 180 degree rotation, especially when it's +/-90
+            # and special tolerance that's related to 90 deg, not the maxabs in the file.
+
+   
    
     if worst_error > 0:
         message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}\t{worst_path}"
