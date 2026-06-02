@@ -17,13 +17,15 @@ def test_bulk(root_dir: Path,
     fail_count = 0
     comparison_count = 0
     worst_error = 0
-    worst_path = ""
+    worst_path = []
 
     def compare(title, paths, principal_angle = False):
         nonlocal fail_count
         nonlocal worst_error
         nonlocal worst_path
         nonlocal comparison_count
+    
+        one_line_output = True
     
         if len(paths) == 0:
             # For attempting to test blocks that don't exist in either test or reference solution.
@@ -41,8 +43,14 @@ def test_bulk(root_dir: Path,
 
         batch_comparison_count = 0
         batch_fail_count = 0
+
+        batch_worst_error = 0
+        batch_worst_path = None
+        batch_worst_tst_value = None
+        batch_worst_ref_value = None
     
-        output_file.write(f"{INDENT * 2}{title}\n")
+        if not one_line_output:
+            output_file.write(f"{INDENT * 2}{title}\n")
     
         # Sort for easier side-by-side comparison between runs
         paths.sort()
@@ -79,23 +87,41 @@ def test_bulk(root_dir: Path,
             else:
                 error = 100 * abs(tst_value-ref_value) / maximum
             
+            if error >= batch_worst_error:
+                batch_worst_error = error
+                batch_worst_path = path
+                batch_worst_tst_value = tst_value
+                batch_worst_ref_value = ref_value
 
             if error <= tolerance:
-                pass_fail = "PASS"
+                pass
             else:
                 # Fail is the else clause so that NaN fails.
-                path_str = "/".join(path)
-                if error >= worst_error:
-                    worst_error = error
-                    worst_path = path_str
                 batch_fail_count += 1
-                tst_str = "None" if tst_value is None else f"{tst_value}"
-                ref_str = "None" if ref_value is None else f"{ref_value:.9g}"
-                output_file.write(f"{INDENT * 3}FAILED\tError = {error:.2g}% ({tolerance}%)\t{path_str}\tValue = {tst_str} ({ref_str})\n")
 
-        pass_fail = "PASS" if batch_fail_count == 0 else "FAILED"
-        output_file.write(f"{INDENT * 3}{pass_fail}\t{batch_fail_count}/{batch_comparison_count}\tMaxabs = {maximum}\n")
+                if not one_line_output:
+                    path_str = "/".join(path)
+                    tst_str = f"{tst_value}"
+                    ref_str = f"{ref_value:.9g}"
+                    output_file.write(f"{INDENT * 3}FAILED\tError = {error:.2g}% ({tolerance}%)\t{path_str}\tValue = {tst_str} ({ref_str})\n")
 
+        if one_line_output:
+            pass_fail = "PASS  " if batch_fail_count == 0 else "FAILED"
+            fails_text = f"{batch_fail_count}/{batch_comparison_count}".ljust(11)
+            maxabs_text = f"{maximum:.9g}".ljust(12)
+            worst_error_text = f"Worst error = {batch_worst_error:.2g}%".ljust(22)
+            path_str = "/".join(batch_worst_path)
+            tst_str = f"Test = {batch_worst_tst_value}".ljust(7+13)
+            ref_str = f"Ref = {batch_worst_ref_value:.9g}".ljust(6+13)
+            output_file.write(f"{INDENT * 2}{pass_fail} {fails_text} {title} Maxabs = {maxabs_text} {worst_error_text} {tst_str} {ref_str} {path_str}\n")
+        else:
+            pass_fail = "PASS  " if batch_fail_count == 0 else "FAILED"
+            output_file.write(f"{INDENT * 3}{pass_fail} {batch_fail_count}/{batch_comparison_count}\tMaxabs = {maximum}\n")
+
+        # Accumulate summary results for the whole test case.
+        if batch_worst_error >= worst_error:
+            worst_error = batch_worst_error
+            worst_path = batch_worst_path
         comparison_count += batch_comparison_count
         fail_count += batch_fail_count
         
@@ -121,10 +147,12 @@ def test_bulk(root_dir: Path,
     ref_modes = ref_block.keys() if ref_block is not None else set()
     tst_modes = tst_block.keys() if tst_block is not None else set()
     modes = ref_modes | tst_modes
-    paths = []
+    paths_eigenvalues = []
     for mode in sorted(modes):
-        paths.append(block_path + [str(mode),"EIGENVALUE"])
-    compare("/".join(block_path), paths)
+        paths_eigenvalues.append(block_path + [str(mode),"EIGENVALUE"])
+    group_name = "SC/2"
+    compare(f"{group_name} Eigenvalues      ", paths_eigenvalues)
+
 
 #   for group_type in ["SC", "MODE"]:
 #   Don't bother comparing modes because we don't have a reliable way (like MAC) yet.
@@ -140,25 +168,54 @@ def test_bulk(root_dir: Path,
         tst_group_numbers = tst_groups_block.keys() if tst_groups_block is not None else set()
 
         for group_number in sorted(ref_group_numbers | tst_group_numbers):
+
+            # Quantities of the same dimension that should be of similar
+            # orders of magnitude are normalized together. This allows greater
+            # reative error for values smaller than the maximum in a model,
+            # which often happens because of acceptable numerical error.
+            # For example, if applied forces balance, all SPCFORCES will be
+            # effectively zero so they can't be normalized by themselves.
+            # However, since SPCFORCES are in the same normalization group as
+            # APPLIEDFORCES, they will be normalized correctly.
+            paths_translations = []
+            paths_rotations = []
+            paths_force = []
+            paths_moment = []
+            paths_elas1_stress = []
+            paths_bush_stress = []
+            paths_bush_strain = []
+            paths_shell_force = []
+            paths_stress = []
+            paths_strain = []
+            paths_principal_angles = []
         
-            # DISPLACEMENTS, EIGENVECTOR, SPCFORCES, APPLIEDFORCES
-            #-----------------------------------------------------
-            for block_name in ["DISPLACEMENTS", "EIGENVECTOR", "SPCFORCES", "APPLIEDFORCES"]:
+            # DISPLACEMENTS, EIGENVECTOR
+            #---------------------------
+            for block_name in ["DISPLACEMENTS", "EIGENVECTOR"]:
                 block_path = prefix + [group_number, block_name, "GID"]
                 ref_block = ref_f06.get_layer_0(block_path)
                 tst_block = tst_f06.get_layer_0(block_path)
                 ref_gids = ref_block.keys() if ref_block is not None else set()
                 tst_gids = tst_block.keys() if tst_block is not None else set()
-                paths = []
                 for gid in ref_gids | tst_gids:
                     for component in ["TX", "TY", "TZ"]:
-                        paths.append(block_path + [str(gid),component])
-                compare("/".join(block_path) + "/*/TX,TY,TZ", paths)
-                paths = []
-                for gid in ref_gids | tst_gids:
+                        paths_translations.append(block_path + [str(gid),component])
                     for component in ["RX", "RY", "RZ"]:
-                        paths.append(block_path + [str(gid),component])
-                compare("/".join(block_path) + "/*/RX,RY,RZ", paths)
+                        paths_rotations.append(block_path + [str(gid),component])
+
+            # SPCFORCES, APPLIEDFORCES
+            #-------------------------
+            for block_name in ["SPCFORCES", "APPLIEDFORCES"]:
+                block_path = prefix + [group_number, block_name, "GID"]
+                ref_block = ref_f06.get_layer_0(block_path)
+                tst_block = tst_f06.get_layer_0(block_path)
+                ref_gids = ref_block.keys() if ref_block is not None else set()
+                tst_gids = tst_block.keys() if tst_block is not None else set()
+                for gid in ref_gids | tst_gids:
+                    for component in ["TX", "TY", "TZ"]:
+                        paths_force.append(block_path + [str(gid),component])
+                    for component in ["RX", "RY", "RZ"]:
+                        paths_moment.append(block_path + [str(gid),component])
 
             # GPFORCE
             #--------
@@ -167,32 +224,22 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_0(block_path)
             ref_gids = ref_block.keys() if ref_block is not None else set()
             tst_gids = tst_block.keys() if tst_block is not None else set()
-            # Identify EIDs from the union of the test and reference sub-blocks for each GID.
-            gid_eids = {}
             for gid in ref_gids | tst_gids:
+                for force_type in ["APPLIED", "SPC", "MPC", "INERTIA"]:
+                    for component in ["TX", "TY", "TZ"]:
+                        paths_force.append(block_path + [str(gid),force_type,component])
+                    for component in ["RX", "RY", "RZ"]:
+                        paths_moment.append(block_path + [str(gid),force_type,component])
+                # Identify EIDs from the union of the test and reference sub-blocks for this GID.
                 eid_ref_block = ref_f06.get_layer_0(block_path + [gid,"EID"])
                 eid_tst_block = tst_f06.get_layer_0(block_path + [gid,"EID"])
                 eids_ref = eid_ref_block.keys() if eid_ref_block is not None else set()
                 eids_tst = eid_tst_block.keys() if eid_tst_block is not None else set() 
-                gid_eids[gid] = eids_ref | eids_tst
-            paths = []
-            for gid in ref_gids | tst_gids:
-                for force_type in ["APPLIED", "SPC", "MPC", "INERTIA"]:
+                for eid in eids_ref | eids_tst:
                     for component in ["TX", "TY", "TZ"]:
-                        paths.append(block_path + [str(gid),force_type,component])
-                for eid in gid_eids[gid]:
-                    for component in ["TX", "TY", "TZ"]:
-                        paths.append(block_path + [str(gid),"EID",eid,component])
-            compare("/".join(block_path) + "/*/APPLIED,SPC,MPC,INERTIA/TX,TY,TZ and /EID/*/TX,TY,TZ", paths)
-            paths = []
-            for gid in ref_gids | tst_gids:
-                for force_type in ["APPLIED", "SPC", "MPC", "INERTIA"]:
+                        paths_force.append(block_path + [str(gid),"EID",eid,component])
                     for component in ["RX", "RY", "RZ"]:
-                        paths.append(block_path + [str(gid),force_type,component])
-                for eid in gid_eids[gid]:
-                    for component in ["RX", "RY", "RZ"]:
-                        paths.append(block_path + [str(gid),"EID",eid,component])
-            compare("/".join(block_path) + "/*/APPLIED,SPC,MPC,INERTIA/RX,RY,RZ and /EID/*/RX,RY,RZ", paths)
+                        paths_moment.append(block_path + [str(gid),"EID",eid,component])
 
             # ELAS1FORCES
             # -----------
@@ -201,10 +248,8 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_1(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
             for eid in ref_eids | tst_eids:
-                paths.append(block_path + [str(eid)])
-            compare("/".join(block_path) + "/*", paths)
+                paths_force.append(block_path + [str(eid)])
 
             # ELAS1STRESSES
             # -------------
@@ -213,10 +258,11 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_1(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
+            # CELAS1 stresses are not included in the stress normalization
+            # group because they may represent something different from stress
+            # by choice of stress recovery coefficient.
             for eid in ref_eids | tst_eids:
-                paths.append(block_path + [str(eid)])
-            compare("/".join(block_path) + "/*", paths)
+                paths_elas1_stress.append(block_path + [str(eid)])
 
             # RODFORCES
             # ---------
@@ -225,28 +271,20 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
             for eid in ref_eids | tst_eids:
-                paths.append(block_path + [str(eid),"AXIAL"])
-            compare("/".join(block_path) + "/*/AXIAL", paths)
-            paths = []
-            for eid in ref_eids | tst_eids:
-                paths.append(block_path + [str(eid),"TORQUE"])
-            compare("/".join(block_path) + "/*/TORQUE", paths)
+                paths_force.append(block_path + [str(eid),"AXIAL"])
+                paths_moment.append(block_path + [str(eid),"TORQUE"])
 
             # RODSTRESSES
             # -----------
-            #todo safety margins
             block_path = prefix + [group_number, "RODSTRESSES", "EID"]
             ref_block = ref_f06.get_layer_0(block_path)
             tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
             for eid in ref_eids | tst_eids:
                 for component in ["AXIAL", "TORSIONAL"]:
-                    paths.append(block_path + [str(eid),component])
-            compare("/".join(block_path) + "/*/AXIAL,TORSIONAL", paths)
+                    paths_stress.append(block_path + [str(eid),component])
 
             # BARFORCES
             # ---------
@@ -255,16 +293,11 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
             for eid in ref_eids | tst_eids:
                 for component in ["S1", "S2", "AXIAL"]:
-                    paths.append(block_path + [str(eid),component])
-            compare("/".join(block_path) + "/*/S1,S2,AXIAL", paths)
-            paths = []
-            for eid in ref_eids | tst_eids:
+                    paths_force.append(block_path + [str(eid),component])
                 for component in ["MA1", "MA2", "MB1", "MB2", "TORQUE"]:
-                    paths.append(block_path + [str(eid),component])
-            compare("/".join(block_path) + "/*/MA1,MA2,MB1,MB2,TORQUE", paths)
+                    paths_moment.append(block_path + [str(eid),component])
 
             # BARSTRESSES
             # -----------
@@ -273,11 +306,9 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
             for eid in ref_eids | tst_eids:
                 for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
-                    paths.append(block_path + [str(eid), component])
-            compare("/".join(block_path) + "/*/SA1,SA2,SA3,SA4,SB1,SB2,SB3,SB4,AXIAL", paths)
+                    paths_stress.append(block_path + [str(eid), component])
 
             # BUSHFORCES
             # ----------
@@ -286,16 +317,11 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
             for eid in ref_eids | tst_eids:
                 for component in ["TX", "TY", "TZ"]:
-                    paths.append(block_path + [str(eid),component])
-            compare("/".join(block_path) + "/*/TX,TY,TZ", paths)
-            paths = []
-            for eid in ref_eids | tst_eids:
+                    paths_force.append(block_path + [str(eid),component])
                 for component in ["RX","RY","RZ"]:
-                    paths.append(block_path + [str(eid),component])
-            compare("/".join(block_path) + "/*/RX,RY,RZ", paths)
+                    paths_moment.append(block_path + [str(eid),component])
 
             # BUSHSTRESSES
             # ------------
@@ -304,11 +330,12 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
+            # CBUSH stresses are not included in the stress normalization
+            # group because they may represent something different from stress
+            # by choice of stress recovery coefficient.
             for eid in ref_eids | tst_eids:
                 for component in ["TX", "TY", "TZ", "RX", "RY", "RZ"]:
-                    paths.append(block_path + [str(eid), component])
-            compare("/".join(block_path) + "/*/*", paths)
+                    paths_bush_stress.append(block_path + [str(eid), component])
 
             # BUSHSTRAINS
             # -----------
@@ -317,12 +344,9 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
             for eid in ref_eids | tst_eids:
                 for component in ["TX", "TY", "TZ", "RX", "RY", "RZ"]:
-                    paths.append(block_path + [str(eid), component])
-            compare("/".join(block_path) + "/*/*", paths)    
-
+                    paths_bush_strain.append(block_path + [str(eid), component])
 
             # SHELLFORCES
             # -----------
@@ -331,18 +355,14 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
             for eid in ref_eids | tst_eids:
                 for corner in ["0", "1", "2", "3", "4"]:
                     for component in ["NXX", "NYY", "NXY", "QX", "QY"]:
-                        paths.append(block_path + [str(eid), "CORNER", corner, component])
-            compare("/".join(block_path) + "/*/CORNER/*/NXX,NYY,NXY,QX,QY", paths)
-            paths = []
+                        paths_shell_force.append(block_path + [str(eid), "CORNER", corner, component])
             for eid in ref_eids | tst_eids:
                 for corner in ["0", "1", "2", "3", "4"]:
                     for component in ["MXX","MYY","MXY"]:
-                        paths.append(block_path + [str(eid), "CORNER", corner, component])
-            compare("/".join(block_path) + "/*/CORNER/*/MXX,MYY,MXY", paths)
+                        paths_force.append(block_path + [str(eid), "CORNER", corner, component])
 
             # SHELLSTRESSES
             # -------------
@@ -351,21 +371,14 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
             for eid in ref_eids | tst_eids:
                 for corner in ["0", "1", "2", "3", "4"]:
                     for z in ["Z1", "Z2"]:
                         for component in ["XX", "YY", "XY", "VONMISES"]:
-                            paths.append(block_path + [str(eid), "CORNER", corner, z, component])
+                            paths_stress.append(block_path + [str(eid), "CORNER", corner, z, component])
+                        paths_principal_angles.append(block_path + [str(eid), "CORNER", corner, z, "PRINCIPALANGLE"])
                     for component in ["ZX", "YZ"]:
-                        paths.append(block_path + [str(eid), "CORNER", corner, component])
-            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/XX,YY,XY,VONMISES and /CORNER/*/ZX,YZ", paths)
-            paths = []
-            for eid in ref_eids | tst_eids:
-                for corner in ["0", "1", "2", "3", "4"]:
-                    for z in ["Z1", "Z2"]:
-                        paths.append(block_path + [str(eid), "CORNER", corner, z, "PRINCIPALANGLE"])
-            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/PRINCIPALANGLE", paths, principal_angle = True)
+                        paths_stress.append(block_path + [str(eid), "CORNER", corner, component])
 
             # SHELLSTRAINS
             # ------------
@@ -374,36 +387,38 @@ def test_bulk(root_dir: Path,
             tst_block = tst_f06.get_layer_0(block_path)
             ref_eids = ref_block.keys() if ref_block is not None else set()
             tst_eids = tst_block.keys() if tst_block is not None else set()
-            paths = []
             for eid in ref_eids | tst_eids:
                 for corner in ["0", "1", "2", "3", "4"]:
                     for z in ["Z1", "Z2"]:
                         for component in ["XX", "YY", "XY"]:
-                            paths.append(block_path + [str(eid), "CORNER", corner, z, component])
+                            paths_strain.append(block_path + [str(eid), "CORNER", corner, z, component])
                     for component in ["ZX", "YZ"]:
-                        paths.append(block_path + [str(eid), "CORNER", corner, component])
-            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/XX,YY,XY and /CORNER/*/ZX,YZ", paths)
-            paths = []
+                        paths_strain.append(block_path + [str(eid), "CORNER", corner, component])
             for eid in ref_eids | tst_eids:
                 for corner in ["0", "1", "2", "3", "4"]:
                     for z in ["Z1", "Z2"]:
-                        paths.append(block_path + [str(eid), "CORNER", corner, z, "PRINCIPALANGLE"])
-            compare("/".join(block_path) + "/*/CORNER/*/Z1,Z2/PRINCIPALANGLE", paths, principal_angle = True)
+                        paths_principal_angles.append(block_path + [str(eid), "CORNER", corner, z, "PRINCIPALANGLE"])
+
+
+            group_name = "/".join(prefix + [group_number])
+            compare(f"{group_name} Translations     ", paths_force)
+            compare(f"{group_name} Rotations        ", paths_force)
+            compare(f"{group_name} Forces           ", paths_force)
+            compare(f"{group_name} Moments          ", paths_moment)
+            compare(f"{group_name} ELAS1 stresses   ", paths_elas1_stress)
+            compare(f"{group_name} BUSH stresses    ", paths_bush_stress)
+            compare(f"{group_name} BUSH strains     ", paths_bush_strain)
+            compare(f"{group_name} Shell forces     ", paths_shell_force)
+            compare(f"{group_name} Stresses         ", paths_stress)
+            compare(f"{group_name} Strains          ", paths_strain)
+            compare(f"{group_name} Principal angles ", paths_principal_angles, principal_angle = True)
 
    
    
     if worst_error > 0:
-        message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}\t{worst_path}"
+        message = f"Error = {worst_error:.2g}%\t{ "/".join(worst_path)}"
     else:
         message = ""
 
-    # Known fails must fail.
-    if test_case.knownfail:
-        if fail_count > 0:
-            fail_count = 0
-            message += f"\tKNOWNFAIL failed as expected"
-        else:
-            fail_count += 1
-            message += f"\tKNOWNFAIL passed"
 
     return fail_count, comparison_count, message

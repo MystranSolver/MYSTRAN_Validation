@@ -258,18 +258,7 @@ def test_bulk_magic(root_dir: Path,
     # Run f06magic
     fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
 
-    message = ""
-
-    # Known fails must fail.
-    if test_case.knownfail:
-        if fail_count > 0:
-            fail_count = 0
-            message += f"\tKNOWNFAIL failed as expected"
-        else:
-            fail_count += 1
-            message += f"\tKNOWNFAIL passed"
-
-    return fail_count, message
+    return fail_count, ""
 
 
 
@@ -338,6 +327,15 @@ def run_case(mystran_path: Path,
     else:
         show_message(f"ERROR: {test_case.test_type} is invalid.\t{test_case.deck_filename}")
         return False
+
+    # Known fails must fail.
+    if test_case.knownfail:
+        if fail_count > 0:
+            fail_count = 0
+            message = f"\tKNOWNFAIL failed as expected"
+        else:
+            fail_count += 1
+            message = f"\tKNOWNFAIL passed"
 
     pass_fail = "PASS" if fail_count == 0 else "FAILED"
     fails_text = f"{fail_count}{count_suffix}".ljust(10)

@@ -4,7 +4,7 @@ import sys
 import os
 import math
 from io import TextIOWrapper
-from pathlib import Path  #todo ?
+from pathlib import Path
 from math_expression import Lexer
 from math_expression import Parser
 from math_expression import Evaluator
@@ -226,16 +226,18 @@ def test_individual_values(root_dir: Path,
             sys.exit(1)
 
         if error <= test_case.tolerance:
-            pass_fail = "PASS"
+            pass_fail = "PASS  "
         else:
             # Fail is the else clause so that NaN fails.
             worst_error = max(error, worst_error)
             fail_count += 1
             pass_fail = "FAILED"
 
-        error_string = f"{error:.2g}{test_case.tolerance_suffix()}"
-        tolerance_string = f"({test_case.tolerance}{test_case.tolerance_suffix()})"
-        output_file.write(f"{INDENT * 2}{pass_fail}\tError = {error_string} {tolerance_string} \tValue = {test_value} ({reference_value:.9g})\n")
+        error_string = f"{error:.2g}{test_case.tolerance_suffix()}".ljust(8)
+        tolerance_string = f"({test_case.tolerance}{test_case.tolerance_suffix()})".ljust(9)
+        tst_str = f"Test = {test_value:.9g}".ljust(7+14)
+        ref_str = f"Ref = {reference_value:.9g}".ljust(6+14)
+        output_file.write(f"{INDENT * 2}{pass_fail} Error = {error_string} {tolerance_string} {tst_str} {ref_str}\n")
 
 
     fail_count = 0
@@ -371,15 +373,6 @@ def test_individual_values(root_dir: Path,
         message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}"
     else:
         message = ""
-
-    # Known fails must fail.
-    if test_case.knownfail:
-        if fail_count > 0:
-            fail_count = 0
-            message += f"\tKNOWNFAIL failed as expected"
-        else:
-            fail_count += 1
-            message += f"\tKNOWNFAIL passed"
 
     return fail_count, comparison_count, message
 
