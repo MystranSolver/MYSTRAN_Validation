@@ -13,13 +13,13 @@ def test_bulk(root_dir: Path,
               output_file: io.TextIOWrapper,
               test_case: CaseDefinition) -> int:
 
-    tolerance = 2e-5 # in percent
+    tolerance = 1e-6 # in percent
     fail_count = 0
     comparison_count = 0
     worst_error = 0
     worst_path = []
 
-    def compare(title, paths, principal_angle = False):
+    def compare(title, paths, principal_angle = False, rotation = False):
         nonlocal fail_count
         nonlocal worst_error
         nonlocal worst_path
@@ -35,7 +35,13 @@ def test_bulk(root_dir: Path,
         if principal_angle:
             maximum = 90
         else:
-            maximum = 0
+            if rotation:
+                # If all rotation angles are near zero, it'll use this maximum
+                # which makes it effectively a difference test with an allowed
+                # error close to machine precision.
+                maximum = 1e-12 / (tolerance / 100)
+            else:
+                maximum = 0
             for path in paths:
                 value = ref_f06.get_layer_0(path)
                 if value is not None:
@@ -177,8 +183,8 @@ def test_bulk(root_dir: Path,
             # effectively zero so they can't be normalized by themselves.
             # However, since SPCFORCES are in the same normalization group as
             # APPLIEDFORCES, they will be normalized correctly.
-            paths_translations = []
-            paths_rotations = []
+            paths_translation = []
+            paths_rotation = []
             paths_force = []
             paths_moment = []
             paths_elas1_stress = []
@@ -199,9 +205,9 @@ def test_bulk(root_dir: Path,
                 tst_gids = tst_block.keys() if tst_block is not None else set()
                 for gid in ref_gids | tst_gids:
                     for component in ["TX", "TY", "TZ"]:
-                        paths_translations.append(block_path + [str(gid),component])
+                        paths_translation.append(block_path + [str(gid),component])
                     for component in ["RX", "RY", "RZ"]:
-                        paths_rotations.append(block_path + [str(gid),component])
+                        paths_rotation.append(block_path + [str(gid),component])
 
             # SPCFORCES, APPLIEDFORCES
             #-------------------------
@@ -401,8 +407,8 @@ def test_bulk(root_dir: Path,
 
 
             group_name = "/".join(prefix + [group_number])
-            compare(f"{group_name} Translations     ", paths_force)
-            compare(f"{group_name} Rotations        ", paths_force)
+            compare(f"{group_name} Translations     ", paths_translation)
+            compare(f"{group_name} Rotations        ", paths_rotation, rotation=True)
             compare(f"{group_name} Forces           ", paths_force)
             compare(f"{group_name} Moments          ", paths_moment)
             compare(f"{group_name} ELAS1 stresses   ", paths_elas1_stress)
@@ -411,11 +417,11 @@ def test_bulk(root_dir: Path,
             compare(f"{group_name} Shell forces     ", paths_shell_force)
             compare(f"{group_name} Stresses         ", paths_stress)
             compare(f"{group_name} Strains          ", paths_strain)
-            compare(f"{group_name} Principal angles ", paths_principal_angles, principal_angle = True)
+            compare(f"{group_name} Principal angles ", paths_principal_angles, principal_angle=True)
 
    
    
-    if worst_error > 0:
+    if fail_count > 0:
         message = f"Error = {worst_error:.2g}%\t{ "/".join(worst_path)}"
     else:
         message = ""
