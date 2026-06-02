@@ -28,7 +28,6 @@ class F06Query:
         root = {}
         line_no = 0
         previous_prefix = None
-        major_version = None
 
         def ensure_path(current_node, path):
             for node in path:
@@ -70,7 +69,7 @@ class F06Query:
         def subcase_or_mode():
             # Search backwards not more than up to 8 non-blank lines and skipping blank lines
             # Non-blank lines are typically TITLE, SUBT, LABEL
-            # Sometimes TITLE appears 2-6 times due to a possible Mystran bug
+            # Sometimes TITLE appears 2-6 times due to a Mystran bug in old versions.
             # Blank lines are sometimes a lot due to a possible Mystran bug
             nonlocal previous_prefix
             non_blanks = 0
@@ -83,13 +82,26 @@ class F06Query:
                     return previous_prefix
                 if "OUTPUT FOR EIGENVECTOR" in line:
                     mode = int(number(line, 25, 8))
-                    previous_prefix = ["SC","2","MODE", str(mode)]
+                    if buckling is None:
+                        # We don't know what subcase it should be in, so abort.
+                        print(f"ERROR reading {self.file_name}: Eigenvector data appears before eigenvalue block. {line_no}:")
+                        print(line)
+                        sys.exit(1)
+                    elif buckling:
+                        # Buckling eigenvectors are in subcase 2
+                        previous_prefix = ["SC","2","MODE", str(mode)]
+                    else:
+                        # Normal modes eigenvectors are in subcase 1
+                        previous_prefix = ["SC","1","MODE", str(mode)]
                     return previous_prefix
                 if line.strip() != "":
                     non_blanks += 1
                 if non_blanks > 8:
                     return None
                 delta -= 1        
+
+        major_version = None
+        buckling = None
       
         while line_no < len(lines):
             line = get_next_line()
@@ -718,7 +730,6 @@ class F06Query:
 
 
             elif "R E A L   E I G E N V A L U E S" in line:
-                modes_node = ensure_path(root, ["SC","2","REALEIGENVALUES","MODE"])
                 line = get_next_line()
                 buckling = "buckling" in line
                 get_next_line()
@@ -726,7 +737,8 @@ class F06Query:
                 if buckling:
                     get_next_line()
                     get_next_line()
-                
+                subcase = "2" if buckling else "1"
+                modes_node = ensure_path(root, ["SC",subcase,"REALEIGENVALUES","MODE"])
                 while True:
                     line = get_next_line()
                     if line.strip().startswith("---") or len(line.strip()) == 0:

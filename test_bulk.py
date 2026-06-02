@@ -137,272 +137,266 @@ def test_bulk(root_dir: Path,
         return 1, 1, "ERROR: Reference solution not found"
     tst_f06 = F06Query(str(test_f06_path))
 
-    # Eigenvalues
-    #------------
-    block_path = ["SC","2","REALEIGENVALUES","MODE"]
-    ref_block = ref_f06.get_layer_0(block_path)
-    tst_block = tst_f06.get_layer_0(block_path)
-    ref_modes = ref_block.keys() if ref_block is not None else set()
-    tst_modes = tst_block.keys() if tst_block is not None else set()
-    modes = ref_modes | tst_modes
-    paths_eigenvalues = []
-    for mode in sorted(modes):
-        paths_eigenvalues.append(block_path + [str(mode),"EIGENVALUE"])
-    group_name = "SC/2"
-    compare(f"{group_name} Eigenvalues      ", paths_eigenvalues)
 
 
-#   for group_type in ["SC", "MODE"]:
-#   Don't bother comparing modes because we don't have a reliable way (like MAC) yet.
-    for group_type in ["SC"]:
-        match group_type:
-            case "SC":
-                prefix = ["SC"]
-            case "MODE":
-                prefix = ["SC", "2", "MODE"]
-        ref_groups_block = ref_f06.get_layer_0(prefix)
-        tst_groups_block = tst_f06.get_layer_0(prefix)
-        ref_group_numbers = ref_groups_block.keys() if ref_groups_block is not None else set()
-        tst_group_numbers = tst_groups_block.keys() if tst_groups_block is not None else set()
+#   Don't bother comparing eigenvectors because we don't have a reliable way (like MAC) yet.
 
-        for group_number in sorted(ref_group_numbers | tst_group_numbers):
+    ref_subcases_block = ref_f06.get_layer_0(["SC"])
+    tst_subcases_block = tst_f06.get_layer_0(["SC"])
+    ref_subcase_numbers = ref_subcases_block.keys() if ref_subcases_block is not None else set()
+    tst_subcase_numbers = tst_subcases_block.keys() if tst_subcases_block is not None else set()
+    for subcase in sorted(ref_subcase_numbers | tst_subcase_numbers):
+        prefix = ["SC", subcase]
 
-            # Quantities of the same dimension that should be of similar
-            # orders of magnitude are normalized together. This allows greater
-            # reative error for values smaller than the maximum in a model,
-            # which often happens because of acceptable numerical error.
-            # For example, if applied forces balance, all SPCFORCES will be
-            # effectively zero so they can't be normalized by themselves.
-            # However, since SPCFORCES are in the same normalization group as
-            # APPLIEDFORCES, they will be normalized correctly.
-            paths_translation = []
-            paths_rotation = []
-            paths_force = []
-            paths_moment = []
-            paths_elas1_stress = []
-            paths_bush_stress = []
-            paths_bush_strain = []
-            paths_shell_force = []
-            paths_stress = []
-            paths_strain = []
-        
-            # DISPLACEMENTS, EIGENVECTOR
-            #---------------------------
-            for block_name in ["DISPLACEMENTS", "EIGENVECTOR"]:
-                block_path = prefix + [group_number, block_name, "GID"]
-                ref_block = ref_f06.get_layer_0(block_path)
-                tst_block = tst_f06.get_layer_0(block_path)
-                ref_gids = ref_block.keys() if ref_block is not None else set()
-                tst_gids = tst_block.keys() if tst_block is not None else set()
-                for gid in ref_gids | tst_gids:
-                    for component in ["TX", "TY", "TZ"]:
-                        paths_translation.append(block_path + [str(gid),component])
-                    for component in ["RX", "RY", "RZ"]:
-                        paths_rotation.append(block_path + [str(gid),component])
-
-            # SPCFORCES, APPLIEDFORCES
-            #-------------------------
-            for block_name in ["SPCFORCES", "APPLIEDFORCES"]:
-                block_path = prefix + [group_number, block_name, "GID"]
-                ref_block = ref_f06.get_layer_0(block_path)
-                tst_block = tst_f06.get_layer_0(block_path)
-                ref_gids = ref_block.keys() if ref_block is not None else set()
-                tst_gids = tst_block.keys() if tst_block is not None else set()
-                for gid in ref_gids | tst_gids:
-                    for component in ["TX", "TY", "TZ"]:
-                        paths_force.append(block_path + [str(gid),component])
-                    for component in ["RX", "RY", "RZ"]:
-                        paths_moment.append(block_path + [str(gid),component])
-
-            # GPFORCE
-            #--------
-            block_path = prefix + [group_number,"GPFORCE","GID"]
+        # Quantities of the same dimension that should be of similar
+        # orders of magnitude are normalized together. This allows greater
+        # reative error for values smaller than the maximum in a model,
+        # which often happens because of acceptable numerical error.
+        # For example, if applied forces balance, all SPCFORCES will be
+        # effectively zero so they can't be normalized by themselves.
+        # However, since SPCFORCES are in the same normalization group as
+        # APPLIEDFORCES, they will be normalized correctly.
+        paths_eigenvalues = []
+        paths_translation = []
+        paths_rotation = []
+        paths_force = []
+        paths_moment = []
+        paths_elas1_stress = []
+        paths_bush_stress = []
+        paths_bush_strain = []
+        paths_shell_force = []
+        paths_stress = []
+        paths_strain = []
+    
+        # REALEIGENVALUES
+        #----------------
+        block_path = prefix + ["REALEIGENVALUES","MODE"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_modes = ref_block.keys() if ref_block is not None else set()
+        tst_modes = tst_block.keys() if tst_block is not None else set()
+        modes = ref_modes | tst_modes
+        for mode in sorted(modes):
+            paths_eigenvalues.append(block_path + [str(mode),"EIGENVALUE"])
+    
+        # DISPLACEMENTS, EIGENVECTOR
+        #---------------------------
+        for block_name in ["DISPLACEMENTS", "EIGENVECTOR"]:
+            block_path = prefix + [block_name, "GID"]
             ref_block = ref_f06.get_layer_0(block_path)
             tst_block = tst_f06.get_layer_0(block_path)
             ref_gids = ref_block.keys() if ref_block is not None else set()
             tst_gids = tst_block.keys() if tst_block is not None else set()
             for gid in ref_gids | tst_gids:
-                for force_type in ["APPLIED", "SPC", "MPC", "INERTIA"]:
-                    for component in ["TX", "TY", "TZ"]:
-                        paths_force.append(block_path + [str(gid),force_type,component])
-                    for component in ["RX", "RY", "RZ"]:
-                        paths_moment.append(block_path + [str(gid),force_type,component])
-                # Identify EIDs from the union of the test and reference sub-blocks for this GID.
-                eid_ref_block = ref_f06.get_layer_0(block_path + [gid,"EID"])
-                eid_tst_block = tst_f06.get_layer_0(block_path + [gid,"EID"])
-                eids_ref = eid_ref_block.keys() if eid_ref_block is not None else set()
-                eids_tst = eid_tst_block.keys() if eid_tst_block is not None else set() 
-                for eid in eids_ref | eids_tst:
-                    for component in ["TX", "TY", "TZ"]:
-                        paths_force.append(block_path + [str(gid),"EID",eid,component])
-                    for component in ["RX", "RY", "RZ"]:
-                        paths_moment.append(block_path + [str(gid),"EID",eid,component])
-
-            # ELAS1FORCES
-            # -----------
-            block_path = prefix + [group_number, "ELAS1FORCES", "EID"]
-            ref_block = ref_f06.get_layer_1(block_path)
-            tst_block = tst_f06.get_layer_1(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            for eid in ref_eids | tst_eids:
-                paths_force.append(block_path + [str(eid)])
-
-            # ELAS1STRESSES
-            # -------------
-            block_path = prefix + [group_number, "ELAS1STRESSES", "EID"]
-            ref_block = ref_f06.get_layer_1(block_path)
-            tst_block = tst_f06.get_layer_1(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            # CELAS1 stresses are not included in the stress normalization
-            # group because they may represent something different from stress
-            # by choice of stress recovery coefficient.
-            for eid in ref_eids | tst_eids:
-                paths_elas1_stress.append(block_path + [str(eid)])
-
-            # RODFORCES
-            # ---------
-            block_path = prefix + [group_number, "RODFORCES", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            for eid in ref_eids | tst_eids:
-                paths_force.append(block_path + [str(eid),"AXIAL"])
-                paths_moment.append(block_path + [str(eid),"TORQUE"])
-
-            # RODSTRESSES
-            # -----------
-            block_path = prefix + [group_number, "RODSTRESSES", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            for eid in ref_eids | tst_eids:
-                for component in ["AXIAL", "TORSIONAL"]:
-                    paths_stress.append(block_path + [str(eid),component])
-
-            # BARFORCES
-            # ---------
-            block_path = prefix + [group_number, "BARFORCES", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            for eid in ref_eids | tst_eids:
-                for component in ["S1", "S2", "AXIAL"]:
-                    paths_force.append(block_path + [str(eid),component])
-                for component in ["MA1", "MA2", "MB1", "MB2", "TORQUE"]:
-                    paths_moment.append(block_path + [str(eid),component])
-
-            # BARSTRESSES
-            # -----------
-            block_path = prefix + [group_number, "BARSTRESSES", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            for eid in ref_eids | tst_eids:
-                for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
-                    paths_stress.append(block_path + [str(eid), component])
-
-            # BUSHFORCES
-            # ----------
-            block_path = prefix + [group_number, "BUSHFORCES", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            for eid in ref_eids | tst_eids:
                 for component in ["TX", "TY", "TZ"]:
-                    paths_force.append(block_path + [str(eid),component])
-                for component in ["RX","RY","RZ"]:
-                    paths_moment.append(block_path + [str(eid),component])
+                    paths_translation.append(block_path + [str(gid),component])
+                for component in ["RX", "RY", "RZ"]:
+                    paths_rotation.append(block_path + [str(gid),component])
 
-            # BUSHSTRESSES
-            # ------------
-            block_path = prefix + [group_number, "BUSHSTRESSES", "EID"]
+        # SPCFORCES, APPLIEDFORCES
+        #-------------------------
+        for block_name in ["SPCFORCES", "APPLIEDFORCES"]:
+            block_path = prefix + [block_name, "GID"]
             ref_block = ref_f06.get_layer_0(block_path)
             tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            # CBUSH stresses are not included in the stress normalization
-            # group because they may represent something different from stress
-            # by choice of stress recovery coefficient.
-            for eid in ref_eids | tst_eids:
-                for component in ["TX", "TY", "TZ", "RX", "RY", "RZ"]:
-                    paths_bush_stress.append(block_path + [str(eid), component])
+            ref_gids = ref_block.keys() if ref_block is not None else set()
+            tst_gids = tst_block.keys() if tst_block is not None else set()
+            for gid in ref_gids | tst_gids:
+                for component in ["TX", "TY", "TZ"]:
+                    paths_force.append(block_path + [str(gid),component])
+                for component in ["RX", "RY", "RZ"]:
+                    paths_moment.append(block_path + [str(gid),component])
 
-            # BUSHSTRAINS
-            # -----------
-            block_path = prefix + [group_number, "BUSHSTRAINS", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            for eid in ref_eids | tst_eids:
-                for component in ["TX", "TY", "TZ", "RX", "RY", "RZ"]:
-                    paths_bush_strain.append(block_path + [str(eid), component])
+        # GPFORCE
+        #--------
+        block_path = prefix + [subcase,"GPFORCE","GID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_gids = ref_block.keys() if ref_block is not None else set()
+        tst_gids = tst_block.keys() if tst_block is not None else set()
+        for gid in ref_gids | tst_gids:
+            for force_type in ["APPLIED", "SPC", "MPC", "INERTIA"]:
+                for component in ["TX", "TY", "TZ"]:
+                    paths_force.append(block_path + [str(gid),force_type,component])
+                for component in ["RX", "RY", "RZ"]:
+                    paths_moment.append(block_path + [str(gid),force_type,component])
+            # Identify EIDs from the union of the test and reference sub-blocks for this GID.
+            eid_ref_block = ref_f06.get_layer_0(block_path + [gid,"EID"])
+            eid_tst_block = tst_f06.get_layer_0(block_path + [gid,"EID"])
+            eids_ref = eid_ref_block.keys() if eid_ref_block is not None else set()
+            eids_tst = eid_tst_block.keys() if eid_tst_block is not None else set() 
+            for eid in eids_ref | eids_tst:
+                for component in ["TX", "TY", "TZ"]:
+                    paths_force.append(block_path + [str(gid),"EID",eid,component])
+                for component in ["RX", "RY", "RZ"]:
+                    paths_moment.append(block_path + [str(gid),"EID",eid,component])
 
-            # SHELLFORCES
-            # -----------
-            block_path = prefix + [group_number, "SHELLFORCES", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            for eid in ref_eids | tst_eids:
-                for corner in ["0", "1", "2", "3", "4"]:
-                    for component in ["NXX", "NYY", "NXY", "QX", "QY"]:
-                        paths_shell_force.append(block_path + [str(eid), "CORNER", corner, component])
-            for eid in ref_eids | tst_eids:
-                for corner in ["0", "1", "2", "3", "4"]:
-                    for component in ["MXX","MYY","MXY"]:
-                        paths_force.append(block_path + [str(eid), "CORNER", corner, component])
+        # ELAS1FORCES
+        # -----------
+        block_path = prefix + ["ELAS1FORCES", "EID"]
+        ref_block = ref_f06.get_layer_1(block_path)
+        tst_block = tst_f06.get_layer_1(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            paths_force.append(block_path + [str(eid)])
 
-            # SHELLSTRESSES
-            # -------------
-            block_path = prefix + [group_number, "SHELLSTRESSES", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            for eid in ref_eids | tst_eids:
-                for corner in ["0", "1", "2", "3", "4"]:
-                    for z in ["Z1", "Z2"]:
-                        for component in ["XX", "YY", "XY", "VONMISES"]:
-                            paths_stress.append(block_path + [str(eid), "CORNER", corner, z, component])
-                    for component in ["ZX", "YZ"]:
-                        paths_stress.append(block_path + [str(eid), "CORNER", corner, component])
+        # ELAS1STRESSES
+        # -------------
+        block_path = prefix + ["ELAS1STRESSES", "EID"]
+        ref_block = ref_f06.get_layer_1(block_path)
+        tst_block = tst_f06.get_layer_1(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        # CELAS1 stresses are not included in the stress normalization
+        # group because they may represent something different from stress
+        # by choice of stress recovery coefficient.
+        for eid in ref_eids | tst_eids:
+            paths_elas1_stress.append(block_path + [str(eid)])
 
-            # SHELLSTRAINS
-            # ------------
-            block_path = prefix + [group_number, "SHELLSTRAINS", "EID"]
-            ref_block = ref_f06.get_layer_0(block_path)
-            tst_block = tst_f06.get_layer_0(block_path)
-            ref_eids = ref_block.keys() if ref_block is not None else set()
-            tst_eids = tst_block.keys() if tst_block is not None else set()
-            for eid in ref_eids | tst_eids:
-                for corner in ["0", "1", "2", "3", "4"]:
-                    for z in ["Z1", "Z2"]:
-                        for component in ["XX", "YY", "XY"]:
-                            paths_strain.append(block_path + [str(eid), "CORNER", corner, z, component])
-                    for component in ["ZX", "YZ"]:
-                        paths_strain.append(block_path + [str(eid), "CORNER", corner, component])
+        # RODFORCES
+        # ---------
+        block_path = prefix + ["RODFORCES", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            paths_force.append(block_path + [str(eid),"AXIAL"])
+            paths_moment.append(block_path + [str(eid),"TORQUE"])
+
+        # RODSTRESSES
+        # -----------
+        block_path = prefix + ["RODSTRESSES", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            for component in ["AXIAL", "TORSIONAL"]:
+                paths_stress.append(block_path + [str(eid),component])
+
+        # BARFORCES
+        # ---------
+        block_path = prefix + ["BARFORCES", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            for component in ["S1", "S2", "AXIAL"]:
+                paths_force.append(block_path + [str(eid),component])
+            for component in ["MA1", "MA2", "MB1", "MB2", "TORQUE"]:
+                paths_moment.append(block_path + [str(eid),component])
+
+        # BARSTRESSES
+        # -----------
+        block_path = prefix + ["BARSTRESSES", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            for component in ["SA1", "SA2", "SA3", "SA4", "SB1", "SB2", "SB3", "SB4", "AXIAL"]:
+                paths_stress.append(block_path + [str(eid), component])
+
+        # BUSHFORCES
+        # ----------
+        block_path = prefix + ["BUSHFORCES", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            for component in ["TX", "TY", "TZ"]:
+                paths_force.append(block_path + [str(eid),component])
+            for component in ["RX","RY","RZ"]:
+                paths_moment.append(block_path + [str(eid),component])
+
+        # BUSHSTRESSES
+        # ------------
+        block_path = prefix + ["BUSHSTRESSES", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        # CBUSH stresses are not included in the stress normalization
+        # group because they may represent something different from stress
+        # by choice of stress recovery coefficient.
+        for eid in ref_eids | tst_eids:
+            for component in ["TX", "TY", "TZ", "RX", "RY", "RZ"]:
+                paths_bush_stress.append(block_path + [str(eid), component])
+
+        # BUSHSTRAINS
+        # -----------
+        block_path = prefix + ["BUSHSTRAINS", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            for component in ["TX", "TY", "TZ", "RX", "RY", "RZ"]:
+                paths_bush_strain.append(block_path + [str(eid), component])
+
+        # SHELLFORCES
+        # -----------
+        block_path = prefix + ["SHELLFORCES", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            for corner in ["0", "1", "2", "3", "4"]:
+                for component in ["NXX", "NYY", "NXY", "QX", "QY"]:
+                    paths_shell_force.append(block_path + [str(eid), "CORNER", corner, component])
+        for eid in ref_eids | tst_eids:
+            for corner in ["0", "1", "2", "3", "4"]:
+                for component in ["MXX","MYY","MXY"]:
+                    paths_force.append(block_path + [str(eid), "CORNER", corner, component])
+
+        # SHELLSTRESSES
+        # -------------
+        block_path = prefix + ["SHELLSTRESSES", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            for corner in ["0", "1", "2", "3", "4"]:
+                for z in ["Z1", "Z2"]:
+                    for component in ["XX", "YY", "XY", "VONMISES"]:
+                        paths_stress.append(block_path + [str(eid), "CORNER", corner, z, component])
+                for component in ["ZX", "YZ"]:
+                    paths_stress.append(block_path + [str(eid), "CORNER", corner, component])
+
+        # SHELLSTRAINS
+        # ------------
+        block_path = prefix + ["SHELLSTRAINS", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            for corner in ["0", "1", "2", "3", "4"]:
+                for z in ["Z1", "Z2"]:
+                    for component in ["XX", "YY", "XY"]:
+                        paths_strain.append(block_path + [str(eid), "CORNER", corner, z, component])
+                for component in ["ZX", "YZ"]:
+                    paths_strain.append(block_path + [str(eid), "CORNER", corner, component])
 
 
-            group_name = "/".join(prefix + [group_number])
-            compare(f"{group_name} Translations     ", paths_translation)
-            compare(f"{group_name} Rotations        ", paths_rotation, rotation=True)
-            compare(f"{group_name} Forces           ", paths_force)
-            compare(f"{group_name} Moments          ", paths_moment)
-            compare(f"{group_name} ELAS1 stresses   ", paths_elas1_stress)
-            compare(f"{group_name} BUSH stresses    ", paths_bush_stress)
-            compare(f"{group_name} BUSH strains     ", paths_bush_strain)
-            compare(f"{group_name} Shell forces     ", paths_shell_force)
-            compare(f"{group_name} Stresses         ", paths_stress)
-            compare(f"{group_name} Strains          ", paths_strain)
+        subcase_name = "/".join(prefix)
+        compare(f"{subcase_name} Eigenvalues      ", paths_eigenvalues)
+        compare(f"{subcase_name} Translations     ", paths_translation)
+        compare(f"{subcase_name} Rotations        ", paths_rotation, rotation=True)
+        compare(f"{subcase_name} Forces           ", paths_force)
+        compare(f"{subcase_name} Moments          ", paths_moment)
+        compare(f"{subcase_name} ELAS1 stresses   ", paths_elas1_stress)
+        compare(f"{subcase_name} BUSH stresses    ", paths_bush_stress)
+        compare(f"{subcase_name} BUSH strains     ", paths_bush_strain)
+        compare(f"{subcase_name} Shell forces     ", paths_shell_force)
+        compare(f"{subcase_name} Stresses         ", paths_stress)
+        compare(f"{subcase_name} Strains          ", paths_strain)
    
    
     if fail_count > 0:
