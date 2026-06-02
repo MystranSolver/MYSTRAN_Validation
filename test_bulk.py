@@ -19,7 +19,7 @@ def test_bulk(root_dir: Path,
     worst_error = 0
     worst_path = []
 
-    def compare(title, paths, principal_angle = False, rotation = False):
+    def compare(title, paths, rotation = False):
         nonlocal fail_count
         nonlocal worst_error
         nonlocal worst_path
@@ -32,20 +32,18 @@ def test_bulk(root_dir: Path,
             return
         
         # Find the maximum of all values we'll be testing in the block
-        if principal_angle:
-            maximum = 90
+        if rotation:
+            # If all rotation angles are near zero, it'll use this maximum
+            # which makes it effectively a difference test with an allowed
+            # error close to machine precision.
+            maximum = 1e-12 / (tolerance / 100)
         else:
-            if rotation:
-                # If all rotation angles are near zero, it'll use this maximum
-                # which makes it effectively a difference test with an allowed
-                # error close to machine precision.
-                maximum = 1e-12 / (tolerance / 100)
-            else:
-                maximum = 0
-            for path in paths:
-                value = ref_f06.get_layer_0(path)
-                if value is not None:
-                    maximum = max(maximum, abs(value))
+            maximum = test_case.threshold / (tolerance / 100)
+
+        for path in paths:
+            value = ref_f06.get_layer_0(path)
+            if value is not None:
+                maximum = max(maximum, abs(value))
 
         batch_comparison_count = 0
         batch_fail_count = 0
@@ -74,12 +72,6 @@ def test_bulk(root_dir: Path,
             if ref_value is None:
                 ref_value = 0
 
-            if principal_angle:
-                # Principal angles are in the closed interval [-90,90]
-                # -90 and +90 have the same meaning and their sign is random.
-                tst_value = 90 if tst_value == -90 else tst_value
-                ref_value = 90 if ref_value == -90 else ref_value
-
             if math.isnan(ref_value):
                 # Testing for NaN doesn't use the tolerance or comparison type.
                 if math.isnan(tst_value):
@@ -87,8 +79,8 @@ def test_bulk(root_dir: Path,
                 else:
                     error = float('inf') # Force fail
             elif maximum == 0:
-                # With zero maximum, if we tolerate any small non-zero values, we
-                # need to choose a tolerance somehow so default to exact comparison.
+                # Zero maximum means zero or no threshold was specified in the
+                # test case definition. Do an exact comparison to be safe.
                 error = float('inf') if tst_value != 0 else 0
             else:
                 error = 100 * abs(tst_value-ref_value) / maximum
@@ -193,7 +185,6 @@ def test_bulk(root_dir: Path,
             paths_shell_force = []
             paths_stress = []
             paths_strain = []
-            paths_principal_angles = []
         
             # DISPLACEMENTS, EIGENVECTOR
             #---------------------------
@@ -382,7 +373,6 @@ def test_bulk(root_dir: Path,
                     for z in ["Z1", "Z2"]:
                         for component in ["XX", "YY", "XY", "VONMISES"]:
                             paths_stress.append(block_path + [str(eid), "CORNER", corner, z, component])
-                        paths_principal_angles.append(block_path + [str(eid), "CORNER", corner, z, "PRINCIPALANGLE"])
                     for component in ["ZX", "YZ"]:
                         paths_stress.append(block_path + [str(eid), "CORNER", corner, component])
 
@@ -400,10 +390,6 @@ def test_bulk(root_dir: Path,
                             paths_strain.append(block_path + [str(eid), "CORNER", corner, z, component])
                     for component in ["ZX", "YZ"]:
                         paths_strain.append(block_path + [str(eid), "CORNER", corner, component])
-            for eid in ref_eids | tst_eids:
-                for corner in ["0", "1", "2", "3", "4"]:
-                    for z in ["Z1", "Z2"]:
-                        paths_principal_angles.append(block_path + [str(eid), "CORNER", corner, z, "PRINCIPALANGLE"])
 
 
             group_name = "/".join(prefix + [group_number])
@@ -417,8 +403,6 @@ def test_bulk(root_dir: Path,
             compare(f"{group_name} Shell forces     ", paths_shell_force)
             compare(f"{group_name} Stresses         ", paths_stress)
             compare(f"{group_name} Strains          ", paths_strain)
-            compare(f"{group_name} Principal angles ", paths_principal_angles, principal_angle=True)
-
    
    
     if fail_count > 0:

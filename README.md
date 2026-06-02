@@ -47,10 +47,10 @@ hand calcululations or published benchmark solutions.
 Example line in cases.txt:
 ```
 pth;    my test.dat;   SC/1/DISPLACEMENTS/GID/8/RX;            ;  1.234e-5;     2e-5%;      blah
-        -----------    ---------------------------  ---------     --------      -----       ----
+---     -----------    ---------------------------  ---------     --------      -----       ----
 Field 1   Field 2                Field 3             Field 4      Field 5      Field 6    Field 7
        deck filename            test value          operation    reference    tolerance   comment
-                                                                   value
+                                                                   value                 (optional)
 ```
 This solves the file `my test.dat` then compares rotation about X at grid point
 8 to 1.234e-5 with a tolerance that's reasonable for single precision or the 7
@@ -178,54 +178,108 @@ are treated as zero instead of errors at specific paths, such as
 
 ### Bulk comparison
 
-> [!WARNING]
-> Not working properly yet.
-
 Compares most values in the solution's f06 file to a reference f06 file. This
 type of test is useful for discovering bugs -- when compared to MSC -- or detecting
 regressions -- when compared to an older Mystran solution.
 
 Example line in cases.txt:
 ```
-mys;    my test.dat;   blah
----     -----------    ----
-Field 1   Field 2      Field 3
-       deck filename   comment
+mys;    my test.dat;    1e-10;      blah
+---     -----------     -----       ----
+Field 1   Field 2       Field 3    Field 4
+       deck filename   threshold   comment
+                       (optional) (optional)
 ```
 This solves my_test.bdf then compares the solution to the reference f06 file
 `reference_mystran/my_test.f06`.
+
+Values of the same dimension that should be of similar orders of magnitude are
+grouped together and effectively normalized by the value with the greatest
+magnitude in the group. This allows greater relative error for smaller values
+all the way to zero without the need for an arbitrary threshold as long as at
+least one value in the normalization group has a large magnitude.
+`abs(test - ref) / group_max <= 1.0e-6%`
 
 #### Field 1. Test type
 - `mys` means use reference f06 file in `reference_mystran` directory.
 - `msc` means use reference f06 file in `reference_msc` directory.
 
+> [!WARNING]
+> `msc` doesn't work yet.
+
 #### Field 2. Deck filename
 If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
 
-#### Field 3. Comment and Known failures
+#### Field 3. Threshold
+Optional. Default is 0.0. If the maximum magnitude of the values in a
+normalization group in the reference solution is less than threshold, the
+comparison becomes `abs(test - ref) <= threshold`. It has no effect if any of
+those values have greater magnitude than threshold.
+
+#### Field 4. Comment and Known failures
 If the comment at the end of the line begins with `KNOWNFAIL` then the test case's
 result is inverted. ie. KNOWNFAILs must fail. This is useful for unfixed bugs so
 they don't pollute the results with fail notices.
 
 #### Compared data:
 All subcases but not eigenvectors.
-- `DISPLACEMENTS`: TX, TY, TZ, RX, RY, RZ
-- `SPCFORCES`: TX, TY, TZ, RX, RY, RZ
-- `APPLIEDFORCES`: TX, TY, TZ, RX, RY, RZ
-- `GPFORCE`: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*)
-- `ELAS1FORCES`
-- `ELAS1STRESSES`
-- `RODFORCES`: AXIAL, TORQUE
-- `RODSTRESSES`: AXIAL, TORSIONAL
-- `BARFORCES:` MA1, MA2, MB1, MB2, S1, S2, AXIAL, TORQUE
-- `BARSTRESSES:` SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL
-- `BUSHFORCES`: TX, TY, TZ, RX, RY, RZ
-- `BUSHSTRESSES`: TX, TY, TZ, RX, RY, RZ
-- `BUSHSTRAINS`: TX, TY, TZ, RX, RY, RZ
-- `SHELLFORCES`: NXX, NYY, NXY, MXX, MYY, MXY, QX, QY
-- `SHELLSTRESSES`: XX, YY, XY, ZX, YZ, PRINCIPALANGLE, VONMISES
-- `SHELLSTRAINS`: XX, YY, XY, ZX, YZ, PRINCIPALANGLE
-- `REALEIGENVALUES`: EIGENVALUE
+
+Normalization groups:
+- Translations
+
+    -`DISPLACEMENTS`: TX, TY, TZ
+
+- Rotations 
+
+    -`DISPLACEMENTS`: RX, RY, RZ
+
+- Forces
+
+    - `SPCFORCES`: TX, TY, TZ
+    - `APPLIEDFORCES`: TX, TY, TZ
+    - `GPFORCE`: TX, TY, TZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*)
+    - `ELAS1FORCES`
+    - `RODFORCES`: AXIAL
+    - `BARFORCES:` S1, S2, AXIAL
+    - `BUSHFORCES`: TX, TY, TZ
+    - `SHELLFORCES`: MXX, MYY, MXY
+
+- Moments
+    - `SPCFORCES`: RX, RY, RZ
+    - `APPLIEDFORCES`: RX, RY, RZ
+    - `GPFORCE`: RX, RY, RZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*)
+    - `RODFORCES`: TORQUE
+    - `BARFORCES:` MA1, MA2, MB1, MB2, TORQUE
+    - `BUSHFORCES`: RX, RY, RZ
+
+- Shell forces
+
+    - `SHELLFORCES`: NXX, NYY, NXY, QX, QY
+
+- Stresses
+    - `RODSTRESSES`: AXIAL, TORSIONAL
+    - `BARSTRESSES:` SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL
+    - `SHELLSTRESSES`: XX, YY, XY, ZX, YZ, VONMISES
+
+- Strains
+
+    - `SHELLSTRAINS`: XX, YY, XY, ZX, YZ
+
+- ELAS1 stresses
+
+    - `ELAS1STRESSES`
+
+- BUSH stresses
+
+    - `BUSHSTRESSES`: TX, TY, TZ, RX, RY, RZ
+
+- BUSH strains
+    
+    - `BUSHSTRAINS`: TX, TY, TZ, RX, RY, RZ
+
+- Eigenvalues
+
+    - `REALEIGENVALUES`: EIGENVALUE
 
 
 

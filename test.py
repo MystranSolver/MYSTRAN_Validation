@@ -69,8 +69,10 @@ def read_definitions(definitions_path: Path) -> list[CaseDefinition]:
             definition.deck_filename = definition_fields_str[1]
             match definition.test_type:
                 case "mys" | "msc" | "my3" | "ms3":
-                    if len(definition_fields_str) > 2:
-                        definition.knownfail = definition_fields_str[2].startswith("KNOWNFAIL")
+                    if len(definition_fields_str) > 2 and definition_fields_str[2] != "":
+                        definition.threshold = float(definition_fields_str[2])
+                    if len(definition_fields_str) > 3:
+                        definition.knownfail = definition_fields_str[3].startswith("KNOWNFAIL")
                 case "pth":
                     if len(definition_fields_str) < 6:
                         show_message(f"ERROR: Not enough fields in\n{definition_str}")
