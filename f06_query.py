@@ -66,34 +66,52 @@ class F06Query:
                 segment = segment[:-4] + "E" + segment[-4:]
                 return float(segment)
 
-        def subcase_or_mode():
+        def subcase_mode():
+            # Determine the subcase and mode that the block we're at belongs to.
+            #
             # Search backwards not more than up to 8 non-blank lines and skipping blank lines
-            # Non-blank lines are typically TITLE, SUBT, LABEL
-            # Sometimes TITLE appears 2-6 times due to a Mystran bug in old versions.
-            # Blank lines are sometimes a lot due to a possible Mystran bug
+            # Non-blank lines are typically TITLE, SUBTITLE, LABEL.
+            # Sometimes TITLE appears 2-6 times due to a bug in Mystran v18.0.0-.
+            # Blank lines are sometimes a lot due to a possible Mystran bug.
             nonlocal previous_prefix
             non_blanks = 0
             delta = -2
             while True:
                 line = peek_line_delta(delta)
-                if "OUTPUT FOR SUBCASE" in line:
+
+                if line.startswith(" OUTPUT FOR SUBCASE"):
                     subcase = int(number(line, 21, 8))
                     previous_prefix = ["SC", str(subcase)]
                     return previous_prefix
-                if "OUTPUT FOR EIGENVECTOR" in line:
+
+                if line.startswith(" OUTPUT FOR EIGENVECTOR"):
                     mode = int(number(line, 25, 8))
-                    if buckling is None:
-                        # We don't know what subcase it should be in, so abort.
-                        print(f"ERROR reading {self.file_name}: Eigenvector data appears before eigenvalue block. {line_no}:")
-                        print(line)
-                        sys.exit(1)
-                    elif buckling:
-                        # Buckling eigenvectors are in subcase 2
-                        previous_prefix = ["SC","2","MODE", str(mode)]
+                    # Decide what subcase this mode is in.
+                    prev_line = peek_line_delta(delta - 1)
+                    if prev_line.startswith(" OUTPUT FOR SUBCASE"):
+                        # v18.1.0+ with a subcase defined in the deck shows subcase number for each eigenvector block.
+                        # v18.0.0- Impossible
+                        subcase = int(number(prev_line, 21, 8))
                     else:
-                        # Normal modes eigenvectors are in subcase 1
-                        previous_prefix = ["SC","1","MODE", str(mode)]
+                        # v18.1.0+ without a subcase defined. Modes are always in SC1.
+                        # v18.0.0- modes are always in SC1 for normal modes or SC2 for buckling modes.
+                        if buckling is None:
+                            # v18.1.0+ Impossible but this shows we don't need to use the buckling variable.
+                            # v18.0.0- Impossible.
+                            subcase = 1
+                        elif buckling:
+                            # v18.1.0+ Impossible because subcases are always defined for buckling.
+                            # v18.0.0- Buckling eigenvectors are in always in subcase 2.
+                            subcase = 2
+                        else:
+                            # v18.1.0+ Typical for normal modes with no subcase defined.
+                            # v18.0.0- Normal modes eigenvectors are in subcase 1
+                            subcase = 1
+
+                    previous_prefix = ["SC", str(subcase), "MODE", str(mode)]
+
                     return previous_prefix
+
                 if line.strip() != "":
                     non_blanks += 1
                 if non_blanks > 8:
@@ -106,7 +124,7 @@ class F06Query:
         while line_no < len(lines):
             line = get_next_line()
 
-            if  "MYSTRAN Version" in line:
+            if line.startswith(" MYSTRAN Version"):
                 major_version = int(line[17:25].split(".")[0])
             
             elif "D I S P L A C E M E N T S" in line \
@@ -119,7 +137,7 @@ class F06Query:
                 if "S P C   F O R C E S" in line:           block_name = "SPCFORCES"
                 if "M P C   F O R C E S" in line:           block_name = "MPCFORCES"
                 if "A P P L I E D    F O R C E S" in line:  block_name = "APPLIEDFORCES"
-                prefix = subcase_or_mode()
+                prefix = subcase_mode()
                 gids_node = ensure_path(root, prefix + [block_name, "GID"])
                 get_next_line()
                 line = get_next_line()
@@ -158,7 +176,7 @@ class F06Query:
 
             elif "G R I D   P O I N T   F O R C E   B A L A N C E" in line \
             and not "C B   G R I D   P O I N T   F O R C E   B A L A N C E   O T M" in line:
-                prefix = subcase_or_mode()
+                prefix = subcase_mode()
                 if prefix is None:
                     if previous_prefix is not None:
                         # Some v15 files (SS-BAR-10-BUCKLING-CF-LOAD-LAN-3D.F06) have no subcase or
@@ -166,7 +184,7 @@ class F06Query:
                         # previous block.
                         prefix = previous_prefix
                     else:
-                        # Can't know what to do.
+                        # Don't know what to do.
                         print(f"ERROR reading {self.file_name}: No previous block with subcase or eigenvector before line {line_no}:")
                         print(line)
                         sys.exit(1)
@@ -241,7 +259,7 @@ class F06Query:
                         break
 
             elif "E L E M E N T   S T R E S S E S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
-                prefix = subcase_or_mode()
+                prefix = subcase_mode()
                 if prefix is not None:
                     line = get_next_line()
                     if "F O R   E L E M E N T   T Y P E   H E X A" in line \
@@ -275,7 +293,7 @@ class F06Query:
                             set(corner_node, "VONMISES", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
             elif "E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
-                prefix = subcase_or_mode()
+                prefix = subcase_mode()
                 if prefix is None:
                     print(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}:")
                     print(line)
@@ -435,7 +453,7 @@ class F06Query:
 
 
             elif "S T R E S S E S   I N   L A Y E R E D   C O M P O S I T E   E L E M E N T S" in line:
-                prefix = subcase_or_mode()
+                prefix = subcase_mode()
                 if prefix is not None:
                     get_next_line()
                     get_next_line()
@@ -472,7 +490,7 @@ class F06Query:
                             set(ply_node, "23", number(line, 73, 12))
 
             elif "E L E M E N T   S T R A I N S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
-                prefix = subcase_or_mode()
+                prefix = subcase_mode()
                 if prefix is not None:
                     line = get_next_line()
                     if "F O R   E L E M E N T   T Y P E   H E X A" in line \
@@ -506,7 +524,7 @@ class F06Query:
                             set(corner_node, "VONMISES", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
             elif "E L E M E N T   S T R A I N S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
-                prefix = subcase_or_mode()
+                prefix = subcase_mode()
                 if prefix is not None:
                     line = get_next_line()
                     if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
@@ -595,7 +613,7 @@ class F06Query:
                             set(eid_node, "RZ", number(line, 99, 13))
 
             elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
-                prefix = subcase_or_mode()
+                prefix = subcase_mode()
                 if prefix is None:
                     print(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}:")
                     print(line)
@@ -730,6 +748,7 @@ class F06Query:
 
 
             elif "R E A L   E I G E N V A L U E S" in line:
+                prefix = subcase_mode()
                 line = get_next_line()
                 buckling = "buckling" in line
                 get_next_line()
@@ -737,8 +756,11 @@ class F06Query:
                 if buckling:
                     get_next_line()
                     get_next_line()
-                subcase = "2" if buckling else "1"
-                modes_node = ensure_path(root, ["SC",subcase,"REALEIGENVALUES","MODE"])
+                if prefix is None:
+                    # v18.0.0- Subcase depends on if it's buckling or normal modes.
+                    # v18.1.0+ If no subcases are defined, it falls back to this which will be SC1.
+                   prefix = ["SC", "2"] if buckling else ["SC", "1"]
+                modes_node = ensure_path(root, prefix + ["REALEIGENVALUES","MODE"])
                 while True:
                     line = get_next_line()
                     if line.strip().startswith("---") or len(line.strip()) == 0:
