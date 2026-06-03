@@ -68,7 +68,7 @@ def read_definitions(definitions_path: Path) -> list[CaseDefinition]:
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
             match definition.test_type:
-                case "mys" | "msc" | "my3" | "ms3":
+                case "mys" | "msc":
                     if len(definition_fields_str) > 2 and definition_fields_str[2] != "":
                         definition.threshold = float(definition_fields_str[2])
                     if len(definition_fields_str) > 3:
@@ -185,9 +185,9 @@ def test_bulk_magic(root_dir: Path,
         error_percent = "abs(t - r) / rmaxa * 100"
         """)
 
-    if test_case.test_type == "my3":
+    if test_case.test_type == "mys":
         reference_f06_path = (root_dir / "reference_mystran" / test_case.deck_filename).with_suffix(".F06").resolve()
-    elif test_case.test_type == "ms3":
+    elif test_case.test_type == "msc":
         reference_f06_path = (root_dir / "reference_msc" / test_case.deck_filename).with_suffix(".f06").resolve()
     
     # Make script for f06magic
@@ -301,14 +301,14 @@ def run_case(mystran_path: Path,
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".F06").resolve()
 
-    if test_case.test_type == "mys" or test_case.test_type == "msc":
+    if test_case.test_type == "mys":
 
         output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}\n")
 
         fail_count, comparison_count, message = test_bulk(root_dir, test_f06_path, deck_path, output_file, test_case)
         count_suffix = "/" + str(comparison_count)
 
-    elif test_case.test_type == "my3" or test_case.test_type == "ms3":
+    elif test_case.test_type == "msc":
 
         output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
 

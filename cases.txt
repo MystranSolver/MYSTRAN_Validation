@@ -2,14 +2,12 @@
 INCLUDE cases_bulk_temp.txt
 
 # From Zach
-# Disabled because MSC bulk comparison is not working yet
-#ms3;    turbo_coarse_bolted_shells_modal.bdf;   ;  KNOWNFAIL   Mystran can't read INIT MASTER(S) and NASTRAN in executive control section
-#ms3;    turbo_coarse_bolted_shells_shear.bdf;   ;  KNOWNFAIL   Mystran can't read INIT MASTER(S) and NASTRAN in executive control section
+msc;    turbo_coarse_bolted_shells_modal.bdf;   ; KNOWNFAIL Don't know why
+msc;    turbo_coarse_bolted_shells_shear.bdf;   ; KNOWNFAIL Don't know why
 
-# RBE3 bug from copper280z
+# RBE3 bug in v18.0.0 from copper280z
 pth;    rbe3_rx_weighted_c123_c23.bdf;  SC/1/DISPLACEMENTS/GID/100/RX;; 1;  0%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/224
-# Disabled because MSC bulk comparison is not working yet
-#ms3;    rbe3_rx_weighted_c123_c23.bdf;   ;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/224
+msc;    rbe3_rx_weighted_c123_c23.bdf;                                        ;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/224
 
 # Macneal-Harder 3D patch test. From copper280z
 pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/XX; ; 1.00000000e-03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225

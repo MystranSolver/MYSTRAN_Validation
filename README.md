@@ -1,7 +1,5 @@
 # MYSTRAN_Validation
 Automated test suite for validation of Mystran.
-> [!WARNING]
-> It works but the design isn't stable yet and anything might change.
 
 ## Run tests
 ```
@@ -201,11 +199,10 @@ least one value in the normalization group has a large magnitude.
 `abs(test - ref) / group_max <= 1.0e-6%`
 
 #### Field 1. Test type
+> [!WARNING]
+> `msc` doesn't work properly yet.
 - `mys` means use reference f06 file in `reference_mystran` directory.
 - `msc` means use reference f06 file in `reference_msc` directory.
-
-> [!WARNING]
-> `msc` doesn't work yet.
 
 #### Field 2. Deck filename
 If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
