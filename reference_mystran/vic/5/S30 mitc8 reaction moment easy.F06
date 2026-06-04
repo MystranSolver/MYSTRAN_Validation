@@ -1,0 +1,254 @@
+   604115501
+
+ MYSTRAN Version 18.0.0   APR 20 2026 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  6/ 4/2026 at 11:55: 1.799 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\S30 mitc8 reaction moment easy.bdf                                                                                                                                                                      
+
+
+ >> LINK  0 BEGIN
+
+
+SOL 101                                                                                                                                                                                                                                                         
+CEND                                                                                                                                                                                                                                                            
+DISPLACEMENT = ALL                                                                                                                                                                                                                                              
+SPCFORCES = ALL                                                                                                                                                                                                                                                 
+MPCFORCES = ALL                                                                                                                                                                                                                                                 
+STRESS(CORNER) = ALL                                                                                                                                                                                                                                            
+SPC = 1                                                                                                                                                                                                                                                         
+LOAD = 1                                                                                                                                                                                                                                                        
+BEGIN BULK                                                                                                                                                                                                                                                      
+ECHO: loadb GRID           1       0   0.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           2       0   1.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           3       0   1.0+0   1.5+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           4       0   0.0+0   1.5+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           5       0   2.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           6       0   3.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           7       0   3.0+0   1.5+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           8       0   2.0+0   1.5+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           9       0   5.0-1   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          10       0   1.0+0   7.5-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          11       0   5.0-1   1.5+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          12       0   0.0+0   7.5-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          13       0   3.0+0   7.5-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          14       0   2.5+0   1.5+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          15       0   2.0+0   7.5-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          16       0   2.5+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb PARAM    STR_CID      -2                                                                                                                                                                                                                                        
+ECHO: loadb MAT1*                  1          2.0+11 7.1428571429+10           4.0-1*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0           0.0+0           0.0+0                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       5       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       5       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       5       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       5       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       6       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       6       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       6       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb PSHELL         1       1   1.0-1       1               1           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD8         1       1       1       2       3       4       9      10+                                                                                                                                                                                       
+ECHO:  nextc +             11      12                                       2   0.0+0                                                                                                                                                                                        
+ECHO: loadb CORD2R         2       0   0.0+0   0.0+0   0.0+0   0.0+0   1.0+0   0.0+0+                                                                                                                                                                                       
+ECHO:  nextc +          1.0+0   0.0+0   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb CQUAD8         2       1       6       7       8       5      13      14+                                                                                                                                                                                       
+ECHO:  nextc +             15      16                                       3   0.0+0                                                                                                                                                                                        
+ECHO: loadb CORD2R         3       0   0.0+0   0.0+0   0.0+0  -1.0+0   0.0+0   0.0+0+                                                                                                                                                                                       
+ECHO:  nextc +          0.0+0   1.0+0   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb MOMENT         2       4       0   1.0+0   1.1+0   0.0+0   0.0+0                                                                                                                                                                                                
+ECHO: loadb MOMENT         2       3       0   1.0+0   1.1+0   0.0+0   0.0+0                                                                                                                                                                                                
+ECHO: loadb FORCE*                 2               7               0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0           0.0+0 2.44444444444-1                                                                                                                                                                                                        
+ECHO: loadb FORCE*                 2              14               0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0           0.0+0 9.77777777778-1                                                                                                                                                                                                        
+ECHO: loadb FORCE*                 2               8               0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0           0.0+0 2.44444444444-1                                                                                                                                                                                                        
+ECHO: loadb LOAD           1   1.0+0   1.0+0       2                                                                                                                                                                                                                        
+ECHO: loadb ENDDATA                                                                                                                                                                                                                                                         
+
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  7.37E-02 MB MEMORY FROM ARRAY STF3
+
+
+ *INFORMATION: AUTOSPC Summary, Stage 1 after identification of AUTOSPC's at the grid level                                                 
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =           16
+                                                                                        ------------
+                       Total number of DOF's identified in this stage                 =           16
+
+               DEALLOCATED  3.84E-04 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  7.37E-02 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =           16
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =           16
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            =  8.237918E-15 Based on U'*(K*U - P)/(U'*P)
+
+
+ >> LINK  3 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR SUBCASE        1
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0          -1.088727E-07  0.0         
+              2        0  0.0           0.0           0.0           0.0           1.088727E-07  0.0         
+              3        0  0.0           0.0           3.546818E-07  4.729091E-07  1.088727E-07  0.0         
+              4        0  0.0           0.0           3.546818E-07  4.729091E-07 -1.088727E-07  0.0         
+              5        0  0.0           0.0           0.0           0.0          -6.945016E-08  0.0         
+              6        0  0.0           0.0           0.0           0.0           6.945016E-08  0.0         
+              7        0  0.0           0.0           2.086713E-07  2.485515E-07  6.212964E-08  0.0         
+              8        0  0.0           0.0           2.086713E-07  2.485515E-07 -6.212964E-08  0.0         
+              9        0  0.0           0.0           2.721818E-08  2.061818E-07  1.831151E-21  0.0         
+             10        0  0.0           0.0           8.867045E-08  2.364545E-07 -1.483636E-08  0.0         
+             11        0  0.0           0.0           3.819000E-07  2.667273E-07  5.249171E-20  0.0         
+             12        0  0.0           0.0           8.867045E-08  2.364545E-07  1.483636E-08  0.0         
+             13        0  0.0           0.0           5.773225E-08  1.461638E-07 -9.428283E-09  0.0         
+             14        0  0.0           0.0           2.242951E-07  1.374912E-07  3.887986E-20  0.0         
+             15        0  0.0           0.0           5.773225E-08  1.461638E-07  9.428283E-09  0.0         
+             16        0  0.0           0.0           1.731221E-08  1.088670E-07  1.733471E-21  0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           3.819000E-07  4.729091E-07  1.088727E-07  0.0         
+                MIN* :    0.0           0.0           0.0           0.0          -1.088727E-07  0.0         
+
+                ABS* :    0.0           0.0           3.819000E-07  4.729091E-07  1.088727E-07  0.0         
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0          -1.247003E-12 -1.100000E+00  0.0           0.0         
+              2        0  0.0           0.0           1.614708E-12 -1.100000E+00  0.0           0.0         
+              5        0  0.0           0.0          -7.333333E-01 -1.100000E+00  0.0           0.0         
+              6        0  0.0           0.0          -7.333333E-01 -1.100000E+00  0.0           0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           1.614708E-12  0.0           0.0           0.0         
+                MIN* :    0.0           0.0          -7.333333E-01 -1.100000E+00  0.0           0.0         
+
+                ABS* :    0.0           0.0           7.333333E-01  1.100000E+00  0.0           0.0         
+                *for output set
+                         ------------- ------------- ------------- ------------- ------------- -------------
+     SPC FORCE TOTALS:    0.0           0.0          -1.466667E+00 -4.400000E+00  0.0           0.0         
+     (for output set)
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+     (for output set)
+
+
+ OUTPUT FOR SUBCASE        1
+
+                                          E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                                                       F O R   E L E M E N T   T Y P E   Q U A D 8  
+    Elem  Location       Fibre       Stresses In Element Coord System     Principal Stresses (Zero Shear)               Transverse   Transverse   % Poly
+     ID                 Distance    Normal-X     Normal-Y     Shear-XY     Angle     Major        Minor      von Mises    Shear-XZ     Shear-YZ    Fit Err
+                                                                                                                         (max through thickness)
+
+        1  CENTER      -5.000E-02  7.87168E-11  1.32000E+03 -2.48860E-10  -90.00  1.32000E+03  7.86713E-11  1.32000E+03 -7.57398E-12 -1.67799E-11
+                        5.000E-02 -7.87168E-11 -1.32000E+03  2.48860E-10    0.00 -7.86713E-11 -1.32000E+03  1.32000E+03
+
+           GRD       1 -5.000E-02 -3.60789E-10  1.32000E+03 -2.10866E-10  -90.00  1.32000E+03 -3.60842E-10  1.32000E+03  2.10279E-11  1.59679E-11  0.0E+00
+                        5.000E-02  3.60789E-10 -1.32000E+03  2.10866E-10    0.00  3.60842E-10 -1.32000E+03  1.32000E+03
+
+           GRD       2 -5.000E-02 -2.76196E-10  1.32000E+03 -1.48930E-10  -90.00  1.32000E+03 -2.76259E-10  1.32000E+03  1.79550E-12 -7.49074E-11  0.0E+00
+                        5.000E-02  2.76196E-10 -1.32000E+03  1.48930E-10    0.00  2.76259E-10 -1.32000E+03  1.32000E+03
+
+           GRD       3 -5.000E-02  5.18223E-10  1.32000E+03 -2.86855E-10  -90.00  1.32000E+03  5.18185E-10  1.32000E+03 -3.61758E-11 -4.95278E-11  0.0E+00
+                        5.000E-02 -5.18223E-10 -1.32000E+03  2.86855E-10    0.00 -5.18185E-10 -1.32000E+03  1.32000E+03
+
+           GRD       4 -5.000E-02  4.33630E-10  1.32000E+03 -3.48791E-10  -90.00  1.32000E+03  4.33602E-10  1.32000E+03 -1.69434E-11  4.13475E-11  0.0E+00
+                        5.000E-02 -4.33630E-10 -1.32000E+03  3.48791E-10    0.00 -4.33602E-10 -1.32000E+03  1.32000E+03
+
+        2  CENTER      -5.000E-02  6.60000E+02 -4.88889E+01  1.89834E-10    0.00  6.60000E+02 -4.88889E+01  6.85753E+02  1.76000E+01 -3.75522E-12
+                        5.000E-02 -6.60000E+02  4.88889E+01 -1.89834E-10  -90.00  4.88889E+01 -6.60000E+02  6.85753E+02
+
+           GRD       6 -5.000E-02  1.32000E+03  1.41906E+02 -3.30961E+01   -1.61  1.32093E+03  1.40977E+02  1.25639E+03  1.76000E+01  5.86667E+00  0.0E+00
+                        5.000E-02 -1.32000E+03 -1.41906E+02  3.30961E+01   88.39 -1.40977E+02 -1.32093E+03  1.25639E+03
+
+           GRD       7 -5.000E-02  5.54792E-11 -2.39684E+02 -3.30961E+01   -7.72  4.48602E+00 -2.44170E+02  2.46443E+02  1.76000E+01  5.86667E+00  0.0E+00
+                        5.000E-02 -5.54792E-11  2.39684E+02  3.30961E+01   82.28  2.44170E+02 -4.48602E+00  2.46443E+02
+
+           GRD       8 -5.000E-02  7.41099E-11 -2.39684E+02  3.30961E+01    7.72  4.48602E+00 -2.44170E+02  2.46443E+02  1.76000E+01 -5.86667E+00  0.0E+00
+                        5.000E-02 -7.41099E-11  2.39684E+02 -3.30961E+01  -82.28  2.44170E+02 -4.48602E+00  2.46443E+02
+
+           GRD       5 -5.000E-02  1.32000E+03  1.41906E+02  3.30961E+01    1.61  1.32093E+03  1.40977E+02  1.25639E+03  1.76000E+01 -5.86667E+00  0.0E+00
+                        5.000E-02 -1.32000E+03 -1.41906E+02 -3.30961E+01  -88.39 -1.40977E+02 -1.32093E+03  1.25639E+03
+                                  ------------ ------------ ------------         ------------ ------------ ------------ ------------ ------------ --------
+ MAX* :                            1.32000E+03  1.32000E+03  3.30961E+01          1.32093E+03  1.40977E+02  1.32000E+03  1.76000E+01  5.86667E+00  0.0E+00
+ MIN* :                           -1.32000E+03 -1.32000E+03 -3.30961E+01         -1.40977E+02 -1.32093E+03  2.46443E+02 -3.61758E-11 -5.86667E+00  0.0E+00
+
+ ABS* :                            1.32000E+03  1.32000E+03  3.30961E+01          1.32093E+03  1.32093E+03  1.32000E+03  1.76000E+01  5.86667E+00  0.0E+00
+ *for output set
+
+ >> LINK  9 END
+
+    Total CPU time =  3.12E-02 seconds
+
+ >> MYSTRAN END    :  6/ 4/2026 at 11:55: 1.883

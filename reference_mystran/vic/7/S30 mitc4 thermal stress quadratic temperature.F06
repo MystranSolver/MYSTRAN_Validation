@@ -1,0 +1,968 @@
+   604115559
+
+ MYSTRAN Version 18.0.0   APR 20 2026 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  6/ 4/2026 at 11:55:59.431 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\S30 mitc4 thermal stress quadratic temperature.bdf                                                                                                                                                      
+
+
+ >> LINK  0 BEGIN
+
+
+SOL 101                                                                                                                                                                                                                                                         
+CEND                                                                                                                                                                                                                                                            
+DISPLACEMENT = ALL                                                                                                                                                                                                                                              
+SPCFORCES = ALL                                                                                                                                                                                                                                                 
+MPCFORCES = ALL                                                                                                                                                                                                                                                 
+STRESS(CORNER) = ALL                                                                                                                                                                                                                                            
+STRAIN(CORNER) = ALL                                                                                                                                                                                                                                            
+SPC = 1                                                                                                                                                                                                                                                         
+TEMPERATURE = 1                                                                                                                                                                                                                                                 
+BEGIN BULK                                                                                                                                                                                                                                                      
+ECHO: loadb GRID           1       0   0.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           2       0   1.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           3       0   1.0+0   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           4       0   0.0+0   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           5       0   3.0-1   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           6       0   1.0+0   5.0-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           7       0   7.0-1   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           8       0   0.0+0   5.0-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           9       0   5.0-1   5.0-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          10       0   2.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          11       0   3.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          12       0   3.0+0   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          13       0   2.0+0   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          14       0   2.3+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          15       0   3.0+0   5.0-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          16       0   2.7+0   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          17       0   2.0+0   5.0-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID*                 18               0 2.55813074112+0 5.10904669762-1*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 19               0 2.28533744812+0 4.60399091244-1*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 20               0 2.64427447319+0 7.44096875191-1*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID          21       0  2.35+0   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          22       0   2.0+0   7.5-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID*                 23               0 2.22415947914+0 8.01243662834-1*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID          24       0  2.15+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID*                 25               0 2.54758167267+0 2.84845679998-1*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID          26       0   2.0+0   2.5-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID*                 27               0 2.24304461479+0 1.65960535407-1*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID          28       0  2.65+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          29       0   3.0+0   2.5-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          30       0  2.75+0   5.0-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID*                 31               0 2.77083921432+0 2.82468020916-1*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID          32       0   3.0+0   7.5-1   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID          33       0  2.85+0   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID*                 34               0 2.80295157433+0 8.26742649078-1*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0               0                                                                                                                                                                                                                        
+ECHO: loadb PARAM   QUAD4TYP  MITC4+                                                                                                                                                                                                                                        
+ECHO: loadb PARAM    STR_CID      -2                                                                                                                                                                                                                                        
+ECHO: loadb MAT8           1  1.0+10  1.0+10   0.0+0   5.0+9   5.0+9   5.0+9   0.0+0+                                                                                                                                                                                       
+ECHO:  nextc +          0.0+0   3.0-3   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb SPC            1       1       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       6   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       6   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       5       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       5       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       5       6   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      10       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      10       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      10       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      10       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      10       6   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      11       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      11       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      11       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      11       6   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      14       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      14       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      14       6   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      24       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      24       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      24       6   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      28       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      28       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      28       6   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb PSHELL         1       1   1.0-2       1               1           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4         1       1       9       8       4       7   1.8+2   0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4         2       1       1       5       9       8   0.0+0   0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4         3       1       5       2       6       9   0.0+0   0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4         4       1       9       6       3       7   0.0+0   0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*                5               1              18              30*                                                                                                                                                                                       
+ECHO: loadb *                     34              20 3.25284075378+0           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4         6       1      30      15      32      34   0.0+0   0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*                7               1              34              32*                                                                                                                                                                                       
+ECHO: loadb *                     12              33  2.1278966367+1           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*                8               1              20              34*                                                                                                                                                                                       
+ECHO: loadb *                     33              16-2.75124145805+1           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*                9               1              19              17*                                                                                                                                                                                       
+ECHO: loadb *                     22              23 1.72098607973+2           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*               10               1              19              18*                                                                                                                                                                                       
+ECHO: loadb *                     20              23-1.04891014922+1           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*               11               1              23              20*                                                                                                                                                                                       
+ECHO: loadb *                     16              21 7.74620336896+0           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*               12               1              23              22*                                                                                                                                                                                       
+ECHO: loadb *                     13              21-1.67123246947+2           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4        13       1      10      24      27      26   0.0+0   0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4        14       1      24      14      25      27   0.0+0   0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*               15               1              25              27*                                                                                                                                                                                       
+ECHO: loadb *                     19              18-1.58675326039+2           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*               16               1              26              27*                                                                                                                                                                                       
+ECHO: loadb *                     19              17  1.9074256162+1           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4        17       1      14      28      31      25   0.0+0   0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4        18       1      28      11      29      31   0.0+0   0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*               19               1              31              29*                                                                                                                                                                                       
+ECHO: loadb *                     15              30 8.06412272843+0           0.0+0                                                                                                                                                                                        
+ECHO: loadb CQUAD4*               20               1              25              31*                                                                                                                                                                                       
+ECHO: loadb *                     30              18 6.10168326318-1           0.0+0                                                                                                                                                                                        
+ECHO: loadb TEMP           1       9   2.5+1                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1       6   2.5+1                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1       3   1.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1       7   1.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMP*                  1              18 2.61023581584+1                *                                                                                                                                                                                       
+ECHO: loadb *                                                                                                                                                                                                                                                               
+ECHO: loadb TEMP           1      30   2.5+1                                                                                                                                                                                                                                
+ECHO: loadb TEMP*                  1              34 6.83503407805+1                *                                                                                                                                                                                       
+ECHO: loadb *                                                                                                                                                                                                                                                               
+ECHO: loadb TEMP*                  1              20 5.53680159669+1                *                                                                                                                                                                                       
+ECHO: loadb *                                                                                                                                                                                                                                                               
+ECHO: loadb TEMP           1      15   2.5+1                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      32 5.625+1                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      14   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      28   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb TEMP*                  1              31 7.97881828402+0                *                                                                                                                                                                                       
+ECHO: loadb *                                                                                                                                                                                                                                                               
+ECHO: loadb TEMP*                  1              25 8.11370614137+0                *                                                                                                                                                                                       
+ECHO: loadb *                                                                                                                                                                                                                                                               
+ECHO: loadb TEMP*                  1              23 6.41991407232+1                *                                                                                                                                                                                       
+ECHO: loadb *                                                                                                                                                                                                                                                               
+ECHO: loadb TEMP           1      22 5.625+1                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      13   1.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      21   1.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      10   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      24   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb TEMP*                  1              27 2.75428993126+0                *                                                                                                                                                                                       
+ECHO: loadb *                                                                                                                                                                                                                                                               
+ECHO: loadb TEMP           1      26  6.25+0                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      16   1.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMP*                  1              19 2.11967323218+1                *                                                                                                                                                                                       
+ECHO: loadb *                                                                                                                                                                                                                                                               
+ECHO: loadb TEMP           1      17   2.5+1                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1       5   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1       2   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      11   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      29  6.25+0                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      12   1.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1      33   1.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1       1   0.0+0                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1       8   2.5+1                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1       4   1.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMPD          1   0.0+0                                                                                                                                                                                                                                        
+ECHO: loadb ENDDATA                                                                                                                                                                                                                                                         
+
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  1.84E-01 MB MEMORY FROM ARRAY STF3
+
+
+ *INFORMATION: AUTOSPC Summary, Stage 1 after identification of AUTOSPC's at the grid level                                                 
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =           26
+                                                                                        ------------
+                       Total number of DOF's identified in this stage                 =           26
+
+               DEALLOCATED  8.16E-04 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  1.84E-01 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =           26
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =           26
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            = -1.962009E-16 Based on U'*(K*U - P)/(U'*P)
+
+
+ >> LINK  3 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR SUBCASE        1
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0 -9.125738E-19  0.0           0.0           0.0           0.0           0.0         
+              3        0 -1.269971E-16  1.125000E-01  0.0           0.0           0.0           0.0         
+              4        0 -1.626244E-16  1.125000E-01  0.0           0.0           0.0           0.0         
+              5        0  3.848849E-18  0.0           0.0           0.0           0.0           0.0         
+              6        0 -3.895545E-17  1.875000E-02  0.0           0.0           0.0           0.0         
+              7        0 -1.342232E-16  1.125000E-01  0.0           0.0           0.0           0.0         
+              8        0 -2.390106E-17  1.875000E-02  0.0           0.0           0.0           0.0         
+              9        0 -3.181804E-17  1.875000E-02  0.0           0.0           0.0           0.0         
+             10        0  0.0           0.0           0.0           0.0           0.0           0.0         
+             11        0  1.019709E-04  0.0           0.0           0.0           0.0           0.0         
+             12        0 -7.576558E-04  1.042273E-01  0.0           0.0           0.0           0.0         
+             13        0  1.206601E-03  1.039551E-01  0.0           0.0           0.0           0.0         
+             14        0  4.653121E-04  0.0           0.0           0.0           0.0           0.0         
+             15        0 -1.875986E-04  1.434098E-02  0.0           0.0           0.0           0.0         
+             16        0  6.281367E-04  1.035536E-01  0.0           0.0           0.0           0.0         
+             17        0  9.304851E-04  1.471673E-02  0.0           0.0           0.0           0.0         
+             18        0  4.167022E-04  1.535118E-02  0.0           0.0           0.0           0.0         
+             19        0  3.355495E-04  1.144100E-02  0.0           0.0           0.0           0.0         
+             20        0  3.798349E-04  4.420231E-02  0.0           0.0           0.0           0.0         
+             21        0  2.615049E-04  1.033801E-01  0.0           0.0           0.0           0.0         
+             22        0 -4.578765E-04  4.535808E-02  0.0           0.0           0.0           0.0         
+             23        0  2.621342E-04  5.451752E-02  0.0           0.0           0.0           0.0         
+             24        0  2.762484E-04  0.0           0.0           0.0           0.0           0.0         
+             25        0  1.667387E-04  3.617353E-03  0.0           0.0           0.0           0.0         
+             26        0  4.725308E-04  2.865289E-03  0.0           0.0           0.0           0.0         
+             27        0  1.760065E-04  7.881885E-04  0.0           0.0           0.0           0.0         
+             28        0  1.948425E-04  0.0           0.0           0.0           0.0           0.0         
+             29        0  5.124912E-04  2.374987E-03  0.0           0.0           0.0           0.0         
+             30        0  5.528658E-04  1.380610E-02  0.0           0.0           0.0           0.0         
+             31        0  2.912317E-04  3.316225E-03  0.0           0.0           0.0           0.0         
+             32        0  1.551390E-03  4.537372E-02  0.0           0.0           0.0           0.0         
+             33        0  1.299395E-04  1.034636E-01  0.0           0.0           0.0           0.0         
+             34        0  4.607718E-04  5.959479E-02  0.0           0.0           0.0           0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    1.551390E-03  1.125000E-01  0.0           0.0           0.0           0.0         
+                MIN* :   -7.576558E-04  0.0           0.0           0.0           0.0           0.0         
+
+                ABS* :    1.551390E-03  1.125000E-01  0.0           0.0           0.0           0.0         
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0 -3.201421E-10  2.328306E-09  0.0           0.0           0.0           0.0         
+              2        0  0.0          -3.026798E-09  0.0           0.0           0.0           0.0         
+              5        0  0.0           1.164153E-09  0.0           0.0           0.0           0.0         
+             10        0  2.808520E-09 -1.964167E+04  0.0           0.0           0.0           0.0         
+             11        0  0.0           3.398077E+03  0.0           0.0           0.0           0.0         
+             14        0  0.0           2.626317E+04  0.0           0.0           0.0           0.0         
+             24        0  0.0           9.528605E+03  0.0           0.0           0.0           0.0         
+             28        0  0.0          -1.954819E+04  0.0           0.0           0.0           0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    2.808520E-09  2.626317E+04  0.0           0.0           0.0           0.0         
+                MIN* :   -3.201421E-10 -1.964167E+04  0.0           0.0           0.0           0.0         
+
+                ABS* :    2.808520E-09  2.626317E+04  0.0           0.0           0.0           0.0         
+                *for output set
+                         ------------- ------------- ------------- ------------- ------------- -------------
+     SPC FORCE TOTALS:    2.488378E-09  4.059984E-09  0.0           0.0           0.0           0.0         
+     (for output set)
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+     (for output set)
+
+
+ OUTPUT FOR SUBCASE        1
+
+                                          E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                                                       F O R   E L E M E N T   T Y P E   Q U A D 4  
+    Elem  Location       Fibre       Stresses In Element Coord System     Principal Stresses (Zero Shear)               Transverse   Transverse   % Poly
+     ID                 Distance    Normal-X     Normal-Y     Shear-XY     Angle     Major        Minor      von Mises    Shear-XZ     Shear-YZ    Fit Err
+                                                                                                                         (max through thickness)
+
+        1  CENTER      -5.000E-03  1.21072E-07 -7.15256E-07 -4.47035E-07  -23.46  3.15036E-07 -9.09220E-07  1.10108E-06  0.00000E+00  0.00000E+00
+                        5.000E-03  1.21072E-07 -7.15256E-07 -4.47035E-07  -23.46  3.15036E-07 -9.09220E-07  1.10108E-06
+
+           GRD       9 -5.000E-03 -8.16598E-08  1.44968E-06  1.03990E-07   86.13  1.45671E-06 -8.86893E-08  1.50302E-06  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03 -8.16598E-08  1.44968E-06  1.03990E-07   86.13  1.45671E-06 -8.86893E-08  1.50302E-06
+
+           GRD       8 -5.000E-03 -8.65202E-08 -1.12400E-06  1.46461E-08    0.81 -8.63135E-08 -1.12421E-06  1.08363E-06  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03 -8.65202E-08 -1.12400E-06  1.46461E-08    0.81 -8.63135E-08 -1.12421E-06  1.08363E-06
+
+           GRD       4 -5.000E-03  3.54497E-07 -1.84521E-06 -7.77510E-07  -17.63  6.01565E-07 -2.09228E-06  2.44911E-06  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03  3.54497E-07 -1.84521E-06 -7.77510E-07  -17.63  6.01565E-07 -2.09228E-06  2.44911E-06
+
+           GRD       7 -5.000E-03  3.61301E-07  1.75794E-06 -6.52428E-07  -68.47  2.01530E-06  1.03947E-07  1.96539E-06  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03  3.61301E-07  1.75794E-06 -6.52428E-07  -68.47  2.01530E-06  1.03947E-07  1.96539E-06
+
+        2  CENTER      -5.000E-03 -1.03377E-07 -8.94070E-07  2.16067E-07   14.33 -4.81861E-08 -9.49260E-07  9.26108E-07  0.00000E+00  0.00000E+00
+                        5.000E-03 -1.03377E-07 -8.94070E-07  2.16067E-07   14.33 -4.81861E-08 -9.49260E-07  9.26108E-07
+
+           GRD       1 -5.000E-03  1.39854E-07 -1.42501E-06 -7.59278E-08   -2.77  1.43530E-07 -1.42868E-06  1.50559E-06  0.00000E+00  0.00000E+00 -0.1E+02(2)
+                        5.000E-03  1.39854E-07 -1.42501E-06 -7.59278E-08   -2.77  1.43530E-07 -1.42868E-06  1.50559E-06
+
+           GRD       5 -5.000E-03  1.56574E-07 -3.63130E-07 -2.77669E-07  -23.45  2.77016E-07 -4.83571E-07  6.66735E-07  0.00000E+00  0.00000E+00  0.1E+02(2)
+                        5.000E-03  1.56574E-07 -3.63130E-07 -2.77669E-07  -23.45  2.77016E-07 -4.83571E-07  6.66735E-07
+
+           GRD       9 -5.000E-03 -2.72582E-07 -9.17019E-09  4.03562E-07   54.04  2.83633E-07 -5.65386E-07  7.48646E-07  0.00000E+00  0.00000E+00  0.1E+02(2)
+                        5.000E-03 -2.72582E-07 -9.17019E-09  4.03562E-07   54.04  2.83633E-07 -5.65386E-07  7.48646E-07
+
+           GRD       8 -5.000E-03 -3.00449E-07 -1.77897E-06  7.39797E-07   22.51  6.14211E-09 -2.08556E-06  2.08864E-06  0.00000E+00  0.00000E+00 -0.1E+02(2)
+                        5.000E-03 -3.00449E-07 -1.77897E-06  7.39797E-07   22.51  6.14211E-09 -2.08556E-06  2.08864E-06
+
+        3  CENTER      -5.000E-03 -9.12696E-08  2.98023E-07 -1.00583E-07  -76.34  3.22475E-07 -1.15722E-07  3.93318E-07  0.00000E+00  0.00000E+00
+                        5.000E-03 -9.12696E-08  2.98023E-07 -1.00583E-07  -76.34  3.22475E-07 -1.15722E-07  3.93318E-07
+
+           GRD       5 -5.000E-03  8.27675E-09 -2.65636E-07 -4.23567E-07  -36.04  3.16479E-07 -5.73838E-07  7.81701E-07  0.00000E+00  0.00000E+00  0.9E+01(2)
+                        5.000E-03  8.27675E-09 -2.65636E-07 -4.23567E-07  -36.04  3.16479E-07 -5.73838E-07  7.81701E-07
+
+           GRD       2 -5.000E-03  1.07422E-08  1.38215E-06 -5.07548E-07  -71.75  1.54956E-06 -1.56662E-07  1.63353E-06  0.00000E+00  0.00000E+00 -0.1E+02(2)
+                        5.000E-03  1.07422E-08  1.38215E-06 -5.07548E-07  -71.75  1.54956E-06 -1.56662E-07  1.63353E-06
+
+           GRD       6 -5.000E-03 -1.93264E-07  1.04352E-06  2.88415E-07   77.50  1.10747E-06 -2.57215E-07  1.25599E-06  0.00000E+00  0.00000E+00 -0.9E+01(2)
+                        5.000E-03 -1.93264E-07  1.04352E-06  2.88415E-07   77.50  1.10747E-06 -2.57215E-07  1.25599E-06
+
+           GRD       9 -5.000E-03 -1.95025E-07 -1.33475E-07  3.48402E-07   47.52  1.85508E-07 -5.14008E-07  6.27671E-07  0.00000E+00  0.00000E+00  0.1E+02(2)
+                        5.000E-03 -1.95025E-07 -1.33475E-07  3.48402E-07   47.52  1.85508E-07 -5.14008E-07  6.27671E-07
+
+        4  CENTER      -5.000E-03  1.15484E-07  7.15256E-07 -5.06639E-07  -60.31  1.00411E-06 -1.73370E-07  1.10108E-06  0.00000E+00  0.00000E+00
+                        5.000E-03  1.15484E-07  7.15256E-07 -5.06639E-07  -60.31  1.00411E-06 -1.73370E-07  1.10108E-06
+
+           GRD       9 -5.000E-03 -8.07923E-08  5.68655E-07 -4.55400E-07  -62.75  8.03247E-07 -3.15385E-07  9.99002E-07  0.00000E+00  0.00000E+00 -0.2E+02(3)
+                        5.000E-03 -8.07923E-08  5.68655E-07 -4.55400E-07  -62.75  8.03247E-07 -3.15385E-07  9.99002E-07
+
+           GRD       6 -5.000E-03 -2.44685E-08  4.95670E-07 -5.17952E-07  -58.33  8.15178E-07 -3.43977E-07  1.03113E-06  0.00000E+00  0.00000E+00  0.3E+02(3)
+                        5.000E-03 -2.44685E-08  4.95670E-07 -5.17952E-07  -58.33  8.15178E-07 -3.43977E-07  1.03113E-06
+
+           GRD       3 -5.000E-03  1.86874E-07 -3.15639E-07 -2.47346E-07  -22.28  2.88193E-07 -4.16959E-07  6.14064E-07  0.00000E+00  0.00000E+00  0.2E+02(3)
+                        5.000E-03  1.86874E-07 -3.15639E-07 -2.47346E-07  -22.28  2.88193E-07 -4.16959E-07  6.14064E-07
+
+           GRD       7 -5.000E-03  1.53080E-07 -2.71848E-07 -2.09814E-07  -22.32  2.39218E-07 -3.57986E-07  5.20592E-07  0.00000E+00  0.00000E+00 -0.3E+02(3)
+                        5.000E-03  1.53080E-07 -2.71848E-07 -2.09814E-07  -22.32  2.39218E-07 -3.57986E-07  5.20592E-07
+
+        5  CENTER      -5.000E-03 -8.71426E+06  5.60295E+06  6.25363E+07   48.27  6.13890E+07 -6.45003E+07  1.09035E+08  0.00000E+00  0.00000E+00
+                        5.000E-03 -8.71426E+06  5.60295E+06  6.25363E+07   48.27  6.13890E+07 -6.45003E+07  1.09035E+08
+
+           GRD      18 -5.000E-03  1.20563E+06 -9.63387E+07  2.91658E+07   15.44  9.26098E+06 -1.04394E+08  1.09319E+08  0.00000E+00  0.00000E+00  0.2E+02(2)
+                        5.000E-03  1.20563E+06 -9.63387E+07  2.91658E+07   15.44  9.26098E+06 -1.04394E+08  1.09319E+08
+
+           GRD      30 -5.000E-03  1.80027E+07  1.30655E+08 -5.22814E+07  -68.57  1.51180E+08 -2.52150E+06  1.52456E+08  0.00000E+00  0.00000E+00 -0.3E+02(2)
+                        5.000E-03  1.80027E+07  1.30655E+08 -5.22814E+07  -68.57  1.51180E+08 -2.52150E+06  1.52456E+08
+
+           GRD      34 -5.000E-03 -3.03102E+07  5.40259E+07  1.46015E+08   53.05  1.63839E+08 -1.40124E+08  2.63507E+08  0.00000E+00  0.00000E+00 -0.2E+02(2)
+                        5.000E-03 -3.03102E+07  5.40259E+07  1.46015E+08   53.05  1.63839E+08 -1.40124E+08  2.63507E+08
+
+           GRD      20 -5.000E-03 -2.94829E+07 -9.49843E+07  1.52002E+08   38.92  9.32562E+07 -2.17723E+08  2.76413E+08  0.00000E+00  0.00000E+00  0.2E+02(2)
+                        5.000E-03 -2.94829E+07 -9.49843E+07  1.52002E+08   38.92  9.32562E+07 -2.17723E+08  2.76413E+08
+
+        6  CENTER      -5.000E-03  1.86599E+07  2.33665E+07 -2.57624E+07  -47.61  4.68829E+07 -4.85647E+06  4.94901E+07  0.00000E+00  0.00000E+00
+                        5.000E-03  1.86599E+07  2.33665E+07 -2.57624E+07  -47.61  4.68829E+07 -4.85647E+06  4.94901E+07
+
+           GRD      30 -5.000E-03 -4.94488E+07  1.10602E+08  7.03819E+06   87.49  1.10911E+08 -4.97577E+07  1.42463E+08  0.00000E+00  0.00000E+00  0.9E+01(1)
+                        5.000E-03 -4.94488E+07  1.10602E+08  7.03819E+06   87.49  1.10911E+08 -4.97577E+07  1.42463E+08
+
+           GRD      15 -5.000E-03 -2.71148E+07 -6.59332E+07  3.94977E+07   31.92 -2.51510E+06 -9.05329E+07  8.93019E+07  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03 -2.71148E+07 -6.59332E+07  3.94977E+07   31.92 -2.51510E+06 -9.05329E+07  8.93019E+07
+
+           GRD      32 -5.000E-03  7.33131E+07 -5.49643E+07 -4.96496E+07  -18.87  9.02845E+07 -7.19357E+07  1.40786E+08  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03  7.33131E+07 -5.49643E+07 -4.96496E+07  -18.87  9.02845E+07 -7.19357E+07  1.40786E+08
+
+           GRD      34 -5.000E-03  8.65380E+07  8.75466E+07 -1.02600E+08  -45.14  1.89643E+08 -1.55585E+07  1.97882E+08  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03  8.65380E+07  8.75466E+07 -1.02600E+08  -45.14  1.89643E+08 -1.55585E+07  1.97882E+08
+
+        7  CENTER      -5.000E-03 -2.08808E+07 -1.05782E+07  4.23525E+07   48.47  2.69351E+07 -5.83941E+07  7.55528E+07  0.00000E+00  0.00000E+00
+                        5.000E-03 -2.08808E+07 -1.05782E+07  4.23525E+07   48.47  2.69351E+07 -5.83941E+07  7.55528E+07
+
+           GRD      34 -5.000E-03  5.48446E+06  7.89069E+07  9.51702E+07   55.55  1.44201E+08 -5.98096E+07  1.81647E+08  0.00000E+00  0.00000E+00 -0.1E+02(2)
+                        5.000E-03  5.48446E+06  7.89069E+07  9.51702E+07   55.55  1.44201E+08 -5.98096E+07  1.81647E+08
+
+           GRD      32 -5.000E-03  1.11746E+07 -8.54259E+07  7.36602E+07   28.37  5.09581E+07 -1.25209E+08  1.57018E+08  0.00000E+00  0.00000E+00  0.2E+02(2)
+                        5.000E-03  1.11746E+07 -8.54259E+07  7.36602E+07   28.37  5.09581E+07 -1.25209E+08  1.57018E+08
+
+           GRD      12 -5.000E-03 -5.92987E+07 -7.17060E+07 -2.21981E+07  -37.19 -4.24537E+07 -8.85510E+07  7.67091E+07  0.00000E+00  0.00000E+00  0.1E+02(2)
+                        5.000E-03 -5.92987E+07 -7.17060E+07 -2.21981E+07  -37.19 -4.24537E+07 -8.85510E+07  7.67091E+07
+
+           GRD      33 -5.000E-03 -4.71623E+07  5.01837E+07  1.65759E+07   80.60  5.29288E+07 -4.99074E+07  8.90716E+07  0.00000E+00  0.00000E+00 -0.1E+02(2)
+                        5.000E-03 -4.71623E+07  5.01837E+07  1.65759E+07   80.60  5.29288E+07 -4.99074E+07  8.90716E+07
+
+        8  CENTER      -5.000E-03 -2.72156E+06  4.03149E+06 -7.97509E+07  -46.21  8.04773E+07 -7.91674E+07  1.38258E+08  0.00000E+00  0.00000E+00
+                        5.000E-03 -2.72156E+06  4.03149E+06 -7.97509E+07  -46.21  8.04773E+07 -7.91674E+07  1.38258E+08
+
+           GRD      20 -5.000E-03  2.82871E+07 -6.42030E+07 -1.50797E+08  -36.48  1.39771E+08 -1.75687E+08  2.73784E+08  0.00000E+00  0.00000E+00  0.2E+02(3)
+                        5.000E-03  2.82871E+07 -6.42030E+07 -1.50797E+08  -36.48  1.39771E+08 -1.75687E+08  2.73784E+08
+
+           GRD      34 -5.000E-03  3.05489E+07  1.39908E+08 -1.76802E+08  -53.59  2.70293E+08 -9.98360E+07  3.31678E+08  0.00000E+00  0.00000E+00 -0.2E+02(3)
+                        5.000E-03  3.05489E+07  1.39908E+08 -1.76802E+08  -53.59  2.70293E+08 -9.98360E+07  3.31678E+08
+
+           GRD      33 -5.000E-03 -1.87912E+07  1.06862E+08 -4.96518E+07  -70.84  1.24113E+08 -3.60426E+07  1.45521E+08  0.00000E+00  0.00000E+00 -0.3E+02(3)
+                        5.000E-03 -1.87912E+07  1.06862E+08 -4.96518E+07  -70.84  1.24113E+08 -3.60426E+07  1.45521E+08
+
+           GRD      16 -5.000E-03 -4.71954E+07 -1.35230E+08  4.57614E+07   23.06 -2.77175E+07 -1.54708E+08  1.42880E+08  0.00000E+00  0.00000E+00  0.3E+02(3)
+                        5.000E-03 -4.71954E+07 -1.35230E+08  4.57614E+07   23.06 -2.77175E+07 -1.54708E+08  1.42880E+08
+
+        9  CENTER      -5.000E-03  7.32676E+06  2.49576E+06 -3.11321E+07  -42.78  3.61369E+07 -2.63144E+07  5.43070E+07  0.00000E+00  0.00000E+00
+                        5.000E-03  7.32676E+06  2.49576E+06 -3.11321E+07  -42.78  3.61369E+07 -2.63144E+07  5.43070E+07
+
+           GRD      19 -5.000E-03 -2.77239E+07  2.70019E+07 -3.00544E+07  -66.16  4.02838E+07 -4.10057E+07  7.03997E+07  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03 -2.77239E+07  2.70019E+07 -3.00544E+07  -66.16  4.02838E+07 -4.10057E+07  7.03997E+07
+
+           GRD      17 -5.000E-03 -2.04611E+07 -2.64273E+07 -2.40861E+06  -19.46 -1.96101E+07 -2.72783E+07  2.43666E+07  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03 -2.04611E+07 -2.64273E+07 -2.40861E+06  -19.46 -1.96101E+07 -2.72783E+07  2.43666E+07
+
+           GRD      22 -5.000E-03  3.46520E+07 -1.98645E+07 -3.00959E+07  -23.92  4.79989E+07 -3.32114E+07  7.07177E+07  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03  3.46520E+07 -1.98645E+07 -3.00959E+07  -23.92  4.79989E+07 -3.32114E+07  7.07177E+07
+
+           GRD      23 -5.000E-03  4.71015E+07  2.42711E+07 -6.09349E+07  -39.69  9.76812E+07 -2.63086E+07  1.13153E+08  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03  4.71015E+07  2.42711E+07 -6.09349E+07  -39.69  9.76812E+07 -2.63086E+07  1.13153E+08
+
+       10  CENTER      -5.000E-03  4.77869E+06  3.08591E+06 -4.12250E+07  -44.41  4.51660E+07 -3.73014E+07  7.15270E+07  0.00000E+00  0.00000E+00
+                        5.000E-03  4.77869E+06  3.08591E+06 -4.12250E+07  -44.41  4.51660E+07 -3.73014E+07  7.15270E+07
+
+           GRD      19 -5.000E-03  5.48238E+06 -2.73924E+06 -4.53877E+07  -42.41  4.69451E+07 -4.42019E+07  7.89475E+07  0.00000E+00  0.00000E+00 -0.1E+02(2)
+                        5.000E-03  5.48238E+06 -2.73924E+06 -4.53877E+07  -42.41  4.69451E+07 -4.42019E+07  7.89475E+07
+
+           GRD      18 -5.000E-03  5.28903E+06  1.03371E+07 -4.47032E+07  -46.62  5.25875E+07 -3.69614E+07  7.79441E+07  0.00000E+00  0.00000E+00  0.1E+02(2)
+                        5.000E-03  5.28903E+06  1.03371E+07 -4.47032E+07  -46.62  5.25875E+07 -3.69614E+07  7.79441E+07
+
+           GRD      20 -5.000E-03  4.37512E+06  1.37827E+07 -3.91321E+07  -48.43  4.84927E+07 -3.03349E+07  6.88677E+07  0.00000E+00  0.00000E+00  0.2E+02(2)
+                        5.000E-03  4.37512E+06  1.37827E+07 -3.91321E+07  -48.43  4.84927E+07 -3.03349E+07  6.88677E+07
+
+           GRD      23 -5.000E-03  4.14319E+06 -6.78019E+06 -3.68603E+07  -40.79  3.59442E+07 -3.85812E+07  6.45544E+07  0.00000E+00  0.00000E+00 -0.1E+02(2)
+                        5.000E-03  4.14319E+06 -6.78019E+06 -3.68603E+07  -40.79  3.59442E+07 -3.85812E+07  6.45544E+07
+
+       11  CENTER      -5.000E-03 -1.84330E+06 -2.57262E+07  2.84451E+07   33.61  1.70652E+07 -4.46347E+07  5.51831E+07  0.00000E+00  0.00000E+00
+                        5.000E-03 -1.84330E+06 -2.57262E+07  2.84451E+07   33.61  1.70652E+07 -4.46347E+07  5.51831E+07
+
+           GRD      23 -5.000E-03 -8.29552E+06  3.24075E+07  3.26446E+07   60.97  5.05248E+07 -2.64129E+07  6.77119E+07  0.00000E+00  0.00000E+00 -0.3E+02(1)
+                        5.000E-03 -8.29552E+06  3.24075E+07  3.26446E+07   60.97  5.05248E+07 -2.64129E+07  6.77119E+07
+
+           GRD      20 -5.000E-03 -1.32759E+07 -9.46047E+07  5.89749E+07   27.71  1.76951E+07 -1.25576E+08  1.35294E+08  0.00000E+00  0.00000E+00  0.3E+02(1)
+                        5.000E-03 -1.32759E+07 -9.46047E+07  5.89749E+07   27.71  1.76951E+07 -1.25576E+08  1.35294E+08
+
+           GRD      16 -5.000E-03  7.83288E+06 -6.41435E+07  1.55969E+07   11.72  1.10673E+07 -6.73779E+07  7.35389E+07  0.00000E+00  0.00000E+00  0.2E+02(1)
+                        5.000E-03  7.83288E+06 -6.41435E+07  1.55969E+07   11.72  1.10673E+07 -6.73779E+07  7.35389E+07
+
+           GRD      21 -5.000E-03  8.04852E+06  3.31227E+07  2.13009E+06   85.18  3.33024E+07  7.86885E+06  3.01482E+07  0.00000E+00  0.00000E+00 -0.3E+02(1)
+                        5.000E-03  8.04852E+06  3.31227E+07  2.13009E+06   85.18  3.33024E+07  7.86885E+06  3.01482E+07
+
+       12  CENTER      -5.000E-03 -5.96653E+06  8.25921E+06  1.41740E+07   58.32  1.70049E+07 -1.47123E+07  2.74918E+07  0.00000E+00  0.00000E+00
+                        5.000E-03 -5.96653E+06  8.25921E+06  1.41740E+07   58.32  1.70049E+07 -1.47123E+07  2.74918E+07
+
+           GRD      23 -5.000E-03  2.48900E+07  8.22456E+07  6.47846E+07   56.94  1.24416E+08 -1.72803E+07  1.33895E+08  0.00000E+00  0.00000E+00  0.2E+02(2)
+                        5.000E-03  2.48900E+07  8.22456E+07  6.47846E+07   56.94  1.24416E+08 -1.72803E+07  1.33895E+08
+
+           GRD      22 -5.000E-03  2.55869E+07 -2.74176E+07  4.04040E+07   28.37  4.74050E+07 -4.92356E+07  8.36982E+07  0.00000E+00  0.00000E+00 -0.2E+02(2)
+                        5.000E-03  2.55869E+07 -2.74176E+07  4.04040E+07   28.37  4.74050E+07 -4.92356E+07  8.36982E+07
+
+           GRD      13 -5.000E-03 -4.20443E+07 -9.74714E+07 -4.94078E+07  -30.36 -1.31083E+07 -1.26407E+08  1.20390E+08  0.00000E+00  0.00000E+00 -0.2E+02(2)
+                        5.000E-03 -4.20443E+07 -9.74714E+07 -4.94078E+07  -30.36 -1.31083E+07 -1.26407E+08  1.20390E+08
+
+           GRD      21 -5.000E-03 -2.14874E+07  9.61757E+07  1.74037E+07   81.76  9.86960E+07 -2.40076E+07  1.12635E+08  0.00000E+00  0.00000E+00  0.1E+02(2)
+                        5.000E-03 -2.14874E+07  9.61757E+07  1.74037E+07   81.76  9.86960E+07 -2.40076E+07  1.12635E+08
+
+       13  CENTER      -5.000E-03  7.52211E+06  2.13844E+07 -1.63216E+07  -56.50  3.21856E+07 -3.27911E+06  3.39442E+07  0.00000E+00  0.00000E+00
+                        5.000E-03  7.52211E+06  2.13844E+07 -1.63216E+07  -56.50  3.21856E+07 -3.27911E+06  3.39442E+07
+
+           GRD      10 -5.000E-03  1.66729E+07  3.77294E+07  2.57549E+06   83.13  3.80399E+07  1.63624E+07  3.30505E+07  0.00000E+00  0.00000E+00  0.1E+02(2)
+                        5.000E-03  1.66729E+07  3.77294E+07  2.57549E+06   83.13  3.80399E+07  1.63624E+07  3.30505E+07
+
+           GRD      24 -5.000E-03  1.45487E+07  2.05471E+06 -6.19100E+06  -22.37  1.70968E+07 -4.93364E+05  1.73488E+07  0.00000E+00  0.00000E+00 -0.9E+01(2)
+                        5.000E-03  1.45487E+07  2.05471E+06 -6.19100E+06  -22.37  1.70968E+07 -4.93364E+05  1.73488E+07
+
+           GRD      27 -5.000E-03  1.95153E+06 -1.10008E+07 -3.09076E+07  -39.08  2.70542E+07 -3.61035E+07  5.48830E+07  0.00000E+00  0.00000E+00 -0.2E+02(2)
+                        5.000E-03  1.95153E+06 -1.10008E+07 -3.09076E+07  -39.08  2.70542E+07 -3.61035E+07  5.48830E+07
+
+           GRD      26 -5.000E-03 -3.18524E+05  5.13975E+07 -2.64658E+07  -67.17  6.25404E+07 -1.14615E+07  6.89890E+07  0.00000E+00  0.00000E+00  0.1E+02(2)
+                        5.000E-03 -3.18524E+05  5.13975E+07 -2.64658E+07  -67.17  6.25404E+07 -1.14615E+07  6.89890E+07
+
+       14  CENTER      -5.000E-03 -3.58571E+06 -6.92851E+06  2.01937E+07   42.63  1.50056E+07 -2.55199E+07  3.54877E+07  0.00000E+00  0.00000E+00
+                        5.000E-03 -3.58571E+06 -6.92851E+06  2.01937E+07   42.63  1.50056E+07 -2.55199E+07  3.54877E+07
+
+           GRD      24 -5.000E-03  3.89922E+06 -2.23466E+07  1.50530E+07   24.46  1.07464E+07 -2.91938E+07  3.57979E+07  0.00000E+00  0.00000E+00  0.2E+02(1)
+                        5.000E-03  3.89922E+06 -2.23466E+07  1.50530E+07   24.46  1.07464E+07 -2.91938E+07  3.57979E+07
+
+           GRD      14 -5.000E-03  2.56729E+07  3.42683E+07 -2.21731E+07  -50.48  5.25563E+07  7.38484E+06  4.92807E+07  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03  2.56729E+07  3.42683E+07 -2.21731E+07  -50.48  5.25563E+07  7.38484E+06  4.92807E+07
+
+           GRD      25 -5.000E-03 -1.48417E+07  1.03367E+07  2.92240E+07   56.65  2.95678E+07 -3.40728E+07  5.51603E+07  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03 -1.48417E+07  1.03367E+07  2.92240E+07   56.65  2.95678E+07 -3.40728E+07  5.51603E+07
+
+           GRD      27 -5.000E-03 -2.71387E+07 -5.56163E+07  5.77063E+07   38.07  1.80596E+07 -1.00815E+08  1.10952E+08  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03 -2.71387E+07 -5.56163E+07  5.77063E+07   38.07  1.80596E+07 -1.00815E+08  1.10952E+08
+
+       15  CENTER      -5.000E-03 -1.36567E+06 -4.89282E+06  1.34498E+06   18.67 -9.11324E+05 -5.34717E+06  4.95477E+06  0.00000E+00  0.00000E+00
+                        5.000E-03 -1.36567E+06 -4.89282E+06  1.34498E+06   18.67 -9.11324E+05 -5.34717E+06  4.95477E+06
+
+           GRD      25 -5.000E-03 -1.30447E+07  9.60761E+07  3.06140E+07   75.35  1.04078E+08 -2.10467E+07  1.16042E+08  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03 -1.30447E+07  9.60761E+07  3.06140E+07   75.35  1.04078E+08 -2.10467E+07  1.16042E+08
+
+           GRD      27 -5.000E-03 -1.11654E+07 -6.89731E+07  3.75851E+07   26.22  7.34456E+06 -8.74830E+07  9.13770E+07  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03 -1.11654E+07 -6.89731E+07  3.75851E+07   26.22  7.34456E+06 -8.74830E+07  9.13770E+07
+
+           GRD      19 -5.000E-03  1.28175E+07 -9.64926E+07 -3.66345E+07  -16.92  2.39596E+07 -1.07635E+08  1.21401E+08  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03  1.28175E+07 -9.64926E+07 -3.66345E+07  -16.92  2.39596E+07 -1.07635E+08  1.21401E+08
+
+           GRD      18 -5.000E-03  6.25024E+06  6.15136E+07 -2.81227E+07  -67.25  7.33077E+07 -5.54394E+06  7.62310E+07  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03  6.25024E+06  6.15136E+07 -2.81227E+07  -67.25  7.33077E+07 -5.54394E+06  7.62310E+07
+
+       16  CENTER      -5.000E-03 -1.48410E+07  5.67129E+05  1.71857E+06   83.71  7.56487E+05 -1.50303E+07  1.54225E+07  0.00000E+00  0.00000E+00
+                        5.000E-03 -1.48410E+07  5.67129E+05  1.71857E+06   83.71  7.56487E+05 -1.50303E+07  1.54225E+07
+
+           GRD      26 -5.000E-03 -1.79865E+07  5.83261E+07  2.82016E+07   71.77  6.76170E+07 -2.72774E+07  8.46199E+07  0.00000E+00  0.00000E+00  0.1E+02(3)
+                        5.000E-03 -1.79865E+07  5.83261E+07  2.82016E+07   71.77  6.76170E+07 -2.72774E+07  8.46199E+07
+
+           GRD      27 -5.000E-03 -1.81562E+07 -4.47727E+07  3.26032E+07   33.90  3.75023E+06 -6.66792E+07  6.86312E+07  0.00000E+00  0.00000E+00 -0.9E+01(3)
+                        5.000E-03 -1.81562E+07 -4.47727E+07  3.26032E+07   33.90  3.75023E+06 -6.66792E+07  6.86312E+07
+
+           GRD      19 -5.000E-03 -1.12132E+07 -6.22217E+07 -2.89318E+07  -24.30  1.85091E+06 -7.52858E+07  7.62281E+07  0.00000E+00  0.00000E+00 -0.9E+01(3)
+                        5.000E-03 -1.12132E+07 -6.22217E+07 -2.89318E+07  -24.30  1.85091E+06 -7.52858E+07  7.62281E+07
+
+           GRD      17 -5.000E-03 -1.23464E+07  5.87237E+07 -2.21934E+07  -74.01  6.50848E+07 -1.87075E+07  7.61812E+07  0.00000E+00  0.00000E+00  0.8E+01(3)
+                        5.000E-03 -1.23464E+07  5.87237E+07 -2.21934E+07  -74.01  6.50848E+07 -1.87075E+07  7.61812E+07
+
+       17  CENTER      -5.000E-03  3.53577E+05  1.68971E+06 -4.83303E+06  -48.94  5.90063E+06 -3.85734E+06  8.51219E+06  0.00000E+00  0.00000E+00
+                        5.000E-03  3.53577E+05  1.68971E+06 -4.83303E+06  -48.94  5.90063E+06 -3.85734E+06  8.51219E+06
+
+           GRD      14 -5.000E-03 -5.13570E+06  4.60406E+06 -7.14017E+06  -62.15  8.37697E+06 -8.90861E+06  1.49721E+07  0.00000E+00  0.00000E+00  0.1E+02(3)
+                        5.000E-03 -5.13570E+06  4.60406E+06 -7.14017E+06  -62.15  8.37697E+06 -8.90861E+06  1.49721E+07
+
+           GRD      28 -5.000E-03 -1.13732E+07 -2.95682E+06  3.15483E+06   71.57 -1.90556E+06 -1.24244E+07  1.15897E+07  0.00000E+00  0.00000E+00 -0.2E+02(3)
+                        5.000E-03 -1.13732E+07 -2.95682E+06  3.15483E+06   71.57 -1.90556E+06 -1.24244E+07  1.15897E+07
+
+           GRD      31 -5.000E-03  8.21840E+06  2.43362E+05 -4.76979E+06  -25.05  1.04479E+07 -1.98613E+06  1.15695E+07  0.00000E+00  0.00000E+00 -0.1E+02(3)
+                        5.000E-03  8.21840E+06  2.43362E+05 -4.76979E+06  -25.05  1.04479E+07 -1.98613E+06  1.15695E+07
+
+           GRD      25 -5.000E-03  1.23802E+07  5.11520E+06 -1.14334E+07  -36.19  2.07442E+07 -3.24885E+06  2.25449E+07  0.00000E+00  0.00000E+00  0.2E+02(3)
+                        5.000E-03  1.23802E+07  5.11520E+06 -1.14334E+07  -36.19  2.07442E+07 -3.24885E+06  2.25449E+07
+
+       18  CENTER      -5.000E-03  2.87452E+06  2.30806E+06 -5.58455E+05  -31.55  3.21746E+06  1.96512E+06  2.80910E+06  0.00000E+00  0.00000E+00
+                        5.000E-03  2.87452E+06  2.30806E+06 -5.58455E+05  -31.55  3.21746E+06  1.96512E+06  2.80910E+06
+
+           GRD      28 -5.000E-03 -4.63410E+06  1.52421E+07  4.50158E+04   89.87  1.52423E+07 -4.63421E+06  1.80122E+07  0.00000E+00  0.00000E+00 -0.1E+02(2)
+                        5.000E-03 -4.63410E+06  1.52421E+07  4.50158E+04   89.87  1.52423E+07 -4.63421E+06  1.80122E+07
+
+           GRD      11 -5.000E-03 -5.04352E+06 -1.31395E+07  1.05011E+07   34.46  2.16282E+06 -2.03458E+07  2.15090E+07  0.00000E+00  0.00000E+00  0.2E+02(2)
+                        5.000E-03 -5.04352E+06 -1.31395E+07  1.05011E+07   34.46  2.16282E+06 -2.03458E+07  2.15090E+07
+
+           GRD      29 -5.000E-03  1.04806E+07 -6.62647E+06 -2.66313E+06   -8.65  1.08856E+07 -7.03147E+06  1.56358E+07  0.00000E+00  0.00000E+00  0.1E+02(2)
+                        5.000E-03  1.04806E+07 -6.62647E+06 -2.66313E+06   -8.65  1.08856E+07 -7.03147E+06  1.56358E+07
+
+           GRD      31 -5.000E-03  1.27648E+07  1.28021E+07 -1.12189E+07  -45.05  2.40024E+07  1.56455E+06  2.32596E+07  0.00000E+00  0.00000E+00 -0.2E+02(2)
+                        5.000E-03  1.27648E+07  1.28021E+07 -1.12189E+07  -45.05  2.40024E+07  1.56455E+06  2.32596E+07
+
+       19  CENTER      -5.000E-03 -1.16894E+07 -1.50212E+05  6.97566E+06   64.80  3.13270E+06 -1.49723E+07  1.67597E+07  0.00000E+00  0.00000E+00
+                        5.000E-03 -1.16894E+07 -1.50212E+05  6.97566E+06   64.80  3.13270E+06 -1.49723E+07  1.67597E+07
+
+           GRD      31 -5.000E-03  7.15912E+06  3.14802E+06  1.85370E+07   41.91  2.37987E+07 -1.34916E+07  3.27030E+07  0.00000E+00  0.00000E+00  0.6E+01(2)
+                        5.000E-03  7.15912E+06  3.14802E+06  1.85370E+07   41.91  2.37987E+07 -1.34916E+07  3.27030E+07
+
+           GRD      29 -5.000E-03  7.87854E+06 -2.92863E+06  1.56665E+05    0.83  7.88081E+06 -2.93090E+06  9.68479E+06  0.00000E+00  0.00000E+00 -0.6E+01(2)
+                        5.000E-03  7.87854E+06 -2.92863E+06  1.56665E+05    0.83  7.88081E+06 -2.93090E+06  9.68479E+06
+
+           GRD      15 -5.000E-03 -3.27395E+07 -3.61199E+06 -5.26333E+06  -80.07 -2.69008E+06 -3.36614E+07  3.24002E+07  0.00000E+00  0.00000E+00 -0.5E+01(2)
+                        5.000E-03 -3.27395E+07 -3.61199E+06 -5.26333E+06  -80.07 -2.69008E+06 -3.36614E+07  3.24002E+07
+
+           GRD      30 -5.000E-03 -2.77695E+07  3.11408E+06  1.55564E+07   67.39  9.59145E+06 -3.42468E+07  3.99164E+07  0.00000E+00  0.00000E+00  0.5E+01(2)
+                        5.000E-03 -2.77695E+07  3.11408E+06  1.55564E+07   67.39  9.59145E+06 -3.42468E+07  3.99164E+07
+
+       20  CENTER      -5.000E-03  6.69602E+06 -3.66963E+06 -8.36204E+06  -29.10  1.13512E+07 -8.32476E+06  1.71069E+07  0.00000E+00  0.00000E+00
+                        5.000E-03  6.69602E+06 -3.66963E+06 -8.36204E+06  -29.10  1.13512E+07 -8.32476E+06  1.71069E+07
+
+           GRD      25 -5.000E-03  5.58537E+06  1.87167E+07  2.30839E+06   80.31  1.91107E+07  5.19139E+06  1.71160E+07  0.00000E+00  0.00000E+00 -0.6E+01(2)
+                        5.000E-03  5.58537E+06  1.87167E+07  2.30839E+06   80.31  1.91107E+07  5.19139E+06  1.71160E+07
+
+           GRD      31 -5.000E-03  5.69591E+06 -2.52510E+07  2.27892E+06    4.19  5.86283E+06 -2.54179E+07  2.88004E+07  0.00000E+00  0.00000E+00  0.7E+01(2)
+                        5.000E-03  5.69591E+06 -2.52510E+07  2.27892E+06    4.19  5.86283E+06 -2.54179E+07  2.88004E+07
+
+           GRD      30 -5.000E-03  7.81102E+06 -2.32460E+07 -1.91458E+07  -25.48  1.69340E+07 -3.23690E+07  4.33895E+07  0.00000E+00  0.00000E+00  0.6E+01(2)
+                        5.000E-03  7.81102E+06 -2.32460E+07 -1.91458E+07  -25.48  1.69340E+07 -3.23690E+07  4.33895E+07
+
+           GRD      18 -5.000E-03  7.80269E+06  1.44545E+07 -1.99943E+07  -49.72  3.13976E+07 -9.14039E+06  3.68286E+07  0.00000E+00  0.00000E+00 -0.7E+01(2)
+                        5.000E-03  7.80269E+06  1.44545E+07 -1.99943E+07  -49.72  3.13976E+07 -9.14039E+06  3.68286E+07
+                                  ------------ ------------ ------------         ------------ ------------ ------------ ------------ ------------ --------
+ MAX* :                            8.65380E+07  1.39908E+08  1.52002E+08          2.70293E+08  1.63624E+07  3.31678E+08  0.00000E+00  0.00000E+00  0.3E+02
+ MIN* :                           -5.92987E+07 -1.35230E+08 -1.76802E+08         -4.24537E+07 -2.17723E+08  3.93318E-07  0.00000E+00  0.00000E+00 -0.3E+02
+
+ ABS* :                            8.65380E+07  1.39908E+08  1.76802E+08          2.70293E+08  2.17723E+08  3.31678E+08  0.00000E+00  0.00000E+00  0.3E+02
+ *for output set
+ NOTE: Explanation of errors in the polynomial fit to extrapolate element corner point stresses from values at the Gauss points:
+       (1): Polynomial fit error is in X  normal  stress
+       (2): Polynomial fit error is in Y  normal  stress
+       (3): Polynomial fit error is in XY shear   stress
+
+
+ OUTPUT FOR SUBCASE        1
+
+                                           E L E M E N T   S T R A I N S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
+                                                                       F O R   E L E M E N T   T Y P E   Q U A D 4  
+  Elem  Location         Fibre      Strains In Element Coord System       Principal Strains (Zero Shear)                 Transverse   Transverse   % Poly
+   ID                   Distance   Normal-X     Normal-Y     Shear-XY     Angle      Major        Minor      von Mises    Shear-XZ     Shear-YZ    Fit Err 
+
+        1  CENTER      -5.000E-03  1.27557E-03  1.86224E-01  3.08248E-02   80.78  1.91227E-01 -3.72661E-03  1.93117E-01  0.00000E+00  0.00000E+00
+                        5.000E-03  1.27557E-03  1.86224E-01  3.08248E-02   80.78  1.91227E-01 -3.72661E-03  1.93117E-01
+
+           GRD       9 -5.000E-03  1.27557E-03  1.86224E-01  3.08248E-02   80.78  1.91227E-01 -3.72661E-03  1.93117E-01  0.00000E+00  0.00000E+00  0.3E-12
+                        5.000E-03  1.27557E-03  1.86224E-01  3.08248E-02   80.78  1.91227E-01 -3.72661E-03  1.93117E-01
+
+           GRD       8 -5.000E-03  1.27557E-03  1.86224E-01  3.08248E-02   80.78  1.91227E-01 -3.72661E-03  1.93117E-01  0.00000E+00  0.00000E+00 -0.2E-12
+                        5.000E-03  1.27557E-03  1.86224E-01  3.08248E-02   80.78  1.91227E-01 -3.72661E-03  1.93117E-01
+
+           GRD       4 -5.000E-03  1.27557E-03  1.86224E-01  3.08248E-02   80.78  1.91227E-01 -3.72661E-03  1.93117E-01  0.00000E+00  0.00000E+00 -0.3E-12
+                        5.000E-03  1.27557E-03  1.86224E-01  3.08248E-02   80.78  1.91227E-01 -3.72661E-03  1.93117E-01
+
+           GRD       7 -5.000E-03  1.27557E-03  1.86224E-01  3.08248E-02   80.78  1.91227E-01 -3.72661E-03  1.93117E-01  0.00000E+00  0.00000E+00  0.2E-12
+                        5.000E-03  1.27557E-03  1.86224E-01  3.08248E-02   80.78  1.91227E-01 -3.72661E-03  1.93117E-01
+
+        2  CENTER      -5.000E-03  5.59828E-04  3.69402E-02 -9.09509E-03  -76.72  3.90872E-02 -1.58723E-03  3.99045E-02  0.00000E+00  0.00000E+00
+                        5.000E-03  5.59828E-04  3.69402E-02 -9.09509E-03  -76.72  3.90872E-02 -1.58723E-03  3.99045E-02
+
+           GRD       1 -5.000E-03  5.59828E-04  3.69402E-02 -9.09509E-03  -76.72  3.90872E-02 -1.58723E-03  3.99045E-02  0.00000E+00  0.00000E+00 -0.2E-12
+                        5.000E-03  5.59828E-04  3.69402E-02 -9.09509E-03  -76.72  3.90872E-02 -1.58723E-03  3.99045E-02
+
+           GRD       5 -5.000E-03  5.59828E-04  3.69402E-02 -9.09509E-03  -76.72  3.90872E-02 -1.58723E-03  3.99045E-02  0.00000E+00  0.00000E+00  0.2E-12
+                        5.000E-03  5.59828E-04  3.69402E-02 -9.09509E-03  -76.72  3.90872E-02 -1.58723E-03  3.99045E-02
+
+           GRD       9 -5.000E-03  5.59828E-04  3.69402E-02 -9.09509E-03  -76.72  3.90872E-02 -1.58723E-03  3.99045E-02  0.00000E+00  0.00000E+00  0.3E-12
+                        5.000E-03  5.59828E-04  3.69402E-02 -9.09509E-03  -76.72  3.90872E-02 -1.58723E-03  3.99045E-02
+
+           GRD       8 -5.000E-03  5.59828E-04  3.69402E-02 -9.09509E-03  -76.72  3.90872E-02 -1.58723E-03  3.99045E-02  0.00000E+00  0.00000E+00 -0.2E-12
+                        5.000E-03  5.59828E-04  3.69402E-02 -9.09509E-03  -76.72  3.90872E-02 -1.58723E-03  3.99045E-02
+
+        3  CENTER      -5.000E-03  2.55114E-04  3.72449E-02 -6.16496E-03  -80.78  3.82453E-02 -7.45322E-04  3.86234E-02  0.00000E+00  0.00000E+00
+                        5.000E-03  2.55114E-04  3.72449E-02 -6.16496E-03  -80.78  3.82453E-02 -7.45322E-04  3.86234E-02
+
+           GRD       5 -5.000E-03  2.55114E-04  3.72449E-02 -6.16496E-03  -80.78  3.82453E-02 -7.45322E-04  3.86234E-02  0.00000E+00  0.00000E+00 -0.4E-13
+                        5.000E-03  2.55114E-04  3.72449E-02 -6.16496E-03  -80.78  3.82453E-02 -7.45322E-04  3.86234E-02
+
+           GRD       2 -5.000E-03  2.55114E-04  3.72449E-02 -6.16496E-03  -80.78  3.82453E-02 -7.45322E-04  3.86234E-02  0.00000E+00  0.00000E+00 -0.4E-13
+                        5.000E-03  2.55114E-04  3.72449E-02 -6.16496E-03  -80.78  3.82453E-02 -7.45322E-04  3.86234E-02
+
+           GRD       6 -5.000E-03  2.55114E-04  3.72449E-02 -6.16496E-03  -80.78  3.82453E-02 -7.45322E-04  3.86234E-02  0.00000E+00  0.00000E+00 -0.4E-13
+                        5.000E-03  2.55114E-04  3.72449E-02 -6.16496E-03  -80.78  3.82453E-02 -7.45322E-04  3.86234E-02
+
+           GRD       9 -5.000E-03  2.55114E-04  3.72449E-02 -6.16496E-03  -80.78  3.82453E-02 -7.45322E-04  3.86234E-02  0.00000E+00  0.00000E+00 -0.3E-13
+                        5.000E-03  2.55114E-04  3.72449E-02 -6.16496E-03  -80.78  3.82453E-02 -7.45322E-04  3.86234E-02
+
+        4  CENTER      -5.000E-03  2.79914E-03  1.84701E-01 -4.54754E-02  -76.72  1.95436E-01 -7.93615E-03  1.99523E-01  0.00000E+00  0.00000E+00
+                        5.000E-03  2.79914E-03  1.84701E-01 -4.54754E-02  -76.72  1.95436E-01 -7.93615E-03  1.99523E-01
+
+           GRD       9 -5.000E-03  2.79914E-03  1.84701E-01 -4.54754E-02  -76.72  1.95436E-01 -7.93615E-03  1.99523E-01  0.00000E+00  0.00000E+00  0.6E-13
+                        5.000E-03  2.79914E-03  1.84701E-01 -4.54754E-02  -76.72  1.95436E-01 -7.93615E-03  1.99523E-01
+
+           GRD       6 -5.000E-03  2.79914E-03  1.84701E-01 -4.54754E-02  -76.72  1.95436E-01 -7.93615E-03  1.99523E-01  0.00000E+00  0.00000E+00 -0.8E-13
+                        5.000E-03  2.79914E-03  1.84701E-01 -4.54754E-02  -76.72  1.95436E-01 -7.93615E-03  1.99523E-01
+
+           GRD       3 -5.000E-03  2.79914E-03  1.84701E-01 -4.54754E-02  -76.72  1.95436E-01 -7.93615E-03  1.99523E-01  0.00000E+00  0.00000E+00 -0.5E-13
+                        5.000E-03  2.79914E-03  1.84701E-01 -4.54754E-02  -76.72  1.95436E-01 -7.93615E-03  1.99523E-01
+
+           GRD       7 -5.000E-03  2.79914E-03  1.84701E-01 -4.54754E-02  -76.72  1.95436E-01 -7.93615E-03  1.99523E-01  0.00000E+00  0.00000E+00  0.8E-13
+                        5.000E-03  2.79914E-03  1.84701E-01 -4.54754E-02  -76.72  1.95436E-01 -7.93615E-03  1.99523E-01
+
+        5  CENTER      -5.000E-03  1.17742E-03  1.29627E-01 -2.00158E-02  -81.35  1.32674E-01 -1.86930E-03  1.33618E-01  0.00000E+00  0.00000E+00
+                        5.000E-03  1.17742E-03  1.29627E-01 -2.00158E-02  -81.35  1.32674E-01 -1.86930E-03  1.33618E-01
+
+           GRD      18 -5.000E-03  2.16941E-03  1.19433E-01 -2.66899E-02  -77.76  1.25222E-01 -3.61960E-03  1.27070E-01  0.00000E+00  0.00000E+00 -0.2E+02(3)
+                        5.000E-03  2.16941E-03  1.19433E-01 -2.66899E-02  -77.76  1.25222E-01 -3.61960E-03  1.27070E-01
+
+           GRD      30 -5.000E-03  3.84912E-03  1.42132E-01 -4.29794E-02  -74.07  1.54402E-01 -8.42051E-03  1.58780E-01  0.00000E+00  0.00000E+00  0.2E+02(3)
+                        5.000E-03  3.84912E-03  1.42132E-01 -4.29794E-02  -74.07  1.54402E-01 -8.42051E-03  1.58780E-01
+
+           GRD      34 -5.000E-03 -9.82174E-04  1.34469E-01 -3.32017E-03  -88.60  1.34551E-01 -1.06351E-03  1.35086E-01  0.00000E+00  0.00000E+00  0.2E+02(3)
+                        5.000E-03 -9.82174E-04  1.34469E-01 -3.32017E-03  -88.60  1.34551E-01 -1.06351E-03  1.35086E-01
+
+           GRD      20 -5.000E-03 -8.99448E-04  1.19568E-01 -2.12276E-03  -88.99  1.19606E-01 -9.36842E-04  1.20077E-01  0.00000E+00  0.00000E+00 -0.2E+02(3)
+                        5.000E-03 -8.99448E-04  1.19568E-01 -2.12276E-03  -88.99  1.19606E-01 -9.36842E-04  1.20077E-01
+
+        6  CENTER      -5.000E-03  3.78528E-03  1.31368E-01 -3.66262E-02  -75.07  1.41135E-01 -5.98163E-03  1.44218E-01  0.00000E+00  0.00000E+00
+                        5.000E-03  3.78528E-03  1.31368E-01 -3.66262E-02  -75.07  1.41135E-01 -5.98163E-03  1.44218E-01
+
+           GRD      30 -5.000E-03 -3.02558E-03  1.40091E-01 -3.00661E-02  -78.60  1.46151E-01 -9.08531E-03  1.50899E-01  0.00000E+00  0.00000E+00  0.6E+01(1)
+                        5.000E-03 -3.02558E-03  1.40091E-01 -3.00661E-02  -78.60  1.46151E-01 -9.08531E-03  1.50899E-01
+
+           GRD      15 -5.000E-03 -7.92185E-04  1.22438E-01 -2.35742E-02  -79.53  1.26793E-01 -5.14802E-03  1.29444E-01  0.00000E+00  0.00000E+00 -0.7E+01(1)
+                        5.000E-03 -7.92185E-04  1.22438E-01 -2.35742E-02  -79.53  1.26793E-01 -5.14802E-03  1.29444E-01
+
+           GRD      32 -5.000E-03  9.25060E-03  1.23535E-01 -4.14036E-02  -72.04  1.36958E-01 -4.17275E-03  1.39091E-01  0.00000E+00  0.00000E+00 -0.8E+01(1)
+                        5.000E-03  9.25060E-03  1.23535E-01 -4.14036E-02  -72.04  1.36958E-01 -4.17275E-03  1.39091E-01
+
+           GRD      34 -5.000E-03  1.05731E-02  1.37786E-01 -5.19936E-02  -70.37  1.56332E-01 -7.97351E-03  1.60468E-01  0.00000E+00  0.00000E+00  0.9E+01(1)
+                        5.000E-03  1.05731E-02  1.37786E-01 -5.19936E-02  -70.37  1.56332E-01 -7.97351E-03  1.60468E-01
+
+        7  CENTER      -5.000E-03  3.68214E-03  2.36622E-01 -6.55961E-02  -75.31  2.53824E-01 -1.35195E-02  2.60847E-01  0.00000E+00  0.00000E+00
+                        5.000E-03  3.68214E-03  2.36622E-01 -6.55961E-02  -75.31  2.53824E-01 -1.35195E-02  2.60847E-01
+
+           GRD      34 -5.000E-03  6.31867E-03  2.45571E-01 -5.50326E-02  -77.65  2.57622E-01 -5.73283E-03  2.60536E-01  0.00000E+00  0.00000E+00  0.5E+01(1)
+                        5.000E-03  6.31867E-03  2.45571E-01 -5.50326E-02  -77.65  2.57622E-01 -5.73283E-03  2.60536E-01
+
+           GRD      32 -5.000E-03  6.88769E-03  2.29137E-01 -5.93346E-02  -75.95  2.43986E-01 -7.96097E-03  2.48062E-01  0.00000E+00  0.00000E+00 -0.6E+01(1)
+                        5.000E-03  6.88769E-03  2.29137E-01 -5.93346E-02  -75.95  2.43986E-01 -7.96097E-03  2.48062E-01
+
+           GRD      12 -5.000E-03 -1.59652E-04  2.30509E-01 -7.85063E-02  -72.88  2.54693E-01 -2.43432E-02  2.67696E-01  0.00000E+00  0.00000E+00 -0.4E+01(1)
+                        5.000E-03 -1.59652E-04  2.30509E-01 -7.85063E-02  -72.88  2.54693E-01 -2.43432E-02  2.67696E-01
+
+           GRD      33 -5.000E-03  1.05399E-03  2.42698E-01 -7.07515E-02  -74.82  2.61890E-01 -1.81373E-02  2.71413E-01  0.00000E+00  0.00000E+00  0.5E+01(1)
+                        5.000E-03  1.05399E-03  2.42698E-01 -7.07515E-02  -74.82  2.61890E-01 -1.81373E-02  2.71413E-01
+
+        8  CENTER      -5.000E-03  9.32119E-04  2.41988E-01 -5.00638E-02  -78.72  2.51972E-01 -9.05189E-03  2.56617E-01  0.00000E+00  0.00000E+00
+                        5.000E-03  9.32119E-04  2.41988E-01 -5.00638E-02  -78.72  2.51972E-01 -9.05189E-03  2.56617E-01
+
+           GRD      20 -5.000E-03  4.03299E-03  2.35164E-01 -6.42730E-02  -75.46  2.51835E-01 -1.26377E-02  2.58386E-01  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03  4.03299E-03  2.35164E-01 -6.42730E-02  -75.46  2.51835E-01 -1.26377E-02  2.58386E-01
+
+           GRD      34 -5.000E-03  4.25916E-03  2.55575E-01 -6.94740E-02  -75.53  2.73502E-01 -1.36675E-02  2.80586E-01  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03  4.25916E-03  2.55575E-01 -6.94740E-02  -75.53  2.73502E-01 -1.36675E-02  2.80586E-01
+
+           GRD      33 -5.000E-03 -6.74843E-04  2.52271E-01 -4.40439E-02  -80.40  2.59720E-01 -8.12455E-03  2.63876E-01  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03 -6.74843E-04  2.52271E-01 -4.40439E-02  -80.40  2.59720E-01 -8.12455E-03  2.63876E-01
+
+           GRD      16 -5.000E-03 -3.51526E-03  2.28062E-01 -2.49613E-02  -83.92  2.30721E-01 -6.17525E-03  2.33870E-01  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03 -3.51526E-03  2.28062E-01 -2.49613E-02  -83.92  2.30721E-01 -6.17525E-03  2.33870E-01
+
+        9  CENTER      -5.000E-03  1.32902E-03  1.24638E-01 -2.34517E-02  -79.59  1.28947E-01 -2.98058E-03  1.30463E-01  0.00000E+00  0.00000E+00
+                        5.000E-03  1.32902E-03  1.24638E-01 -2.34517E-02  -79.59  1.28947E-01 -2.98058E-03  1.30463E-01
+
+           GRD      19 -5.000E-03 -2.17605E-03  1.27088E-01 -2.32362E-02  -80.11  1.31138E-01 -6.22603E-03  1.34359E-01  0.00000E+00  0.00000E+00  0.8E+01(1)
+                        5.000E-03 -2.17605E-03  1.27088E-01 -2.32362E-02  -80.11  1.31138E-01 -6.22603E-03  1.34359E-01
+
+           GRD      17 -5.000E-03 -1.44977E-03  1.21745E-01 -1.77070E-02  -81.98  1.24240E-01 -3.94432E-03  1.26258E-01  0.00000E+00  0.00000E+00 -0.9E+01(1)
+                        5.000E-03 -1.44977E-03  1.21745E-01 -1.77070E-02  -81.98  1.24240E-01 -3.94432E-03  1.26258E-01
+
+           GRD      22 -5.000E-03  4.06154E-03  1.22402E-01 -2.32445E-02  -79.28  1.26804E-01 -3.40421E-04  1.26974E-01  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03  4.06154E-03  1.22402E-01 -2.32445E-02  -79.28  1.26804E-01 -3.40421E-04  1.26974E-01
+
+           GRD      23 -5.000E-03  5.30649E-03  1.26815E-01 -2.94123E-02  -77.08  1.33560E-01 -1.43859E-03  1.34285E-01  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03  5.30649E-03  1.26815E-01 -2.94123E-02  -77.08  1.33560E-01 -1.43859E-03  1.34285E-01
+
+       10  CENTER      -5.000E-03  5.46306E-04  1.25390E-01 -1.40965E-02  -83.64  1.26962E-01 -1.02560E-03  1.27478E-01  0.00000E+00  0.00000E+00
+                        5.000E-03  5.46306E-04  1.25390E-01 -1.40965E-02  -83.64  1.26962E-01 -1.02560E-03  1.27478E-01
+
+           GRD      19 -5.000E-03  6.16675E-04  1.24807E-01 -1.49291E-02  -83.24  1.26577E-01 -1.15276E-03  1.27157E-01  0.00000E+00  0.00000E+00 -0.1E+01(1)
+                        5.000E-03  6.16675E-04  1.24807E-01 -1.49291E-02  -83.24  1.26577E-01 -1.15276E-03  1.27157E-01
+
+           GRD      18 -5.000E-03  5.97340E-04  1.26115E-01 -1.47922E-02  -83.37  1.27835E-01 -1.12235E-03  1.28400E-01  0.00000E+00  0.00000E+00  0.9E+00(1)
+                        5.000E-03  5.97340E-04  1.26115E-01 -1.47922E-02  -83.37  1.27835E-01 -1.12235E-03  1.28400E-01
+
+           GRD      20 -5.000E-03  5.05949E-04  1.26460E-01 -1.36780E-02  -83.87  1.27928E-01 -9.62297E-04  1.28412E-01  0.00000E+00  0.00000E+00  0.2E+01(1)
+                        5.000E-03  5.05949E-04  1.26460E-01 -1.36780E-02  -83.87  1.27928E-01 -9.62297E-04  1.28412E-01
+
+           GRD      23 -5.000E-03  4.82755E-04  1.24403E-01 -1.32236E-02  -83.98  1.25799E-01 -9.12627E-04  1.26257E-01  0.00000E+00  0.00000E+00 -0.1E+01(1)
+                        5.000E-03  4.82755E-04  1.24403E-01 -1.32236E-02  -83.98  1.25799E-01 -9.12627E-04  1.26257E-01
+
+       11  CENTER      -5.000E-03  5.90295E-03  2.31015E-01 -6.97276E-02  -74.11  2.50863E-01 -1.39449E-02  2.58118E-01  0.00000E+00  0.00000E+00
+                        5.000E-03  5.90295E-03  2.31015E-01 -6.97276E-02  -74.11  2.50863E-01 -1.39449E-02  2.58118E-01
+
+           GRD      23 -5.000E-03  5.25773E-03  2.36829E-01 -6.88877E-02  -74.62  2.55772E-01 -1.36854E-02  2.62882E-01  0.00000E+00  0.00000E+00 -0.1E+01(1)
+                        5.000E-03  5.25773E-03  2.36829E-01 -6.88877E-02  -74.62  2.55772E-01 -1.36854E-02  2.62882E-01
+
+           GRD      20 -5.000E-03  4.75969E-03  2.24128E-01 -6.36217E-02  -74.94  2.41244E-01 -1.23565E-02  2.47653E-01  0.00000E+00  0.00000E+00  0.1E+01(1)
+                        5.000E-03  4.75969E-03  2.24128E-01 -6.36217E-02  -74.94  2.41244E-01 -1.23565E-02  2.47653E-01
+
+           GRD      16 -5.000E-03  6.87057E-03  2.27174E-01 -7.22973E-02  -73.36  2.48781E-01 -1.47362E-02  2.56466E-01  0.00000E+00  0.00000E+00  0.1E+01(1)
+                        5.000E-03  6.87057E-03  2.27174E-01 -7.22973E-02  -73.36  2.48781E-01 -1.47362E-02  2.56466E-01
+
+           GRD      21 -5.000E-03  6.89214E-03  2.36900E-01 -7.49906E-02  -73.45  2.59190E-01 -1.53974E-02  2.67221E-01  0.00000E+00  0.00000E+00 -0.1E+01(1)
+                        5.000E-03  6.89214E-03  2.36900E-01 -7.49906E-02  -73.45  2.59190E-01 -1.53974E-02  2.67221E-01
+
+       12  CENTER      -5.000E-03  6.71091E-05  2.40499E-01  2.80607E-02   83.43  2.43731E-01 -3.16440E-03  2.45328E-01  0.00000E+00  0.00000E+00
+                        5.000E-03  6.71091E-05  2.40499E-01  2.80607E-02   83.43  2.43731E-01 -3.16440E-03  2.45328E-01
+
+           GRD      23 -5.000E-03  3.15276E-03  2.47898E-01  3.81828E-02   81.34  2.53716E-01 -2.66582E-03  2.55060E-01  0.00000E+00  0.00000E+00  0.2E+02(1)
+                        5.000E-03  3.15276E-03  2.47898E-01  3.81828E-02   81.34  2.53716E-01 -2.66582E-03  2.55060E-01
+
+           GRD      22 -5.000E-03  3.22246E-03  2.36931E-01  3.33066E-02   82.05  2.41585E-01 -1.43151E-03  2.42304E-01  0.00000E+00  0.00000E+00 -0.1E+02(1)
+                        5.000E-03  3.22246E-03  2.36931E-01  3.33066E-02   82.05  2.41585E-01 -1.43151E-03  2.42304E-01
+
+           GRD      13 -5.000E-03 -3.54067E-03  2.29926E-01  1.53443E-02   86.26  2.30930E-01 -4.54484E-03  2.33236E-01  0.00000E+00  0.00000E+00 -0.2E+02(1)
+                        5.000E-03 -3.54067E-03  2.29926E-01  1.53443E-02   86.26  2.30930E-01 -4.54484E-03  2.33236E-01
+
+           GRD      21 -5.000E-03 -1.48498E-03  2.49291E-01  2.87066E-02   83.55  2.52535E-01 -4.72909E-03  2.54932E-01  0.00000E+00  0.00000E+00  0.1E+02(1)
+                        5.000E-03 -1.48498E-03  2.49291E-01  2.87066E-02   83.55  2.52535E-01 -4.72909E-03  2.54932E-01
+
+       13  CENTER      -5.000E-03  1.06137E-03  8.58249E-03 -6.08729E-03  -60.85  1.19771E-02 -2.33326E-03  1.32982E-02  0.00000E+00  0.00000E+00
+                        5.000E-03  1.06137E-03  8.58249E-03 -6.08729E-03  -60.85  1.19771E-02 -2.33326E-03  1.32982E-02
+
+           GRD      10 -5.000E-03  1.97645E-03  1.02170E-02 -2.30786E-03  -75.37  1.08193E-02  1.37413E-03  1.02019E-02  0.00000E+00  0.00000E+00 -0.5E+01(1)
+                        5.000E-03  1.97645E-03  1.02170E-02 -2.30786E-03  -75.37  1.08193E-02  1.37413E-03  1.02019E-02
+
+           GRD      24 -5.000E-03  1.76404E-03  6.64952E-03 -4.06116E-03  -60.51  8.94598E-03 -5.32415E-04  9.22372E-03  0.00000E+00  0.00000E+00  0.4E+01(1)
+                        5.000E-03  1.76404E-03  6.64952E-03 -4.06116E-03  -60.51  8.94598E-03 -5.32415E-04  9.22372E-03
+
+           GRD      27 -5.000E-03  5.04318E-04  5.34397E-03 -9.00448E-03  -52.52  1.22481E-02 -6.39982E-03  1.64122E-02  0.00000E+00  0.00000E+00  0.6E+01(1)
+                        5.000E-03  5.04318E-04  5.34397E-03 -9.00448E-03  -52.52  1.22481E-02 -6.39982E-03  1.64122E-02
+
+           GRD      26 -5.000E-03  2.77312E-04  1.15838E-02 -8.11611E-03  -62.43  1.58215E-02 -3.96037E-03  1.81291E-02  0.00000E+00  0.00000E+00 -0.4E+01(1)
+                        5.000E-03  2.77312E-04  1.15838E-02 -8.11611E-03  -62.43  1.58215E-02 -3.96037E-03  1.81291E-02
+
+       14  CENTER      -5.000E-03  3.96480E-04  6.70309E-03 -6.87494E-04  -83.85  6.77717E-03  3.22406E-04  6.62186E-03  0.00000E+00  0.00000E+00
+                        5.000E-03  3.96480E-04  6.70309E-03 -6.87494E-04  -83.85  6.77717E-03  3.22406E-04  6.62186E-03
+
+           GRD      24 -5.000E-03  1.14497E-03  5.16129E-03 -1.71563E-03  -69.75  5.79436E-03  5.11902E-04  5.55612E-03  0.00000E+00  0.00000E+00 -0.1E+05(3)
+                        5.000E-03  1.14497E-03  5.16129E-03 -1.71563E-03  -69.75  5.79436E-03  5.11902E-04  5.55612E-03
+
+           GRD      14 -5.000E-03  3.32234E-03  1.08228E-02 -9.16085E-03  -56.13  1.69713E-02 -2.82620E-03  1.85466E-02  0.00000E+00  0.00000E+00  0.1E+05(3)
+                        5.000E-03  3.32234E-03  1.08228E-02 -9.16085E-03  -56.13  1.69713E-02 -2.82620E-03  1.85466E-02
+
+           GRD      25 -5.000E-03 -7.29119E-04  8.42962E-03  1.11856E-03   83.14  8.56425E-03 -8.63751E-04  9.02717E-03  0.00000E+00  0.00000E+00  0.1E+05(3)
+                        5.000E-03 -7.29119E-04  8.42962E-03  1.11856E-03   83.14  8.56425E-03 -8.63751E-04  9.02717E-03
+
+           GRD      27 -5.000E-03 -1.95881E-03  1.83432E-03  6.81503E-03   52.78  7.01176E-03 -7.13626E-03  1.22527E-02  0.00000E+00  0.00000E+00 -0.8E+04(3)
+                        5.000E-03 -1.95881E-03  1.83432E-03  6.81503E-03   52.78  7.01176E-03 -7.13626E-03  1.22527E-02
+
+       15  CENTER      -5.000E-03  4.92228E-04  4.25072E-02 -1.01302E-02  -77.13  4.48222E-02 -1.82272E-03  4.57608E-02  0.00000E+00  0.00000E+00
+                        5.000E-03  4.92228E-04  4.25072E-02 -1.01302E-02  -77.13  4.48222E-02 -1.82272E-03  4.57608E-02
+
+           GRD      25 -5.000E-03 -6.75675E-04  5.26041E-02 -4.27642E-03  -85.44  5.29452E-02 -1.01673E-03  5.34608E-02  0.00000E+00  0.00000E+00 -0.7E+01(1)
+                        5.000E-03 -6.75675E-04  5.26041E-02 -4.27642E-03  -85.44  5.29452E-02 -1.01673E-03  5.34608E-02
+
+           GRD      27 -5.000E-03 -4.87745E-04  3.60992E-02 -2.88222E-03  -85.52  3.63249E-02 -7.13406E-04  3.66868E-02  0.00000E+00  0.00000E+00  0.7E+01(1)
+                        5.000E-03 -4.87745E-04  3.60992E-02 -2.88222E-03  -85.52  3.63249E-02 -7.13406E-04  3.66868E-02
+
+           GRD      19 -5.000E-03  1.91054E-03  3.33473E-02 -1.77261E-02  -65.78  4.13203E-02 -6.06251E-03  4.46612E-02  0.00000E+00  0.00000E+00  0.6E+01(1)
+                        5.000E-03  1.91054E-03  3.33473E-02 -1.77261E-02  -65.78  4.13203E-02 -6.06251E-03  4.46612E-02
+
+           GRD      18 -5.000E-03  1.25382E-03  4.91479E-02 -1.60238E-02  -73.11  5.40144E-02 -3.61272E-03  5.59084E-02  0.00000E+00  0.00000E+00 -0.6E+01(1)
+                        5.000E-03  1.25382E-03  4.91479E-02 -1.60238E-02  -73.11  5.40144E-02 -3.61272E-03  5.59084E-02
+
+       16  CENTER      -5.000E-03 -5.19848E-04  4.04932E-02 -1.21448E-02  -74.68  4.38198E-02 -3.84637E-03  4.58641E-02  0.00000E+00  0.00000E+00
+                        5.000E-03 -5.19848E-04  4.04932E-02 -1.21448E-02  -74.68  4.38198E-02 -3.84637E-03  4.58641E-02
+
+           GRD      26 -5.000E-03 -8.34401E-04  4.62691E-02 -6.84821E-03  -81.89  4.72446E-02 -1.80984E-03  4.81750E-02  0.00000E+00  0.00000E+00 -0.7E+01(1)
+                        5.000E-03 -8.34401E-04  4.62691E-02 -6.84821E-03  -81.89  4.72446E-02 -1.80984E-03  4.81750E-02
+
+           GRD      27 -5.000E-03 -8.51374E-04  3.59592E-02 -5.96790E-03  -81.02  3.69026E-02 -1.79474E-03  3.78319E-02  0.00000E+00  0.00000E+00  0.6E+01(1)
+                        5.000E-03 -8.51374E-04  3.59592E-02 -5.96790E-03  -81.02  3.69026E-02 -1.79474E-03  3.78319E-02
+
+           GRD      19 -5.000E-03 -1.57069E-04  3.42143E-02 -1.82749E-02  -66.62  4.21149E-02 -8.05762E-03  4.66684E-02  0.00000E+00  0.00000E+00  0.6E+01(1)
+                        5.000E-03 -1.57069E-04  3.42143E-02 -1.82749E-02  -66.62  4.21149E-02 -8.05762E-03  4.66684E-02
+
+           GRD      17 -5.000E-03 -2.70390E-04  4.63089E-02 -1.69272E-02  -71.99  5.18105E-02 -5.77204E-03  5.49245E-02  0.00000E+00  0.00000E+00 -0.6E+01(1)
+                        5.000E-03 -2.70390E-04  4.63089E-02 -1.69272E-02  -71.99  5.18105E-02 -5.77204E-03  5.49245E-02
+
+       17  CENTER      -5.000E-03  1.39770E-03  1.08760E-02 -8.60510E-03  -59.42  1.59607E-02 -3.68696E-03  1.80882E-02  0.00000E+00  0.00000E+00
+                        5.000E-03  1.39770E-03  1.08760E-02 -8.60510E-03  -59.42  1.59607E-02 -3.68696E-03  1.80882E-02
+
+           GRD      14 -5.000E-03  8.48769E-04  1.11675E-02 -9.06653E-03  -59.82  1.64398E-02 -4.42360E-03  1.90410E-02  0.00000E+00  0.00000E+00 -0.1E+01(1)
+                        5.000E-03  8.48769E-04  1.11675E-02 -9.06653E-03  -59.82  1.64398E-02 -4.42360E-03  1.90410E-02
+
+           GRD      28 -5.000E-03  2.25021E-04  1.04114E-02 -7.00753E-03  -63.01  1.39811E-02 -3.34470E-03  1.59192E-02  0.00000E+00  0.00000E+00  0.2E+01(1)
+                        5.000E-03  2.25021E-04  1.04114E-02 -7.00753E-03  -63.01  1.39811E-02 -3.34470E-03  1.59192E-02
+
+           GRD      31 -5.000E-03  2.18418E-03  1.07314E-02 -8.59245E-03  -58.22  1.60543E-02 -3.13877E-03  1.78321E-02  0.00000E+00  0.00000E+00  0.1E+01(1)
+                        5.000E-03  2.18418E-03  1.07314E-02 -8.59245E-03  -58.22  1.60543E-02 -3.13877E-03  1.78321E-02
+
+           GRD      25 -5.000E-03  2.60036E-03  1.12186E-02 -9.92517E-03  -56.73  1.77297E-02 -3.91076E-03  1.99743E-02  0.00000E+00  0.00000E+00 -0.2E+01(1)
+                        5.000E-03  2.60036E-03  1.12186E-02 -9.92517E-03  -56.73  1.77297E-02 -3.91076E-03  1.99743E-02
+
+       18  CENTER      -5.000E-03  4.79293E-04  1.07106E-02 -2.94750E-03  -75.03  1.14990E-02 -3.09094E-04  1.16566E-02  0.00000E+00  0.00000E+00
+                        5.000E-03  4.79293E-04  1.07106E-02 -2.94750E-03  -75.03  1.14990E-02 -3.09094E-04  1.16566E-02
+
+           GRD      28 -5.000E-03 -2.71569E-04  1.20040E-02 -2.82681E-03  -77.64  1.26237E-02 -8.91243E-04  1.30921E-02  0.00000E+00  0.00000E+00  0.3E+01(1)
+                        5.000E-03 -2.71569E-04  1.20040E-02 -2.82681E-03  -77.64  1.26237E-02 -8.91243E-04  1.30921E-02
+
+           GRD      11 -5.000E-03 -3.12510E-04  9.16582E-03 -7.35586E-04  -85.59  9.22257E-03 -3.69257E-04  9.41263E-03  0.00000E+00  0.00000E+00 -0.3E+01(1)
+                        5.000E-03 -3.12510E-04  9.16582E-03 -7.35586E-04  -85.59  9.22257E-03 -3.69257E-04  9.41263E-03
+
+           GRD      29 -5.000E-03  1.23990E-03  9.81712E-03 -3.36844E-03  -70.93  1.09818E-02  7.52037E-05  1.09444E-02  0.00000E+00  0.00000E+00 -0.3E+01(1)
+                        5.000E-03  1.23990E-03  9.81712E-03 -3.36844E-03  -70.93  1.09818E-02  7.52037E-05  1.09444E-02
+
+           GRD      31 -5.000E-03  1.46832E-03  1.17600E-02 -5.07959E-03  -67.69  1.38448E-02 -6.16464E-04  1.41631E-02  0.00000E+00  0.00000E+00  0.4E+01(1)
+                        5.000E-03  1.46832E-03  1.17600E-02 -5.07959E-03  -67.69  1.38448E-02 -6.16464E-04  1.41631E-02
+
+       19  CENTER      -5.000E-03 -1.16078E-03  4.81484E-02  1.41498E-04   89.84  4.81488E-02 -1.16119E-03  4.87398E-02  0.00000E+00  0.00000E+00
+                        5.000E-03 -1.16078E-03  4.81484E-02  1.41498E-04   89.84  4.81488E-02 -1.16119E-03  4.87398E-02
+
+           GRD      31 -5.000E-03  7.24069E-04  4.84783E-02  2.45377E-03   87.07  4.86040E-02  5.98318E-04  4.83076E-02  0.00000E+00  0.00000E+00  0.5E+01(3)
+                        5.000E-03  7.24069E-04  4.84783E-02  2.45377E-03   87.07  4.86040E-02  5.98318E-04  4.83076E-02
+
+           GRD      29 -5.000E-03  7.96012E-04  4.78706E-02 -1.22230E-03  -88.51  4.79023E-02  7.64296E-04  4.75248E-02  0.00000E+00  0.00000E+00 -0.5E+01(3)
+                        5.000E-03  7.96012E-04  4.78706E-02 -1.22230E-03  -88.51  4.79023E-02  7.64296E-04  4.75248E-02
+
+           GRD      15 -5.000E-03 -3.26579E-03  4.78023E-02 -2.30630E-03  -87.42  4.79062E-02 -3.36973E-03  4.96769E-02  0.00000E+00  0.00000E+00 -0.5E+01(3)
+                        5.000E-03 -3.26579E-03  4.78023E-02 -2.30630E-03  -87.42  4.79062E-02 -3.36973E-03  4.96769E-02
+
+           GRD      30 -5.000E-03 -2.76879E-03  4.84749E-02  1.85764E-03   87.93  4.85421E-02 -2.83604E-03  5.00205E-02  0.00000E+00  0.00000E+00  0.5E+01(3)
+                        5.000E-03 -2.76879E-03  4.84749E-02  1.85764E-03   87.93  4.85421E-02 -2.83604E-03  5.00205E-02
+
+       20  CENTER      -5.000E-03  6.69936E-04  5.00289E-02 -1.93181E-03  -87.76  5.01044E-02  5.94444E-04  4.98098E-02  0.00000E+00  0.00000E+00
+                        5.000E-03  6.69936E-04  5.00289E-02 -1.93181E-03  -87.76  5.01044E-02  5.94444E-04  4.98098E-02
+
+           GRD      25 -5.000E-03  5.58871E-04  5.22675E-02  2.02271E-04   89.78  5.22683E-02  5.58079E-04  5.19915E-02  0.00000E+00  0.00000E+00 -0.9E+00(3)
+                        5.000E-03  5.58871E-04  5.22675E-02  2.02271E-04   89.78  5.22683E-02  5.58079E-04  5.19915E-02
+
+           GRD      31 -5.000E-03  5.69925E-04  4.78707E-02  1.96377E-04   89.76  4.78715E-02  5.69110E-04  4.75895E-02  0.00000E+00  0.00000E+00  0.9E+00(3)
+                        5.000E-03  5.69925E-04  4.78707E-02  1.96377E-04   89.76  4.78715E-02  5.69110E-04  4.75895E-02
+
+           GRD      30 -5.000E-03  7.81436E-04  4.80712E-02 -4.08857E-03  -85.09  4.84221E-02  4.30550E-04  4.82083E-02  0.00000E+00  0.00000E+00  0.9E+00(3)
+                        5.000E-03  7.81436E-04  4.80712E-02 -4.08857E-03  -85.09  4.84221E-02  4.30550E-04  4.82083E-02
+
+           GRD      18 -5.000E-03  7.80602E-04  5.18413E-02 -4.25826E-03  -85.27  5.21940E-02  4.27916E-04  5.19813E-02  0.00000E+00  0.00000E+00 -0.1E+01(3)
+                        5.000E-03  7.80602E-04  5.18413E-02 -4.25826E-03  -85.27  5.21940E-02  4.27916E-04  5.19813E-02
+                                  ------------ ------------ ------------         ------------ ------------ ------------ ------------ ------------ --------
+ MAX* :                            1.05731E-02  2.55575E-01  3.81828E-02          2.73502E-01  1.37413E-03  2.80586E-01  0.00000E+00  0.00000E+00  0.1E+05
+ MIN* :                           -3.54067E-03  1.83432E-03 -7.85063E-02          5.79436E-03 -2.43432E-02  5.55612E-03  0.00000E+00  0.00000E+00 -0.1E+05
+
+ ABS* :                            1.05731E-02  2.55575E-01  7.85063E-02          2.73502E-01  2.43432E-02  2.80586E-01  0.00000E+00  0.00000E+00  0.1E+05
+ *for output set
+ NOTE: Explanation of errors in the polynomial fit to extrapolate element corner point strains from values at the Gauss points:
+       (1): Polynomial fit error is in X  normal  strain
+       (3): Polynomial fit error is in XY shear   strain
+
+ >> LINK  9 END
+
+    Total CPU time =  7.81E-02 seconds
+
+ >> MYSTRAN END    :  6/ 4/2026 at 11:55:59.546

@@ -1,0 +1,651 @@
+   604115442
+
+ MYSTRAN Version 18.0.0   APR 20 2026 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  6/ 4/2026 at 11:54:42.528 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\NAS S30 gravity rotated.bdf                                                                                                                                                                             
+
+
+ >> LINK  0 BEGIN
+
+
+SOL 101                                                                                                                                                                                                                                                         
+CEND                                                                                                                                                                                                                                                            
+DISPLACEMENT = ALL                                                                                                                                                                                                                                              
+SPCFORCES = ALL                                                                                                                                                                                                                                                 
+MPCFORCES = ALL                                                                                                                                                                                                                                                 
+SPC = 1                                                                                                                                                                                                                                                         
+LOAD = 1                                                                                                                                                                                                                                                        
+BEGIN BULK                                                                                                                                                                                                                                                      
+ECHO: loadb GRID*                  1               0-1.41421356237+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        1.41421356237+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                  2               0-7.07106781187-1           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        7.07106781187-1               2                                                                                                                                                                                                                        
+ECHO: loadb GRID*                  3               0-7.07106781187-1           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *        7.07106781187-1               2                                                                                                                                                                                                                        
+ECHO: loadb GRID*                  4               0-1.41421356237+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *        1.41421356237+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                  5               0-7.07106781187-1           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        2.12132034356+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                  6               0           0.0+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        1.41421356237+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                  7               0           0.0+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *        1.41421356237+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                  8               0-7.07106781187-1           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *        2.12132034356+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                  9               0 3.88908729653+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.47487373415+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 10               0 4.24264068712+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -2.82842712475+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 11               0 3.88908729653+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.47487373415+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 12               0 3.53553390593+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -2.12132034356+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 13               0 4.24264068712+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.24264068712+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 14               0 4.94974746831+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.94974746831+0               3                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 15               0 5.65685424949+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.24264068712+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 16               0 4.94974746831+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.53553390593+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 17               0 4.24264068712+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.24264068712+0               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 18               0 4.94974746831+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.94974746831+0               3                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 19               0 5.65685424949+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.24264068712+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 20               0 4.94974746831+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.53553390593+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID          21       0   0.0+0   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID*                 22               0 7.07106781187-1           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -7.07106781187-1               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 23               0 1.41421356237+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *        8.6592745707-17               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 24               0 7.07106781187-1           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *        7.07106781187-1               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 25               0 8.6592745707-17           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        8.6592745707-17               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 26               0 7.07106781187-1           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -7.07106781187-1               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 27               0 1.41421356237+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        8.6592745707-17               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 28               0 7.07106781187-1           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        7.07106781187-1               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 29               0 2.82842712475+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.82842712475+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 30               0 3.53553390593+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.53553390593+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 31               0 3.53553390593+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.53553390593+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 32               0 2.82842712475+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.82842712475+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 33               0 3.53553390593+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.12132034356+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 34               0 4.24264068712+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.82842712475+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 35               0 4.24264068712+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.82842712475+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 36               0 3.53553390593+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.12132034356+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 37               0 3.18198051534+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.18198051534+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 38               0 3.53553390593+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -3.53553390593+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 39               0 3.18198051534+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.18198051534+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 40               0 2.82842712475+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -2.82842712475+0               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 41               0 3.18198051534+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.47487373415+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 42               0 3.88908729653+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.18198051534+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 43               0 3.88908729653+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.18198051534+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 44               0 3.18198051534+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.47487373415+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 45               0  5.3033008589+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.88908729653+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 46               0 4.59619407771+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.88908729653+0               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 47               0 4.94974746831+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.24264068712+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 48               0 5.65685424949+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -4.24264068712+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 49               0 4.94974746831+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -3.53553390593+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 50               0 4.24264068712+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -4.24264068712+0               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 51               0  5.3033008589+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.88908729653+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 52               0 4.59619407771+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -3.88908729653+0               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 53               0 4.94974746831+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.24264068712+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 54               0 4.59619407771+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.59619407771+0               2                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 55               0  5.3033008589+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.59619407771+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 56               0 4.94974746831+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -4.94974746831+0               3                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 57               0 4.59619407771+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.59619407771+0               2                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 58               0  5.3033008589+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -4.59619407771+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 59               0 1.41421356237+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.41421356237+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 60               0 2.12132034356+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.12132034356+0               3                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 61               0 2.12132034356+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -2.12132034356+0               3                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 62               0 1.41421356237+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.41421356237+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 63               0 2.12132034356+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -7.07106781187-1               3                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 64               0 2.82842712475+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.41421356237+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 65               0 2.82842712475+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.41421356237+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 66               0 2.12132034356+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -7.07106781187-1               3                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 67               0-2.82842712475+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        2.82842712475+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 68               0-2.12132034356+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        2.12132034356+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 69               0-2.12132034356+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *        2.12132034356+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 70               0-2.82842712475+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *        2.82842712475+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 71               0-2.12132034356+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        3.53553390593+0               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 72               0-1.41421356237+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *        2.82842712475+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 73               0-1.41421356237+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *        2.82842712475+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 74               0-2.12132034356+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *        3.53553390593+0               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 75               0 2.82842712475+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -1.41421356237+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 76               0 2.47487373415+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.76776695297+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 77               0 2.47487373415+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -1.76776695297+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 78               0 2.47487373415+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -1.06066017178+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 79               0 2.47487373415+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.06066017178+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 80               0 2.12132034356+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.41421356237+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 81               0 2.12132034356+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.41421356237+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 82               0 1.76776695297+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -1.06066017178+0               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 83               0 1.76776695297+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.06066017178+0               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 84               0 2.47487373415+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.06066017178+0               0                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 85               0 2.12132034356+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -7.07106781187-1               3                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 86               0 1.76776695297+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -1.76776695297+0               2                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 87               0 1.76776695297+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.76776695297+0               2                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 88               0 1.41421356237+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -1.41421356237+0               1                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 89               0 1.76776695297+0           1.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.06066017178+0               4                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 90               0 1.76776695297+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.76776695297+0               2                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 91               0 2.12132034356+0           5.0-1*                                                                                                                                                                                       
+ECHO: loadb *       -2.12132034356+0               3                                                                                                                                                                                                                        
+ECHO: loadb GRID*                 92               0 2.47487373415+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *       -1.76776695297+0               0                                                                                                                                                                                                                        
+ECHO: loadb PARAM    STR_CID      -2                                                                                                                                                                                                                                        
+ECHO: loadb MAT1*                  1      2.10123+11     1.050615+11           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *                  7.8+3           0.0+0           0.0+0                                                                                                                                                                                                        
+ECHO: loadb CORD2R*                1               0           0.0+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0-7.07106781187-1           0.0+0 7.07106781187-1*                                                                                                                                                                                       
+ECHO nextc2: *        7.07106781187-1           0.0+0 7.07106781187-1                *                                                                                                                                                                                       
+ECHO nextc2: *                                                                                                                                                                                                                                                               
+ECHO: loadb CORD2R*                2               0           0.0+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0-7.07106781187-1           0.0+0 7.07106781187-1*                                                                                                                                                                                       
+ECHO nextc2: *        7.07106781187-1           0.0+0 7.07106781187-1                *                                                                                                                                                                                       
+ECHO nextc2: *                                                                                                                                                                                                                                                               
+ECHO: loadb CORD2R*                3               0           0.0+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0 7.07106781187-1           0.0+0 7.07106781187-1*                                                                                                                                                                                       
+ECHO nextc2: *        7.07106781187-1           0.0+0-7.07106781187-1                *                                                                                                                                                                                       
+ECHO nextc2: *                                                                                                                                                                                                                                                               
+ECHO: loadb CORD2R*                4               0           0.0+0           0.0+0*                                                                                                                                                                                       
+ECHO: loadb *                  0.0+0 7.07106781187-1           0.0+0 7.07106781187-1*                                                                                                                                                                                       
+ECHO nextc2: *        7.07106781187-1           0.0+0-7.07106781187-1                *                                                                                                                                                                                       
+ECHO nextc2: *                                                                                                                                                                                                                                                               
+ECHO: loadb SPC            1       1       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       3       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       3       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       4       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       4       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       4       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       5       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       7       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       8       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       8       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      11       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      12       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      13       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      13       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      13       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      14       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      14       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      15       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      16       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      16       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      17       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      17       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      18       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      20       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      21       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      21       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      21       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      22       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      22       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      23       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      24       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      24       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      25       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      25       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      26       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      28       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      29       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      29       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      30       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      31       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      31       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      32       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      32       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      32       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      33       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      35       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      36       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      36       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      37       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      38       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      39       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      39       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      40       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      40       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      41       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      43       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      44       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      44       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      45       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      46       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      46       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      47       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      49       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      50       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      50       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      52       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      54       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      54       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      55       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      56       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      57       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      59       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      59       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      60       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      61       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      61       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      62       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      62       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      62       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      63       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      65       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      66       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      66       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      67       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      67       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      68       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      69       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      69       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      70       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      70       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      70       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      71       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      73       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      74       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      74       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      76       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      79       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      80       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      82       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      83       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      85       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      86       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      87       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      87       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      88       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      88       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      89       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      89       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      90       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1      91       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb PSOLID         5       1       0       2               1                                                                                                                                                                                                        
+ECHO: loadb CHEXA          1       5       1       2       3       4       5       6+                                                                                                                                                                                       
+ECHO:  nextc +              7       8                                                                                                                                                                                                                                        
+ECHO: loadb PSOLID         6       1       0       2               1                                                                                                                                                                                                        
+ECHO: loadb CPENTA         2       6      23      24      21      27      28      25                                                                                                                                                                                        
+ECHO: loadb CPENTA         3       6      21      22      23      25      26      27                                                                                                                                                                                        
+ECHO: loadb PSOLID         7       1       0       3               1                                                                                                                                                                                                        
+ECHO: loadb CHEXA          4       7      29      30      31      32      33      34+                                                                                                                                                                                       
+ECHO:  nextc +             35      36      37      38      39      40      41      42+                                                                                                                                                                                       
+ECHO:  nextc +             43      44       9      10      11      12                                                                                                                                                                                                        
+ECHO: loadb PSOLID         8       1       0       3               1                                                                                                                                                                                                        
+ECHO: loadb CPENTA         5       8      15      16      13      19      20      17+                                                                                                                                                                                       
+ECHO:  nextc +             45      46      47      48      49      50      51      52+                                                                                                                                                                                       
+ECHO:  nextc +             53                                                                                                                                                                                                                                                
+ECHO: loadb CPENTA         6       8      13      14      15      17      18      19+                                                                                                                                                                                       
+ECHO:  nextc +             54      55      47      50      56      48      57      58+                                                                                                                                                                                       
+ECHO:  nextc +             53                                                                                                                                                                                                                                                
+ECHO: loadb PSOLID         9       1       0                                                                                                                                                                                                                                
+ECHO: loadb CTETRA         7       9      64      65      61      66      75      76+                                                                                                                                                                                       
+ECHO:  nextc +             77      78      79      80                                                                                                                                                                                                                        
+ECHO: loadb CTETRA         9       9      59      64      66      63      81      78+                                                                                                                                                                                       
+ECHO:  nextc +             82      83      84      85                                                                                                                                                                                                                        
+ECHO: loadb CTETRA        10       9      59      61      62      66      86      87+                                                                                                                                                                                       
+ECHO:  nextc +             88      82      80      89                                                                                                                                                                                                                        
+ECHO: loadb CTETRA        11       9      59      64      61      66      81      77+                                                                                                                                                                                       
+ECHO:  nextc +             86      82      78      80                                                                                                                                                                                                                        
+ECHO: loadb CTETRA        12       9      59      60      61      64      90      91+                                                                                                                                                                                       
+ECHO:  nextc +             86      81      92      77                                                                                                                                                                                                                        
+ECHO: loadb PSOLID        10       1       0                                                                                                                                                                                                                                
+ECHO: loadb CTETRA         8      10      72      73      69      74                                                                                                                                                                                                        
+ECHO: loadb CTETRA        13      10      67      72      74      71                                                                                                                                                                                                        
+ECHO: loadb CTETRA        14      10      67      69      70      74                                                                                                                                                                                                        
+ECHO: loadb CTETRA        15      10      67      72      69      74                                                                                                                                                                                                        
+ECHO: loadb CTETRA        16      10      67      68      69      72                                                                                                                                                                                                        
+ECHO: loadb GRAV           3       0   1.0+0   1.0+1  -5.0+0  -1.0+1                                                                                                                                                                                                        
+ECHO: loadb LOAD           1   1.0+0   1.0+0       3                                                                                                                                                                                                                        
+ECHO: loadb ENDDATA                                                                                                                                                                                                                                                         
+
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  9.02E-01 MB MEMORY FROM ARRAY STF3
+
+
+ *INFORMATION: AUTOSPC Summary, Stage 1 after identification of AUTOSPC's at the grid level                                                 
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =           92
+                       Number of DOF's identified for AUTOSPC in component  5         =           92
+                       Number of DOF's identified for AUTOSPC in component  6         =           92
+                                                                                        ------------
+                       Total number of DOF's identified in this stage                 =          276
+
+               DEALLOCATED  2.21E-03 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  9.02E-01 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =           92
+                       Number of DOF's identified for AUTOSPC in component  5         =           92
+                       Number of DOF's identified for AUTOSPC in component  6         =           92
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =          276
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            =  2.950899E-18 Based on U'*(K*U - P)/(U'*P)
+
+
+ >> LINK  3 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR SUBCASE        1
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        1  0.0          -9.280279E-08  0.0           0.0           0.0           0.0         
+              2        2  0.0          -9.280279E-08 -2.624859E-07  0.0           0.0           0.0         
+              3        2  0.0           0.0          -2.624859E-07  0.0           0.0           0.0         
+              4        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              5        1  4.744302E-19 -9.280279E-08  0.0           0.0           0.0           0.0         
+              6        0  1.856056E-07 -9.280279E-08 -1.856056E-07  0.0           0.0           0.0         
+              7        0  1.856056E-07  0.0          -1.856056E-07  0.0           0.0           0.0         
+              8        1  4.743255E-19  0.0           0.0           0.0           0.0           0.0         
+              9        0  1.392042E-07 -9.280279E-08 -1.392042E-07  0.0           0.0           0.0         
+             10        0  1.856056E-07 -6.960209E-08 -1.856056E-07  0.0           0.0           0.0         
+             11        0  1.392042E-07  0.0          -1.392042E-07  0.0           0.0           0.0         
+             12        1  1.012367E-18 -6.960209E-08  0.0           0.0           0.0           0.0         
+             13        0  0.0           0.0           0.0           0.0           0.0           0.0         
+             14        3  2.624859E-07  0.0           0.0           0.0           0.0           0.0         
+             15        0  1.856056E-07  0.0          -1.856056E-07  0.0           0.0           0.0         
+             16        1  3.706105E-18  0.0           0.0           0.0           0.0           0.0         
+             17        4  0.0          -9.280279E-08  0.0           0.0           0.0           0.0         
+             18        3  2.624859E-07 -9.280279E-08  0.0           0.0           0.0           0.0         
+             19        0  1.856056E-07 -9.280279E-08 -1.856056E-07  0.0           0.0           0.0         
+             20        1  3.706072E-18 -9.280279E-08  0.0           0.0           0.0           0.0         
+             21        0  0.0           0.0           0.0           0.0           0.0           0.0         
+             22        4  2.187383E-07  0.0           0.0           0.0           0.0           0.0         
+             23        0  2.165398E-07  0.0          -2.165398E-07  0.0           0.0           0.0         
+             24        4  0.0           0.0           1.254842E-23  0.0           0.0           0.0         
+             25        4  0.0          -9.280279E-08  0.0           0.0           0.0           0.0         
+             26        4  2.187383E-07 -9.280279E-08  0.0           0.0           0.0           0.0         
+             27        0  2.165398E-07 -9.280279E-08 -2.165398E-07  0.0           0.0           0.0         
+             28        4  0.0          -9.280279E-08 -3.219330E-23  0.0           0.0           0.0         
+             29        1  0.0          -9.280279E-08  0.0           0.0           0.0           0.0         
+             30        1  0.0          -9.280279E-08 -2.624859E-07  0.0           0.0           0.0         
+             31        1  0.0           0.0          -2.624859E-07  0.0           0.0           0.0         
+             32        0  0.0           0.0           0.0           0.0           0.0           0.0         
+             33        1  1.012267E-18 -9.280279E-08  0.0           0.0           0.0           0.0         
+             34        0  1.856056E-07 -9.280279E-08 -1.856056E-07  0.0           0.0           0.0         
+             35        0  1.856056E-07  0.0          -1.856056E-07  0.0           0.0           0.0         
+             36        1  1.012398E-18  0.0           0.0           0.0           0.0           0.0         
+             37        1  0.0          -9.280279E-08 -1.968644E-07  0.0           0.0           0.0         
+             38        1  0.0          -6.960209E-08 -2.624859E-07  0.0           0.0           0.0         
+             39        1  0.0           0.0          -1.968644E-07  0.0           0.0           0.0         
+             40        4  0.0          -6.960209E-08  0.0           0.0           0.0           0.0         
+             41        1  1.046704E-18 -9.280279E-08  0.0           0.0           0.0           0.0         
+             42        0  1.856056E-07 -9.280279E-08 -1.856056E-07  0.0           0.0           0.0         
+             43        0  1.856056E-07  0.0          -1.856056E-07  0.0           0.0           0.0         
+             44        1  1.046703E-18  0.0           0.0           0.0           0.0           0.0         
+             45        0  1.392042E-07  0.0          -1.392042E-07  0.0           0.0           0.0         
+             46        4  0.0           0.0           2.980930E-18  0.0           0.0           0.0         
+             47        0  1.392042E-07  0.0          -1.392042E-07  0.0           0.0           0.0         
+             48        0  1.856056E-07 -6.960209E-08 -1.856056E-07  0.0           0.0           0.0         
+             49        1  3.706147E-18 -6.960209E-08  0.0           0.0           0.0           0.0         
+             50        4  0.0          -6.960209E-08  0.0           0.0           0.0           0.0         
+             51        0  1.392042E-07 -9.280279E-08 -1.392042E-07  0.0           0.0           0.0         
+             52        4  0.0          -9.280279E-08  2.980867E-18  0.0           0.0           0.0         
+             53        0  1.392042E-07 -9.280279E-08 -1.392042E-07  0.0           0.0           0.0         
+             54        2  0.0           0.0          -1.968644E-07  0.0           0.0           0.0         
+             55        0  1.856056E-07  0.0          -1.856056E-07  0.0           0.0           0.0         
+             56        3  2.624859E-07 -6.960209E-08  0.0           0.0           0.0           0.0         
+             57        2  0.0          -9.280279E-08 -1.968644E-07  0.0           0.0           0.0         
+             58        0  1.856056E-07 -9.280279E-08 -1.856056E-07  0.0           0.0           0.0         
+             59        1  0.0          -9.280279E-08  0.0           0.0           0.0           0.0         
+             60        3  2.624859E-07 -9.280279E-08  0.0           0.0           0.0           0.0         
+             61        3  2.624859E-07  0.0           0.0           0.0           0.0           0.0         
+             62        0  0.0           0.0           0.0           0.0           0.0           0.0         
+             63        3  0.0          -9.280279E-08  3.496179E-16  0.0           0.0           0.0         
+             64        0  1.856056E-07 -9.280279E-08 -1.856056E-07  0.0           0.0           0.0         
+             65        0  1.856056E-07  0.0          -1.856056E-07  0.0           0.0           0.0         
+             66        3  0.0           0.0           5.906526E-17  0.0           0.0           0.0         
+             67        1  0.0          -9.416683E-08  0.0           0.0           0.0           0.0         
+             68        1  0.0          -9.389064E-08 -2.109720E-07  0.0           0.0           0.0         
+             69        1  0.0           0.0          -2.960898E-07  0.0           0.0           0.0         
+             70        0  0.0           0.0           0.0           0.0           0.0           0.0         
+             71        4  0.0          -6.764205E-08  3.608126E-09  0.0           0.0           0.0         
+             72        0  2.045040E-07 -1.034752E-07 -1.985980E-07  0.0           0.0           0.0         
+             73        0  1.571673E-07  0.0          -1.280678E-07  0.0           0.0           0.0         
+             74        4  0.0           0.0          -1.626848E-08  0.0           0.0           0.0         
+             75        0  1.856056E-07 -6.960209E-08 -1.856056E-07  0.0           0.0           0.0         
+             76        0  1.856056E-07  0.0          -1.856056E-07  0.0           0.0           0.0         
+             77        0  1.856056E-07 -6.960209E-08 -1.856056E-07  0.0           0.0           0.0         
+             78        0  1.392042E-07 -6.960209E-08 -1.392042E-07  0.0           0.0           0.0         
+             79        0  1.392042E-07  0.0          -1.392042E-07  0.0           0.0           0.0         
+             80        0  1.392042E-07  0.0          -1.392042E-07  0.0           0.0           0.0         
+             81        0  1.392042E-07 -9.280279E-08 -1.392042E-07  0.0           0.0           0.0         
+             82        4  0.0          -6.960209E-08  4.744291E-17  0.0           0.0           0.0         
+             83        4  0.0          -9.280279E-08  3.794808E-16  0.0           0.0           0.0         
+             84        0  1.392042E-07 -9.280279E-08 -1.392042E-07  0.0           0.0           0.0         
+             85        3  0.0          -6.960209E-08  2.639822E-16  0.0           0.0           0.0         
+             86        2  0.0          -6.960209E-08 -1.968644E-07  0.0           0.0           0.0         
+             87        2  0.0           0.0          -1.968644E-07  0.0           0.0           0.0         
+             88        1  0.0          -6.960209E-08  0.0           0.0           0.0           0.0         
+             89        4  0.0           0.0          -4.535816E-17  0.0           0.0           0.0         
+             90        2  0.0          -9.280279E-08 -1.968644E-07  0.0           0.0           0.0         
+             91        3  2.624859E-07 -6.960209E-08  0.0           0.0           0.0           0.0         
+             92        0  1.856056E-07 -9.280279E-08 -1.856056E-07  0.0           0.0           0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    2.624859E-07  0.0           3.608126E-09  0.0           0.0           0.0         
+                MIN* :    0.0          -1.034752E-07 -2.960898E-07  0.0           0.0           0.0         
+
+                ABS* :    2.624859E-07  1.034752E-07  2.960898E-07  0.0           0.0           0.0         
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        1 -2.492077E-08  0.0           2.757716E+04  0.0           0.0           0.0         
+              2        2  2.491876E-08  0.0           0.0           0.0           0.0           0.0         
+              3        2  2.491829E-08  9.750000E+03  0.0           0.0           0.0           0.0         
+              4        0 -1.950000E+04  9.750000E+03  1.950000E+04  0.0           0.0           0.0         
+              5        1  0.0           0.0           2.757716E+04  0.0           0.0           0.0         
+              7        0  0.0           9.750000E+03  0.0           0.0           0.0           0.0         
+              8        1  0.0           9.750000E+03  2.757716E+04  0.0           0.0           0.0         
+             11        0  0.0           1.300000E+04  0.0           0.0           0.0           0.0         
+             12        1  0.0           0.0           3.676955E+04  0.0           0.0           0.0         
+             13        0  6.500000E+03 -6.097234E-07 -6.500000E+03  0.0           0.0           0.0         
+             14        3  0.0          -5.015868E-07 -2.505494E-07  0.0           0.0           0.0         
+             15        0  0.0          -6.648725E-07  0.0           0.0           0.0           0.0         
+             16        1  0.0          -5.015763E-07 -9.192388E+03  0.0           0.0           0.0         
+             17        4  9.192388E+03  0.0          -6.304820E-07  0.0           0.0           0.0         
+             18        3  0.0           0.0          -2.505603E-07  0.0           0.0           0.0         
+             20        1  0.0           0.0          -9.192388E+03  0.0           0.0           0.0         
+             21        0 -2.275000E+04  1.300000E+04  1.950000E+04  0.0           0.0           0.0         
+             22        4  0.0           6.500000E+03  2.298097E+03  0.0           0.0           0.0         
+             23        0  0.0           1.300000E+04  0.0           0.0           0.0           0.0         
+             24        4 -2.527907E+04  6.500000E+03  0.0           0.0           0.0           0.0         
+             25        4 -2.987526E+04  0.0          -2.298097E+03  0.0           0.0           0.0         
+             26        4  0.0           0.0           2.298097E+03  0.0           0.0           0.0         
+             28        4 -2.527907E+04  0.0           0.0           0.0           0.0           0.0         
+             29        1 -6.121606E-08  0.0          -9.192388E+03  0.0           0.0           0.0         
+             30        1 -5.687173E-09  0.0           0.0           0.0           0.0           0.0         
+             31        1 -5.690728E-09 -3.250000E+03  0.0           0.0           0.0           0.0         
+             32        0  6.500000E+03 -3.250000E+03 -6.500000E+03  0.0           0.0           0.0         
+             33        1  0.0           0.0          -9.192388E+03  0.0           0.0           0.0         
+             35        0  0.0          -3.250000E+03  0.0           0.0           0.0           0.0         
+             36        1  0.0          -3.250000E+03 -9.192388E+03  0.0           0.0           0.0         
+             37        1  6.690912E-08  0.0           0.0           0.0           0.0           0.0         
+             38        1  1.110555E-07  0.0           0.0           0.0           0.0           0.0         
+             39        1  6.691069E-08  1.300000E+04  0.0           0.0           0.0           0.0         
+             40        4 -3.676955E+04  0.0          -1.110482E-07  0.0           0.0           0.0         
+             41        1  0.0           0.0           3.676955E+04  0.0           0.0           0.0         
+             43        0  0.0           1.300000E+04  0.0           0.0           0.0           0.0         
+             44        1  0.0           1.300000E+04  3.676955E+04  0.0           0.0           0.0         
+             45        0  0.0           6.500000E+03  0.0           0.0           0.0           0.0         
+             46        4 -3.676955E+04  6.500000E+03  0.0           0.0           0.0           0.0         
+             47        0  0.0           1.300000E+04  0.0           0.0           0.0           0.0         
+             49        1  0.0           0.0           3.676955E+04  0.0           0.0           0.0         
+             50        4 -3.676955E+04  0.0          -7.598728E-07  0.0           0.0           0.0         
+             52        4 -3.676955E+04  0.0           0.0           0.0           0.0           0.0         
+             54        2  8.810288E-07  6.500000E+03  0.0           0.0           0.0           0.0         
+             55        0  0.0           6.500000E+03  0.0           0.0           0.0           0.0         
+             56        3  0.0           0.0           7.598705E-07  0.0           0.0           0.0         
+             57        2  8.810257E-07  0.0           0.0           0.0           0.0           0.0         
+             59        1 -1.532657E-05  0.0           1.599545E-04  0.0           0.0           0.0         
+             60        3  0.0           0.0           8.272111E-06  0.0           0.0           0.0         
+             61        3  0.0           8.136982E-05 -3.025953E-05  0.0           0.0           0.0         
+             62        0 -1.799312E-05  9.118119E-06  1.776173E-05  0.0           0.0           0.0         
+             63        3 -2.964311E-05  0.0           0.0           0.0           0.0           0.0         
+             65        0  0.0           5.202217E-06  0.0           0.0           0.0           0.0         
+             66        3 -1.516144E-04  5.820807E-05  0.0           0.0           0.0           0.0         
+             67        1 -1.033229E+03  0.0           4.065242E+04  0.0           0.0           0.0         
+             68        1  1.318457E+03  0.0           0.0           0.0           0.0           0.0         
+             69        1 -8.549577E+02  1.486246E+04  0.0           0.0           0.0           0.0         
+             70        0 -1.017928E+04  4.922770E+03  1.098500E+04  0.0           0.0           0.0         
+             71        4 -1.394091E+04  0.0           0.0           0.0           0.0           0.0         
+             73        0  0.0           4.076543E+03  0.0           0.0           0.0           0.0         
+             74        4 -4.074992E+04  1.513823E+04  0.0           0.0           0.0           0.0         
+             76        0  0.0           6.500000E+03  0.0           0.0           0.0           0.0         
+             79        0  0.0           6.500000E+03  0.0           0.0           0.0           0.0         
+             80        0  0.0           1.300000E+04  0.0           0.0           0.0           0.0         
+             82        4 -3.676955E+04  0.0           0.0           0.0           0.0           0.0         
+             83        4 -1.838478E+04  0.0           0.0           0.0           0.0           0.0         
+             85        3 -1.838478E+04  0.0           0.0           0.0           0.0           0.0         
+             86        2  3.059131E-05  0.0           0.0           0.0           0.0           0.0         
+             87        2  1.119726E-05  6.500000E+03  0.0           0.0           0.0           0.0         
+             88        1  7.942835E-06  0.0           1.838478E+04  0.0           0.0           0.0         
+             89        4 -1.838478E+04  6.500000E+03  0.0           0.0           0.0           0.0         
+             90        2 -8.441673E-06  0.0           0.0           0.0           0.0           0.0         
+             91        3  0.0           0.0          -3.812110E-06  0.0           0.0           0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    9.192388E+03  1.513823E+04  4.065242E+04  0.0           0.0           0.0         
+                MIN* :   -4.074992E+04 -3.250000E+03 -9.192388E+03  0.0           0.0           0.0         
+
+                ABS* :    4.074992E+04  1.513823E+04  4.065242E+04  0.0           0.0           0.0         
+                *for output set
+                         ------------- ------------- ------------- ------------- ------------- -------------
+     SPC FORCE TOTALS: not printed since all grids do not have the same global coordinate system
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+                       -------------- -------------- -------------- -------------- -------------- --------------
+ AUTOSPC FORCE TOTALS: not printed since all grids do not have the same global coordinate system
+
+ >> LINK  9 END
+
+    Total CPU time =  9.38E-02 seconds
+
+ >> MYSTRAN END    :  6/ 4/2026 at 11:54:42.648

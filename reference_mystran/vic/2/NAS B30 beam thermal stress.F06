@@ -1,0 +1,231 @@
+   604115449
+
+ MYSTRAN Version 18.0.0   APR 20 2026 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  6/ 4/2026 at 11:54:49. 48 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\NAS B30 beam thermal stress.bdf                                                                                                                                                                         
+
+
+ >> LINK  0 BEGIN
+
+
+SOL 105                                                                                                                                                                                                                                                         
+CEND                                                                                                                                                                                                                                                            
+DISPLACEMENT = ALL                                                                                                                                                                                                                                              
+SPC = 1                                                                                                                                                                                                                                                         
+SUBCASE 1                                                                                                                                                                                                                                                       
+TEMPERATURE = 1                                                                                                                                                                                                                                                 
+SUBCASE 2                                                                                                                                                                                                                                                       
+METHOD = 1                                                                                                                                                                                                                                                      
+BEGIN BULK                                                                                                                                                                                                                                                      
+ECHO: loadb GRID           1       0   0.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           2       0   0.0+0   0.0+0   1.0-1       0                                                                                                                                                                                                        
+ECHO: loadb GRID           3       0   0.0+0   0.0+0   5.0-2       0                                                                                                                                                                                                        
+ECHO: loadb PARAM    STR_CID      -2                                                                                                                                                                                                                                        
+ECHO: loadb MAT1           1  2.0+11  1.0+11   0.0+0   0.0+0   1.2-4   3.0+2                                                                                                                                                                                                
+ECHO: loadb SPC            1       1       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       4   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       5   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       6   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb PBAR*                  1               1           1.0-6 8.3333333333-14*                                                                                                                                                                                       
+ECHO: loadb *        8.3333333333-14 1.4083333333-13           0.0+0                                                                                                                                                                                                        
+ECHO: loadb CBAR           1       1       3       1   0.0+0   1.0+0   0.0+0                                                                                                                                                                                                
+ECHO: loadb CBAR           2       1       2       3   0.0+0   1.0+0   0.0+0                                                                                                                                                                                                
+ECHO: loadb TEMP           1       2   4.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1       3   4.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMP           1       1   4.0+2                                                                                                                                                                                                                                
+ECHO: loadb TEMPD          1   3.0+2                                                                                                                                                                                                                                        
+ECHO: loadb EIGRL          1                       2       0           1.0-4    MASS                                                                                                                                                                                        
+ECHO: loadb ENDDATA                                                                                                                                                                                                                                                         
+
+
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  4.61E-03 MB MEMORY FROM ARRAY STF3
+
+               DEALLOCATED  7.20E-05 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  4.61E-03 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =            0
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =            0
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+ *WARNING    : CANNOT CALCULATE EPSILON ERROR ESTIMATE FOR INTERNAL SUBCASE NUMBER        1
+               THE DOT PRODUCT OF DISPL AND LOAD VECTORS                     =    0.000000E+00 CANNOT BE INVERTED.
+               IT IS TOO SMALL COMPARED TO MACHINE SAFE MINIMUM (MACH_SFMIN) =    2.225074-308
+
+ *WARNING    : CANNOT CALCULATE EPSILON ERROR ESTIMATE FOR INTERNAL SUBCASE NUMBER        2
+               THE DOT PRODUCT OF DISPL AND LOAD VECTORS                     =    0.000000E+00 CANNOT BE INVERTED.
+               IT IS TOO SMALL COMPARED TO MACHINE SAFE MINIMUM (MACH_SFMIN) =    2.225074-308
+
+
+ >> LINK  3 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR SUBCASE        1
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              3        0  0.0           0.0           0.0           0.0           0.0           0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           0.0           0.0           0.0           0.0         
+                MIN* :    0.0           0.0           0.0           0.0           0.0           0.0         
+
+                ABS* :    0.0           0.0           0.0           0.0           0.0           0.0         
+                *for output set
+
+ >> LINK  9 END
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  4.61E-03 MB MEMORY FROM ARRAY STF3
+               DEALLOCATED  7.20E-05 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  4.61E-03 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+ *INFORMATION: MAX DIAGONAL TERM IN THE KGGD MATRIX IS =  0.00E+00 WHICH IS TOO SMALL FOR CALCULATION OF MATRIX STATS
+               IN SUBR GET_MATRIX_DIAG_STATS          
+ *INFORMATION: MAX DIAGONAL TERM IN THE KNND MATRIX IS =  0.00E+00 WHICH IS TOO SMALL FOR CALCULATION OF MATRIX STATS
+               IN SUBR GET_MATRIX_DIAG_STATS          
+ *INFORMATION: MAX DIAGONAL TERM IN THE KAAD MATRIX IS =  0.00E+00 WHICH IS TOO SMALL FOR CALCULATION OF MATRIX STATS
+               IN SUBR GET_MATRIX_DIAG_STATS          
+ *INFORMATION: MAX DIAGONAL TERM IN THE KLLD MATRIX IS =  0.00E+00 WHICH IS TOO SMALL FOR CALCULATION OF MATRIX STATS
+               IN SUBR GET_MATRIX_DIAG_STATS          
+
+ >> LINK  2 END
+
+
+ >> LINK  4 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KMSM SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+
+                           E I G E N V A L U E   A N A L Y S I S   S U M M A R Y   (LANCZOS  Mode 2 DGB, Shift eigen =  1.00E-04)
+                                                                      (SPARSE solution)
+
+                                NUMBER OF EIGENVALUES EXTRACTED  . . . . . .         2
+
+                                LARGEST OFF-DIAGONAL GENERALIZED MASS TERM     3.1E-19 (Vecs renormed to 1.0 for gen masses)
+
+                                                                       . . .         2
+                                          MODE PAIR . . . . . . . . . .
+                                                                       . . .         1
+
+                                NUMBER OF OFF DIAGONAL GENERALIZED MASS
+                                TERMS FAILING CRITERION OF  1.0E-04. . . . .         0
+
+
+
+                                            R E A L   E I G E N V A L U E S
+                                           (subcase 1 buckling load factors)
+
+                                         MODE  EXTRACTION      EIGENVALUE
+                                        NUMBER   ORDER
+
+                                             1       1        1.714351E-03
+                                             2       2        1.714351E-03
+
+
+
+ >> LINK  4 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR EIGENVECTOR        1
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  3.952374E-03  4.264668E-03  0.0          -6.698751E-02  6.208214E-02 -3.934609E-23
+              3        0  1.157623E-03  1.249092E-03  0.0          -4.736732E-02  4.389870E-02 -2.180977E-22
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    3.952374E-03  4.264668E-03  0.0           0.0           6.208214E-02  0.0         
+                MIN* :    0.0           0.0           0.0          -6.698751E-02  0.0          -2.180977E-22
+
+                ABS* :    3.952374E-03  4.264668E-03  0.0           6.698751E-02  6.208214E-02  2.180977E-22
+                *for output set
+
+
+ OUTPUT FOR EIGENVECTOR        2
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0 -4.264668E-03  3.952374E-03  0.0          -6.208214E-02 -6.698751E-02  1.563500E-22
+              3        0 -1.249092E-03  1.157623E-03  0.0          -4.389870E-02 -4.736732E-02  9.882694E-22
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           3.952374E-03  0.0           0.0           0.0           9.882694E-22
+                MIN* :   -4.264668E-03  0.0           0.0          -6.208214E-02 -6.698751E-02  0.0         
+
+                ABS* :    4.264668E-03  3.952374E-03  0.0           6.208214E-02  6.698751E-02  9.882694E-22
+                *for output set
+
+ >> LINK  9 END
+
+    Total CPU time =  3.12E-02 seconds
+
+ >> MYSTRAN END    :  6/ 4/2026 at 11:54:49.186

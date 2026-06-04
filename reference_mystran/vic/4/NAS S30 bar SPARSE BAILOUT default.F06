@@ -1,0 +1,80 @@
+   604115456
+
+ MYSTRAN Version 18.0.0   APR 20 2026 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  6/ 4/2026 at 11:54:56. 11 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\NAS S30 bar SPARSE BAILOUT default.bdf                                                                                                                                                                  
+
+
+ >> LINK  0 BEGIN
+
+
+SOL 101                                                                                                                                                                                                                                                         
+CEND                                                                                                                                                                                                                                                            
+DISPLACEMENT = ALL                                                                                                                                                                                                                                              
+SPC = 1                                                                                                                                                                                                                                                         
+LOAD = 1                                                                                                                                                                                                                                                        
+BEGIN BULK                                                                                                                                                                                                                                                      
+ECHO: loadb GRID           1       0   0.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           2       0   1.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           3       0   2.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           4       0   3.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb PARAM    STR_CID      -2                                                                                                                                                                                                                                        
+ECHO: loadb MAT1           1  1.0+11  5.0+10   0.0+0   0.0+0   0.0+0   0.0+0                                                                                                                                                                                                
+ECHO: loadb SPC            1       1       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb PBAR*                  1               1 7.85398163397-3 4.90873852123-6*                                                                                                                                                                                       
+ECHO: loadb *        4.90873852123-6 9.81747704247-6           0.0+0                                                                                                                                                                                                        
+ECHO: loadb CBAR           1       1       1       2   0.0+0   1.0+0   0.0+0                                                                                                                                                                                                
+ECHO: loadb CBAR           2       1       2       3   0.0+0   1.0+0   0.0+0                                                                                                                                                                                                
+ECHO: loadb CBAR           3       1       3       4   0.0+0   1.0+0   0.0+0                                                                                                                                                                                                
+ECHO: loadb FORCE          2       4       0   1.0+0   1.0+4   0.0+0   0.0+0                                                                                                                                                                                                
+ECHO: loadb LOAD           1   1.0+0   1.0+0       2                                                                                                                                                                                                                        
+ECHO:  nextc                                                                                                                                                                                                                                                                 
+ECHO: loadb ENDDATA                                                                                                                                                                                                                                                         
+
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  6.91E-03 MB MEMORY FROM ARRAY STF3
+
+               DEALLOCATED  9.60E-05 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  6.91E-03 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =            0
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =            0
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ *ERROR   981: THE FACTORIZATION OF THE MATRIX KLL BY SUPERLU HAD ERROR WITH INFO =            4.
+               THIS IS FOR ROW AND COL IN THE MATRIX FOR GRID POINT        2 COMP   1. THE CALLING SUBR WAS: LINK3                          
+
+
+ PROCESSING TERMINATED DUE TO ABOVE MESSAGES AND BULK DATA PARAMETER BAILOUT =       0

@@ -1,0 +1,282 @@
+   604115607
+
+ MYSTRAN Version 18.0.0   APR 20 2026 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  :  6/ 4/2026 at 11:56: 7.190 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\V30 node-surface coupling RBE3 13.bdf                                                                                                                                                                   
+
+
+ >> LINK  0 BEGIN
+
+
+SOL 103                                                                                                                                                                                                                                                         
+CEND                                                                                                                                                                                                                                                            
+METHOD = 1                                                                                                                                                                                                                                                      
+DISPLACEMENT = ALL                                                                                                                                                                                                                                              
+SPC = 1                                                                                                                                                                                                                                                         
+BEGIN BULK                                                                                                                                                                                                                                                      
+ECHO: loadb GRID           1       0   0.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           2       0   1.0+0   0.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           3       0   1.0+0   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           4       0   0.0+0   1.0+0   0.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           5       0   0.0+0   0.0+0   1.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           6       0   1.0+0   0.0+0   1.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           7       0   1.0+0   1.0+0   1.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           8       0   0.0+0   1.0+0   1.0+0       0                                                                                                                                                                                                        
+ECHO: loadb GRID           9       0   5.0-1   5.0-1   1.0+1       0                                                                                                                                                                                                        
+ECHO: loadb PARAM    STR_CID      -2                                                                                                                                                                                                                                        
+ECHO: loadb MAT1           1  1.0+11  5.0+10   0.0+0   2.0+3   0.0+0   0.0+0                                                                                                                                                                                                
+ECHO: loadb SPC            1       1       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       1       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       2       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       3       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       3       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       3       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       4       1   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       4       2   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb SPC            1       4       3   0.0+0                                                                                                                                                                                                                        
+ECHO: loadb PSOLID         1       1       0       2               1                                                                                                                                                                                                        
+ECHO: loadb CHEXA          1       1       1       2       3       4       5       6+                                                                                                                                                                                       
+ECHO:  nextc +              7       8                                                                                                                                                                                                                                        
+ECHO: loadb RBE3           2               9  123456   2.5-1     123       5   2.5-1+                                                                                                                                                                                       
+ECHO:  nextc +            123       6   2.5-1     123       7   2.5-1     123       8                                                                                                                                                                                        
+ECHO: loadb CONM2          3       9       0   3.3+3                                                                                                                                                                                                                        
+ECHO: loadb EIGRL          1                       4       0                    MASS                                                                                                                                                                                        
+ECHO: loadb ENDDATA                                                                                                                                                                                                                                                         
+
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  3.69E-02 MB MEMORY FROM ARRAY STF3
+
+
+ *INFORMATION: AUTOSPC Summary, Stage 1 after identification of AUTOSPC's at the grid level                                                 
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            8
+                       Number of DOF's identified for AUTOSPC in component  5         =            8
+                       Number of DOF's identified for AUTOSPC in component  6         =            8
+                                                                                        ------------
+                       Total number of DOF's identified in this stage                 =           24
+
+               DEALLOCATED  2.16E-04 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  3.69E-02 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX RMM SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            8
+                       Number of DOF's identified for AUTOSPC in component  5         =            8
+                       Number of DOF's identified for AUTOSPC in component  6         =            8
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =           24
+
+
+ >> LINK  2 END
+
+
+ >> LINK  4 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KMSM SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+
+                           E I G E N V A L U E   A N A L Y S I S   S U M M A R Y   (LANCZOS  Mode 3 DGB, Shift eigen = -1.00E+00)
+                                                                      (SPARSE solution)
+
+                                NUMBER OF EIGENVALUES EXTRACTED  . . . . . .         4
+
+                                LARGEST OFF-DIAGONAL GENERALIZED MASS TERM     2.6E-14 (Vecs renormed to 1.0 for gen masses)
+
+                                                                       . . .         4
+                                          MODE PAIR . . . . . . . . . .
+                                                                       . . .         3
+
+                                NUMBER OF OFF DIAGONAL GENERALIZED MASS
+                                TERMS FAILING CRITERION OF  1.0E-04. . . . .         0
+
+
+
+                                            R E A L   E I G E N V A L U E S
+    MODE  EXTRACTION      EIGENVALUE           RADIANS              CYCLES            GENERALIZED         GENERALIZED        
+   NUMBER   ORDER                                                                        MASS              STIFFNESS
+
+        1       1        4.182145E+04        2.045029E+02        3.254765E+01        1.000000E+00        4.182145E+04
+        2       2        4.182145E+04        2.045029E+02        3.254765E+01        1.000000E+00        4.182145E+04
+        3       3        2.521008E+07        5.020964E+03        7.991113E+02        1.000000E+00        2.521008E+07
+        4       4        7.500000E+07        8.660254E+03        1.378322E+03        1.000000E+00        7.500000E+07
+
+
+
+ >> LINK  4 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR EIGENVECTOR        1
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              3        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              4        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              5        0 -9.614331E-04  2.800394E-05 -8.862974E-04  0.0           0.0           0.0         
+              6        0 -9.614331E-04  2.800394E-05  9.394773E-04  0.0           0.0           0.0         
+              7        0 -9.614331E-04  2.800394E-05  8.862974E-04  0.0           0.0           0.0         
+              8        0 -9.614331E-04  2.800394E-05 -9.394773E-04  0.0           0.0           0.0         
+              9        0 -1.739341E-02  5.066228E-04 -1.311885E-17 -5.317988E-05 -1.825775E-03  4.462847E-16
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           5.066228E-04  9.394773E-04  0.0           0.0           4.462847E-16
+                MIN* :   -1.739341E-02  0.0          -9.394773E-04 -5.317988E-05 -1.825775E-03  0.0         
+
+                ABS* :    1.739341E-02  5.066228E-04  9.394773E-04  5.317988E-05  1.825775E-03  4.462847E-16
+                *for output set
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+     (for output set)
+
+
+ OUTPUT FOR EIGENVECTOR        2
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              3        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              4        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              5        0 -2.800394E-05 -9.614331E-04 -9.394773E-04  0.0           0.0           0.0         
+              6        0 -2.800394E-05 -9.614331E-04 -8.862974E-04  0.0           0.0           0.0         
+              7        0 -2.800394E-05 -9.614331E-04  9.394773E-04  0.0           0.0           0.0         
+              8        0 -2.800394E-05 -9.614331E-04  8.862974E-04  0.0           0.0           0.0         
+              9        0 -5.066228E-04 -1.739341E-02 -1.897354E-19  1.825775E-03 -5.317988E-05  6.911789E-19
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           9.394773E-04  1.825775E-03  0.0           6.911789E-19
+                MIN* :   -5.066228E-04 -1.739341E-02 -9.394773E-04  0.0          -5.317988E-05  0.0         
+
+                ABS* :    5.066228E-04  1.739341E-02  9.394773E-04  1.825775E-03  5.317988E-05  6.911789E-19
+                *for output set
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+     (for output set)
+
+
+ OUTPUT FOR EIGENVECTOR        3
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              3        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              4        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              5        0 -2.324529E-16  2.775558E-17  1.587768E-02  0.0           0.0           0.0         
+              6        0  2.027458E-14  7.458444E-15  1.587768E-02  0.0           0.0           0.0         
+              7        0 -1.906114E-14  1.265958E-14  1.587768E-02  0.0           0.0           0.0         
+              8        0 -5.672546E-16 -1.086631E-14  1.587768E-02  0.0           0.0           0.0         
+              9        0  0.0           1.734723E-17  1.587768E-02  2.532696E-16 -1.387779E-17  1.765677E-14
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    2.027458E-14  1.265958E-14  1.587768E-02  2.532696E-16  0.0           1.765677E-14
+                MIN* :   -1.906114E-14 -1.086631E-14  0.0           0.0          -1.387779E-17  0.0         
+
+                ABS* :    2.027458E-14  1.265958E-14  1.587768E-02  2.532696E-16  1.387779E-17  1.765677E-14
+                *for output set
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+     (for output set)
+
+
+ OUTPUT FOR EIGENVECTOR        4
+
+                                                         E I G E N V E C T O R
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              3        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              4        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              5        0 -4.743416E-02  4.743416E-02  9.185057E-14  0.0           0.0           0.0         
+              6        0 -4.743416E-02 -4.743416E-02 -1.155762E-13  0.0           0.0           0.0         
+              7        0  4.743416E-02 -4.743416E-02  1.234893E-13  0.0           0.0           0.0         
+              8        0  4.743416E-02  4.743416E-02 -8.629208E-14  0.0           0.0           0.0         
+              9        0 -1.080950E-16 -2.924744E-15  3.367911E-15  3.046142E-14 -1.177335E-15 -9.486833E-02
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    4.743416E-02  4.743416E-02  1.234893E-13  3.046142E-14  0.0           0.0         
+                MIN* :   -4.743416E-02 -4.743416E-02 -1.155762E-13  0.0          -1.177335E-15 -9.486833E-02
+
+                ABS* :    4.743416E-02  4.743416E-02  1.234893E-13  3.046142E-14  1.177335E-15  9.486833E-02
+                *for output set
+
+                                                    SPC Force Summary on AUTOSPC'd DOF's
+                                                 (in global coordinate system at each grid)
+        For detailed information on the SPC forces for the AUTOSPC DOF's, set field 7 (AUTOSPC_SPCF) on the PARAM AUTOSPC entry to Y
+
+                              T1             T2             T3             R1             R2             R3
+
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+     (for output set)
+
+ >> LINK  9 END
+
+    Total CPU time =  6.25E-02 seconds
+
+ >> MYSTRAN END    :  6/ 4/2026 at 11:56: 7.278
