@@ -182,21 +182,14 @@ regressions -- when compared to an older Mystran solution.
 
 Example line in cases.txt:
 ```
-mys;    my test.dat;    1e-10;      blah
----     -----------     -----       ----
-Field 1   Field 2       Field 3    Field 4
-       deck filename   threshold   comment
-                       (optional) (optional)
+mys;    my test.dat;    B=1e-10;      blah
+---     -----------     -------       ----
+Field 1   Field 2       Field 3      Field 4
+       deck filename   tolerances     comment
+                       (optional)   (optional)
 ```
 This solves my_test.bdf then compares the solution to the reference f06 file
 `reference_mystran/my_test.f06`.
-
-Values of the same dimension that should be of similar orders of magnitude are
-grouped together and effectively normalized by the value with the greatest
-magnitude in the group. This allows greater relative error for smaller values
-all the way to zero without the need for an arbitrary threshold as long as at
-least one value in the normalization group has a large magnitude.
-`abs(test - ref) / group_max <= 1.0e-6%`
 
 #### Field 1. Test type
 > [!WARNING]
@@ -207,11 +200,21 @@ least one value in the normalization group has a large magnitude.
 #### Field 2. Deck filename
 If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
 
-#### Field 3. Threshold
-Optional. Default is 0.0. If the maximum magnitude of the values in a
-normalization group in the reference solution is less than threshold, the
-comparison becomes `abs(test - ref) <= threshold`. It has no effect if any of
-those values have greater magnitude than threshold.
+#### Field 3. Tolerances
+Values of the same dimension and that should be of similar orders of magnitude
+are grouped together and assigned the same absolute tolerance.
+
+`abs(test - ref) <= atol`
+
+By default, atol is chosen automatically to be 1e-8 \* the maximum magnitude
+of the group's values in the reference solution. This allows greater relative
+error for smaller values all the way to zero without the need for an arbitrary
+threshold as long as at least one value in the group has a large magnitude.
+
+However, sometimes all values in a group are near zero or there's a wider
+variation between solvers. In that case, you can set atol using the format
+`<group letter> = <absolute tolerance>` which can be repeated for different
+groups. Group letters are A, B, etc. and listed below.
 
 #### Field 4. Comment and Known failures
 If the comment at the end of the line begins with `KNOWNFAIL` then the test case's
@@ -221,16 +224,20 @@ they don't pollute the results with fail notices.
 #### Compared data:
 All subcases but not eigenvectors.
 
-Normalization groups:
-- Translations
+Groups:
+- A. Eigenvalues
+
+    - `REALEIGENVALUES`: EIGENVALUE
+
+- B. Translations
 
     -`DISPLACEMENTS`: TX, TY, TZ
 
-- Rotations 
+- C. Rotations 
 
     -`DISPLACEMENTS`: RX, RY, RZ
 
-- Forces
+- D. Forces
 
     - `SPCFORCES`: TX, TY, TZ
     - `APPLIEDFORCES`: TX, TY, TZ
@@ -241,7 +248,7 @@ Normalization groups:
     - `BUSHFORCES`: TX, TY, TZ
     - `SHELLFORCES`: MXX, MYY, MXY
 
-- Moments
+- E. Moments
     - `SPCFORCES`: RX, RY, RZ
     - `APPLIEDFORCES`: RX, RY, RZ
     - `GPFORCE`: RX, RY, RZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*)
@@ -249,35 +256,32 @@ Normalization groups:
     - `BARFORCES:` MA1, MA2, MB1, MB2, TORQUE
     - `BUSHFORCES`: RX, RY, RZ
 
-- Shell forces
-
-    - `SHELLFORCES`: NXX, NYY, NXY, QX, QY
-
-- Stresses
+- F. Stresses
     - `RODSTRESSES`: AXIAL, TORSIONAL
     - `BARSTRESSES:` SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL
     - `SHELLSTRESSES`: XX, YY, XY, ZX, YZ, VONMISES
+    - `SOLIDSTRESSES`: XX, YY, ZZ, XY, YZ, ZX, VONMISES
 
-- Strains
+- G. Strains
 
     - `SHELLSTRAINS`: XX, YY, XY, ZX, YZ
+    - `SOLIDSTRAINS`: XX, YY, ZZ, XY, YZ, ZX, VONMISES
 
-- ELAS1 stresses
+- H. ELAS1 stresses
 
     - `ELAS1STRESSES`
 
-- BUSH stresses
+- I. BUSH stresses
 
     - `BUSHSTRESSES`: TX, TY, TZ, RX, RY, RZ
 
-- BUSH strains
+- J. BUSH strains
     
     - `BUSHSTRAINS`: TX, TY, TZ, RX, RY, RZ
 
-- Eigenvalues
+- K. Shell forces
 
-    - `REALEIGENVALUES`: EIGENVALUE
-
+    - `SHELLFORCES`: NXX, NYY, NXY, QX, QY
 
 
 

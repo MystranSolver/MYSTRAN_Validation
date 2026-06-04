@@ -6,9 +6,9 @@ class CaseDefinition:
         self.filter_string = ""
         self.operation = ""
         self.reference_value = 0.0
-        self.threshold = 0.0
         self.comparison_type = "percent"
         self.tolerance = 0.0
+        self.group_atol = {}
         self.knownfail = False
 
     def tolerance_suffix(self):

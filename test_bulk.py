@@ -13,38 +13,31 @@ def test_bulk(root_dir: Path,
               output_file: io.TextIOWrapper,
               test_case: CaseDefinition) -> int:
 
-    tolerance = 1e-6 # in percent
     fail_count = 0
     comparison_count = 0
     worst_error = 0
     worst_path = []
 
-    def compare(title, paths, rotation = False):
+    def compare(title, group_letter, paths):
         nonlocal fail_count
         nonlocal worst_error
         nonlocal worst_path
         nonlocal comparison_count
-    
-        one_line_output = True
-    
-        if len(paths) == 0:
-            # For attempting to test blocks that don't exist in either test or reference solution.
-            return
-        
-        # Find the maximum of all values we'll be testing in the block
-        if rotation:
-            # If all rotation angles are near zero, it'll use this maximum
-            # which makes it effectively a difference test with an allowed
-            # error close to machine precision.
-            maximum = 1e-12 / (tolerance / 100)
-        else:
-            maximum = test_case.threshold / (tolerance / 100)
 
+        maximum = 0.0
         for path in paths:
             value = ref_f06.get_layer_0(path)
             if value is not None:
                 maximum = max(maximum, abs(value))
-
+        
+        atol = test_case.group_atol.get(group_letter)
+        if atol is None:
+            # Default tolerance
+            if group_letter == "C":
+                atol = 1e-12
+            else:
+                atol = 1e-8 * maximum
+       
         batch_comparison_count = 0
         batch_fail_count = 0
 
@@ -52,9 +45,6 @@ def test_bulk(root_dir: Path,
         batch_worst_path = None
         batch_worst_tst_value = None
         batch_worst_ref_value = None
-    
-        if not one_line_output:
-            output_file.write(f"{INDENT * 2}{title}\n")
     
         # Sort for easier side-by-side comparison between runs
         paths.sort()
@@ -73,17 +63,13 @@ def test_bulk(root_dir: Path,
                 ref_value = 0
 
             if math.isnan(ref_value):
-                # Testing for NaN doesn't use the tolerance or comparison type.
+                # Testing for NaN is boolean
                 if math.isnan(tst_value):
                     error = 0 # Force pass
                 else:
                     error = float('inf') # Force fail
-            elif maximum == 0:
-                # Zero maximum means zero or no threshold was specified in the
-                # test case definition. Do an exact comparison to be safe.
-                error = float('inf') if tst_value != 0 else 0
             else:
-                error = 100 * abs(tst_value-ref_value) / maximum
+                error = abs(tst_value-ref_value)
             
             if error >= batch_worst_error:
                 batch_worst_error = error
@@ -91,37 +77,31 @@ def test_bulk(root_dir: Path,
                 batch_worst_tst_value = tst_value
                 batch_worst_ref_value = ref_value
 
-            if error <= tolerance:
+            if error <= atol:
                 pass
             else:
                 # Fail is the else clause so that NaN fails.
                 batch_fail_count += 1
 
-                if not one_line_output:
-                    path_str = "/".join(path)
-                    tst_str = f"{tst_value}"
-                    ref_str = f"{ref_value:.9g}"
-                    output_file.write(f"{INDENT * 3}FAILED\tError = {error:.2g}% ({tolerance}%)\t{path_str}\tValue = {tst_str} ({ref_str})\n")
-
-        if one_line_output:
+        if batch_comparison_count > 0:
             pass_fail = "PASS  " if batch_fail_count == 0 else "FAILED"
             fails_text = f"{batch_fail_count}/{batch_comparison_count}".ljust(11)
-            maxabs_text = f"{maximum:.9g}".ljust(12)
-            worst_error_text = f"Worst error = {batch_worst_error:.2g}%".ljust(22)
+            output_file.write(f"{INDENT * 2}{pass_fail} {fails_text} {title}")
+            maxabs_text = f"Max = {maximum:.0e}".ljust(6+5)
+            allow_diff_text = f"Atol {group_letter} = " + f"{atol:.0e}".ljust(5)
+            worst_diff_text = f"Worst diff = {batch_worst_error:.0e}".ljust(13+5)
             path_str = "/".join(batch_worst_path)
-            tst_str = f"Test = {batch_worst_tst_value}".ljust(7+13)
-            ref_str = f"Ref = {batch_worst_ref_value:.9g}".ljust(6+13)
-            output_file.write(f"{INDENT * 2}{pass_fail} {fails_text} {title} Maxabs = {maxabs_text} {worst_error_text} {tst_str} {ref_str} {path_str}\n")
-        else:
-            pass_fail = "PASS  " if batch_fail_count == 0 else "FAILED"
-            output_file.write(f"{INDENT * 3}{pass_fail} {batch_fail_count}/{batch_comparison_count}\tMaxabs = {maximum}\n")
+            tst_str = "Test = " + f"{batch_worst_tst_value:.6e}".rjust(13)
+            ref_str = "Ref = "  + f"{batch_worst_ref_value:.6e}".rjust(13)
+            output_file.write(f" {maxabs_text}  {allow_diff_text}  {worst_diff_text}  {tst_str}  {ref_str}  {path_str}")
+            output_file.write(f"\n")
 
-        # Accumulate summary results for the whole test case.
-        if batch_worst_error >= worst_error:
-            worst_error = batch_worst_error
-            worst_path = batch_worst_path
-        comparison_count += batch_comparison_count
-        fail_count += batch_fail_count
+            # Accumulate summary results for the whole test case.
+            if batch_worst_error >= worst_error:
+                worst_error = batch_worst_error
+                worst_path = batch_worst_path
+            comparison_count += batch_comparison_count
+            fail_count += batch_fail_count
         
 
     if test_case.test_type == "mys":
@@ -161,12 +141,12 @@ def test_bulk(root_dir: Path,
         paths_rotation = []
         paths_force = []
         paths_moment = []
+        paths_stress = []
+        paths_strain = []
         paths_elas1_stress = []
         paths_bush_stress = []
         paths_bush_strain = []
         paths_shell_force = []
-        paths_stress = []
-        paths_strain = []
     
         # REALEIGENVALUES
         #----------------
@@ -384,23 +364,47 @@ def test_bulk(root_dir: Path,
                 for component in ["ZX", "YZ"]:
                     paths_strain.append(block_path + [str(eid), "CORNER", corner, component])
 
+        # SOLIDSTRESSES
+        # -------------
+        block_path = prefix + ["SOLIDSTRESSES", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            for corner in ["0", "1", "2", "3", "4", "5", "6", "7", "8"]:
+                for component in ["XX", "YY", "XX", "XY", "YZ", "ZX", "VONMISES"]:
+                    paths_stress.append(block_path + [str(eid), "CORNER", corner, component])
+
+        # SOLIDSTRAINS
+        # ------------
+        block_path = prefix + ["SOLIDSTRAINS", "EID"]
+        ref_block = ref_f06.get_layer_0(block_path)
+        tst_block = tst_f06.get_layer_0(block_path)
+        ref_eids = ref_block.keys() if ref_block is not None else set()
+        tst_eids = tst_block.keys() if tst_block is not None else set()
+        for eid in ref_eids | tst_eids:
+            for corner in ["0", "1", "2", "3", "4", "5", "6", "7", "8"]:
+                for component in ["XX", "YY", "XX", "XY", "YZ", "ZX", "VONMISES"]:
+                    paths_strain.append(block_path + [str(eid), "CORNER", corner, component])
+
 
         subcase_name = "/".join(prefix)
-        compare(f"{subcase_name} Eigenvalues      ", paths_eigenvalues)
-        compare(f"{subcase_name} Translations     ", paths_translation)
-        compare(f"{subcase_name} Rotations        ", paths_rotation, rotation=True)
-        compare(f"{subcase_name} Forces           ", paths_force)
-        compare(f"{subcase_name} Moments          ", paths_moment)
-        compare(f"{subcase_name} ELAS1 stresses   ", paths_elas1_stress)
-        compare(f"{subcase_name} BUSH stresses    ", paths_bush_stress)
-        compare(f"{subcase_name} BUSH strains     ", paths_bush_strain)
-        compare(f"{subcase_name} Shell forces     ", paths_shell_force)
-        compare(f"{subcase_name} Stresses         ", paths_stress)
-        compare(f"{subcase_name} Strains          ", paths_strain)
+        compare(f"{subcase_name} Eigenvalues    ", "A", paths_eigenvalues)
+        compare(f"{subcase_name} Translations   ", "B", paths_translation)
+        compare(f"{subcase_name} Rotations      ", "C", paths_rotation)
+        compare(f"{subcase_name} Forces         ", "D", paths_force)
+        compare(f"{subcase_name} Moments        ", "E", paths_moment)
+        compare(f"{subcase_name} Stresses       ", "F", paths_stress)
+        compare(f"{subcase_name} Strains        ", "G", paths_strain)
+        compare(f"{subcase_name} ELAS1 stresses ", "H", paths_elas1_stress)
+        compare(f"{subcase_name} BUSH stresses  ", "I", paths_bush_stress)
+        compare(f"{subcase_name} BUSH strains   ", "J", paths_bush_strain)
+        compare(f"{subcase_name} Shell forces   ", "K", paths_shell_force)
    
    
     if fail_count > 0:
-        message = f"Error = {worst_error:.2g}%\t{ "/".join(worst_path)}"
+        message = f"Error = {worst_error:.2g}\t{ "/".join(worst_path)}"
     else:
         message = ""
 

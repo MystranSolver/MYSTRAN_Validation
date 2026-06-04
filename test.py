@@ -11,6 +11,7 @@ from test_bulk import test_bulk
 from test_individual_values import test_individual_values
 from case_definition import CaseDefinition
 from datetime import datetime
+import re
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
 # Error messages with explanations are for errors in test case definitions/usage.
@@ -39,6 +40,29 @@ def read_definitions(definitions_path: Path) -> list[CaseDefinition]:
         else:
             definition.comparison_type = "difference"
         definition.tolerance = float(field.replace("%",""))
+
+
+    def parse_variables(s: str) -> dict[str, float]:
+        """
+        Parse a string of variable assignments like "A = 1e-9 C= -0.000123 B = 3.4E-6".
+        
+        - Variable names must be single uppercase letters (A-Z)
+        - Whitespace around '=' is ignored
+        - Numbers can be in any common float format (decimal, scientific notation, negative)
+        
+        Returns a dict mapping variable names to float values.
+        Raises ValueError if the string contains invalid tokens.
+        """
+        pattern = r'([A-Z])\s*=\s*([+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?)'
+        
+        matches = re.findall(pattern, s)
+        
+        # Verify no unrecognised content remains (strip all valid matches and whitespace)
+        leftover = re.sub(pattern, '', s).strip()
+        if leftover:
+            raise ValueError(f"Unrecognised content in input: {leftover!r}")
+        
+        return {var: float(value) for var, value in matches}
 
 
     # Read a line for each test case definition
@@ -70,7 +94,7 @@ def read_definitions(definitions_path: Path) -> list[CaseDefinition]:
             match definition.test_type:
                 case "mys" | "msc":
                     if len(definition_fields_str) > 2 and definition_fields_str[2] != "":
-                        definition.threshold = float(definition_fields_str[2])
+                        definition.group_atol = parse_variables(definition_fields_str[2])
                     if len(definition_fields_str) > 3:
                         definition.knownfail = definition_fields_str[3].startswith("KNOWNFAIL")
                 case "pth":
@@ -282,7 +306,6 @@ def run_case(mystran_path: Path,
     if test_case.deck_filename != previous_deck_filename:
 
         output_file.write(f"\n")
-        output_file.write(f"{test_case.deck_filename}\n")
     
         # Clear working directory
         if not clear_working_directory(working_dir):
@@ -304,13 +327,14 @@ def run_case(mystran_path: Path,
     if test_case.test_type == "mys":
 
         output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}\n")
-
+        #todo write atols
         fail_count, comparison_count, message = test_bulk(root_dir, test_f06_path, deck_path, output_file, test_case)
         count_suffix = "/" + str(comparison_count)
 
     elif test_case.test_type == "msc":
 
-        output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.threshold}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
+        output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}\n")
+        #todo write atols
 
         fail_count, message = test_bulk_magic(root_dir, working_dir, test_f06_path, output_file, test_case)
         if fail_count == 254:
