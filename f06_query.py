@@ -20,9 +20,9 @@ class F06Query:
         except UnicodeDecodeError:
             # Unicode fails on older versions of Mystran that use some 
             # other encoding for U-dot-dot.
-            # We can't always use this default encoding because it treats
-            # the unicode U-dot-dot as two characters and misaligns the line.
-            with open(self.file_name, mode='r') as f:
+            # We can't always use latin1 because it treats the unicode U-dot-dot
+            # as two characters and misaligns the line.
+            with open(self.file_name, mode='r', encoding="latin1") as f:
                 lines = f.readlines()
 
         root = {}
