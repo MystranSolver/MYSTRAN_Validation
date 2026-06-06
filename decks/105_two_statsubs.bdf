@@ -1,0 +1,41 @@
+$-----------------------EXECUTIVE CONTROL SECTION-----------------------
+SOL 105
+CEND
+$-------------------------CASE CONTROL SECTION--------------------------
+DISPLACEMENT = ALL
+SPC = 1
+SUBCASE 1
+    SUBTITLE = PRELOAD FOR 3
+    LOAD = 11
+SUBCASE 2
+    SUBTITLE = PRELOAD FOR 4
+    LOAD = 22
+SUBCASE 3
+    SUBTITLE = PAIR 1-3
+    STATSUB = 1
+    METHOD = 111
+SUBCASE 4
+    SUBTITLE = PAIR 2-4
+    STATSUB = 2
+    METHOD = 222
+BEGIN BULK
+$---------------------------BULK DATA SECTION---------------------------
+GRID           1       0   2.5+1   0.0+0  -1.2+1       0
+GRID           2       0     0.0   0.0+0  -1.2+1       0
+PARAM    STR_CID      -2
+MAT1           1  2.0+11  1.0+11   0.0+0   0.0+0   0.0+0   0.0+0
+SPC            1       1       1   0.0+0
+SPC            1       1       2   0.0+0
+SPC            1       1       3   0.0+0
+SPC            1       1       4   0.0+0
+SPC            1       1       5   0.0+0
+SPC            1       1       6   0.0+0
+PBAR*                  1               1           3.0-2         5.625-5*
+*                  1.0-4 1.21490661621-4           0.0+0
+CBAR           1       1       2       1   0.0+0   1.0+0   0.0+0        
+FORCE          2       2       0   1.0+0   3.0+1   0.0+0   0.0+0
+EIGRL        111                       2       0           0.0+0    MASS
+EIGRL        222                       1       0           0.0+0    MASS
+LOAD          11   1.0+0   1.0+0       2
+LOAD          22   1.0+0   3.0+0       2
+ENDDATA 
