@@ -1,6 +1,3 @@
-# Temporary work. To be deleted
-#INCLUDE cases_vic_bulk.txt
-
 # Normal modes in multiple subcases. From Bruno.
 # Huge tolerances because we're just checking the results exist and are mostly in the right place.
 pth;    103_one_subcase.bdf;    SC/1/REALEIGENVALUES/MODE/1/EIGENVALUE;;        6e7;    50%
@@ -68,5 +65,13 @@ pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZX; ; 4.00000000e+02; 0.1%; 
 # Original benchmark decks
 INCLUDE cases_benchmarks.txt
 
-# Test cases ported from Mecway
+# Test cases ported from Mecway. The critera are designed to test for specific
+# behaviors.
 INCLUDE cases_vic.txt
+
+# Test cases ported from Mecway but using bulk comparison instead of individual
+# values. Becuase it's using generic test critera, it's more likely to get
+# false fails which you can correct by increasing the tolerances.
+# If these cases cause difficulties, they can all be removed because
+# cases_vic.txt tests the same decks in a more intentional way.
+INCLUDE cases_vic_bulk.txt

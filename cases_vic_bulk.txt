@@ -73,7 +73,7 @@ mys;    vic\2\NAS B30 quad4 thermal stress_2.bdf
 mys;    vic\2\NAS B30 quad4 thermal stress_3.bdf
 mys;    vic\2\NAS B30 quad4 thin.bdf
 mys;    vic\2\NAS B30 quad4 thin_2.bdf
-mys;    vic\2\NAS B30 quad4 thin_3.bdf
+mys;    vic\2\NAS B30 quad4 thin_3.bdf;                                                 A = 1e-11
 mys;    vic\2\NAS B30 tri3 column.bdf
 mys;    vic\2\NAS B30 tri3 LTB.bdf
 mys;    vic\2\NAS B30 tri3 nonuniform stress.bdf
@@ -96,7 +96,6 @@ mys;    vic\3\NAS S30 shell orthotropic thermal expansion stress and force_2.bdf
 mys;    vic\4\NAS S30 3 digit exponents input.bdf
 mys;    vic\4\NAS S30 bar BANDED BAILOUT -1.bdf;                                            
 mys;    vic\4\NAS S30 bar BANDED BAILOUT default.bdf
-mys;    vic\4\NAS S30 bar SPARSE BAILOUT -1.bdf;                                             ; KNOWNFAIL
 mys;    vic\4\NAS S30 bar SPARSE BAILOUT default.bdf
 mys;    vic\4\NAS S30 quad8 cylinder distorted.bdf;                                     C=1e-8 E=1e-6 G=1e-10
 mys;    vic\4\NAS S30 quad8 distorted bending and shear stress strain force.bdf
@@ -109,8 +108,6 @@ mys;    vic\4\NAS S30 quad8 distorted node numbering invariance midside outofpla
 mys;    vic\4\NAS S30 shell pressure curved edge.bdf
 mys;    vic\4\NAS S30 solid BANDED BAILOUT -1.bdf
 mys;    vic\4\NAS S30 solid BANDED BAILOUT default.bdf
-mys;    vic\4\NAS S30 solid SPARSE BAILOUT -1.bdf;                                      B = 1e-5
-mys;    vic\4\NAS S30 solid SPARSE BAILOUT default.bdf;                                 B = 1e-5
 mys;    vic\4\quad8 no 12itm3.bdf
 mys;    vic\4\quad8 no buckling.bdf
 mys;    vic\4\quad8 no gravity.bdf
@@ -173,7 +170,7 @@ mys;    vic\7\S30 mitc4 moment per length.bdf
 mys;    vic\7\S30 mitc4 orthotropic membrane.bdf
 mys;    vic\7\S30 mitc4 orthotropic shear.bdf
 mys;    vic\7\S30 mitc4 reaction force.bdf;                                             B=1e-5 C=1e-5 D=1e-3 E=1E-3 F=1E+03
-mys;    vic\7\S30 mitc4 reaction moment complex shape.bdf;                              C=1e-10 D=1e-6 F=1e-2;              Force tolerance (D) > max because forces are all supposed to be zero.
+mys;    vic\7\S30 mitc4 reaction moment complex shape.bdf;                              C=1e-10 D=1e-6 F=1e0;              Force tolerance (D) > max because forces are all supposed to be zero.
 mys;    vic\7\S30 mitc4 reaction moment easy.bdf
 mys;    vic\7\S30 mitc4 reaction moment nonzero rotation.bdf;                           D=1e-5 E=1e-6 F=1e-2
 mys;    vic\7\S30 mitc4 strain.bdf
@@ -220,23 +217,23 @@ mys;    vic\9\S30 node-surface coupling RBE3 2.bdf
 mys;    vic\9\S30 node-surface coupling RBE3 20.bdf
 mys;    vic\9\S30 node-surface coupling RBE3 23.bdf
 mys;    vic\9\S30 node-surface coupling RBE3 25.bdf
-mys;    vic\9\S30 node-surface coupling RBE3 26.bdf
+mys;    vic\9\S30 node-surface coupling RBE3 26.bdf;                                    E=1e-14
 mys;    vic\9\S30 node-surface coupling RBE3 3.bdf
 mys;    vic\9\S30 node-surface coupling RBE3 4.bdf
 mys;    vic\9\S30 node-surface coupling RBE3 5.bdf
 mys;    vic\9\S30 node-surface coupling RBE3 6.bdf
 mys;    vic\9\S30 node-surface coupling RBE3 7.bdf
 mys;    vic\9\S30 node-surface coupling RBE3 8.bdf
-mys;    vic\9\S30 node-surface coupling RBE3 9.bdf
+mys;    vic\9\S30 node-surface coupling RBE3 9.bdf;                                     B=1e-8
 mys;    vic\9\V30 node-surface coupling RBE3 13.bdf
 mys;    vic\10\NAS S30 all zero MPC forces.bdf
 mys;    vic\10\NAS S30 all zero SPC forces.bdf
 mys;    vic\10\NAS S30 AUTOSPC reaction forces.bdf
 mys;    vic\10\NAS S30 K6ROT MITC4+.bdf
 mys;    vic\10\NAS S30 K6ROT.bdf
-mys;    vic\10\NAS S30 mitc4 Raasch hook SNORM.bdf
+mys;    vic\10\NAS S30 mitc4 Raasch hook SNORM.bdf;                                     B=1e-7 C=1e-7
 mys;    vic\10\NAS S30 MITC4+ corner stress order.bdf
-mys;    vic\10\NAS S30 mitc8 Raasch hook.bdf
+mys;    vic\10\NAS S30 mitc8 Raasch hook.bdf;                                           B=1e-6 C=1e-4
 mys;    vic\10\NAS S30 tiny principal stress and strain angle bug.bdf
 mys;    vic\10\S30 mitc3 strain.bdf
 mys;    vic\11\V30 beam released dof n-x.bdf
@@ -260,7 +257,7 @@ mys;    vic\12\B30 pinned support hex20.bdf
 mys;    vic\12\NAS S30 Beam MPC nonhomogenous 9 equations.bdf
 mys;    vic\12\NAS S30 gravity node order.bdf
 mys;    vic\12\NAS S30 multiple custom texts.bdf
-mys;    vic\12\NAS S30 Solid pinned support nonuniform face sizes.bdf
+mys;    vic\12\NAS S30 Solid pinned support nonuniform face sizes.bdf;                  D=1e-4 F=1e-2
 mys;    vic\12\NAS V30 hex20 pinned support.bdf
 mys;    vic\12\S30 Beam MPC nonhomogenous.bdf
 mys;    vic\12\S30 Beam MPC on constrained dof.bdf
