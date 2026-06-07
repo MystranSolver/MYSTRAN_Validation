@@ -10,7 +10,39 @@ class F06Query:
     def __init__(self, file_name):
         self.file_name = file_name
         self.parsed_f06 = self._read()
-        
+
+
+    @staticmethod
+    def ensure_path(current_node, path):
+        for node in path:
+            if not node in current_node:
+                current_node[node] = {}
+            current_node = current_node[node]
+        return current_node
+
+
+    @staticmethod
+    def set(node, key, value):
+        node[key] = value
+
+
+    @staticmethod
+    def number(line, start, length, blank_is_inf=False):
+        segment = line[start - 1:start - 1 + length].strip()
+        if blank_is_inf and segment == "":
+            return float('inf')
+        try:
+            return float(segment)
+        except Exception as e:
+            # It might be a 3-digit exponent without the "e" like:
+            #
+            #           2.714527-111
+            # or
+            #           2.714527+111
+            segment = segment[:-4] + "E" + segment[-4:]
+            return float(segment)
+
+       
     def _read(self):
 
         try:
@@ -25,19 +57,23 @@ class F06Query:
             with open(self.file_name, mode='r', encoding="latin1") as f:
                 lines = f.readlines()
 
+        if len(lines) > 2 and lines[2].startswith(" MYSTRAN"):
+            return self._read_mystran(lines)
+        elif len(lines) > 17 and "* *      M S C   N a s t r a n      * *" in lines[17]:
+            return self._read_msc(lines)
+            #todo
+            print(f"ERROR reading {self.file_name}: MSC Nastran format identified but not yet supported by F06Query.")
+            sys.exit(1)
+        else:
+            print(f"ERROR reading {self.file_name}: Can't identify format.")
+            sys.exit(1)
+
+
+    def _read_mystran(self, lines):
+
         root = {}
         line_no = 0
         previous_prefix = None
-
-        def ensure_path(current_node, path):
-            for node in path:
-                if not node in current_node:
-                    current_node[node] = {}
-                current_node = current_node[node]
-            return current_node
-
-        def set(node, key, value):
-            node[key] = value
 
         def get_next_line():
             nonlocal line_no
@@ -50,21 +86,6 @@ class F06Query:
 
         def peek_line_delta(delta):
             return lines[line_no - 1 + delta]
-
-        def number(line, start, length, blank_is_inf=False):
-            segment = line[start - 1:start - 1 + length].strip()
-            if blank_is_inf and segment == "":
-                return float('inf')
-            try:
-                return float(segment)
-            except Exception as e:
-                # It might be a 3-digit exponent without the "e" like:
-                #
-                #           2.714527-111
-                # or
-                #           2.714527+111
-                segment = segment[:-4] + "E" + segment[-4:]
-                return float(segment)
 
         def subcase_mode():
             # Determine the subcase and mode that the block we're at belongs to.
@@ -80,18 +101,18 @@ class F06Query:
                 line = peek_line_delta(delta)
 
                 if line.startswith(" OUTPUT FOR SUBCASE"):
-                    subcase = int(number(line, 21, 8))
+                    subcase = int(self.number(line, 21, 8))
                     previous_prefix = ["SC", str(subcase)]
                     return previous_prefix
 
                 if line.startswith(" OUTPUT FOR EIGENVECTOR"):
-                    mode = int(number(line, 25, 8))
+                    mode = int(self.number(line, 25, 8))
                     # Decide what subcase this mode is in.
                     prev_line = peek_line_delta(delta - 1)
                     if prev_line.startswith(" OUTPUT FOR SUBCASE"):
                         # v18.1.0+ with a subcase defined in the deck shows subcase number for each eigenvector block.
                         # v18.0.0- Impossible
-                        subcase = int(number(prev_line, 21, 8))
+                        subcase = int(self.number(prev_line, 21, 8))
                     else:
                         # v18.1.0+ without a subcase defined. Modes are always in SC1.
                         # v18.0.0- modes are always in SC1 for normal modes or SC2 for buckling modes.
@@ -128,17 +149,17 @@ class F06Query:
                 major_version = int(line[17:25].split(".")[0])
             
             elif "D I S P L A C E M E N T S" in line \
-            or "E I G E N V E C T O R" in line \
-            or "S P C   F O R C E S" in line \
-            or "M P C   F O R C E S" in line \
-            or "A P P L I E D    F O R C E S" in line:
+              or "E I G E N V E C T O R" in line \
+              or "S P C   F O R C E S" in line \
+              or "M P C   F O R C E S" in line \
+              or "A P P L I E D    F O R C E S" in line:
                 if "D I S P L A C E M E N T S" in line:     block_name = "DISPLACEMENTS"
                 if "E I G E N V E C T O R" in line:         block_name = "EIGENVECTOR"
                 if "S P C   F O R C E S" in line:           block_name = "SPCFORCES"
                 if "M P C   F O R C E S" in line:           block_name = "MPCFORCES"
                 if "A P P L I E D    F O R C E S" in line:  block_name = "APPLIEDFORCES"
                 prefix = subcase_mode()
-                gids_node = ensure_path(root, prefix + [block_name, "GID"])
+                gids_node = self.ensure_path(root, prefix + [block_name, "GID"])
                 get_next_line()
                 line = get_next_line()
                 if "(including equivalent thermal loads)" in line:
@@ -150,14 +171,14 @@ class F06Query:
                     if len(line) >= 27 and line[0:15].strip().isdigit():
                         # This line has data.
                         had_blank_line = False
-                        gid = int(number(line, 8, 8))
-                        gid_node = ensure_path(gids_node, [str(gid)])
-                        set(gid_node, "TX", number(line, 26, 13))
-                        set(gid_node, "TY", number(line, 40, 13))
-                        set(gid_node, "TZ", number(line, 54, 13))
-                        set(gid_node, "RX", number(line, 68, 13))
-                        set(gid_node, "RY", number(line, 82, 13))
-                        set(gid_node, "RZ", number(line, 96, 13))
+                        gid = int(self.number(line, 8, 8))
+                        gid_node = self.ensure_path(gids_node, [str(gid)])
+                        self.set(gid_node, "TX", self.number(line, 26, 13))
+                        self.set(gid_node, "TY", self.number(line, 40, 13))
+                        self.set(gid_node, "TZ", self.number(line, 54, 13))
+                        self.set(gid_node, "RX", self.number(line, 68, 13))
+                        self.set(gid_node, "RY", self.number(line, 82, 13))
+                        self.set(gid_node, "RZ", self.number(line, 96, 13))
                     elif line.startswith(" *INFORMATION:"):
                         # It can be this:
                         # *INFORMATION: COORD SYSTEM       -2 FOR STRESS TRANSFORMATION IS UNDEFINED. LOCAL ELEMENT COORD SYSTEM WILL BE USED
@@ -190,61 +211,61 @@ class F06Query:
                         sys.exit(1)
                 get_next_line()
                 get_next_line()
-                gids_node = ensure_path(root, prefix + ["GPFORCE","GID"])
+                gids_node = self.ensure_path(root, prefix + ["GPFORCE","GID"])
                 # Read grid point sub-blocks
                 while True:
                     line = get_next_line()
                     if "FORCE BALANCE FOR GRID POINT" in line:
-                        gid = int(number(line, 62, 8))
+                        gid = int(self.number(line, 62, 8))
                         get_next_line()
                         get_next_line()
                         get_next_line()
-                        gid_node = ensure_path(gids_node, [str(gid)])
+                        gid_node = self.ensure_path(gids_node, [str(gid)])
                         # Rows in sub-block
                         while True:
                             line = get_next_line()
                             if "APPLIED FORCE" in line:
-                                applied_node = ensure_path(gid_node, ["APPLIED"])
-                                set(applied_node, "TX", number(line, 26, 13))
-                                set(applied_node, "TY", number(line, 40, 13))
-                                set(applied_node, "TZ", number(line, 54, 13))
-                                set(applied_node, "RX", number(line, 68, 13))
-                                set(applied_node, "RY", number(line, 82, 13))
-                                set(applied_node, "RZ", number(line, 96, 13))
+                                applied_node = self.ensure_path(gid_node, ["APPLIED"])
+                                self.set(applied_node, "TX", self.number(line, 26, 13))
+                                self.set(applied_node, "TY", self.number(line, 40, 13))
+                                self.set(applied_node, "TZ", self.number(line, 54, 13))
+                                self.set(applied_node, "RX", self.number(line, 68, 13))
+                                self.set(applied_node, "RY", self.number(line, 82, 13))
+                                self.set(applied_node, "RZ", self.number(line, 96, 13))
                             elif "SPC FORCE" in line:
-                                spc_node = ensure_path(gid_node, ["SPC"])
-                                set(spc_node, "TX", number(line, 26, 13))
-                                set(spc_node, "TY", number(line, 40, 13))
-                                set(spc_node, "TZ", number(line, 54, 13))
-                                set(spc_node, "RX", number(line, 68, 13))
-                                set(spc_node, "RY", number(line, 82, 13))
-                                set(spc_node, "RZ", number(line, 96, 13))
+                                spc_node = self.ensure_path(gid_node, ["SPC"])
+                                self.set(spc_node, "TX", self.number(line, 26, 13))
+                                self.set(spc_node, "TY", self.number(line, 40, 13))
+                                self.set(spc_node, "TZ", self.number(line, 54, 13))
+                                self.set(spc_node, "RX", self.number(line, 68, 13))
+                                self.set(spc_node, "RY", self.number(line, 82, 13))
+                                self.set(spc_node, "RZ", self.number(line, 96, 13))
                             elif "MPC FORCE" in line:
-                                mpc_node = ensure_path(gid_node, ["MPC"])
-                                set(mpc_node, "TX", number(line, 26, 13))
-                                set(mpc_node, "TY", number(line, 40, 13))
-                                set(mpc_node, "TZ", number(line, 54, 13))
-                                set(mpc_node, "RX", number(line, 68, 13))
-                                set(mpc_node, "RY", number(line, 82, 13))
-                                set(mpc_node, "RZ", number(line, 96, 13))
+                                mpc_node = self.ensure_path(gid_node, ["MPC"])
+                                self.set(mpc_node, "TX", self.number(line, 26, 13))
+                                self.set(mpc_node, "TY", self.number(line, 40, 13))
+                                self.set(mpc_node, "TZ", self.number(line, 54, 13))
+                                self.set(mpc_node, "RX", self.number(line, 68, 13))
+                                self.set(mpc_node, "RY", self.number(line, 82, 13))
+                                self.set(mpc_node, "RZ", self.number(line, 96, 13))
                             elif "INERTIA FORCE" in line:
-                                inertia_node = ensure_path(gid_node, ["INERTIA"])
-                                set(inertia_node, "TX", number(line, 26, 13))
-                                set(inertia_node, "TY", number(line, 40, 13))
-                                set(inertia_node, "TZ", number(line, 54, 13))
-                                set(inertia_node, "RX", number(line, 68, 13))
-                                set(inertia_node, "RY", number(line, 82, 13))
-                                set(inertia_node, "RZ", number(line, 96, 13))
+                                inertia_node = self.ensure_path(gid_node, ["INERTIA"])
+                                self.set(inertia_node, "TX", self.number(line, 26, 13))
+                                self.set(inertia_node, "TY", self.number(line, 40, 13))
+                                self.set(inertia_node, "TZ", self.number(line, 54, 13))
+                                self.set(inertia_node, "RX", self.number(line, 68, 13))
+                                self.set(inertia_node, "RY", self.number(line, 82, 13))
+                                self.set(inertia_node, "RZ", self.number(line, 96, 13))
                             elif "ELEM" in line:
-                                eid = int(number(line, 17, 8))
-                                eids_node = ensure_path(gid_node, ["EID"])
-                                eid_node = ensure_path(eids_node, [str(eid)])
-                                set(eid_node, "TX", number(line, 26, 13))
-                                set(eid_node, "TY", number(line, 40, 13))
-                                set(eid_node, "TZ", number(line, 54, 13))
-                                set(eid_node, "RX", number(line, 68, 13))
-                                set(eid_node, "RY", number(line, 82, 13))
-                                set(eid_node, "RZ", number(line, 96, 13))
+                                eid = int(self.number(line, 17, 8))
+                                eids_node = self.ensure_path(gid_node, ["EID"])
+                                eid_node = self.ensure_path(eids_node, [str(eid)])
+                                self.set(eid_node, "TX", self.number(line, 26, 13))
+                                self.set(eid_node, "TY", self.number(line, 40, 13))
+                                self.set(eid_node, "TZ", self.number(line, 54, 13))
+                                self.set(eid_node, "RX", self.number(line, 68, 13))
+                                self.set(eid_node, "RY", self.number(line, 82, 13))
+                                self.set(eid_node, "RZ", self.number(line, 96, 13))
                             else:
                                 # End of sub-block
                                 break
@@ -265,7 +286,7 @@ class F06Query:
                     if "F O R   E L E M E N T   T Y P E   H E X A" in line \
                     or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
                     or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
-                        eids_node = ensure_path(root, prefix + ["SOLIDSTRESSES","EID"])
+                        eids_node = self.ensure_path(root, prefix + ["SOLIDSTRESSES","EID"])
                         get_next_line()
                         get_next_line()
                         corner = None
@@ -274,23 +295,23 @@ class F06Query:
                             if line.strip().startswith("---") or len(line.strip()) == 0:
                                 break
                             if line[11:11+6] == "CENTER":
-                                eid = int(number(line, 2,8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
+                                eid = int(self.number(line, 2,8))
+                                eid_node = self.ensure_path(eids_node, [str(eid)])
                                 corner =0
                                 corner_gid = None
                             elif line[11:11+3] == "GRD":
                                 corner += 1
-                                corner_gid = int(number(line, 15, 8))
-                            corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                                corner_gid = int(self.number(line, 15, 8))
+                            corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
                             if corner_gid is not None:
-                                set(corner_node, "GID", corner_gid)
-                            set(corner_node, "XX", number(line, 29, 13))
-                            set(corner_node, "YY", number(line, 43, 13))
-                            set(corner_node, "ZZ", number(line, 57, 13))
-                            set(corner_node, "XY", number(line, 71, 13))
-                            set(corner_node, "YZ", number(line, 85, 13))
-                            set(corner_node, "ZX", number(line, 99, 13))
-                            set(corner_node, "VONMISES", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
+                                self.set(corner_node, "GID", corner_gid)
+                            self.set(corner_node, "XX", self.number(line, 29, 13))
+                            self.set(corner_node, "YY", self.number(line, 43, 13))
+                            self.set(corner_node, "ZZ", self.number(line, 57, 13))
+                            self.set(corner_node, "XY", self.number(line, 71, 13))
+                            self.set(corner_node, "YZ", self.number(line, 85, 13))
+                            self.set(corner_node, "ZX", self.number(line, 99, 13))
+                            self.set(corner_node, "VONMISES", self.number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
             elif "E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
                 prefix = subcase_mode()
@@ -301,7 +322,7 @@ class F06Query:
                 line = get_next_line()
                 if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                 or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
-                    eids_node = ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
                     get_next_line()
                     get_next_line()
                     get_next_line()
@@ -311,37 +332,37 @@ class F06Query:
                         if line.strip().startswith("---"):
                             break
                         if line[11:11+6] == "CENTER":
-                            eid = int(number(line, 2,8))
-                            eid_node = ensure_path(eids_node, [str(eid)])
+                            eid = int(self.number(line, 2,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
                             corner = 0
                             corner_gid = None
                         elif line[11:11+3] == "GRD":
                             corner += 1
-                            corner_gid = int(number(line, 15, 8))
+                            corner_gid = int(self.number(line, 15, 8))
                         else:
                             # Skip the blank lines between corners
                             continue
-                        corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                        corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
                         if corner_gid is not None:
-                            set(corner_node, "GID", corner_gid)
-                        set(corner_node, "ZX", number(line, 121, 12))
-                        set(corner_node, "YZ", number(line, 134, 12))
-                        z1_node = ensure_path(corner_node, ["Z1"])
-                        set(z1_node, "XX", number(line, 35, 12))
-                        set(z1_node, "YY", number(line, 48, 12))
-                        set(z1_node, "XY", number(line, 61, 12))
-                        set(z1_node, "PRINCIPALANGLE", number(line, 75, 6))
-                        set(z1_node, "VONMISES", number(line, 108, 12))
+                            self.set(corner_node, "GID", corner_gid)
+                        self.set(corner_node, "ZX", self.number(line, 121, 12))
+                        self.set(corner_node, "YZ", self.number(line, 134, 12))
+                        z1_node = self.ensure_path(corner_node, ["Z1"])
+                        self.set(z1_node, "XX", self.number(line, 35, 12))
+                        self.set(z1_node, "YY", self.number(line, 48, 12))
+                        self.set(z1_node, "XY", self.number(line, 61, 12))
+                        self.set(z1_node, "PRINCIPALANGLE", self.number(line, 75, 6))
+                        self.set(z1_node, "VONMISES", self.number(line, 108, 12))
                         line = get_next_line()
-                        z2_node = ensure_path(corner_node, ["Z2"])
-                        set(z2_node, "XX", number(line, 35, 12))
-                        set(z2_node, "YY", number(line, 48, 12))
-                        set(z2_node, "XY", number(line, 61, 12))
-                        set(z2_node, "PRINCIPALANGLE", number(line, 75, 6))
-                        set(z2_node, "VONMISES", number(line, 108, 12))
+                        z2_node = self.ensure_path(corner_node, ["Z2"])
+                        self.set(z2_node, "XX", self.number(line, 35, 12))
+                        self.set(z2_node, "YY", self.number(line, 48, 12))
+                        self.set(z2_node, "XY", self.number(line, 61, 12))
+                        self.set(z2_node, "PRINCIPALANGLE", self.number(line, 75, 6))
+                        self.set(z2_node, "VONMISES", self.number(line, 108, 12))
 
                 elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                    eids_node = ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
                     get_next_line()
                     get_next_line()
                     get_next_line()
@@ -351,45 +372,45 @@ class F06Query:
                         if line.strip().startswith("---"):
                             break
                         if line[13:13+8] == "Anywhere":
-                            eid = int(number(line, 2,8))
-                            eid_node = ensure_path(eids_node, [str(eid)])
+                            eid = int(self.number(line, 2,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
                             corner =0
-                            corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
-                            set(corner_node, "ZX", number(line, 125, 12))
-                            set(corner_node, "YZ", number(line, 138, 12))
-                            z1_node = ensure_path(corner_node, ["Z1"])
-                            set(z1_node, "XX", number(line, 38, 12))
-                            set(z1_node, "YY", number(line, 51, 12))
-                            set(z1_node, "XY", number(line, 64, 12))
-                            set(z1_node, "PRINCIPALANGLE", number(line, 78, 7))
-                            set(z1_node, "VONMISES", number(line, 112, 12))
+                            corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
+                            self.set(corner_node, "ZX", self.number(line, 125, 12))
+                            self.set(corner_node, "YZ", self.number(line, 138, 12))
+                            z1_node = self.ensure_path(corner_node, ["Z1"])
+                            self.set(z1_node, "XX", self.number(line, 38, 12))
+                            self.set(z1_node, "YY", self.number(line, 51, 12))
+                            self.set(z1_node, "XY", self.number(line, 64, 12))
+                            self.set(z1_node, "PRINCIPALANGLE", self.number(line, 78, 7))
+                            self.set(z1_node, "VONMISES", self.number(line, 112, 12))
                             line = get_next_line()
-                            z2_node = ensure_path(corner_node, ["Z2"])
-                            set(z2_node, "XX", number(line, 38, 12))
-                            set(z2_node, "YY", number(line, 51, 12))
-                            set(z2_node, "XY", number(line, 64, 12))
-                            set(z2_node, "PRINCIPALANGLE", number(line, 78, 7))
-                            set(z2_node, "VONMISES", number(line, 112, 12))
+                            z2_node = self.ensure_path(corner_node, ["Z2"])
+                            self.set(z2_node, "XX", self.number(line, 38, 12))
+                            self.set(z2_node, "YY", self.number(line, 51, 12))
+                            self.set(z2_node, "XY", self.number(line, 64, 12))
+                            self.set(z2_node, "PRINCIPALANGLE", self.number(line, 78, 7))
+                            self.set(z2_node, "VONMISES", self.number(line, 112, 12))
 
                 elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
-                    eids_node = ensure_path(root, prefix + ["BUSHSTRESSES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["BUSHSTRESSES","EID"])
                     get_next_line()
                     get_next_line()
                     while True:
                         line = get_next_line()
                         if line.strip().startswith("---") or len(line.strip()) == 0:
                             break
-                        eid = int(number(line, 20, 8))
-                        eid_node = ensure_path(eids_node, [str(eid)])
-                        set(eid_node, "TX", number(line, 29, 13))
-                        set(eid_node, "TY", number(line, 43, 13))
-                        set(eid_node, "TZ", number(line, 57, 13))
-                        set(eid_node, "RX", number(line, 71, 13))
-                        set(eid_node, "RY", number(line, 85, 13))
-                        set(eid_node, "RZ", number(line, 99, 13))
+                        eid = int(self.number(line, 20, 8))
+                        eid_node = self.ensure_path(eids_node, [str(eid)])
+                        self.set(eid_node, "TX", self.number(line, 29, 13))
+                        self.set(eid_node, "TY", self.number(line, 43, 13))
+                        self.set(eid_node, "TZ", self.number(line, 57, 13))
+                        self.set(eid_node, "RX", self.number(line, 71, 13))
+                        self.set(eid_node, "RY", self.number(line, 85, 13))
+                        self.set(eid_node, "RZ", self.number(line, 99, 13))
 
                 elif "F O R   E L E M E N T   T Y P E   B A R" in line:
-                    eids_node = ensure_path(root, prefix + ["BARSTRESSES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["BARSTRESSES","EID"])
                     get_next_line()
                     get_next_line()
                     get_next_line()
@@ -400,21 +421,21 @@ class F06Query:
                         elif len(line.strip()) == 0:
                             continue # Skip blank lines
                         else:
-                            eid = int(number(line, 2,8))
-                            eid_node = ensure_path(eids_node, [str(eid)])
-                            set(eid_node, "SA1", number(line, 11, 13))
-                            set(eid_node, "SA2", number(line, 25, 13))
-                            set(eid_node, "SA3", number(line, 39, 13))
-                            set(eid_node, "SA4", number(line, 53, 13))
-                            set(eid_node, "AXIAL", number(line, 67, 13))
+                            eid = int(self.number(line, 2,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            self.set(eid_node, "SA1", self.number(line, 11, 13))
+                            self.set(eid_node, "SA2", self.number(line, 25, 13))
+                            self.set(eid_node, "SA3", self.number(line, 39, 13))
+                            self.set(eid_node, "SA4", self.number(line, 53, 13))
+                            self.set(eid_node, "AXIAL", self.number(line, 67, 13))
                             line = get_next_line()
-                            set(eid_node, "SB1", number(line, 11, 13))
-                            set(eid_node, "SB2", number(line, 25, 13))
-                            set(eid_node, "SB3", number(line, 39, 13))
-                            set(eid_node, "SB4", number(line, 53, 13))
+                            self.set(eid_node, "SB1", self.number(line, 11, 13))
+                            self.set(eid_node, "SB2", self.number(line, 25, 13))
+                            self.set(eid_node, "SB3", self.number(line, 39, 13))
+                            self.set(eid_node, "SB4", self.number(line, 53, 13))
 
                 elif "F O R   E L E M E N T   T Y P E   R O D" in line:
-                    eids_node = ensure_path(root, prefix + ["RODSTRESSES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["RODSTRESSES","EID"])
                     get_next_line()
                     get_next_line()
                     while True:
@@ -422,22 +443,22 @@ class F06Query:
                         if line.strip().startswith("---"):
                             break
                         else:
-                            eid = int(number(line, 2,8))
-                            eid_node = ensure_path(eids_node, [str(eid)])
-                            set(eid_node, "AXIAL", number(line, 11, 13))
-                            set(eid_node, "AXIALSAFETY", number(line, 25, 9, blank_is_inf=True))
-                            set(eid_node, "TORSIONAL", number(line, 36, 13))
-                            set(eid_node, "TORSIONALSAFETY", number(line, 50, 9, blank_is_inf=True))
+                            eid = int(self.number(line, 2,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            self.set(eid_node, "AXIAL", self.number(line, 11, 13))
+                            self.set(eid_node, "AXIALSAFETY", self.number(line, 25, 9, blank_is_inf=True))
+                            self.set(eid_node, "TORSIONAL", self.number(line, 36, 13))
+                            self.set(eid_node, "TORSIONALSAFETY", self.number(line, 50, 9, blank_is_inf=True))
                             if len(line) > 67 and line[66] != " ":
-                                eid = int(number(line, 60,8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
-                                set(eid_node, "AXIAL", number(line, 69, 13))
-                                set(eid_node, "AXIALSAFETY", number(line, 83, 9, blank_is_inf=True))
-                                set(eid_node, "TORSIONAL", number(line, 94, 13))
-                                set(eid_node, "TORSIONALSAFETY", number(line, 108, 9, blank_is_inf=True))
+                                eid = int(self.number(line, 60,8))
+                                eid_node = self.ensure_path(eids_node, [str(eid)])
+                                self.set(eid_node, "AXIAL", self.number(line, 69, 13))
+                                self.set(eid_node, "AXIALSAFETY", self.number(line, 83, 9, blank_is_inf=True))
+                                self.set(eid_node, "TORSIONAL", self.number(line, 94, 13))
+                                self.set(eid_node, "TORSIONALSAFETY", self.number(line, 108, 9, blank_is_inf=True))
 
                 elif "F O R   E L E M E N T   T Y P E   E L A S 1" in line:
-                    eids_node = ensure_path(root, prefix + ["ELAS1STRESSES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["ELAS1STRESSES","EID"])
                     get_next_line()
                     get_next_line()
                     while True:
@@ -448,8 +469,8 @@ class F06Query:
                             for element_col in range(5):
                                 start = element_col * 23
                                 if len(line) > start+9 and line[start+8] != " ":
-                                    eid = int(number(line, start + 2,8))
-                                    set(eids_node, str(eid), number(line, start + 11, 13))
+                                    eid = int(self.number(line, start + 2,8))
+                                    self.set(eids_node, str(eid), self.number(line, start + 11, 13))
 
 
             elif "S T R E S S E S   I N   L A Y E R E D   C O M P O S I T E   E L E M E N T S" in line:
@@ -462,7 +483,7 @@ class F06Query:
                     if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                     or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
                     or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                        eids_node = ensure_path(root, prefix + ["COMPOSITESTRESSES","EID"])
+                        eids_node = self.ensure_path(root, prefix + ["COMPOSITESTRESSES","EID"])
                         get_next_line()
                         get_next_line()
                         get_next_line()
@@ -476,18 +497,18 @@ class F06Query:
                             if line.strip().startswith("---"):
                                 break
                             if line[1:1+8].strip() != "":
-                                eid = int(number(line, 2,8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
+                                eid = int(self.number(line, 2,8))
+                                eid_node = self.ensure_path(eids_node, [str(eid)])
                             elif line.strip() == "":
                                 # Skip the blank lines between elements
                                 continue
-                            ply_num = int(number(line, 11,5))
-                            ply_node = ensure_path(eid_node, ["PLY", str(ply_num)])
-                            set(ply_node, "11", number(line, 17, 12))
-                            set(ply_node, "22", number(line, 30, 12))
-                            set(ply_node, "12", number(line, 43, 12))
-                            set(ply_node, "13", number(line, 59, 12))
-                            set(ply_node, "23", number(line, 73, 12))
+                            ply_num = int(self.number(line, 11,5))
+                            ply_node = self.ensure_path(eid_node, ["PLY", str(ply_num)])
+                            self.set(ply_node, "11", self.number(line, 17, 12))
+                            self.set(ply_node, "22", self.number(line, 30, 12))
+                            self.set(ply_node, "12", self.number(line, 43, 12))
+                            self.set(ply_node, "13", self.number(line, 59, 12))
+                            self.set(ply_node, "23", self.number(line, 73, 12))
 
             elif "E L E M E N T   S T R A I N S   I N   M A T E R I A L   C O O R D I N A T E   S Y S T E M" in line:
                 prefix = subcase_mode()
@@ -496,7 +517,7 @@ class F06Query:
                     if "F O R   E L E M E N T   T Y P E   H E X A" in line \
                     or "F O R   E L E M E N T   T Y P E   P E N T A" in line \
                     or "F O R   E L E M E N T   T Y P E   T E T R A" in line:
-                        eids_node = ensure_path(root, prefix + ["SOLIDSTRAINS","EID"])
+                        eids_node = self.ensure_path(root, prefix + ["SOLIDSTRAINS","EID"])
                         get_next_line()
                         get_next_line()
                         corner = None
@@ -505,23 +526,23 @@ class F06Query:
                             if line.strip().startswith("---") or len(line.strip()) == 0:
                                 break
                             if line[11:11+6] == "CENTER":
-                                eid = int(number(line, 2,8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
+                                eid = int(self.number(line, 2,8))
+                                eid_node = self.ensure_path(eids_node, [str(eid)])
                                 corner = 0
                                 corner_gid = None
                             elif line[11:11+3] == "GRD":
                                 corner += 1
-                                corner_gid = int(number(line, 15, 8))
-                            corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                                corner_gid = int(self.number(line, 15, 8))
+                            corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
                             if corner_gid is not None:
-                                set(corner_node, "GID", corner_gid)
-                            set(corner_node, "XX", number(line, 29, 13))
-                            set(corner_node, "YY", number(line, 43, 13))
-                            set(corner_node, "ZZ", number(line, 57, 13))
-                            set(corner_node, "XY", number(line, 71, 13))
-                            set(corner_node, "YZ", number(line, 85, 13))
-                            set(corner_node, "ZX", number(line, 99, 13))
-                            set(corner_node, "VONMISES", number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
+                                self.set(corner_node, "GID", corner_gid)
+                            self.set(corner_node, "XX", self.number(line, 29, 13))
+                            self.set(corner_node, "YY", self.number(line, 43, 13))
+                            self.set(corner_node, "ZZ", self.number(line, 57, 13))
+                            self.set(corner_node, "XY", self.number(line, 71, 13))
+                            self.set(corner_node, "YZ", self.number(line, 85, 13))
+                            self.set(corner_node, "ZX", self.number(line, 99, 13))
+                            self.set(corner_node, "VONMISES", self.number(line, 113, 13)) # todo might be max. shear. Read column header to decide.
 
             elif "E L E M E N T   S T R A I N S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
                 prefix = subcase_mode()
@@ -529,7 +550,7 @@ class F06Query:
                     line = get_next_line()
                     if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                     or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
-                        eids_node = ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
+                        eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
                         get_next_line()
                         get_next_line()
                         get_next_line()
@@ -539,35 +560,35 @@ class F06Query:
                             if line.strip().startswith("---"):
                                 break
                             if line[11:11+6] == "CENTER":
-                                eid = int(number(line, 2,8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
+                                eid = int(self.number(line, 2,8))
+                                eid_node = self.ensure_path(eids_node, [str(eid)])
                                 corner = 0
                                 corner_gid = None
                             elif line[11:11+3] == "GRD":
                                 corner += 1
-                                corner_gid = int(number(line, 15, 8))
+                                corner_gid = int(self.number(line, 15, 8))
                             else:
                                 # Skip the blank lines between corners
                                 continue
-                            corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                            corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
                             if corner_gid is not None:
-                                set(corner_node, "GID", corner_gid)
-                            set(corner_node, "ZX", number(line, 121, 12))
-                            set(corner_node, "YZ", number(line, 134, 12))
-                            z1_node = ensure_path(corner_node, ["Z1"])
-                            set(z1_node, "XX", number(line, 35, 12))
-                            set(z1_node, "YY", number(line, 48, 12))
-                            set(z1_node, "XY", number(line, 61, 12))
-                            set(z1_node, "PRINCIPALANGLE", number(line, 75, 6))
+                                self.set(corner_node, "GID", corner_gid)
+                            self.set(corner_node, "ZX", self.number(line, 121, 12))
+                            self.set(corner_node, "YZ", self.number(line, 134, 12))
+                            z1_node = self.ensure_path(corner_node, ["Z1"])
+                            self.set(z1_node, "XX", self.number(line, 35, 12))
+                            self.set(z1_node, "YY", self.number(line, 48, 12))
+                            self.set(z1_node, "XY", self.number(line, 61, 12))
+                            self.set(z1_node, "PRINCIPALANGLE", self.number(line, 75, 6))
                             line = get_next_line()
-                            z2_node = ensure_path(corner_node, ["Z2"])
-                            set(z2_node, "XX", number(line, 35, 12))
-                            set(z2_node, "YY", number(line, 48, 12))
-                            set(z2_node, "XY", number(line, 61, 12))
-                            set(z2_node, "PRINCIPALANGLE", number(line, 75, 6))
+                            z2_node = self.ensure_path(corner_node, ["Z2"])
+                            self.set(z2_node, "XX", self.number(line, 35, 12))
+                            self.set(z2_node, "YY", self.number(line, 48, 12))
+                            self.set(z2_node, "XY", self.number(line, 61, 12))
+                            self.set(z2_node, "PRINCIPALANGLE", self.number(line, 75, 6))
 
                     elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                        eids_node = ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
+                        eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
                         get_next_line()
                         get_next_line()
                         get_next_line()
@@ -577,40 +598,40 @@ class F06Query:
                             if line.strip().startswith("---"):
                                 break
                             if line[13:13+8] == "Anywhere":
-                                eid = int(number(line, 2,8))
-                                eid_node = ensure_path(eids_node, [str(eid)])
+                                eid = int(self.number(line, 2,8))
+                                eid_node = self.ensure_path(eids_node, [str(eid)])
                                 corner =0
-                                corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
-                                set(corner_node, "ZX", number(line, 125, 12))
-                                set(corner_node, "YZ", number(line, 138, 12))
-                                z1_node = ensure_path(corner_node, ["Z1"])
-                                set(z1_node, "XX", number(line, 38, 12))
-                                set(z1_node, "YY", number(line, 51, 12))
-                                set(z1_node, "XY", number(line, 64, 12))
-                                set(z1_node, "PRINCIPALANGLE", number(line, 78, 7))
+                                corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
+                                self.set(corner_node, "ZX", self.number(line, 125, 12))
+                                self.set(corner_node, "YZ", self.number(line, 138, 12))
+                                z1_node = self.ensure_path(corner_node, ["Z1"])
+                                self.set(z1_node, "XX", self.number(line, 38, 12))
+                                self.set(z1_node, "YY", self.number(line, 51, 12))
+                                self.set(z1_node, "XY", self.number(line, 64, 12))
+                                self.set(z1_node, "PRINCIPALANGLE", self.number(line, 78, 7))
                                 line = get_next_line()
-                                z2_node = ensure_path(corner_node, ["Z2"])
-                                set(z2_node, "XX", number(line, 38, 12))
-                                set(z2_node, "YY", number(line, 51, 12))
-                                set(z2_node, "XY", number(line, 64, 12))
-                                set(z2_node, "PRINCIPALANGLE", number(line, 78, 7))
+                                z2_node = self.ensure_path(corner_node, ["Z2"])
+                                self.set(z2_node, "XX", self.number(line, 38, 12))
+                                self.set(z2_node, "YY", self.number(line, 51, 12))
+                                self.set(z2_node, "XY", self.number(line, 64, 12))
+                                self.set(z2_node, "PRINCIPALANGLE", self.number(line, 78, 7))
 
                     elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
-                        eids_node = ensure_path(root, prefix + ["BUSHSTRAINS","EID"])
+                        eids_node = self.ensure_path(root, prefix + ["BUSHSTRAINS","EID"])
                         get_next_line()
                         get_next_line()
                         while True:
                             line = get_next_line()
                             if line.strip().startswith("---") or len(line.strip()) == 0:
                                 break
-                            eid = int(number(line, 20, 8))
-                            eid_node = ensure_path(eids_node, [str(eid)])
-                            set(eid_node, "TX", number(line, 29, 13))
-                            set(eid_node, "TY", number(line, 43, 13))
-                            set(eid_node, "TZ", number(line, 57, 13))
-                            set(eid_node, "RX", number(line, 71, 13))
-                            set(eid_node, "RY", number(line, 85, 13))
-                            set(eid_node, "RZ", number(line, 99, 13))
+                            eid = int(self.number(line, 20, 8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            self.set(eid_node, "TX", self.number(line, 29, 13))
+                            self.set(eid_node, "TY", self.number(line, 43, 13))
+                            self.set(eid_node, "TZ", self.number(line, 57, 13))
+                            self.set(eid_node, "RX", self.number(line, 71, 13))
+                            self.set(eid_node, "RY", self.number(line, 85, 13))
+                            self.set(eid_node, "RZ", self.number(line, 99, 13))
 
             elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
                 prefix = subcase_mode()
@@ -622,7 +643,7 @@ class F06Query:
                 if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                 or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
                 or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
-                    eids_node = ensure_path(root, prefix + ["SHELLFORCES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["SHELLFORCES","EID"])
                     get_next_line()
                     get_next_line()
                     get_next_line()
@@ -633,48 +654,48 @@ class F06Query:
                             break
                         if line[11:11+3] == "GRD":
                             corner += 1
-                            corner_gid = int(number(line, 15, 8))
+                            corner_gid = int(self.number(line, 15, 8))
                         else:
                             if "CENTER" in line:
                                 # Some elements (QUAD8) say "CENTER"
-                                eid = int(number(line, 2,8))
+                                eid = int(self.number(line, 2,8))
                             else:
                                 # Some elements (QUAD4, TRIA3) don't say "CENTER" and older Mystran put EID futher right
-                                eid = int(number(line, 2,23))
-                            eid_node = ensure_path(eids_node, [str(eid)])
+                                eid = int(self.number(line, 2,23))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
                             corner = 0
                             corner_gid = None
-                        corner_node = ensure_path(eid_node, ["CORNER", str(corner)])
+                        corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
                         if corner_gid is not None:
-                            set(corner_node, "GID", corner_gid)
-                        set(corner_node, "NXX", number(line, 26, 13))
-                        set(corner_node, "NYY", number(line, 40, 13))
-                        set(corner_node, "NXY", number(line, 54, 13))
-                        set(corner_node, "MXX", number(line, 68, 13))
-                        set(corner_node, "MYY", number(line, 82, 13))
-                        set(corner_node, "MXY", number(line, 96, 13))
-                        set(corner_node, "QX", number(line, 110, 13))
-                        set(corner_node, "QY", number(line, 124, 13))
+                            self.set(corner_node, "GID", corner_gid)
+                        self.set(corner_node, "NXX", self.number(line, 26, 13))
+                        self.set(corner_node, "NYY", self.number(line, 40, 13))
+                        self.set(corner_node, "NXY", self.number(line, 54, 13))
+                        self.set(corner_node, "MXX", self.number(line, 68, 13))
+                        self.set(corner_node, "MYY", self.number(line, 82, 13))
+                        self.set(corner_node, "MXY", self.number(line, 96, 13))
+                        self.set(corner_node, "QX", self.number(line, 110, 13))
+                        self.set(corner_node, "QY", self.number(line, 124, 13))
 
                 if "F O R   E L E M E N T   T Y P E   B U S H" in line:
-                    eids_node = ensure_path(root, prefix + ["BUSHFORCES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["BUSHFORCES","EID"])
                     get_next_line()
                     get_next_line()
                     while True:
                         line = get_next_line()
                         if line.strip().startswith("---") or len(line.strip()) == 0:
                             break
-                        eid = int(number(line, 17, 8))
-                        eid_node = ensure_path(eids_node, [str(eid)])
-                        set(eid_node, "TX", number(line, 26, 13))
-                        set(eid_node, "TY", number(line, 40, 13))
-                        set(eid_node, "TZ", number(line, 54, 13))
-                        set(eid_node, "RX", number(line, 68, 13))
-                        set(eid_node, "RY", number(line, 82, 13))
-                        set(eid_node, "RZ", number(line, 96, 13))
+                        eid = int(self.number(line, 17, 8))
+                        eid_node = self.ensure_path(eids_node, [str(eid)])
+                        self.set(eid_node, "TX", self.number(line, 26, 13))
+                        self.set(eid_node, "TY", self.number(line, 40, 13))
+                        self.set(eid_node, "TZ", self.number(line, 54, 13))
+                        self.set(eid_node, "RX", self.number(line, 68, 13))
+                        self.set(eid_node, "RY", self.number(line, 82, 13))
+                        self.set(eid_node, "RZ", self.number(line, 96, 13))
 
                 if "F O R   E L E M E N T   T Y P E   B A R" in line:
-                    eids_node = ensure_path(root, prefix + ["BARFORCES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["BARFORCES","EID"])
                     get_next_line()
                     get_next_line()
                     while True:
@@ -686,53 +707,53 @@ class F06Query:
                             break
                         if major_version <= 12:
                             # Different indenting
-                            eid = int(number(line, 2,8))
-                            eid_node = ensure_path(eids_node, [str(eid)])
-                            set(eid_node, "MA1", number(line, 11, 13))
-                            set(eid_node, "MA2", number(line, 25, 13))
-                            set(eid_node, "MB1", number(line, 39, 13))
-                            set(eid_node, "MB2", number(line, 53, 13))
-                            set(eid_node, "S1", number(line, 67, 13))
-                            set(eid_node, "S2", number(line, 81, 13))
-                            set(eid_node, "AXIAL", number(line, 95, 13))
-                            set(eid_node, "TORQUE", number(line, 109, 13))
+                            eid = int(self.number(line, 2,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            self.set(eid_node, "MA1", self.number(line, 11, 13))
+                            self.set(eid_node, "MA2", self.number(line, 25, 13))
+                            self.set(eid_node, "MB1", self.number(line, 39, 13))
+                            self.set(eid_node, "MB2", self.number(line, 53, 13))
+                            self.set(eid_node, "S1", self.number(line, 67, 13))
+                            self.set(eid_node, "S2", self.number(line, 81, 13))
+                            self.set(eid_node, "AXIAL", self.number(line, 95, 13))
+                            self.set(eid_node, "TORQUE", self.number(line, 109, 13))
                         else:
-                            eid = int(number(line, 17, 8))
-                            eid_node = ensure_path(eids_node, [str(eid)])
-                            set(eid_node, "MA1", number(line, 26, 13))
-                            set(eid_node, "MA2", number(line, 40, 13))
-                            set(eid_node, "MB1", number(line, 54, 13))
-                            set(eid_node, "MB2", number(line, 68, 13))
-                            set(eid_node, "S1", number(line, 82, 13))
-                            set(eid_node, "S2", number(line, 96, 13))
-                            set(eid_node, "AXIAL", number(line, 110, 13))
-                            set(eid_node, "TORQUE", number(line, 124, 13))
+                            eid = int(self.number(line, 17, 8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            self.set(eid_node, "MA1", self.number(line, 26, 13))
+                            self.set(eid_node, "MA2", self.number(line, 40, 13))
+                            self.set(eid_node, "MB1", self.number(line, 54, 13))
+                            self.set(eid_node, "MB2", self.number(line, 68, 13))
+                            self.set(eid_node, "S1", self.number(line, 82, 13))
+                            self.set(eid_node, "S2", self.number(line, 96, 13))
+                            self.set(eid_node, "AXIAL", self.number(line, 110, 13))
+                            self.set(eid_node, "TORQUE", self.number(line, 124, 13))
 
                 if "F O R   E L E M E N T   T Y P E   R O D" in line:
-                    eids_node = ensure_path(root, prefix + ["RODFORCES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["RODFORCES","EID"])
                     get_next_line()
                     get_next_line()
                     while True:
                         line = get_next_line()
                         if line.strip().startswith("---"):
                             break
-                        eid = int(number(line, 17, 8))
-                        eid_node = ensure_path(eids_node, [str(eid)])
-                        set(eid_node, "AXIAL", number(line, 26, 13))
-                        set(eid_node, "TORQUE", number(line, 40, 13))
+                        eid = int(self.number(line, 17, 8))
+                        eid_node = self.ensure_path(eids_node, [str(eid)])
+                        self.set(eid_node, "AXIAL", self.number(line, 26, 13))
+                        self.set(eid_node, "TORQUE", self.number(line, 40, 13))
                         if len(line) > 60 and line[59] != " ":
-                            eid = int(number(line, 53,8))
-                            eid_node = ensure_path(eids_node, [str(eid)])
-                            set(eid_node, "AXIAL", number(line, 62, 13))
-                            set(eid_node, "TORQUE", number(line, 76, 13))
+                            eid = int(self.number(line, 53,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            self.set(eid_node, "AXIAL", self.number(line, 62, 13))
+                            self.set(eid_node, "TORQUE", self.number(line, 76, 13))
                         if len(line) > 96 and line[95] != " ":
-                            eid = int(number(line, 89,8))
-                            eid_node = ensure_path(eids_node, [str(eid)])
-                            set(eid_node, "AXIAL", number(line, 98, 13))
-                            set(eid_node, "TORQUE", number(line, 112, 13))
+                            eid = int(self.number(line, 89,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            self.set(eid_node, "AXIAL", self.number(line, 98, 13))
+                            self.set(eid_node, "TORQUE", self.number(line, 112, 13))
 
                 elif "F O R   E L E M E N T   T Y P E   E L A S 1" in line:
-                    eids_node = ensure_path(root, prefix + ["ELAS1FORCES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["ELAS1FORCES","EID"])
                     get_next_line()
                     get_next_line()
                     while True:
@@ -743,8 +764,8 @@ class F06Query:
                             for element_col in range(5):
                                 start = 16 + element_col * 22
                                 if len(line) > start+8 and line[start+7] != " ":
-                                    eid = int(number(line, start+1, 8))
-                                    set(eids_node, str(eid), number(line, start + 10, 13))
+                                    eid = int(self.number(line, start+1, 8))
+                                    self.set(eids_node, str(eid), self.number(line, start + 10, 13))
 
 
             elif "R E A L   E I G E N V A L U E S" in line:
@@ -760,24 +781,85 @@ class F06Query:
                     # v18.0.0- Subcase depends on if it's buckling or normal modes.
                     # v18.1.0+ If no subcases are defined, it falls back to this which will be SC1.
                    prefix = ["SC", "2"] if buckling else ["SC", "1"]
-                modes_node = ensure_path(root, prefix + ["REALEIGENVALUES","MODE"])
+                modes_node = self.ensure_path(root, prefix + ["REALEIGENVALUES","MODE"])
                 while True:
                     line = get_next_line()
                     if line.strip().startswith("---") or len(line.strip()) == 0:
                         break
                     if buckling:
-                        mode = int(number(line, 39, 8))
-                        mode_node = ensure_path(modes_node, [str(mode)])
-                        eigenvalue = number(line, 62, 13)
-                        set(mode_node, "EIGENVALUE", eigenvalue)
+                        mode = int(self.number(line, 39, 8))
+                        mode_node = self.ensure_path(modes_node, [str(mode)])
+                        eigenvalue = self.number(line, 62, 13)
+                        self.set(mode_node, "EIGENVALUE", eigenvalue)
                     else:
-                        mode = int(number(line, 2, 8))
-                        mode_node = ensure_path(modes_node, [str(mode)])
-                        eigenvalue = number(line, 25, 13)
-                        cycles = number(line, 65, 13)
-                        set(mode_node, "EIGENVALUE", eigenvalue)
-                        set(mode_node, "CYCLES", cycles)
+                        mode = int(self.number(line, 2, 8))
+                        mode_node = self.ensure_path(modes_node, [str(mode)])
+                        eigenvalue = self.number(line, 25, 13)
+                        cycles = self.number(line, 65, 13)
+                        self.set(mode_node, "EIGENVALUE", eigenvalue)
+                        self.set(mode_node, "CYCLES", cycles)
                     
+
+        return root
+ 
+    def _read_msc(self, lines):
+
+        root = {}
+        line_no = 0
+
+        def get_next_line():
+            nonlocal line_no
+            if line_no >= len(lines):
+                print(f"ERROR: Unexpected end of file at line {line_no} of {self.file_name}")
+                return ""
+            line = lines[line_no]
+            line_no += 1
+            return line
+
+        def peek_line_delta(delta):
+            return lines[line_no - 1 + delta]
+
+        def subcase_mode():
+            # Determine the subcase and mode that the block we're at belongs to.
+            subcase = 1 # Defualt is 1 if no subcase is specified.
+            delta = -2
+            while delta >=-3:
+                line = peek_line_delta(delta)
+                if line[109:109+7] == "SUBCASE":
+                    subcase = int(self.number(line, 118, 8))
+                    break
+                delta -= 1        
+            return ["SC", str(subcase)]
+            # Todo For now we can't do mode. But it'll probably be by counting somehow
+            # because it's not explicitly given above the block header except for
+            # eigenvector blocks.
+      
+        while line_no < len(lines):
+            line = get_next_line()
+            
+            if "D I S P L A C E M E N T   V E C T O R" in line:
+                if "D I S P L A C E M E N T   V E C T O R" in line:     block_name = "DISPLACEMENTS"
+                prefix = subcase_mode()
+                gids_node = self.ensure_path(root, prefix + [block_name, "GID"])
+                get_next_line()
+                get_next_line()
+                had_blank_line = False
+                while True:
+                    line = get_next_line()
+                    if len(line) >= 14 and line[0] == " " and line[0:14].strip().isdigit():
+                        # This line has data.
+                        had_blank_line = False
+                        gid = int(self.number(line, 7, 8))
+                        gid_node = self.ensure_path(gids_node, [str(gid)])
+                        self.set(gid_node, "TX", self.number(line, 27, 13))
+                        self.set(gid_node, "TY", self.number(line, 42, 13))
+                        self.set(gid_node, "TZ", self.number(line, 57, 13))
+                        self.set(gid_node, "RX", self.number(line, 72, 13))
+                        self.set(gid_node, "RY", self.number(line, 87, 13))
+                        self.set(gid_node, "RZ", self.number(line, 102, 13))
+                    else:
+                        # End of block for this page.
+                        break
 
         return root
 
@@ -813,7 +895,6 @@ class F06Query:
                 self.dump(file, value, prefix + str(key) + "/", key)
             else:
                 file.write(f"{prefix}{key} = {value}\n")
-
 
 
     def get_layer_0(self, path):
@@ -892,7 +973,7 @@ class F06Query:
         value = self.get_layer_1(path)
 
         if value is None:
-            output_file.write(f"{INDENT * 2}No value at: {"/".join(path)}\n")
+            output_file.write(f"{INDENT * 1}No value at: {"/".join(path)}\n")
 
         return value
 
@@ -1116,8 +1197,8 @@ class F06Query:
             rest = path[5:]
 
             if gid not in gid_to_corners:
-                output_file.write(f"{INDENT * 2}GID {gid} not found in reverse lookup. Available GIDs:\n")
-                output_file.write(f"{INDENT * 2}")
+                output_file.write(f"{INDENT * 1}GID {gid} not found in reverse lookup. Available GIDs:\n")
+                output_file.write(f"{INDENT * 1}")
                 for available_gid in gid_to_corners.keys():
                     output_file.write(f"{available_gid}\t")
                 output_file.write(f"\n")
@@ -1126,21 +1207,21 @@ class F06Query:
             total   = 0.0
             count   = 0
 
-            output_file.write(f"{INDENT * 2}Node averaging from element values:\n")
+            output_file.write(f"{INDENT * 1}Node averaging from element values:\n")
             for eid, corner in gid_to_corners[gid]:
                 element_path = [path[0], path[1], path[2], "EID", eid, "CORNER", corner] + rest
                 value = self.get_layer_4(element_path, gp_transforms, shell_angles, gp_coordinates, output_file)
-                output_file.write(f"{INDENT * 3}{"/".join(element_path)} =\t{value}\n")
+                output_file.write(f"{INDENT * 2}{"/".join(element_path)} =\t{value}\n")
                 if value is not None:
                     total += value
                     count += 1
                 else:
                     # gid_to_corners might be inconsistent with the data.
-                    output_file.write(f"{INDENT * 2}Strangely no value.\n")
+                    output_file.write(f"{INDENT * 1}Strangely no value.\n")
                     return None
 
             if count == 0:
-                output_file.write(f"{INDENT * 2}No elements with data found for GID {gid}.\n")
+                output_file.write(f"{INDENT * 1}No elements with data found for GID {gid}.\n")
                 return None
 
             return total / count

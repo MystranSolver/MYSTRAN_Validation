@@ -146,9 +146,9 @@ def get_layer_7(parsed_f06, expression, gp_transforms, shell_angles, gp_coordina
         elif n == count:
             pass
         else:
-            output_file.write(f"{INDENT * 2} A path resolves to a number of values that's incompatible with other paths in the expression:\n")
-            output_file.write(f"{INDENT * 2} {variable_name} has {count} values but another path has {n} values.\n")
-            output_file.write(f"{INDENT * 2} Every path in the expression must have either the same number of values or 1 value.\n")
+            output_file.write(f"{INDENT * 1} A path resolves to a number of values that's incompatible with other paths in the expression:\n")
+            output_file.write(f"{INDENT * 1} {variable_name} has {count} values but another path has {n} values.\n")
+            output_file.write(f"{INDENT * 1} Every path in the expression must have either the same number of values or 1 value.\n")
             return [None]
 
     # If there are no variables, there's one value.
@@ -203,7 +203,7 @@ def test_individual_values(root_dir: Path,
         if len(reference_values) > 1:
             fail_count += 1
             print(f"ERROR: reference value resolves to more than one value.")
-            output_file.write(f"{INDENT * 2}{"FAILED\tERROR: reference value resolves to more than one value."}\n")
+            output_file.write(f"{INDENT * 1}{"FAILED\tERROR: reference value resolves to more than one value."}\n")
             return
         else:
             reference_value = reference_values[0]
@@ -237,7 +237,7 @@ def test_individual_values(root_dir: Path,
         tolerance_string = f"({test_case.tolerance}{test_case.tolerance_suffix()})".ljust(9)
         tst_str = f"Test = {test_value:.9g}".ljust(7+14)
         ref_str = f"Ref = {reference_value:.9g}".ljust(6+14)
-        output_file.write(f"{INDENT * 2}{pass_fail} Error = {error_string} {tolerance_string} {tst_str} {ref_str}\n")
+        output_file.write(f"{INDENT * 1}{pass_fail} Error = {error_string} {tolerance_string} {tst_str} {ref_str}\n")
 
 
     fail_count = 0
@@ -268,7 +268,7 @@ def test_individual_values(root_dir: Path,
                 comparison_count += 1
                 if value is None:
                     fail_count += 1
-                    output_file.write(f"{INDENT * 2}FAILED\n")
+                    output_file.write(f"{INDENT * 1}FAILED\n")
                 else:
                     compare(value)
 
@@ -284,7 +284,7 @@ def test_individual_values(root_dir: Path,
                    value_sum += value
             if value_sum is None:
                 fail_count += 1
-                output_file.write(f"{INDENT * 2}FAILED\n")
+                output_file.write(f"{INDENT * 1}FAILED\n")
             else:
                 compare(value_sum)
 
@@ -300,7 +300,7 @@ def test_individual_values(root_dir: Path,
                    value_squared_sum += value**2
             if value_squared_sum is None:
                 fail_count += 1
-                output_file.write(f"{INDENT * 2}FAILED\n")
+                output_file.write(f"{INDENT * 1}FAILED\n")
             else:
                 compare(math.sqrt(value_squared_sum))
 
@@ -336,7 +336,7 @@ def test_individual_values(root_dir: Path,
                    z_sum += z
             if x_sum is None:
                 fail_count += 1
-                output_file.write(f"{INDENT * 2}FAILED\n")
+                output_file.write(f"{INDENT * 1}FAILED\n")
             else:
                 match test_case.operation[-1]:
                     case "X": v_ref = [1.0, 0.0, 0.0]
@@ -347,7 +347,7 @@ def test_individual_values(root_dir: Path,
                     v_hat = [x_sum / v_mag, y_sum / v_mag, z_sum / v_mag]
                 except ZeroDivisionError:
                     fail_count += 1
-                    output_file.write(f"{INDENT * 2}FAILED. vector magnitude is zero.\n")
+                    output_file.write(f"{INDENT * 1}FAILED. vector magnitude is zero.\n")
                 else:
                     v_dot_ref = v_hat[0] * v_ref[0] \
                               + v_hat[1] * v_ref[1] \
@@ -360,14 +360,14 @@ def test_individual_values(root_dir: Path,
                 comparison_count += 1
                 if value is not None:
                     fail_count += 1
-                    output_file.write(f"{INDENT * 2}FAILED\n")
+                    output_file.write(f"{INDENT * 1}FAILED\n")
                 else:
                     pass
    
         case _:
         
             fail_count +=1
-            output_file.write(f"{INDENT * 2}FAILED. Invalid operation\n")
+            output_file.write(f"{INDENT * 1}FAILED. Invalid operation\n")
    
     if worst_error > 0:
         message = f"Error = {worst_error:.2g}{test_case.tolerance_suffix()}"

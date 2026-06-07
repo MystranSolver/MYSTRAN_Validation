@@ -86,7 +86,7 @@ def test_bulk(root_dir: Path,
         if batch_comparison_count > 0:
             pass_fail = "PASS  " if batch_fail_count == 0 else "FAILED"
             fails_text = f"{batch_fail_count}/{batch_comparison_count}".ljust(11)
-            output_file.write(f"{INDENT * 2}{pass_fail} {fails_text} {title}")
+            output_file.write(f"{INDENT * 1}{pass_fail} {fails_text} {title}")
             maxabs_text = f"Max = {maximum:.0e}".ljust(6+5)
             allow_diff_text = f"Atol {group_letter} = " + f"{atol:.0e}".ljust(5)
             worst_diff_text = f"Worst diff = {batch_worst_error:.0e}".ljust(13+5)
@@ -113,7 +113,7 @@ def test_bulk(root_dir: Path,
     try:
         ref_f06 = F06Query(str(reference_f06_path))
     except FileNotFoundError as e:
-        output_file.write(f"{INDENT * 2}{e}\n")
+        output_file.write(f"{INDENT * 1}{e}\n")
         return 1, 1, "ERROR: Reference solution not found"
     tst_f06 = F06Query(str(test_f06_path))
 

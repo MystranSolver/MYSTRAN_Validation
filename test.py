@@ -12,6 +12,7 @@ from test_individual_values import test_individual_values
 from case_definition import CaseDefinition
 from datetime import datetime
 import re
+#from f06_query import F06Query # todo remove
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
 # Error messages with explanations are for errors in test case definitions/usage.
@@ -284,6 +285,14 @@ def test_bulk_magic(root_dir: Path,
     # Run f06magic
     fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
 
+
+
+#todo remove
+#    parsed_f06 = F06Query(str(reference_f06_path))
+#    parsed_f06.dump(output_file)
+    
+
+
     return fail_count, ""
 
 
@@ -319,21 +328,21 @@ def run_case(mystran_path: Path,
             run_program(mystran_path, [working_deck_filename_str], working_dir, null_output, null_output)
 
         except Exception as e:
-            output_file.write(f"{INDENT * 1}ERROR: {e}\n")
+            output_file.write(f"{INDENT * 0}ERROR: {e}\n")
             fail_count = 1
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".F06").resolve()
 
     if test_case.test_type == "mys":
 
-        output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}\n")
+        output_file.write(f"{INDENT * 0}{test_case.test_type}; {test_case.deck_filename}\n")
         #todo write atols
         fail_count, comparison_count, message = test_bulk(root_dir, test_f06_path, deck_path, output_file, test_case)
         count_suffix = "/" + str(comparison_count)
 
     elif test_case.test_type == "msc":
 
-        output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}\n")
+        output_file.write(f"{INDENT * 0}{test_case.test_type}; {test_case.deck_filename}\n")
         #todo write atols
 
         fail_count, message = test_bulk_magic(root_dir, working_dir, test_f06_path, output_file, test_case)
@@ -345,7 +354,7 @@ def run_case(mystran_path: Path,
 
     elif test_case.test_type == "pth":
 
-        output_file.write(f"{INDENT * 1}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.operation}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
+        output_file.write(f"{INDENT * 0}{test_case.test_type}; {test_case.deck_filename}; {test_case.filter_string}; {test_case.operation}; {test_case.reference_value}; {test_case.tolerance}{test_case.tolerance_suffix()}\n")
 
         fail_count, comparison_count, message = test_individual_values(root_dir, test_f06_path, deck_path, output_file, test_case)
         count_suffix = "/" + str(comparison_count)
