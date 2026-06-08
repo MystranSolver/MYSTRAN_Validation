@@ -782,6 +782,7 @@ class F06Query:
 
         root = {}
         line_no = 0
+        corner = None
 
         def get_next_line():
             nonlocal line_no
@@ -936,7 +937,7 @@ class F06Query:
                 gids_node = self.ensure_path(root, prefix + ["GPFORCE", "GID"])
                 read_gpforce_block(gids_node)
 
-            if "S T R E S S E S   I N   B A R   E L E M E N T S" in line:
+            elif "S T R E S S E S   I N   B A R   E L E M E N T S" in line:
                 if is_mode_block():
                     continue
                 prefix = subcase_mode()
@@ -962,7 +963,142 @@ class F06Query:
                     self.set(eid_node, "SB3", self.number(line, 43, 13))
                     self.set(eid_node, "SB4", self.number(line, 58, 13))
 
-            if "F O R C E S   I N   B A R   E L E M E N T S" in line:
+            elif "S T R E S S E S   I N   Q U A D R I L A T E R A L   E L E M E N T S" in line:
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                eids_node = self.ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
+                if "OPTION = BILIN" in line:
+                    get_next_line()
+                    get_next_line()
+                    get_next_line()
+                    corner = None
+                    while True:
+                        line = get_next_line()
+                        if line.strip() == "":
+                            # Skip the blank lines between corners
+                            continue
+                        if line[0] == "1":
+                            break
+                        if line[15:15+3] == "CEN":
+                            eid = int(self.number(line, 4,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            corner = 0
+                            corner_gid = None
+                        else:
+                            corner += 1
+                            corner_gid = int(self.number(line, 13, 8))
+                        corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
+                        if corner_gid is not None:
+                            self.set(corner_node, "GID", corner_gid)
+                        z1_node = self.ensure_path(corner_node, ["Z1"])
+                        self.set(z1_node, "XX", self.number(line, 38, 13))
+                        self.set(z1_node, "YY", self.number(line, 52, 13))
+                        self.set(z1_node, "XY", self.number(line, 66, 13))
+                        self.set(z1_node, "PRINCIPALANGLE", self.number(line, 82, 8))
+                        self.set(z1_node, "VONMISES", self.number(line, 120, 13))
+                        line = get_next_line()
+                        z2_node = self.ensure_path(corner_node, ["Z2"])
+                        self.set(z2_node, "XX", self.number(line, 38, 13))
+                        self.set(z2_node, "YY", self.number(line, 52, 13))
+                        self.set(z2_node, "XY", self.number(line, 66, 13))
+                        self.set(z2_node, "PRINCIPALANGLE", self.number(line, 82, 8))
+                        self.set(z2_node, "VONMISES", self.number(line, 120, 13))
+                else:
+                    get_next_line()
+                    get_next_line()
+                    while True:
+                        line = get_next_line()
+                        if line.strip() == "":
+                            continue
+                        if line[0] == "1":
+                            break
+                        else:
+                            eid = int(self.number(line, 2,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            corner = 0
+                        corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
+                        z1_node = self.ensure_path(corner_node, ["Z1"])
+                        self.set(z1_node, "XX", self.number(line, 31, 13))
+                        self.set(z1_node, "YY", self.number(line, 46, 13))
+                        self.set(z1_node, "XY", self.number(line, 61, 13))
+                        self.set(z1_node, "PRINCIPALANGLE", self.number(line, 77, 8))
+                        self.set(z1_node, "VONMISES", self.number(line, 119, 13))
+                        line = get_next_line()
+                        z2_node = self.ensure_path(corner_node, ["Z2"])
+                        self.set(z2_node, "XX", self.number(line, 31, 13))
+                        self.set(z2_node, "YY", self.number(line, 46, 13))
+                        self.set(z2_node, "XY", self.number(line, 61, 13))
+                        self.set(z2_node, "PRINCIPALANGLE", self.number(line, 77, 8))
+                        self.set(z2_node, "VONMISES", self.number(line, 119, 13))
+
+            elif "S T R A I N S   I N   Q U A D R I L A T E R A L   E L E M E N T S" in line:
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
+                if "OPTION = BILIN" in line:
+                    get_next_line()
+                    get_next_line()
+                    get_next_line()
+                    corner = None
+                    while True:
+                        line = get_next_line()
+                        if line.strip() == "":
+                            # Skip the blank lines between corners
+                            continue
+                        if line[0] == "1":
+                            break
+                        if line[15:15+3] == "CEN":
+                            eid = int(self.number(line, 4,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            corner = 0
+                            corner_gid = None
+                        else:
+                            corner += 1
+                            corner_gid = int(self.number(line, 13, 8))
+                        corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
+                        if corner_gid is not None:
+                            self.set(corner_node, "GID", corner_gid)
+                        z1_node = self.ensure_path(corner_node, ["Z1"])
+                        self.set(z1_node, "XX", self.number(line, 38, 13))
+                        self.set(z1_node, "YY", self.number(line, 52, 13))
+                        self.set(z1_node, "XY", self.number(line, 66, 13))
+                        self.set(z1_node, "PRINCIPALANGLE", self.number(line, 82, 8))
+                        line = get_next_line()
+                        z2_node = self.ensure_path(corner_node, ["Z2"])
+                        self.set(z2_node, "XX", self.number(line, 38, 13))
+                        self.set(z2_node, "YY", self.number(line, 52, 13))
+                        self.set(z2_node, "XY", self.number(line, 66, 13))
+                        self.set(z2_node, "PRINCIPALANGLE", self.number(line, 82, 8))
+                else:
+                    get_next_line()
+                    get_next_line()
+                    while True:
+                        line = get_next_line()
+                        if line.strip() == "":
+                            # Skip the blank lines between corners
+                            continue
+                        if line[0] == "1":
+                            break
+                        else:
+                            eid = int(self.number(line, 2,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            corner = 0
+                        corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
+                        z1_node = self.ensure_path(corner_node, ["Z1"])
+                        self.set(z1_node, "XX", self.number(line, 31, 13))
+                        self.set(z1_node, "YY", self.number(line, 46, 13))
+                        self.set(z1_node, "XY", self.number(line, 61, 13))
+                        self.set(z1_node, "PRINCIPALANGLE", self.number(line, 77, 8))
+                        line = get_next_line()
+                        z2_node = self.ensure_path(corner_node, ["Z2"])
+                        self.set(z2_node, "XX", self.number(line, 31, 13))
+                        self.set(z2_node, "YY", self.number(line, 46, 13))
+                        self.set(z2_node, "XY", self.number(line, 61, 13))
+                        self.set(z2_node, "PRINCIPALANGLE", self.number(line, 77, 8))
+                    
+            elif "F O R C E S   I N   B A R   E L E M E N T S" in line:
                 if is_mode_block():
                     continue
                 prefix = subcase_mode()
@@ -985,6 +1121,71 @@ class F06Query:
                     self.set(eid_node, "S2", self.number(line, 90, 13))
                     self.set(eid_node, "AXIAL", self.number(line, 105, 13))
                     self.set(eid_node, "TORQUE", self.number(line, 120, 13))
+
+            elif "F O R C E S   I N   Q U A D R I L A T E R A L   E L E M E N T S" in line:
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                eids_node = self.ensure_path(root, prefix + ["SHELLFORCES","EID"])
+                if "OPTION = BILIN" in line:
+                    get_next_line()
+                    get_next_line()
+                    get_next_line()
+                    # Don't reset corner because block can be split across pages between corners.
+                    while True:
+                        line = get_next_line()
+                        if line.strip() == "":
+                            # Skip the blank lines between corners. Might not exist for quad forces.
+                            continue
+                        if line[0] == "1":
+                            break
+                        if line.startswith(" ***"):
+                            break
+                        if line[15:15+3] == "CEN":
+                            eid = int(self.number(line, 4,8))
+                            eid_node = self.ensure_path(eids_node, [str(eid)])
+                            corner = 0
+                            corner_gid = None
+                        else:
+                            corner += 1
+                            corner_gid = int(self.number(line, 13, 8))
+                        corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
+                        if corner_gid is not None:
+                            self.set(corner_node, "GID", corner_gid)
+                        self.set(corner_node, "NXX", self.number(line, 22, 13))
+                        self.set(corner_node, "NYY", self.number(line, 36, 13))
+                        self.set(corner_node, "NXY", self.number(line, 50, 13))
+                        self.set(corner_node, "MXX", self.number(line, 64, 13))
+                        self.set(corner_node, "MYY", self.number(line, 78, 13))
+                        self.set(corner_node, "MXY", self.number(line, 92, 13))
+                        self.set(corner_node, "QX", self.number(line, 106, 13))
+                        self.set(corner_node, "QY", self.number(line, 120, 13))
+                else:
+                    get_next_line()
+                    get_next_line()
+                    get_next_line()
+                    # Don't reset corner because block can be split across pages between corners.
+                    while True:
+                        line = get_next_line()
+                        if line.strip() == "":
+                            # Skip the blank lines between corners. Might not exist for quad forces.
+                            continue
+                        if line[0] == "1":
+                            break
+                        if line.startswith(" ***"):
+                            break
+                        eid = int(self.number(line, 4,8))
+                        eid_node = self.ensure_path(eids_node, [str(eid)])
+                        corner = 0
+                        corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
+                        self.set(corner_node, "NXX", self.number(line, 18, 13))
+                        self.set(corner_node, "NYY", self.number(line, 32, 13))
+                        self.set(corner_node, "NXY", self.number(line, 46, 13))
+                        self.set(corner_node, "MXX", self.number(line, 62, 13))
+                        self.set(corner_node, "MYY", self.number(line, 76, 13))
+                        self.set(corner_node, "MXY", self.number(line, 90, 13))
+                        self.set(corner_node, "QX", self.number(line, 106, 13))
+                        self.set(corner_node, "QY", self.number(line, 120, 13))
 
             elif "R E A L   E I G E N V A L U E S" in line:
                 # Eigenvalue summary table (not preceded by "EIGENVALUE =" line).
