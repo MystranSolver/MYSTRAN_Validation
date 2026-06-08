@@ -12,7 +12,6 @@ from test_individual_values import test_individual_values
 from case_definition import CaseDefinition
 from datetime import datetime
 import re
-#from f06_query import F06Query # todo remove
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
 # Error messages with explanations are for errors in test case definitions/usage.
@@ -285,14 +284,6 @@ def test_bulk_magic(root_dir: Path,
     # Run f06magic
     fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
 
-
-
-#todo remove
-#    parsed_f06 = F06Query(str(reference_f06_path))
-#    parsed_f06.dump(output_file)
-    
-
-
     return fail_count, ""
 
 
@@ -333,6 +324,7 @@ def run_case(mystran_path: Path,
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".F06").resolve()
 
+#    if test_case.test_type in ["mys", "msc"]:
     if test_case.test_type == "mys":
 
         output_file.write(f"{INDENT * 0}{test_case.test_type}; {test_case.deck_filename}\n")

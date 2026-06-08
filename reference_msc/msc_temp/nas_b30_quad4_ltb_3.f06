@@ -1,0 +1,650 @@
+1
+ 
+ 
+ 
+ 
+                      Warning: This computer program is protected by copyright law and international treaties.       
+                  Unauthorized use, reproduction or distribution of this computer program, or any portion of it, may 
+                                          result in severe civil and criminal penalties.                             
+                         Copyright (C) 2024 Hexagon AB and/or its subsidiaries. All rights reserved.                 
+ 
+ 
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * *                                 * *
+                                              * *           Hexagon AB            * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *      M S C   N a s t r a n      * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *     Version 2024.2-af13cbfd     * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *          NOV 21, 2024           * *
+                                              * *                                 * *
+                                              * *              Intel              * *
+                                              * *MODEL Intel(R) Xeon(R) W-2223 CP * *
+                                              * *     Windows 10 Pro 6.2 9200     * *
+                                              * *        Compiled for 8664        * *
+                                              * *                                 * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+1News file
+  
+               Welcome to MSC Nastran 2024.2
+  
+   MSC Nastran brings powerful new features and enhancements for engineering
+   solutions in several releases through the year. Key enhancements in
+   Version 2024.2 are summarized below. Addtional details can be found in
+   the MSC Nastran Version 2024.2 Release Guide.
+  
+     MSC Nastran 2024.2 Features and Enhancements
+  
+     High Performance Computing (HPC) for NVH
+     - Improved performance for ACMS, especially for large solid models
+     - Improved performance for FASTFR, particularly when structural
+       damping is present
+     - General performance improvement for high frequency acoustics
+     - Improved diagnostics for linear solution available in LOG file
+       Information includes solver selection and memory use
+  
+     Topology Optimization
+     - SOL 200 NEO Topology Optimization for generative design with support for
+       manufacturing constraints. Optimized CAD geometry and mesh output for
+       every design cycle.
+  
+     High Performance SOL 400 (NLPERF)
+     - Support Lagrange Multiplier for MPC and Rigid Elements
+     - Controls distributed surface load computation for shell elements with
+       offsets and the use of an additional enhancement for computing the
+       average nodal normal vector
+     - GPFORCE and ESE can be requested in ANALYSIS=NLSTAT
+     - OUTCTRL={STD,SOLUTION,INTERM} keyword in NLOPRM case control statement is
+       available
+  
+     Linear
+     - Global-Local analysis in SOL 101 and 103. Creates a local model based on
+       a user-provided definition (CARVE) and replaces the rest of the model
+       with an external superelement. Allows for detailed local studies without
+       having to solve the entire model every time.
+     - Multiple Output requests of the same result item in linear solutions
+       (SOL 101, 103, 108, 109, 111, 112) through the use of repeated output
+       request subcase, REPCASE.
+  
+     NVH (Vibroacoustics)
+     Automated skinning of solid elements free surfaces
+     - Identify residual structure solid elements' exposed surfaces, and create
+       required triangular or quadilateral shell elements on top of it
+     - Stress and strain data recovery available for skinned shell elements
+     - Supported in Linear solution sequences
+     Acoustic Fluid Grid Participation Factors from fluid skin grids in touch
+       with either structure wetted surface or trim components
+1    Mass matrix support in Cohesive elements
+     - supports mass matrix in cohesive elements for glue line modeling.
+     Improved solution time and reduced disk space for Nastran-PEM models
+  
+     Aeroelasticity
+     - Flutter Perturbation Step available in SOL 400 Nonlinear
+  
+     HDF5 hybrid precision output file
+     - Allows writing of 32-bit real and 64-bit integer data to H5 file
+     - Combines small size of 32-bit and high value domain ID of 64-bit
+  
+      Inertia Relief with External Superelements
+     - For external superelements, inertia relief is now supported for the
+       following three options: EXTSEOUT MATDB(MATRIXDB), EXTSEOUT DMIGDB, and
+       EXTSEOUT DMIGOP2 for INREL = -1 and INREL = -2.
+     - For the above three external superelement options, checks are now
+       performed internally to insure that the inertia relief specifications
+       between external superelement and the assembly run are consistent.
+     - When verifying results, the user is reminded that with inertia relief,
+       the displacements are relative displacements and may not in any way match
+       the results of say a model containing all the external superelements
+       processed as standard part superelements. However, element results
+       such as force or stress should match closely between the two types of runs
+       if consistently modeled.
+  
+  
+     Documentation
+     - The complete documentation set is provided in a separate installer and
+       when installed is available at: MSC_DOC_DIR/doc/pdf_nastran directory,
+       where MSC_DOC_DIR is the directory where documentation was installed.
+       This help set includes cross references between documents, and links to
+       how-to videos, and example files
+  
+     Individual MSC Nastran documents are available for download from the
+       Simcompanion Website at:
+       http://simcompanion.hexagon.com/
+  
+     The documentation set includes the following:
+  
+         1.  MSC Nastran 2024.2 Installation and Operations Guide
+         2.  MSC Nastran 2024.2 Quick Reference Guide
+         3.  MSC Nastran 2024.2 Release Guide
+         4.  MSC Nastran 2024.2 Linear Statics Analysis User's Guide
+         5.  MSC Nastran 2024.2 Dynamic Analysis User's Guide
+         6.  MSC Nastran 2024.2 Superelements User's Guide
+         7.  MSC Nastran 2024.2 Rotordynamics User's Guide
+         8.  MSC Nastran 2024.2 Demonstration Problems Manual
+         9.  MSC Nastran 2024.2 Nastran Embedded Fatigue User's Guide
+        10.  MSC Nastran 2024.2 Design Sensitivity and Optimization
+        11.  MSC Nastran 2024.2 Nonlinear User's Guide SOL 400
+1       12.  MSC Nastran 2024.2 DMAP Programmer's Guide
+        13.  MSC Nastran 2024.2 High Performance Computing User's Guide
+        14.  MSC Nastran 2024.2 New Verification Manual
+        15.  MSC Nastran 2024.2 DEMATD Guide
+        16.  MSC Nastran 2024.2 Explicit Nonlinear (SOL 700) User's Guide
+        17.  MSC Nastran 2024.2 ACMS User's Guide
+  
+   Please refer to  MSC_DOC_DIR/doc/pdf_nastran/nastran_library.pdf
+   for the complete document set:
+  
+  
+   Additional information about the release can be found at the MSC Nastran
+   Product Support page: http://simcompanion.hexagon.com
+  
+   The support page provides links to these valuable information:
+      * A searchable Knowledge Base containing examples and answers to thousands
+        of frequently asked questions written by MSC Software subject-matter
+        experts.
+      * Peer-to-peer Discussion Forums enabling you to post questions for your
+        MSC Software products and receive answers from other users worldwide.
+      * A list of known issues with the product and any workarounds.
+      * Instructions on how to contact technical support
+      * A mechanism for sending us product feedback or enhancement requests.
+      * Hardware and software requirements.
+      * Examples and Tutorials
+      * and much more.
+  
+   For information on training, please visit our Training web site
+  
+      https://hexagon.com/support-success/manufacturing-intelligence/
+      design-engineering-support/training-materials
+  
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     1
+                                                                                                                                    
+0        N A S T R A N    F I L E    A N D    S Y S T E M    P A R A M E T E R    E C H O                                           
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     $ SYSFIELD=SCR*(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.SO
+     $ SYSFIELD=DBALL(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.S
+     NASTRAN BUFFSIZE=65537 $(C:/PROGRAM FILES/MSC.SOFTWARE/MSC_NASTRAN/2024.2/CONF/N
+     NASTRAN PARALLEL=1 $([3])                                                       
+     $ GENERATED BY MECWAY 29                                                        
+     $-------------EXECUTIVE CONTROL SECTION-------------                            
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     2
+                                                                                                                                    
+0        N A S T R A N    E X E C U T I V E    C O N T R O L    E C H O                                                             
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     SOL 105                                                                                 
+     CEND                                                                                    
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     3
+                                                                                                                                    
+0                                                                                                                                   
+0                                        C A S E    C O N T R O L    E C H O                                                        
+                 COMMAND                                                                                                            
+                 COUNT                                                                                                              
+                  1      $---------------CASE CONTROL SECTION----------------                                    
+                  2      DISPLACEMENT = ALL                                                                      
+                  3      $                                                                                       
+                  4        ACCELERATION(PRINT,PLOT) = ALL                                                        
+                  5        DISPLACEMENT(PRINT, PLOT) = ALL                                                       
+ *** USER WARNING MESSAGE 602 (IFP1D)
+     TWO OR MORE OF THE ABOVE CARD TYPES DETECTED WHERE ONLY ONE IS
+     LEGAL.   THE LAST FOUND WILL BE USED.
+                  6        GPFORCE(PRINT, PLOT) = ALL                                                            
+                  7        MPCFORCES(PRINT, PLOT) = ALL                                                          
+                  8        OLOAD(PRINT, PLOT)= ALL                                                               
+                  9        SPCFORCES(PRINT, PLOT) = ALL                                                          
+                 10        FORCE(PRINT, PLOT) = ALL                                                              
+                 11        STRESS(PRINT, PLOT, CORNER)= ALL                                                      
+                 12        STRAIN(PRINT, PLOT, CORNER)= ALL                                                      
+                 13      $                                                                                       
+                 14      SPC = 1                                                                                 
+                 15      SUBCASE 1                                                                               
+                 16      LOAD = 1                                                                                
+                 17      SUBCASE 2                                                                               
+                 18      METHOD = 1                                                                              
+                 19      BEGIN BULK                                                                              
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     4
+                                                                                                                                    
+0                                                                                                                                   
+                                              I N P U T   B U L K   D A T A   E C H O                                               
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+ *** USER WARNING MESSAGE 9994 (BULKEF)
+      The following lines could not be processed by the current IFPSTAR rule base.
+      They are being passed to Classic IFP for an additional attempt at resolution.
+                                PARAM, POST,-1
+                              CQUAD4K*               1               1              56              54*       
+                              *                     18              55          0.0+00          0.0+00
+                              CQUAD4K*               2               1              50              56*       
+                              *                     55              16          0.0+00          0.0+00
+                              CQUAD4K*               3               1              17              57*       
+                              *                     60              54          0.0+00          0.0+00
+                              CQUAD4K*               4               1              57              19*       
+                              *                     58              60          0.0+00          0.0+00
+                              CQUAD4K*               5               1              60              58*       
+                              *                     20              59          0.0+00          0.0+00
+                              CQUAD4K*               6               1              54              60*       
+                              *                     59              18          0.0+00          0.0+00
+                              CQUAD4K*               7               1              19              61*       
+                              *                     63              58          0.0+00          0.0+00
+                              CQUAD4K*               8               1              61              21*       
+                              *                     26              63          0.0+00          0.0+00
+                              CQUAD4K*               9               1              63              26*       
+                              *                     22              62          0.0+00          0.0+00
+                              CQUAD4K*              10               1              58              63*       
+                              *                     62              20          0.0+00          0.0+00
+                              CQUAD4K*              11               1              21              23*       
+                              *                     27              26          0.0+00          0.0+00
+                              CQUAD4K*              12               1              23               2*       
+                              *                     24              27          0.0+00          0.0+00
+                              CQUAD4K*              13               1              27              24*       
+                              *                      3              25          0.0+00          0.0+00
+                              CQUAD4K*              14               1              26              27*       
+                              *                     25              22          0.0+00          0.0+00
+                              CQUAD4K*              15               1               1              28*       
+                              *                     32              31          0.0+00          0.0+00
+                              CQUAD4K*              16               1              28               5*       
+                              *                     29              32          0.0+00          0.0+00
+                              CQUAD4K*              17               1              32              29*       
+                              *                      6              30          0.0+00          0.0+00
+                              CQUAD4K*              18               1              31              32*       
+                              *                     30               4          0.0+00          0.0+00
+                              CQUAD4K*              19               1               5              33*       
+                              *                     36              29          0.0+00          0.0+00
+                              CQUAD4K*              20               1              33               7*       
+                              *                     34              36          0.0+00          0.0+00
+                              CQUAD4K*              21               1              36              34*       
+                              *                      8              35          0.0+00          0.0+00
+                              CQUAD4K*              22               1              29              36*       
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     5
+                                                                                                                                    
+0                                                                                                                                   
+                                              I N P U T   B U L K   D A T A   E C H O                                               
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                              *                     35               6          0.0+00          0.0+00
+                              CQUAD4K*              23               1               7              37*       
+                              *                     40              34          0.0+00          0.0+00
+                              CQUAD4K*              24               1              37               9*       
+                              *                     38              40          0.0+00          0.0+00
+                              CQUAD4K*              25               1              40              38*       
+                              *                     10              39          0.0+00          0.0+00
+                              CQUAD4K*              26               1              34              40*       
+                              *                     39               8          0.0+00          0.0+00
+                              CQUAD4K*              27               1               9              41*       
+                              *                     44              38          0.0+00          0.0+00
+                              CQUAD4K*              28               1              41              11*       
+                              *                     42              44          0.0+00          0.0+00
+                              CQUAD4K*              29               1              44              42*       
+                              *                     12              43          0.0+00          0.0+00
+                              CQUAD4K*              30               1              38              44*       
+                              *                     43              10          0.0+00          0.0+00
+                              CQUAD4K*              31               1              11              45*       
+                              *                     48              42          0.0+00          0.0+00
+                              CQUAD4K*              32               1              45              13*       
+                              *                     46              48          0.0+00          0.0+00
+                              CQUAD4K*              33               1              48              46*       
+                              *                     14              47          0.0+00          0.0+00
+                              CQUAD4K*              34               1              42              48*       
+                              *                     47              12          0.0+00          0.0+00
+                              CQUAD4K*              35               1              13              49*       
+                              *                     52              46          0.0+00          0.0+00
+                              CQUAD4K*              36               1              49              15*       
+                              *                     50              52          0.0+00          0.0+00
+                              CQUAD4K*              37               1              52              50*       
+                              *                     16              51          0.0+00          0.0+00
+                              CQUAD4K*              38               1              46              52*       
+                              *                     51              14          0.0+00          0.0+00
+                              CQUAD4K*              39               1              15              53*       
+                              *                     56              50          0.0+00          0.0+00
+                              CQUAD4K*              40               1              53              17*       
+                              *                     54              56          0.0+00          0.0+00
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     6
+                                                                                                                                    
+0                                                                                                                                   
+                                                  S O R T E D   B U L K   D A T A   E C H O                                         
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                    1-        EIGRL  *1                                               1               *
+                    2-        *       0                               1.              MASS
+                    3-        FORCE  *1               2               0               1.              *
+                    4-        *       0.              .25             0.
+                    5-        FORCE  *1               3               0               1.              *
+                    6-        *       0.              .25             0.
+                    7-        FORCE  *1               24              0               1.              *
+                    8-        *       0.              .5              0.
+                    9-        GRID   *1               0               0.              0.              *
+                   10-        *       0.              0
+                   11-        GRID   *2               0               1.              0.              *
+                   12-        *       0.              0
+                   13-        GRID   *3               0               1.              .1              *
+                   14-        *       0.              0
+                   15-        GRID   *4               0               0.              .1              *
+                   16-        *       0.              0
+                   17-        GRID   *5               0               .1              0.              *
+                   18-        *       0.              0
+                   19-        GRID   *6               0               .1              .1              *
+                   20-        *       0.              0
+                   21-        GRID   *7               0               .2              0.              *
+                   22-        *       0.              0
+                   23-        GRID   *8               0               .2              .1              *
+                   24-        *       0.              0
+                   25-        GRID   *9               0               .3              0.              *
+                   26-        *       0.              0
+                   27-        GRID   *10              0               .3              .1              *
+                   28-        *       0.              0
+                   29-        GRID   *11              0               .4              0.              *
+                   30-        *       0.              0
+                   31-        GRID   *12              0               .4              .1              *
+                   32-        *       0.              0
+                   33-        GRID   *13              0               .5              0.              *
+                   34-        *       0.              0
+                   35-        GRID   *14              0               .5              .1              *
+                   36-        *       0.              0
+                   37-        GRID   *15              0               .6              0.              *
+                   38-        *       0.              0
+                   39-        GRID   *16              0               .6              .1              *
+                   40-        *       0.              0
+                   41-        GRID   *17              0               .7              0.              *
+                   42-        *       0.              0
+                   43-        GRID   *18              0               .7              .1              *
+                   44-        *       0.              0
+                   45-        GRID   *19              0               .8              0.              *
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     7
+                                                                                                                                    
+0                                                                                                                                   
+                                                  S O R T E D   B U L K   D A T A   E C H O                                         
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                   46-        *       0.              0
+                   47-        GRID   *20              0               .8              .1              *
+                   48-        *       0.              0
+                   49-        GRID   *21              0               .9              0.              *
+                   50-        *       0.              0
+                   51-        GRID   *22              0               .9              .1              *
+                   52-        *       0.              0
+                   53-        GRID   *23              0               .95             0.              *
+                   54-        *       0.              0
+                   55-        GRID   *24              0               1.              .05             *
+                   56-        *       0.              0
+                   57-        GRID   *25              0               .95             .1              *
+                   58-        *       0.              0
+                   59-        GRID   *26              0               .9              .05             *
+                   60-        *       0.              0
+                   61-        GRID   *27              0               .95             .05             *
+                   62-        *       0.              0
+                   63-        GRID   *28              0               .05             0.              *
+                   64-        *       0.              0
+                   65-        GRID   *29              0               .1              .05             *
+                   66-        *       0.              0
+                   67-        GRID   *30              0               .05             .1              *
+                   68-        *       0.              0
+                   69-        GRID   *31              0               0.              .05             *
+                   70-        *       0.              0
+                   71-        GRID   *32              0               .05             .05             *
+                   72-        *       0.              0
+                   73-        GRID   *33              0               .15             0.              *
+                   74-        *       0.              0
+                   75-        GRID   *34              0               .2              .05             *
+                   76-        *       0.              0
+                   77-        GRID   *35              0               .15             .1              *
+                   78-        *       0.              0
+                   79-        GRID   *36              0               .15             .05             *
+                   80-        *       0.              0
+                   81-        GRID   *37              0               .25             0.              *
+                   82-        *       0.              0
+                   83-        GRID   *38              0               .3              .05             *
+                   84-        *       0.              0
+                   85-        GRID   *39              0               .25             .1              *
+                   86-        *       0.              0
+                   87-        GRID   *40              0               .25             .05             *
+                   88-        *       0.              0
+                   89-        GRID   *41              0               .35             0.              *
+                   90-        *       0.              0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     8
+                                                                                                                                    
+0                                                                                                                                   
+                                                  S O R T E D   B U L K   D A T A   E C H O                                         
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                   91-        GRID   *42              0               .4              .05             *
+                   92-        *       0.              0
+                   93-        GRID   *43              0               .35             .1              *
+                   94-        *       0.              0
+                   95-        GRID   *44              0               .35             .05             *
+                   96-        *       0.              0
+                   97-        GRID   *45              0               .45             0.              *
+                   98-        *       0.              0
+                   99-        GRID   *46              0               .5              .05             *
+                  100-        *       0.              0
+                  101-        GRID   *47              0               .45             .1              *
+                  102-        *       0.              0
+                  103-        GRID   *48              0               .45             .05             *
+                  104-        *       0.              0
+                  105-        GRID   *49              0               .55             0.              *
+                  106-        *       0.              0
+                  107-        GRID   *50              0               .6              .05             *
+                  108-        *       0.              0
+                  109-        GRID   *51              0               .55             .1              *
+                  110-        *       0.              0
+                  111-        GRID   *52              0               .55             .05             *
+                  112-        *       0.              0
+                  113-        GRID   *53              0               .65             0.              *
+                  114-        *       0.              0
+                  115-        GRID   *54              0               .7              .05             *
+                  116-        *       0.              0
+                  117-        GRID   *55              0               .65             .1              *
+                  118-        *       0.              0
+                  119-        GRID   *56              0               .65             .05             *
+                  120-        *       0.              0
+                  121-        GRID   *57              0               .75             0.              *
+                  122-        *       0.              0
+                  123-        GRID   *58              0               .8              .05             *
+                  124-        *       0.              0
+                  125-        GRID   *59              0               .75             .1              *
+                  126-        *       0.              0
+                  127-        GRID   *60              0               .75             .05             *
+                  128-        *       0.              0
+                  129-        GRID   *61              0               .85             0.              *
+                  130-        *       0.              0
+                  131-        GRID   *62              0               .85             .1              *
+                  132-        *       0.              0
+                  133-        GRID   *63              0               .85             .05             *
+                  134-        *       0.              0
+                  135-        MAT1   *1               100000000000.   38461538462.    .3              *
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     9
+                                                                                                                                    
+0                                                                                                                                   
+                                                  S O R T E D   B U L K   D A T A   E C H O                                         
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                  136-        *       0.              0.              0.
+                  137-        PSHELL *1               1               .001            1               *
+                  138-        *                       1                               0.
+                  139-        SPC    *1               1               1               0.
+                  140-        SPC    *1               1               2               0.
+                  141-        SPC    *1               1               3               0.
+                  142-        SPC    *1               1               4               0.
+                  143-        SPC    *1               1               5               0.
+                  144-        SPC    *1               1               6               0.
+                  145-        SPC    *1               4               1               0.
+                  146-        SPC    *1               4               2               0.
+                  147-        SPC    *1               4               3               0.
+                  148-        SPC    *1               4               4               0.
+                  149-        SPC    *1               4               5               0.
+                  150-        SPC    *1               4               6               0.
+                  151-        SPC    *1               31              1               0.
+                  152-        SPC    *1               31              2               0.
+                  153-        SPC    *1               31              3               0.
+                  154-        SPC    *1               31              4               0.
+                  155-        SPC    *1               31              5               0.
+                  156-        SPC    *1               31              6               0.
+                              ENDDATA
+                        TOTAL COUNT= 157
+                              INPUT BULK DATA ENTRY COUNT = 162
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    10
+                                                                                                                                    
+0                                                                                                                                   
+                                        M O D E L   S U M M A R Y          BULK = 0
+                                   ENTRY NAME        NUMBER OF ENTRIES
+                                   ----------        -----------------
+                                        EIGRL                        1
+                                        FORCE                        3
+                                         GRID                       63
+                                         MAT1                        1
+                                       PSHELL                        1
+                                     REJ_BULK                     1325
+                                          SPC                       18
+
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    11
+                                                                                                                                    
+0                                                                                                                                   
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    12
+                                                                                                                                    
+0                                                                                                                                   
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ *** USER FATAL MESSAGE 307 (IFPDRV)
+     ILLEGAL NAME FOR BULK DATA ENTRY CQUAD4K*
+ ^^^     
+ ^^^ >>> IFP OPERATIONS COMPLETE <<< 
+ ^^^     
+ ^^^     
+ *** USER FATAL MESSAGE 9002 (SUBDMAP IFPS)
+     ERROR(S) ENCOUNTERED IN THE MAIN BULK DATA SECTION
+     SEE MESSAGES ABOVE. ERROR ENCOUNTERED IN MODULE IFP,
+ ^^^     
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    13
+                                                                                                                                    
+0                                                                                                                                   
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+ *** USER INFORMATION MESSAGE 4425 (PRTPRN)
+     ONE OR MORE FATAL ERRORS HAVE OCCURRED.  THERE MAY BE MORE ERROR MESSAGES IN THE PRECEDING OUTPUT
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    14
+                                                                                                                                    
+0                                                                                                                                   
+ * * * *  D B D I C T   P R I N T  * * * *      SUBDMAP = PRTSUM  ,  DMAP STATEMENT NO.     75
+
+
+
+0                                   * * * *  A N A L Y S I S  S U M M A R Y  T A B L E  * * * *
+0 SEID  PEID PROJ VERS APRCH      SEMG SEMR SEKR SELG SELR MODES DYNRED SOLLIN SOLNL LOOPID DESIGN CYCLE SENSITIVITY
+ -------------------------------------------------------------------------------------------------------------------
+0SEID = SUPERELEMENT ID.
+ PEID = PRIMARY SUPERELEMENT ID OF IMAGE SUPERELEMENT.
+ PROJ = PROJECT ID NUMBER.
+ VERS = VERSION ID.
+ APRCH = BLANK FOR STRUCTURAL ANALYSIS.  HEAT FOR HEAT TRANSFER ANALYSIS.
+ SEMG = STIFFNESS AND MASS MATRIX GENERATION STEP.
+ SEMR = MASS MATRIX REDUCTION STEP (INCLUDES EIGENVALUE SOLUTION FOR MODES).
+ SEKR = STIFFNESS MATRIX REDUCTION STEP.
+ SELG = LOAD MATRIX GENERATION STEP.
+ SELR = LOAD MATRIX REDUCTION STEP. 
+ MODES = T (TRUE) IF NORMAL MODES OR BUCKLING MODES CALCULATED.
+ DYNRED = T (TRUE) MEANS GENERALIZED DYNAMIC AND/OR COMPONENT MODE REDUCTION PERFORMED.
+ SOLLIN = T (TRUE) IF LINEAR SOLUTION EXISTS IN DATABASE.
+ LOOPID = THE LAST LOOPID VALUE USED IN THE NONLINEAR ANALYSIS.  USEFUL FOR RESTARTS.
+ SOLNL = T (TRUE) IF NONLINEAR SOLUTION EXISTS IN DATABASE.
+ DESIGN CYCLE = THE LAST DESIGN CYCLE (ONLY VALID IN OPTIMIZATION).
+ SENSITIVITY = SENSITIVITY MATRIX GENERATION FLAG.
+ 
+ No PARAM values were set in the Control File.
+ 
+1                                        * * * END OF JOB * * *
+ 
+ 
+ No Symbolic Replacement variables or values were specified.
+

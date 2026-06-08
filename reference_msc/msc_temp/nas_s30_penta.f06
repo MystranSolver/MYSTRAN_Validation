@@ -1,0 +1,1035 @@
+1
+ 
+ 
+ 
+ 
+                      Warning: This computer program is protected by copyright law and international treaties.       
+                  Unauthorized use, reproduction or distribution of this computer program, or any portion of it, may 
+                                          result in severe civil and criminal penalties.                             
+                         Copyright (C) 2024 Hexagon AB and/or its subsidiaries. All rights reserved.                 
+ 
+ 
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * *                                 * *
+                                              * *           Hexagon AB            * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *      M S C   N a s t r a n      * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *     Version 2024.2-af13cbfd     * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *          NOV 21, 2024           * *
+                                              * *                                 * *
+                                              * *              Intel              * *
+                                              * *MODEL Intel(R) Xeon(R) W-2223 CP * *
+                                              * *     Windows 10 Pro 6.2 9200     * *
+                                              * *        Compiled for 8664        * *
+                                              * *                                 * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+1News file
+  
+               Welcome to MSC Nastran 2024.2
+  
+   MSC Nastran brings powerful new features and enhancements for engineering
+   solutions in several releases through the year. Key enhancements in
+   Version 2024.2 are summarized below. Addtional details can be found in
+   the MSC Nastran Version 2024.2 Release Guide.
+  
+     MSC Nastran 2024.2 Features and Enhancements
+  
+     High Performance Computing (HPC) for NVH
+     - Improved performance for ACMS, especially for large solid models
+     - Improved performance for FASTFR, particularly when structural
+       damping is present
+     - General performance improvement for high frequency acoustics
+     - Improved diagnostics for linear solution available in LOG file
+       Information includes solver selection and memory use
+  
+     Topology Optimization
+     - SOL 200 NEO Topology Optimization for generative design with support for
+       manufacturing constraints. Optimized CAD geometry and mesh output for
+       every design cycle.
+  
+     High Performance SOL 400 (NLPERF)
+     - Support Lagrange Multiplier for MPC and Rigid Elements
+     - Controls distributed surface load computation for shell elements with
+       offsets and the use of an additional enhancement for computing the
+       average nodal normal vector
+     - GPFORCE and ESE can be requested in ANALYSIS=NLSTAT
+     - OUTCTRL={STD,SOLUTION,INTERM} keyword in NLOPRM case control statement is
+       available
+  
+     Linear
+     - Global-Local analysis in SOL 101 and 103. Creates a local model based on
+       a user-provided definition (CARVE) and replaces the rest of the model
+       with an external superelement. Allows for detailed local studies without
+       having to solve the entire model every time.
+     - Multiple Output requests of the same result item in linear solutions
+       (SOL 101, 103, 108, 109, 111, 112) through the use of repeated output
+       request subcase, REPCASE.
+  
+     NVH (Vibroacoustics)
+     Automated skinning of solid elements free surfaces
+     - Identify residual structure solid elements' exposed surfaces, and create
+       required triangular or quadilateral shell elements on top of it
+     - Stress and strain data recovery available for skinned shell elements
+     - Supported in Linear solution sequences
+     Acoustic Fluid Grid Participation Factors from fluid skin grids in touch
+       with either structure wetted surface or trim components
+1    Mass matrix support in Cohesive elements
+     - supports mass matrix in cohesive elements for glue line modeling.
+     Improved solution time and reduced disk space for Nastran-PEM models
+  
+     Aeroelasticity
+     - Flutter Perturbation Step available in SOL 400 Nonlinear
+  
+     HDF5 hybrid precision output file
+     - Allows writing of 32-bit real and 64-bit integer data to H5 file
+     - Combines small size of 32-bit and high value domain ID of 64-bit
+  
+      Inertia Relief with External Superelements
+     - For external superelements, inertia relief is now supported for the
+       following three options: EXTSEOUT MATDB(MATRIXDB), EXTSEOUT DMIGDB, and
+       EXTSEOUT DMIGOP2 for INREL = -1 and INREL = -2.
+     - For the above three external superelement options, checks are now
+       performed internally to insure that the inertia relief specifications
+       between external superelement and the assembly run are consistent.
+     - When verifying results, the user is reminded that with inertia relief,
+       the displacements are relative displacements and may not in any way match
+       the results of say a model containing all the external superelements
+       processed as standard part superelements. However, element results
+       such as force or stress should match closely between the two types of runs
+       if consistently modeled.
+  
+  
+     Documentation
+     - The complete documentation set is provided in a separate installer and
+       when installed is available at: MSC_DOC_DIR/doc/pdf_nastran directory,
+       where MSC_DOC_DIR is the directory where documentation was installed.
+       This help set includes cross references between documents, and links to
+       how-to videos, and example files
+  
+     Individual MSC Nastran documents are available for download from the
+       Simcompanion Website at:
+       http://simcompanion.hexagon.com/
+  
+     The documentation set includes the following:
+  
+         1.  MSC Nastran 2024.2 Installation and Operations Guide
+         2.  MSC Nastran 2024.2 Quick Reference Guide
+         3.  MSC Nastran 2024.2 Release Guide
+         4.  MSC Nastran 2024.2 Linear Statics Analysis User's Guide
+         5.  MSC Nastran 2024.2 Dynamic Analysis User's Guide
+         6.  MSC Nastran 2024.2 Superelements User's Guide
+         7.  MSC Nastran 2024.2 Rotordynamics User's Guide
+         8.  MSC Nastran 2024.2 Demonstration Problems Manual
+         9.  MSC Nastran 2024.2 Nastran Embedded Fatigue User's Guide
+        10.  MSC Nastran 2024.2 Design Sensitivity and Optimization
+        11.  MSC Nastran 2024.2 Nonlinear User's Guide SOL 400
+1       12.  MSC Nastran 2024.2 DMAP Programmer's Guide
+        13.  MSC Nastran 2024.2 High Performance Computing User's Guide
+        14.  MSC Nastran 2024.2 New Verification Manual
+        15.  MSC Nastran 2024.2 DEMATD Guide
+        16.  MSC Nastran 2024.2 Explicit Nonlinear (SOL 700) User's Guide
+        17.  MSC Nastran 2024.2 ACMS User's Guide
+  
+   Please refer to  MSC_DOC_DIR/doc/pdf_nastran/nastran_library.pdf
+   for the complete document set:
+  
+  
+   Additional information about the release can be found at the MSC Nastran
+   Product Support page: http://simcompanion.hexagon.com
+  
+   The support page provides links to these valuable information:
+      * A searchable Knowledge Base containing examples and answers to thousands
+        of frequently asked questions written by MSC Software subject-matter
+        experts.
+      * Peer-to-peer Discussion Forums enabling you to post questions for your
+        MSC Software products and receive answers from other users worldwide.
+      * A list of known issues with the product and any workarounds.
+      * Instructions on how to contact technical support
+      * A mechanism for sending us product feedback or enhancement requests.
+      * Hardware and software requirements.
+      * Examples and Tutorials
+      * and much more.
+  
+   For information on training, please visit our Training web site
+  
+      https://hexagon.com/support-success/manufacturing-intelligence/
+      design-engineering-support/training-materials
+  
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     1
+                                                                                                                                    
+0        N A S T R A N    F I L E    A N D    S Y S T E M    P A R A M E T E R    E C H O                                           
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     $ SYSFIELD=SCR*(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.SO
+     $ SYSFIELD=DBALL(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.S
+     NASTRAN BUFFSIZE=65537 $(C:/PROGRAM FILES/MSC.SOFTWARE/MSC_NASTRAN/2024.2/CONF/N
+     NASTRAN PARALLEL=1 $([3])                                                       
+     $ GENERATED BY MECWAY 29                                                        
+     $-------------EXECUTIVE CONTROL SECTION-------------                            
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     2
+                                                                                                                                    
+0        N A S T R A N    E X E C U T I V E    C O N T R O L    E C H O                                                             
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     SOL 101                                                                                 
+     CEND                                                                                    
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     3
+                                                                                                                                    
+0                                                                                                                                   
+0                                        C A S E    C O N T R O L    E C H O                                                        
+                 COMMAND                                                                                                            
+                 COUNT                                                                                                              
+                  1      $---------------CASE CONTROL SECTION----------------                                    
+                  2      DISPLACEMENT = ALL                                                                      
+                  3      $                                                                                       
+                  4        ACCELERATION(PRINT,PLOT) = ALL                                                        
+                  5        DISPLACEMENT(PRINT, PLOT) = ALL                                                       
+ *** USER WARNING MESSAGE 602 (IFP1D)
+     TWO OR MORE OF THE ABOVE CARD TYPES DETECTED WHERE ONLY ONE IS
+     LEGAL.   THE LAST FOUND WILL BE USED.
+                  6        GPFORCE(PRINT, PLOT) = ALL                                                            
+                  7        MPCFORCES(PRINT, PLOT) = ALL                                                          
+                  8        OLOAD(PRINT, PLOT)= ALL                                                               
+                  9        SPCFORCES(PRINT, PLOT) = ALL                                                          
+                 10        FORCE(PRINT, PLOT) = ALL                                                              
+                 11        STRESS(PRINT, PLOT, CORNER)= ALL                                                      
+                 12        STRAIN(PRINT, PLOT, CORNER)= ALL                                                      
+                 13      $                                                                                       
+                 14      SPC = 1                                                                                 
+                 15      LOAD = 1                                                                                
+                 16      BEGIN BULK                                                                              
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     4
+                                                                                                                                    
+0                                                                                                                                   
+                                              I N P U T   B U L K   D A T A   E C H O                                               
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+ *** USER WARNING MESSAGE 9994 (BULKEF)
+      The following lines could not be processed by the current IFPSTAR rule base.
+      They are being passed to Classic IFP for an additional attempt at resolution.
+                                PARAM, POST,-1
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     5
+                                                                                                                                    
+0                                                                                                                                   
+                                                  S O R T E D   B U L K   D A T A   E C H O                                         
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                    1-        CPENTA *1               1               3               4               *
+                    2-        *       1               7               8               5
+                    3-        CPENTA *2               2               11              12              *
+                    4-        *       9               15              16              13              *
+                    5-        *       17              18              19              20              *
+                    6-        *       21              22              23              24              *
+                    7-        *       25
+                    8-        CPENTA *3               1               1               2               *
+                    9-        *       3               5               6               7
+                   10-        CPENTA *4               2               9               10              *
+                   11-        *       11              13              14              15              *
+                   12-        *       26              27              19              22              *
+                   13-        *       28              20              29              30              *
+                   14-        *       25
+                   15-        FORCE  *1               3               0               1.              *
+                   16-        *       0.              3995.1314       0.
+                   17-        FORCE  *1               4               0               1.              *
+                   18-        *       0.              3995.1314       0.
+                   19-        FORCE  *1               7               0               1.              *
+                   20-        *       0.              3709.76488      0.
+                   21-        FORCE  *1               8               0               1.              *
+                   22-        *       0.              3709.76488      0.
+                   23-        FORCE  *1               9               0               1.              *
+                   24-        *       0.              -81.958511482   0.
+                   25-        FORCE  *1               10              0               1.              *
+                   26-        *       0.              -6.72825876790-70.
+                   27-        FORCE  *1               11              0               1.              *
+                   28-        *       0.              40.979255568    0.
+                   29-        FORCE  *1               12              0               1.              *
+                   30-        *       0.              40.979255282    0.
+                   31-        FORCE  *1               17              0               1.              *
+                   32-        *       0.              2119.0152091    0.
+                   33-        FORCE  *1               18              0               1.              *
+                   34-        *       0.              1955.0981831    0.
+                   35-        FORCE  *1               19              0               1.              *
+                   36-        *       0.              4808.7634763    0.
+                   37-        FORCE  *1               26              0               1.              *
+                   38-        *       0.              2853.6652905    0.
+                   39-        FORCE  *1               27              0               1.              *
+                   40-        *       0.              2853.6652862    0.
+                   41-        GRID   *1               0               0.              0.              *
+                   42-        *       0.              0
+                   43-        GRID   *2               0               1.              0.              *
+                   44-        *       0.              0
+                   45-        GRID   *3               0               1.              1.              *
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     6
+                                                                                                                                    
+0                                                                                                                                   
+                                                  S O R T E D   B U L K   D A T A   E C H O                                         
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                   46-        *       0.              0
+                   47-        GRID   *4               0               0.              1.              *
+                   48-        *       0.              0
+                   49-        GRID   *5               0               .2              0.              *
+                   50-        *       1.              0
+                   51-        GRID   *6               0               1.              0.              *
+                   52-        *       1.              0
+                   53-        GRID   *7               0               1.              1.              *
+                   54-        *       1.              0
+                   55-        GRID   *8               0               .2              1.              *
+                   56-        *       1.              0
+                   57-        GRID   *9               0               2.              0.              *
+                   58-        *       0.              0
+                   59-        GRID   *10              0               3.              0.              *
+                   60-        *       0.              0
+                   61-        GRID   *11              0               3.              6.1230317691E-17*
+                   62-        *       1.              0
+                   63-        GRID   *12              0               2.2             6.1230317691E-17*
+                   64-        *       1.              0
+                   65-        GRID   *13              0               2.              -1.             *
+                   66-        *       1.2246063538E-160
+                   67-        GRID   *14              0               3.              -1.             *
+                   68-        *       1.2246063538E-160
+                   69-        GRID   *15              0               3.              -1.             *
+                   70-        *       1.              0
+                   71-        GRID   *16              0               2.2             -1.             *
+                   72-        *       1.              0
+                   73-        GRID   *17              0               2.6             6.1230317691E-17*
+                   74-        *       1.              0
+                   75-        GRID   *18              0               2.1718010902    3.0615158846E-17*
+                   76-        *       .5              0
+                   77-        GRID   *19              0               2.5             3.0615158846E-17*
+                   78-        *       .5              0
+                   79-        GRID   *20              0               3.              -.5             *
+                   80-        *       1.              0
+                   81-        GRID   *21              0               2.2             -.5             *
+                   82-        *       1.              0
+                   83-        GRID   *22              0               2.              -.5             *
+                   84-        *       6.1230317691E-170
+                   85-        GRID   *23              0               2.6             -1.             *
+                   86-        *       1.              0
+                   87-        GRID   *24              0               2.1718010902    -1.             *
+                   88-        *       .5              0
+                   89-        GRID   *25              0               2.5             -1.             *
+                   90-        *       .5              0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     7
+                                                                                                                                    
+0                                                                                                                                   
+                                                  S O R T E D   B U L K   D A T A   E C H O                                         
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                   91-        GRID   *26              0               2.5             0.              *
+                   92-        *       0.              0
+                   93-        GRID   *27              0               3.              3.0615158846E-17*
+                   94-        *       .5              0
+                   95-        GRID   *28              0               3.              -.5             *
+                   96-        *       6.1230317691E-170
+                   97-        GRID   *29              0               2.5             -1.             *
+                   98-        *       1.2246063538E-160
+                   99-        GRID   *30              0               3.              -1.             *
+                  100-        *       .5              0
+                  101-        MAT1   *1               50000000000.    17857142857.    .4              *
+                  102-        *       0.              0.              0.
+                  103-        PSOLID *1               1               0               2               *
+                  104-        *                       FULL
+                  105-        PSOLID *2               1               0               3               *
+                  106-        *                       FULL
+                  107-        SPC    *1               1               1               0.
+                  108-        SPC    *1               1               2               0.
+                  109-        SPC    *1               1               3               0.
+                  110-        SPC    *1               2               2               0.
+                  111-        SPC    *1               2               3               0.
+                  112-        SPC    *1               5               2               0.
+                  113-        SPC    *1               6               2               0.
+                  114-        SPC    *1               13              1               0.
+                  115-        SPC    *1               13              2               0.
+                  116-        SPC    *1               13              3               0.
+                  117-        SPC    *1               14              2               0.
+                  118-        SPC    *1               14              3               0.
+                  119-        SPC    *1               15              2               0.
+                  120-        SPC    *1               16              2               0.
+                  121-        SPC    *1               23              2               0.
+                  122-        SPC    *1               24              2               0.
+                  123-        SPC    *1               25              2               0.
+                  124-        SPC    *1               29              2               0.
+                  125-        SPC    *1               30              2               0.
+                              ENDDATA
+                        TOTAL COUNT= 126
+                              INPUT BULK DATA ENTRY COUNT = 131
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     8
+                                                                                                                                    
+0                                                                                                                                   
+                                        M O D E L   S U M M A R Y          BULK = 0
+                                   ENTRY NAME        NUMBER OF ENTRIES
+                                   ----------        -----------------
+                                       CPENTA                        4
+                                        FORCE                       13
+                                         GRID                       30
+                                         MAT1                        1
+                                       PSOLID                        2
+                                     REJ_BULK                        5
+                                          SPC                       19
+
+ ^^^     
+ ^^^ >>> IFP OPERATIONS COMPLETE <<< 
+ ^^^     
+ *** USER INFORMATION MESSAGE 4109 (OUTPX2)
+     THE LABEL IS XXXXXXXX FOR FORTRAN UNIT    12
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          7 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          8 RECORDS.)
+                (TOTAL DATA WRITTEN FOR LABEL =         17 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK GEOM1X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR GEOM168, TRL =
+                    101                 0                 0                 8                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS GEOM1   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         243 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         274 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK GEOM2X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR GEOM201, TRL =
+                    102                 0                 0               128                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS GEOM2   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          71 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         102 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK GEOM3X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR GEOM301, TRL =
+                    103                 0                 0                64                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS GEOM3   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          94 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         125 WORDS.)
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     9
+                                                                                                                                    
+0                                                                                                                                   
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK GEOM4X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR GEOM4705, TRL =
+                    104                 0                 0                 0               512                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS GEOM4   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          79 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         110 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK EPTX     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR EPT01, TRL =
+                    105                 0               256                 0                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS EPT     
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          17 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =          48 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK MPTS     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR MPTS, TRL =
+                    101             32768                 0                 0                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS MPT     
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          15 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =          46 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK CASESO   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR CASES, TRL =
+                    101                 1                 0              1000                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS CASECC  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =        1000 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          15 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =        1024 WORDS.)
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    10
+                                                                                                                                    
+0                                                                                                                                   
+ *** USER INFORMATION MESSAGE 7310 (VECPRN)
+     ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM WILL BE USED AS REFERENCE LOCATION.
+     RESULTANTS ABOUT ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM IN SUPERELEMENT OR MODULE
+     BASIC SYSTEM COORDINATES.
+0                                                  OLOAD    RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    0.000000E+00     ----          ----          ----       0.000000E+00  0.000000E+00                             
+               FY       ----       3.000000E+04     ----      -1.442927E+04     ----       4.596862E+04                             
+               FZ       ----          ----       0.000000E+00  0.000000E+00  0.000000E+00     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  0.000000E+00  3.000000E+04  0.000000E+00 -1.442927E+04  0.000000E+00  4.596862E+04
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    11
+                                                                                                                                    
+0                                                                                                                                   
+  
+ *** SYSTEM INFORMATION MESSAGE 4159 (DFMSA)
+     THE DECOMPOSITION OF KLL      YIELDS A MAXIMUM MATRIX-TO-FACTOR-DIAGONAL RATIO OF    2.306729E+01
+ ^^^     
+ *** USER INFORMATION MESSAGE 15201 (SUBDMAP SEKRRS)
+      Condition number of stiffness matrix = 8.062245E+03
+ ^^^     
+ *** USER INFORMATION MESSAGE 5293 (SSG3B)
+    FOR DATA BLOCK KLL     
+    LOAD SEQ. NO.             EPSILON              EXTERNAL WORK      EPSILONS LARGER THAN 0.001 ARE FLAGGED WITH ASTERISKS
+                1          8.3152779E-17          5.1365975E-03
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    12
+                                                                                                                                    
+0                                                                                                                                   
+ *** USER INFORMATION MESSAGE 7310 (VECPRN)
+     ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM WILL BE USED AS REFERENCE LOCATION.
+     RESULTANTS ABOUT ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM IN SUPERELEMENT OR MODULE
+     BASIC SYSTEM COORDINATES.
+0                                                  SPCFORCE RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    9.094947E-13     ----          ----          ----      -6.125751E-28 -5.002221E-12                             
+               FY       ----      -3.000000E+04     ----       1.442927E+04     ----      -4.596862E+04                             
+               FZ       ----          ----      -1.705303E-11  1.637090E-11  4.320100E-11     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  9.094947E-13 -3.000000E+04 -1.705303E-11  1.442927E+04  4.320100E-11 -4.596862E+04
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    13
+                                                                                                                                    
+0                                                                                                                                   
+ *** USER INFORMATION MESSAGE 7310 (VECPRN)
+     ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM WILL BE USED AS REFERENCE LOCATION.
+     RESULTANTS ABOUT ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM IN SUPERELEMENT OR MODULE
+     BASIC SYSTEM COORDINATES.
+0                                                  MPCFORCE RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    0.000000E+00     ----          ----          ----       0.000000E+00  0.000000E+00                             
+               FY       ----       0.000000E+00     ----       0.000000E+00     ----       0.000000E+00                             
+               FZ       ----          ----       0.000000E+00  0.000000E+00  0.000000E+00     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ *** USER WARNING MESSAGE 6418 (SDR2A)
+     THE BILIN OPTION FOR STRESSES OVERRIDES ALL OTHER OPTIONS IN STRAIN AND FORCE COMMANDS.
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OQG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OQG1, TRL =
+                    101                 0               240                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OQG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         240 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         419 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OQMG1    WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OQMG1, TRL =
+                    102                 0               240                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OQMG1   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         240 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         419 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OUG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OUG1, TRL =
+                    101                 0               240                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OUG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         240 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         419 WORDS.)
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    14
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                             D I S P L A C E M E N T   V E C T O R
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      0.0            0.0            0.0            0.0            0.0            0.0
+             2      G     -1.369759E-07   0.0            0.0            0.0            0.0            0.0
+             3      G     -1.369759E-07   3.424398E-07  -6.690044E-16   0.0            0.0            0.0
+             4      G      4.367831E-18   3.424398E-07  -7.705835E-16   0.0            0.0            0.0
+             5      G     -2.739519E-08   0.0           -1.369759E-07   0.0            0.0            0.0
+             6      G     -1.369759E-07   0.0           -1.369759E-07   0.0            0.0            0.0
+             7      G     -1.369759E-07   3.424398E-07  -1.369759E-07   0.0            0.0            0.0
+             8      G     -2.739519E-08   3.424398E-07  -1.369759E-07   0.0            0.0            0.0
+             9      G      2.365561E-17   3.424398E-07   2.027340E-16   0.0            0.0            0.0
+            10      G     -1.369759E-07   3.424398E-07   7.793858E-17   0.0            0.0            0.0
+            11      G     -1.369759E-07   3.424398E-07  -1.369759E-07   0.0            0.0            0.0
+            12      G     -2.739519E-08   3.424398E-07  -1.369759E-07   0.0            0.0            0.0
+            13      G      0.0            0.0            0.0            0.0            0.0            0.0
+            14      G     -1.369759E-07   0.0            0.0            0.0            0.0            0.0
+            15      G     -1.369759E-07   0.0           -1.369759E-07   0.0            0.0            0.0
+            16      G     -2.739519E-08   0.0           -1.369759E-07   0.0            0.0            0.0
+            17      G     -8.218556E-08   3.424398E-07  -1.369759E-07   0.0            0.0            0.0
+            18      G     -2.353261E-08   3.424398E-07  -6.848797E-08   0.0            0.0            0.0
+            19      G     -6.848797E-08   3.424398E-07  -6.848797E-08   0.0            0.0            0.0
+            20      G     -1.369759E-07   1.712199E-07  -1.369759E-07   0.0            0.0            0.0
+            21      G     -2.739519E-08   1.712199E-07  -1.369759E-07   0.0            0.0            0.0
+            22      G      2.799969E-17   1.712199E-07   2.877683E-17   0.0            0.0            0.0
+            23      G     -8.218556E-08   0.0           -1.369759E-07   0.0            0.0            0.0
+            24      G     -2.353261E-08   0.0           -6.848797E-08   0.0            0.0            0.0
+            25      G     -6.848797E-08   0.0           -6.848797E-08   0.0            0.0            0.0
+            26      G     -6.848797E-08   3.424398E-07   1.525123E-16   0.0            0.0            0.0
+            27      G     -1.369759E-07   3.424398E-07  -6.848797E-08   0.0            0.0            0.0
+            28      G     -1.369759E-07   1.712199E-07   4.381867E-18   0.0            0.0            0.0
+            29      G     -6.848797E-08   0.0            1.997350E-17   0.0            0.0            0.0
+            30      G     -1.369759E-07   0.0           -6.848797E-08   0.0            0.0            0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    15
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                                     L O A D   V E C T O R
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             3      G      0.0            3.995131E+03   0.0            0.0            0.0            0.0
+             4      G      0.0            3.995131E+03   0.0            0.0            0.0            0.0
+             7      G      0.0            3.709765E+03   0.0            0.0            0.0            0.0
+             8      G      0.0            3.709765E+03   0.0            0.0            0.0            0.0
+             9      G      0.0           -8.195851E+01   0.0            0.0            0.0            0.0
+            10      G      0.0           -6.728259E-07   0.0            0.0            0.0            0.0
+            11      G      0.0            4.097926E+01   0.0            0.0            0.0            0.0
+            12      G      0.0            4.097926E+01   0.0            0.0            0.0            0.0
+            17      G      0.0            2.119015E+03   0.0            0.0            0.0            0.0
+            18      G      0.0            1.955098E+03   0.0            0.0            0.0            0.0
+            19      G      0.0            4.808763E+03   0.0            0.0            0.0            0.0
+            26      G      0.0            2.853665E+03   0.0            0.0            0.0            0.0
+            27      G      0.0            2.853665E+03   0.0            0.0            0.0            0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    16
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                               F O R C E S   O F   S I N G L E - P O I N T   C O N S T R A I N T
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      5.911716E-12  -3.995131E+03   4.774847E-12   0.0            0.0            0.0
+             2      G      0.0           -3.995131E+03  -5.456968E-12   0.0            0.0            0.0
+             5      G      0.0           -3.709765E+03   0.0            0.0            0.0            0.0
+             6      G      0.0           -3.709765E+03   0.0            0.0            0.0            0.0
+            13      G     -5.002221E-12   8.195851E+01  -1.136868E-11   0.0            0.0            0.0
+            14      G      0.0            3.713922E-08  -5.002221E-12   0.0            0.0            0.0
+            15      G      0.0           -4.097926E+01   0.0            0.0            0.0            0.0
+            16      G      0.0           -4.097926E+01   0.0            0.0            0.0            0.0
+            23      G      0.0           -2.119015E+03   0.0            0.0            0.0            0.0
+            24      G      0.0           -1.955098E+03   0.0            0.0            0.0            0.0
+            25      G      0.0           -4.808763E+03   0.0            0.0            0.0            0.0
+            29      G      0.0           -2.853665E+03   0.0            0.0            0.0            0.0
+            30      G      0.0           -2.853665E+03   0.0            0.0            0.0            0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    17
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                      S T R A I N S   I N   P E N T A H E D R O N   S O L I D   E L E M E N T S   ( P E N T A )
+0                CORNER        ------CENTER AND CORNER POINT  STRAINS---------       DIR.  COSINES       MEAN                   
+  ELEMENT-ID    GRID-ID        NORMAL              SHEAR             PRINCIPAL       -A-  -B-  -C-     PRESSURE       VON MISES 
+0         1           0GRID CS  6 GP
+0                CENTER  X  -1.369759E-07  XY  -4.846715E-18   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   1.907779E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   1.689002E-16   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                     3  X  -1.369759E-07  XY   2.330786E-17   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   6.644894E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -3.580800E-16   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                     4  X  -1.369759E-07  XY   2.330786E-17   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   6.722224E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   3.115939E-16   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                     1  X  -1.369759E-07  XY   2.330781E-17   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -7.743715E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   3.593108E-16   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                     7  X  -1.369759E-07  XY  -3.407523E-17   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   6.700060E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -3.242854E-16   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                     8  X  -1.369759E-07  XY  -3.407524E-17   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   6.796723E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   5.128070E-16   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                     5  X  -1.369759E-07  XY  -3.407518E-17   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -7.669217E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   5.605239E-16   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0         2           0GRID CS 15 GP
+0                CENTER  X  -1.369759E-07  XY   1.024315E-16   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   3.822827E-17   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   2.372060E-17   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                    11  X  -1.369759E-07  XY  -1.517209E-16   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -3.324096E-17   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -2.955430E-18   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                    12  X  -1.369759E-07  XY   4.943206E-16   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   1.558685E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -1.611155E-16   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                     9  X  -1.369759E-07  XY   7.772408E-16   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -4.542494E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -1.710516E-16   C  -1.369759E-07  LZ-0.00 0.0  0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    18
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                      S T R A I N S   I N   P E N T A H E D R O N   S O L I D   E L E M E N T S   ( P E N T A )
+0                CORNER        ------CENTER AND CORNER POINT  STRAINS---------       DIR.  COSINES       MEAN                   
+  ELEMENT-ID    GRID-ID        NORMAL              SHEAR             PRINCIPAL       -A-  -B-  -C-     PRESSURE       VON MISES 
+0                    15  X  -1.369759E-07  XY  -5.423430E-17   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   1.165765E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   7.811638E-17   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                    16  X  -1.369759E-07  XY   1.401181E-16   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   7.507197E-17   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   6.174101E-17   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                    13  X  -1.369759E-07  XY   8.834317E-17   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -8.762664E-17   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -1.853030E-16   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0         3           0GRID CS  6 GP
+0                CENTER  X  -1.369759E-07  XY   2.944093E-18   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -1.906770E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -1.689009E-16   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                     1  X  -1.369759E-07  XY   3.044178E-17   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -6.690044E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   2.629465E-16   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                     2  X  -1.369759E-07  XY   3.044176E-17   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -6.690044E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -4.046638E-16   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                     3  X  -1.369759E-07  XY   3.044173E-17   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   7.660684E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -4.596590E-16   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                     5  X  -1.369759E-07  XY  -2.455354E-17   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -6.690647E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   4.452201E-16   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                     6  X  -1.369759E-07  XY  -2.455349E-17   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -6.690647E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -3.892928E-16   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                     7  X  -1.369759E-07  XY  -2.455352E-17   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   7.660081E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -4.442880E-16   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0         4           0GRID CS 15 GP
+0                CENTER  X  -1.369759E-07  XY  -7.285484E-17   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -3.482896E-17   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   2.890477E-17   C  -1.369759E-07  LZ-0.00 0.0  0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    19
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                      S T R A I N S   I N   P E N T A H E D R O N   S O L I D   E L E M E N T S   ( P E N T A )
+0                CORNER        ------CENTER AND CORNER POINT  STRAINS---------       DIR.  COSINES       MEAN                   
+  ELEMENT-ID    GRID-ID        NORMAL              SHEAR             PRINCIPAL       -A-  -B-  -C-     PRESSURE       VON MISES 
+0                     9  X  -1.369759E-07  XY   3.775888E-16   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -5.459763E-17   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -1.606737E-17   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                    10  X  -1.369759E-07  XY  -5.105904E-16   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -1.043253E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -1.564928E-16   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                    11  X  -1.369759E-07  XY  -5.311467E-16   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   3.461845E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -9.627149E-17   C  -1.369759E-07  LZ 0.00 0.0  0.0
+0                    13  X  -1.369759E-07  XY   8.834317E-17   A   3.424398E-07  LX 0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -8.762670E-17   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX   5.870503E-17   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                    14  X  -1.369759E-07  XY  -1.839643E-16   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ  -6.041119E-17   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -2.739098E-17   C  -1.369759E-07  LZ-0.00 0.0  0.0
+0                    15  X  -1.369759E-07  XY  -5.423441E-17   A   3.424398E-07  LX-0.00 0.0  0.0   -2.282932E-08    3.196105E-07
+                         Y   3.424398E-07  YZ   1.165765E-16   B  -1.369759E-07  LY 1.00 0.0  0.0
+                         Z  -1.369759E-07  ZX  -1.000940E-16   C  -1.369759E-07  LZ 0.00 0.0  0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    20
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                    S T R E S S E S   I N   P E N T A H E D R O N   S O L I D   E L E M E N T S   ( P E N T A )
+0                CORNER        ------CENTER AND CORNER POINT STRESSES---------       DIR.  COSINES       MEAN                   
+  ELEMENT-ID    GRID-ID        NORMAL              SHEAR             PRINCIPAL       -A-  -B-  -C-     PRESSURE       VON MISES 
+0         1           0GRID CS  6 GP
+0                CENTER  X   2.150884E-06  XY  -8.655009E-08   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   3.406747E-06   B   1.773399E-06  LY 1.00 0.0  0.0
+                         Z   1.395915E-06  ZX   3.016076E-06   C   1.773399E-06  LZ 0.00 0.0  0.0
+0                     3  X  -8.089839E-06  XY   4.162112E-07   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   1.186588E-05   B  -1.472045E-05  LY 1.00 0.0  0.0
+                         Z  -2.135107E-05  ZX  -6.394287E-06   C  -1.472045E-05  LZ 0.00 0.0  0.0
+0                     4  X  -1.002096E-05  XY   4.162112E-07   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   1.200397E-05   B  -1.713436E-05  LY 1.00 0.0  0.0
+                         Z  -2.424776E-05  ZX   5.564177E-06   C  -1.713436E-05  LZ 0.00 0.0  0.0
+0                     1  X  -1.041500E-05  XY   4.162129E-07   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -1.382806E-05   B  -1.762691E-05  LY 1.00 0.0  0.0
+                         Z  -2.483882E-05  ZX   6.416264E-06   C  -1.762691E-05  LZ-0.00 0.0  0.0
+0                     7  X   5.549820E-06  XY  -6.084892E-07   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   1.196439E-05   B   1.386728E-05  LY 1.00 0.0  0.0
+                         Z   2.218474E-05  ZX  -5.790808E-06   C   1.386728E-05  LZ 0.00 0.0  0.0
+0                     8  X   3.135920E-06  XY  -6.084847E-07   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   1.213700E-05   B   1.084990E-05  LY 1.00 0.0  0.0
+                         Z   1.856388E-05  ZX   9.157268E-06   C   1.084990E-05  LZ 0.00 0.0  0.0
+0                     5  X   2.741886E-06  XY  -6.084856E-07   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -1.369503E-05   B   1.035735E-05  LY 1.00 0.0  0.0
+                         Z   1.797282E-05  ZX   1.000936E-05   C   1.035735E-05  LZ-0.00 0.0  0.0
+0         2           0GRID CS 15 GP
+0                CENTER  X  -2.069359E-06  XY   1.829135E-06   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   6.826489E-07   B  -1.002511E-06  LY 1.00 0.0  0.0
+                         Z   6.433675E-08  ZX   4.235817E-07   C  -1.002511E-06  LZ 0.00 0.0  0.0
+0                    11  X   4.054527E-06  XY  -2.709299E-06   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -5.935854E-07   B   1.022753E-06  LY 1.00 0.0  0.0
+                         Z  -2.009023E-06  ZX  -5.278116E-08   C   1.022753E-06  LZ-0.00 0.0  0.0
+0                    12  X   1.091306E-06  XY   8.827144E-06   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   2.783365E-06   B  -3.722012E-06  LY 1.00 0.0  0.0
+                         Z  -8.535331E-06  ZX  -2.877061E-06   C  -3.722012E-06  LZ 0.00 0.0  0.0
+0                     9  X   1.764335E-05  XY   1.387931E-05   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -8.111609E-06   B   9.734591E-06  LY 1.00 0.0  0.0
+                         Z   1.825829E-06  ZX  -3.054491E-06   C   9.734591E-06  LZ-0.00 0.0  0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    21
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                    S T R E S S E S   I N   P E N T A H E D R O N   S O L I D   E L E M E N T S   ( P E N T A )
+0                CORNER        ------CENTER AND CORNER POINT STRESSES---------       DIR.  COSINES       MEAN                   
+  ELEMENT-ID    GRID-ID        NORMAL              SHEAR             PRINCIPAL       -A-  -B-  -C-     PRESSURE       VON MISES 
+0                    15  X  -8.481933E-06  XY  -9.684713E-07   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   2.081722E-06   B  -8.300633E-06  LY 1.00 0.0  0.0
+                         Z  -8.119336E-06  ZX   1.394933E-06   C  -8.300633E-06  LZ 0.00 0.0  0.0
+0                    16  X   2.429500E-06  XY   2.502109E-06   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   1.340570E-06   B   2.539144E-06  LY 1.00 0.0  0.0
+                         Z   2.648787E-06  ZX   1.102517E-06   C   2.539144E-06  LZ 0.00 0.0  0.0
+0                    13  X   8.008901E-06  XY   1.577557E-06   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -1.564761E-06   B   1.062782E-05  LY 1.00 0.0  0.0
+                         Z   1.324674E-05  ZX  -3.308978E-06   C   1.062782E-05  LZ-0.00 0.0  0.0
+0         3           0GRID CS  6 GP
+0                CENTER  X   1.660852E-06  XY   5.257244E-08   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -3.404946E-06   B   2.038340E-06  LY 1.00 0.0  0.0
+                         Z   2.415828E-06  ZX  -3.016087E-06   C   2.038340E-06  LZ-0.00 0.0  0.0
+0                     1  X  -1.040464E-05  XY   5.436018E-07   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -1.194651E-05   B  -1.678817E-05  LY 1.00 0.0  0.0
+                         Z  -2.317170E-05  ZX   4.695474E-06   C  -1.678817E-05  LZ-0.00 0.0  0.0
+0                     2  X  -9.526302E-06  XY   5.436018E-07   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -1.194651E-05   B  -1.569025E-05  LY 1.00 0.0  0.0
+                         Z  -2.185419E-05  ZX  -7.226139E-06   C  -1.569025E-05  LZ-0.00 0.0  0.0
+0                     3  X  -9.530611E-06  XY   5.436023E-07   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   1.367979E-05   B  -1.569563E-05  LY 1.00 0.0  0.0
+                         Z  -2.186065E-05  ZX  -8.208198E-06   C  -1.569563E-05  LZ 0.00 0.0  0.0
+0                     5  X   2.468893E-06  XY  -4.384568E-07   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -1.194758E-05   B   1.093248E-05  LY 1.00 0.0  0.0
+                         Z   1.939607E-05  ZX   7.950359E-06   C   1.093248E-05  LZ-0.00 0.0  0.0
+0                     6  X   3.566809E-06  XY  -4.384568E-07   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -1.194758E-05   B   1.230488E-05  LY 1.00 0.0  0.0
+                         Z   2.104295E-05  ZX  -6.951657E-06   C   1.230488E-05  LZ-0.00 0.0  0.0
+0                     7  X   3.562507E-06  XY  -4.384579E-07   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   1.367872E-05   B   1.229950E-05  LY 1.00 0.0  0.0
+                         Z   2.103650E-05  ZX  -7.933714E-06   C   1.229950E-05  LZ 0.00 0.0  0.0
+0         4           0GRID CS 15 GP
+0                CENTER  X  -1.646272E-06  XY  -1.300979E-06   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -6.219448E-07   B  -4.072272E-07  LY 1.00 0.0  0.0
+                         Z   8.318184E-07  ZX   5.161564E-07   C  -4.072272E-07  LZ-0.00 0.0  0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    22
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                    S T R E S S E S   I N   P E N T A H E D R O N   S O L I D   E L E M E N T S   ( P E N T A )
+0                CORNER        ------CENTER AND CORNER POINT STRESSES---------       DIR.  COSINES       MEAN                   
+  ELEMENT-ID    GRID-ID        NORMAL              SHEAR             PRINCIPAL       -A-  -B-  -C-     PRESSURE       VON MISES 
+0                     9  X   1.256645E-06  XY   6.742655E-06   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -9.749619E-07   B  -4.103275E-06  LY 1.00 0.0  0.0
+                         Z  -9.463198E-06  ZX  -2.869169E-07   C  -4.103275E-06  LZ-0.00 0.0  0.0
+0                    10  X   3.681300E-06  XY  -9.117681E-06   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -1.862947E-06   B  -1.387757E-06  LY 1.00 0.0  0.0
+                         Z  -6.456816E-06  ZX  -2.794516E-06   C  -1.387757E-06  LZ-0.00 0.0  0.0
+0                    11  X   1.635985E-05  XY  -9.484762E-06   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   6.181857E-06   B   9.354524E-06  LY 1.00 0.0  0.0
+                         Z   2.349203E-06  ZX  -1.719131E-06   C   9.354524E-06  LZ 0.00 0.0  0.0
+0                    13  X  -1.276298E-05  XY   1.577557E-06   A   1.712199E+04  LX 0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -1.564762E-06   B  -1.115861E-05  LY 1.00 0.0  0.0
+                         Z  -9.554253E-06  ZX   1.048305E-06   C  -1.115861E-05  LZ-0.00 0.0  0.0
+0                    14  X  -1.172779E-06  XY  -3.285078E-06   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ  -1.078771E-06   B  -1.059900E-06  LY 1.00 0.0  0.0
+                         Z  -9.470205E-07  ZX  -4.891264E-07   C  -1.059900E-06  LZ-0.00 0.0  0.0
+0                    15  X   6.762464E-06  XY  -9.684719E-07   A   1.712199E+04  LX-0.00 0.0  0.0   -5.707331E+03    1.712199E+04
+                         Y   1.712199E+04  YZ   2.081724E-06   B   7.610987E-06  LY 1.00 0.0  0.0
+                         Z   8.459510E-06  ZX  -1.787392E-06   C   7.610987E-06  LZ 0.00 0.0  0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    23
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+          1                  F-OF-SPC       5.911716E-12  -3.995131E+03   4.774847E-12   0.0            0.0            0.0
+          1             1    PENTA          6.615049E-07   3.995131E+03   6.573068E-07   0.0            0.0            0.0
+          1             3    PENTA         -6.615104E-07  -6.846664E-07  -6.573121E-07   0.0            0.0            0.0
+          1                  *TOTALS*       4.341826E-13  -5.968559E-13  -5.115908E-13   0.0            0.0            0.0
+0         2                  F-OF-SPC       0.0           -3.995131E+03  -5.456968E-12   0.0            0.0            0.0
+          2             3    PENTA         -5.684342E-13   3.995131E+03   5.343281E-12   0.0            0.0            0.0
+          2                  *TOTALS*      -5.684342E-13   4.547474E-13  -1.136868E-13   0.0            0.0            0.0
+0         3                  APP-LOAD       0.0            3.995131E+03   0.0            0.0            0.0            0.0
+          3             1    PENTA          6.957274E-07   8.870291E-07  -8.902157E-07   0.0            0.0            0.0
+          3             3    PENTA         -6.957288E-07  -3.995131E+03   8.902159E-07   0.0            0.0            0.0
+          3                  *TOTALS*      -1.362278E-12  -9.094947E-13   2.273737E-13   0.0            0.0            0.0
+0         4                  APP-LOAD       0.0            3.995131E+03   0.0            0.0            0.0            0.0
+          4             1    PENTA          3.410605E-13  -3.995131E+03  -2.273737E-13   0.0            0.0            0.0
+          4                  *TOTALS*       3.410605E-13   0.0           -2.273737E-13   0.0            0.0            0.0
+0         5                  F-OF-SPC       0.0           -3.709765E+03   0.0            0.0            0.0            0.0
+          5             1    PENTA         -6.933517E-07   3.709765E+03   8.749091E-07   0.0            0.0            0.0
+          5             3    PENTA          6.933517E-07   8.956365E-07  -8.749100E-07   0.0            0.0            0.0
+          5                  *TOTALS*      -4.837162E-14   6.821210E-13  -9.094947E-13   0.0            0.0            0.0
+0         6                  F-OF-SPC       0.0           -3.709765E+03   0.0            0.0            0.0            0.0
+          6             3    PENTA         -3.410605E-13   3.709765E+03  -5.684342E-14   0.0            0.0            0.0
+          6                  *TOTALS*      -3.410605E-13   4.547474E-13  -5.684342E-14   0.0            0.0            0.0
+0         7                  APP-LOAD       0.0            3.709765E+03   0.0            0.0            0.0            0.0
+          7             1    PENTA         -6.638866E-07  -6.859243E-07  -6.420003E-07   0.0            0.0            0.0
+          7             3    PENTA          6.638871E-07  -3.709765E+03   6.419998E-07   0.0            0.0            0.0
+          7                  *TOTALS*       5.628150E-13   4.547474E-13  -5.115908E-13   0.0            0.0            0.0
+0         8                  APP-LOAD       0.0            3.709765E+03   0.0            0.0            0.0            0.0
+          8             1    PENTA         -2.273737E-13  -3.709765E+03  -6.821210E-13   0.0            0.0            0.0
+          8                  *TOTALS*      -2.273737E-13  -4.547474E-13  -6.821210E-13   0.0            0.0            0.0
+0         9                  APP-LOAD       0.0           -8.195851E+01   0.0            0.0            0.0            0.0
+          9             2    PENTA         -3.265517E-07   8.195851E+01  -4.985623E-08   0.0            0.0            0.0
+          9             4    PENTA          3.265526E-07   2.863554E-07   4.985648E-08   0.0            0.0            0.0
+          9                  *TOTALS*       8.846087E-13  -2.330580E-12   2.557954E-13   0.0            0.0            0.0
+0        10                  APP-LOAD       0.0           -6.728259E-07   0.0            0.0            0.0            0.0
+         10             4    PENTA          1.250555E-12   6.728265E-07  -4.547474E-13   0.0            0.0            0.0
+         10                  *TOTALS*       1.250555E-12   6.252783E-13  -4.547474E-13   0.0            0.0            0.0
+0        11                  APP-LOAD       0.0            4.097926E+01   0.0            0.0            0.0            0.0
+         11             2    PENTA         -4.099348E-07  -4.097926E+01   1.597039E-08   0.0            0.0            0.0
+         11             4    PENTA          4.099377E-07  -4.879431E-07  -1.596959E-08   0.0            0.0            0.0
+         11                  *TOTALS*       2.872640E-12  -1.463718E-12   7.958079E-13   0.0            0.0            0.0
+0        12                  APP-LOAD       0.0            4.097926E+01   0.0            0.0            0.0            0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    24
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+         12             2    PENTA          9.094947E-13  -4.097926E+01   0.0            0.0            0.0            0.0
+         12                  *TOTALS*       9.094947E-13   3.069545E-12   0.0            0.0            0.0            0.0
+0        13                  F-OF-SPC      -5.002221E-12   8.195851E+01  -1.136868E-11   0.0            0.0            0.0
+         13             2    PENTA         -2.639273E-07  -8.195851E+01   1.295547E-08   0.0            0.0            0.0
+         13             4    PENTA          2.639321E-07   6.644342E-07  -1.294464E-08   0.0            0.0            0.0
+         13                  *TOTALS*      -2.273737E-13  -1.818989E-12  -5.400125E-13   0.0            0.0            0.0
+0        14                  F-OF-SPC       0.0            3.713922E-08  -5.002221E-12   0.0            0.0            0.0
+         14             4    PENTA         -7.958079E-13  -3.714098E-08   6.139089E-12   0.0            0.0            0.0
+         14                  *TOTALS*      -7.958079E-13  -1.762146E-12   1.136868E-12   0.0            0.0            0.0
+0        15                  F-OF-SPC       0.0           -4.097926E+01   0.0            0.0            0.0            0.0
+         15             2    PENTA         -2.755993E-07   4.097926E+01  -7.973426E-10   0.0            0.0            0.0
+         15             4    PENTA          2.756034E-07  -6.156717E-07   7.975132E-10   0.0            0.0            0.0
+         15                  *TOTALS*       4.035883E-12   1.705303E-13   1.705303E-13   0.0            0.0            0.0
+0        16                  F-OF-SPC       0.0           -4.097926E+01   0.0            0.0            0.0            0.0
+         16             2    PENTA         -2.955858E-12   4.097926E+01   1.818989E-12   0.0            0.0            0.0
+         16                  *TOTALS*      -2.955858E-12   9.663381E-13   1.818989E-12   0.0            0.0            0.0
+0        17                  APP-LOAD       0.0            2.119015E+03   0.0            0.0            0.0            0.0
+         17             2    PENTA         -5.002221E-12  -2.119015E+03   6.821210E-13   0.0            0.0            0.0
+         17                  *TOTALS*      -5.002221E-12   2.728484E-12   6.821210E-13   0.0            0.0            0.0
+0        18                  APP-LOAD       0.0            1.955098E+03   0.0            0.0            0.0            0.0
+         18             2    PENTA          2.046363E-12  -1.955098E+03  -1.136868E-12   0.0            0.0            0.0
+         18                  *TOTALS*       2.046363E-12  -2.273737E-12  -1.136868E-12   0.0            0.0            0.0
+0        19                  APP-LOAD       0.0            4.808763E+03   0.0            0.0            0.0            0.0
+         19             2    PENTA         -6.042480E-07  -1.955098E+03   1.228200E-07   0.0            0.0            0.0
+         19             4    PENTA          6.042483E-07  -2.853665E+03  -1.228207E-07   0.0            0.0            0.0
+         19                  *TOTALS*       2.273737E-13   0.0           -6.821210E-13   0.0            0.0            0.0
+0        20             2    PENTA          5.623158E-07  -5.115966E-07  -2.384422E-07   0.0            0.0            0.0
+         20             4    PENTA         -5.623244E-07   5.115930E-07   2.384425E-07   0.0            0.0            0.0
+         20                  *TOTALS*      -8.583356E-12  -3.524292E-12   2.273737E-13   0.0            0.0            0.0
+0        21             2    PENTA         -9.094947E-13   2.273737E-13  -1.364242E-12   0.0            0.0            0.0
+         21                  *TOTALS*      -9.094947E-13   2.273737E-13  -1.364242E-12   0.0            0.0            0.0
+0        22             2    PENTA          4.580939E-07   1.278825E-07  -1.955327E-07   0.0            0.0            0.0
+         22             4    PENTA         -4.580925E-07  -1.278813E-07   1.955314E-07   0.0            0.0            0.0
+         22                  *TOTALS*       1.421085E-12   1.136868E-12  -1.307399E-12   0.0            0.0            0.0
+0        23                  F-OF-SPC       0.0           -2.119015E+03   0.0            0.0            0.0            0.0
+         23             2    PENTA          2.273737E-13   2.119015E+03   1.818989E-12   0.0            0.0            0.0
+         23                  *TOTALS*       2.273737E-13   9.094947E-13   1.818989E-12   0.0            0.0            0.0
+0        24                  F-OF-SPC       0.0           -1.955098E+03   0.0            0.0            0.0            0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    25
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+         24             2    PENTA          3.183231E-12   1.955098E+03  -1.364242E-12   0.0            0.0            0.0
+         24                  *TOTALS*       3.183231E-12   0.0           -1.364242E-12   0.0            0.0            0.0
+0        25                  F-OF-SPC       0.0           -4.808763E+03   0.0            0.0            0.0            0.0
+         25             2    PENTA          8.598422E-07   1.955098E+03   3.328923E-07   0.0            0.0            0.0
+         25             4    PENTA         -8.598436E-07   2.853665E+03  -3.328892E-07   0.0            0.0            0.0
+         25                  *TOTALS*      -1.364242E-12  -1.364242E-12   3.183231E-12   0.0            0.0            0.0
+0        26                  APP-LOAD       0.0            2.853665E+03   0.0            0.0            0.0            0.0
+         26             4    PENTA         -1.136868E-13  -2.853665E+03   2.273737E-12   0.0            0.0            0.0
+         26                  *TOTALS*      -1.136868E-13  -4.092726E-12   2.273737E-12   0.0            0.0            0.0
+0        27                  APP-LOAD       0.0            2.853665E+03   0.0            0.0            0.0            0.0
+         27             4    PENTA          4.547474E-13  -2.853665E+03   1.193712E-12   0.0            0.0            0.0
+         27                  *TOTALS*       4.547474E-13   1.364242E-12   1.193712E-12   0.0            0.0            0.0
+0        28             4    PENTA         -2.273737E-13   1.364242E-12  -4.547474E-13   0.0            0.0            0.0
+         28                  *TOTALS*      -2.273737E-13   1.364242E-12  -4.547474E-13   0.0            0.0            0.0
+0        29                  F-OF-SPC       0.0           -2.853665E+03   0.0            0.0            0.0            0.0
+         29             4    PENTA         -1.136868E-12   2.853665E+03   0.0            0.0            0.0            0.0
+         29                  *TOTALS*      -1.136868E-12  -9.094947E-13   0.0            0.0            0.0            0.0
+0        30                  F-OF-SPC       0.0           -2.853665E+03   0.0            0.0            0.0            0.0
+         30             4    PENTA         -4.547474E-13   2.853665E+03   1.421085E-12   0.0            0.0            0.0
+         30                  *TOTALS*      -4.547474E-13   9.094947E-13   1.421085E-12   0.0            0.0            0.0
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OGPFB1   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OGPFB1, TRL =
+                    101                 0                 1                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OGPFB1  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         980 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =        1154 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OES1X1   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OES1X1, TRL =
+                    101                63                 6                20                25                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OES1X1  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         604 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         783 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OSTR1X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OSTR1X, TRL =
+                    101                63                 6                20                25                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OSTR1X  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         604 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         783 WORDS.)
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    26
+                                                                                                                                    
+0                                                                                                                                   
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OPG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OPG, TRL =
+                    101                 0               240                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OPG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         240 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         419 WORDS.)
+ *** USER INFORMATION MESSAGE 4110 (OUTPX2)
+                                 END-OF-DATA SIMULATION ON FORTRAN UNIT    12
+                                 (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =      1 WORDS.)
+                                       (NUMBER OF FORTRAN RECORDS WRITTEN =      1 RECORDS.)
+                                       (TOTAL DATA WRITTEN FOR EOF MARKER =      1 WORDS.)
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    27
+                                                                                                                                    
+0                                                                                                                                   
+ * * * *  D B D I C T   P R I N T  * * * *      SUBDMAP = PRTSUM  ,  DMAP STATEMENT NO.     75
+
+
+
+0                                   * * * *  A N A L Y S I S  S U M M A R Y  T A B L E  * * * *
+0 SEID  PEID PROJ VERS APRCH      SEMG SEMR SEKR SELG SELR MODES DYNRED SOLLIN SOLNL LOOPID DESIGN CYCLE SENSITIVITY
+ -------------------------------------------------------------------------------------------------------------------
+     0     0    1    1 '        '    T    T    T    T    T     F      F      T     F     -1            0           F
+0SEID = SUPERELEMENT ID.
+ PEID = PRIMARY SUPERELEMENT ID OF IMAGE SUPERELEMENT.
+ PROJ = PROJECT ID NUMBER.
+ VERS = VERSION ID.
+ APRCH = BLANK FOR STRUCTURAL ANALYSIS.  HEAT FOR HEAT TRANSFER ANALYSIS.
+ SEMG = STIFFNESS AND MASS MATRIX GENERATION STEP.
+ SEMR = MASS MATRIX REDUCTION STEP (INCLUDES EIGENVALUE SOLUTION FOR MODES).
+ SEKR = STIFFNESS MATRIX REDUCTION STEP.
+ SELG = LOAD MATRIX GENERATION STEP.
+ SELR = LOAD MATRIX REDUCTION STEP. 
+ MODES = T (TRUE) IF NORMAL MODES OR BUCKLING MODES CALCULATED.
+ DYNRED = T (TRUE) MEANS GENERALIZED DYNAMIC AND/OR COMPONENT MODE REDUCTION PERFORMED.
+ SOLLIN = T (TRUE) IF LINEAR SOLUTION EXISTS IN DATABASE.
+ LOOPID = THE LAST LOOPID VALUE USED IN THE NONLINEAR ANALYSIS.  USEFUL FOR RESTARTS.
+ SOLNL = T (TRUE) IF NONLINEAR SOLUTION EXISTS IN DATABASE.
+ DESIGN CYCLE = THE LAST DESIGN CYCLE (ONLY VALID IN OPTIMIZATION).
+ SENSITIVITY = SENSITIVITY MATRIX GENERATION FLAG.
+ 
+ No PARAM values were set in the Control File.
+ 
+1                                        * * * END OF JOB * * *
+ 
+ 
+ No Symbolic Replacement variables or values were specified.
+

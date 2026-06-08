@@ -61,9 +61,6 @@ class F06Query:
             return self._read_mystran(lines)
         elif len(lines) > 17 and "* *      M S C   N a s t r a n      * *" in lines[17]:
             return self._read_msc(lines)
-            #todo
-            print(f"ERROR reading {self.file_name}: MSC Nastran format identified but not yet supported by F06Query.")
-            sys.exit(1)
         else:
             print(f"ERROR reading {self.file_name}: Can't identify format.")
             sys.exit(1)
@@ -225,50 +222,27 @@ class F06Query:
                         while True:
                             line = get_next_line()
                             if "APPLIED FORCE" in line:
-                                applied_node = self.ensure_path(gid_node, ["APPLIED"])
-                                self.set(applied_node, "TX", self.number(line, 26, 13))
-                                self.set(applied_node, "TY", self.number(line, 40, 13))
-                                self.set(applied_node, "TZ", self.number(line, 54, 13))
-                                self.set(applied_node, "RX", self.number(line, 68, 13))
-                                self.set(applied_node, "RY", self.number(line, 82, 13))
-                                self.set(applied_node, "RZ", self.number(line, 96, 13))
+                                force_node = self.ensure_path(gid_node, ["APPLIED"])
                             elif "SPC FORCE" in line:
-                                spc_node = self.ensure_path(gid_node, ["SPC"])
-                                self.set(spc_node, "TX", self.number(line, 26, 13))
-                                self.set(spc_node, "TY", self.number(line, 40, 13))
-                                self.set(spc_node, "TZ", self.number(line, 54, 13))
-                                self.set(spc_node, "RX", self.number(line, 68, 13))
-                                self.set(spc_node, "RY", self.number(line, 82, 13))
-                                self.set(spc_node, "RZ", self.number(line, 96, 13))
+                                force_node = self.ensure_path(gid_node, ["SPC"])
                             elif "MPC FORCE" in line:
-                                mpc_node = self.ensure_path(gid_node, ["MPC"])
-                                self.set(mpc_node, "TX", self.number(line, 26, 13))
-                                self.set(mpc_node, "TY", self.number(line, 40, 13))
-                                self.set(mpc_node, "TZ", self.number(line, 54, 13))
-                                self.set(mpc_node, "RX", self.number(line, 68, 13))
-                                self.set(mpc_node, "RY", self.number(line, 82, 13))
-                                self.set(mpc_node, "RZ", self.number(line, 96, 13))
+                                force_node = self.ensure_path(gid_node, ["MPC"])
                             elif "INERTIA FORCE" in line:
-                                inertia_node = self.ensure_path(gid_node, ["INERTIA"])
-                                self.set(inertia_node, "TX", self.number(line, 26, 13))
-                                self.set(inertia_node, "TY", self.number(line, 40, 13))
-                                self.set(inertia_node, "TZ", self.number(line, 54, 13))
-                                self.set(inertia_node, "RX", self.number(line, 68, 13))
-                                self.set(inertia_node, "RY", self.number(line, 82, 13))
-                                self.set(inertia_node, "RZ", self.number(line, 96, 13))
+                                force_node = self.ensure_path(gid_node, ["INERTIA"])
                             elif "ELEM" in line:
                                 eid = int(self.number(line, 17, 8))
                                 eids_node = self.ensure_path(gid_node, ["EID"])
-                                eid_node = self.ensure_path(eids_node, [str(eid)])
-                                self.set(eid_node, "TX", self.number(line, 26, 13))
-                                self.set(eid_node, "TY", self.number(line, 40, 13))
-                                self.set(eid_node, "TZ", self.number(line, 54, 13))
-                                self.set(eid_node, "RX", self.number(line, 68, 13))
-                                self.set(eid_node, "RY", self.number(line, 82, 13))
-                                self.set(eid_node, "RZ", self.number(line, 96, 13))
+                                force_node = self.ensure_path(eids_node, [str(eid)])
                             else:
                                 # End of sub-block
                                 break
+                            self.set(force_node, "TX", self.number(line, 26, 13))
+                            self.set(force_node, "TY", self.number(line, 40, 13))
+                            self.set(force_node, "TZ", self.number(line, 54, 13))
+                            self.set(force_node, "RX", self.number(line, 68, 13))
+                            self.set(force_node, "RY", self.number(line, 82, 13))
+                            self.set(force_node, "RZ", self.number(line, 96, 13))
+
                     elif line.startswith(" TOTALS"):
                         continue
                     elif line.startswith(" (should all be 0)"):
@@ -643,6 +617,7 @@ class F06Query:
                 if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                 or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
                 or "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
+                    thin_k_type = "Q U A D 4 K" in line or "T R I A 3 K" in line
                     eids_node = self.ensure_path(root, prefix + ["SHELLFORCES","EID"])
                     get_next_line()
                     get_next_line()
@@ -674,8 +649,9 @@ class F06Query:
                         self.set(corner_node, "MXX", self.number(line, 68, 13))
                         self.set(corner_node, "MYY", self.number(line, 82, 13))
                         self.set(corner_node, "MXY", self.number(line, 96, 13))
-                        self.set(corner_node, "QX", self.number(line, 110, 13))
-                        self.set(corner_node, "QY", self.number(line, 124, 13))
+                        if not thin_k_type:
+                            self.set(corner_node, "QX", self.number(line, 110, 13))
+                            self.set(corner_node, "QY", self.number(line, 124, 13))
 
                 if "F O R   E L E M E N T   T Y P E   B U S H" in line:
                     eids_node = self.ensure_path(root, prefix + ["BUSHFORCES","EID"])
@@ -819,47 +795,213 @@ class F06Query:
         def peek_line_delta(delta):
             return lines[line_no - 1 + delta]
 
-        def subcase_mode():
-            # Determine the subcase and mode that the block we're at belongs to.
-            subcase = 1 # Defualt is 1 if no subcase is specified.
+        def subcase_mode(mode=None):
+            # Determine the subcase that the block we're at belongs to.
+            # Search back up to 4 lines for a line with "SUBCASE" at column 110 (1-based).
+            subcase = 1  # Default is 1 if no subcase is specified.
             delta = -2
-            while delta >=-3:
+            while delta >= -4:
                 line = peek_line_delta(delta)
-                if line[109:109+7] == "SUBCASE":
+                if len(line) > 116 and line[109:116] == "SUBCASE":
                     subcase = int(self.number(line, 118, 8))
                     break
-                delta -= 1        
-            return ["SC", str(subcase)]
-            # Todo For now we can't do mode. But it'll probably be by counting somehow
-            # because it's not explicitly given above the block header except for
-            # eigenvector blocks.
-      
+                delta -= 1
+            if mode is None:
+                return ["SC", str(subcase)]
+            else:
+                return ["SC", str(subcase), "MODE", str(mode)]
+
+        def is_mode_block():
+            # Returns True if the current block header is preceded by "EIGENVALUE = ..."
+            # within the last 3 lines, indicating it belongs to an eigenvector mode and
+            # should NOT be stored as a regular subcase result.
+            # delta=-1: EIGENVALUE immediately precedes the header (e.g. SPCFORCES)
+            # delta=-2: EIGENVALUE is 2 lines back with CYCLES line in between (e.g. element strain energies)
+            # delta=-2: EIGENVALUE is 2 lines back with blank line in between (e.g. QUAD4 forces)
+            # delta=-3: EIGENVALUE is 3 lines back with CYCLES + MODE lines in between (e.g. GPFORCE)
+            for delta in range(-1, -4, -1):
+                idx = line_no - 1 + delta
+                if idx < 0:
+                    break
+                if lines[idx].startswith("      EIGENVALUE = "):
+                    return True
+            return False
+
+        def is_data_line(line):
+            # Data lines start with a space then a positive integer GID/mode number.
+            return len(line) >= 14 and line[0] == " " and line[0:14].strip().isdigit()
+
+        def read_gid_block(gids_node):
+            # Skip the blank line and "POINT ID.   TYPE ..." column header that
+            # follow a displacement/load/SPC-force block header.
+            get_next_line()  # blank
+            get_next_line()  # "POINT ID.   TYPE   T1 ..." header
+            while True:
+                line = get_next_line()
+                if is_data_line(line):
+                    gid = int(self.number(line, 7, 8))
+                    gid_node = self.ensure_path(gids_node, [str(gid)])
+                    self.set(gid_node, "TX", self.number(line, 27, 13))
+                    self.set(gid_node, "TY", self.number(line, 42, 13))
+                    self.set(gid_node, "TZ", self.number(line, 57, 13))
+                    self.set(gid_node, "RX", self.number(line, 72, 13))
+                    self.set(gid_node, "RY", self.number(line, 87, 13))
+                    self.set(gid_node, "RZ", self.number(line, 102, 13))
+                else:
+                    # End of block for this page (page break, blank, or other header).
+                    break
+
+        def read_gpforce_block(gids_node):
+            # Skip blank line and "POINT-ID    ELEMENT-ID     SOURCE ..." column header.
+            get_next_line()  # blank
+            get_next_line()  # "POINT-ID    ELEMENT-ID ..." header
+            while True:
+                line = get_next_line()
+                if len(line) < 43 or line[0] == "1":
+                    # Page break or too-short line — end of block.
+                    break
+                if line.startswith(" ***"):
+                    # Something like " *** USER INFORMATION MESSAGE 4114 (OUTPX2)"
+                    # Which is followed by more text. Abandon the block becuase
+                    # it's hard to know if/how to find the end of it to restart.
+                    break
+                gid_field = line[1:13].strip()
+                eid_field = line[13:27].strip()
+                src = line[27:42].strip()
+                if src == "":
+                    # Blank source — not a data row.
+                    break
+                if src == "*TOTALS*":
+                    # Balance check row — skip.
+                    continue
+                gid_node = self.ensure_path(gids_node, [gid_field])
+                force_node = None
+                if src == "F-OF-SPC":
+                    force_node = self.ensure_path(gid_node, ["SPC"])
+                elif src == "APP-LOAD":
+                    force_node = self.ensure_path(gid_node, ["APPLIED"])
+                elif eid_field.isdigit():
+                    # Element contribution row (e.g. "BAR", "QUAD4", etc.)
+                    eids_node = self.ensure_path(gid_node, ["EID"])
+                    force_node = self.ensure_path(eids_node, [eid_field])
+                if force_node is not None:
+                    self.set(force_node, "TX", self.number(line, 44, 13))
+                    self.set(force_node, "TY", self.number(line, 59, 13))
+                    self.set(force_node, "TZ", self.number(line, 74, 13))
+                    self.set(force_node, "RX", self.number(line, 89, 13))
+                    self.set(force_node, "RY", self.number(line, 104, 13))
+                    self.set(force_node, "RZ", self.number(line, 119, 13))
+
         while line_no < len(lines):
             line = get_next_line()
-            
+
             if "D I S P L A C E M E N T   V E C T O R" in line:
-                if "D I S P L A C E M E N T   V E C T O R" in line:     block_name = "DISPLACEMENTS"
                 prefix = subcase_mode()
-                gids_node = self.ensure_path(root, prefix + [block_name, "GID"])
+                gids_node = self.ensure_path(root, prefix + ["DISPLACEMENTS", "GID"])
+                read_gid_block(gids_node)
+
+            elif "R E A L   E I G E N V E C T O R   N O ." in line:
+                # Extract mode number from the header line itself.
+                mode = int(self.number(line, 84, 8))
+                # Subcase comes from the label line two lines back.
+                prefix = subcase_mode(mode=mode)
+                gids_node = self.ensure_path(root, prefix + ["EIGENVECTOR", "GID"])
+                read_gid_block(gids_node)
+
+            elif "F O R C E S   O F   S I N G L E - P O I N T   C O N S T R A I N T" in line:
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                gids_node = self.ensure_path(root, prefix + ["SPCFORCES", "GID"])
+                read_gid_block(gids_node)
+
+            elif "L O A D   V E C T O R" in line:
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                gids_node = self.ensure_path(root, prefix + ["APPLIEDFORCES", "GID"])
+                read_gid_block(gids_node)
+
+            elif "G R I D   P O I N T   F O R C E   B A L A N C E" in line:
+                prefix = subcase_mode()
+                if is_mode_block():
+                    # GPFORCE in a mode lists the mode number before the header, unlike most of the other blocks.
+                    prev_line = peek_line_delta(-1)
+                    if len(line) < 19 + 4 or prev_line[19:19+4] != "MODE":
+                        print(f'ERROR reading {self.file_name}: "MODE" expected on line:')
+                        print(f"{line}")
+                        sys.exit(1)
+                    mode = int(self.number(prev_line, 32, 8))
+                    prefix = prefix + ["MODE", str(mode)]
+                gids_node = self.ensure_path(root, prefix + ["GPFORCE", "GID"])
+                read_gpforce_block(gids_node)
+
+            if "S T R E S S E S   I N   B A R   E L E M E N T S" in line:
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                eids_node = self.ensure_path(root, prefix + ["BARSTRESSES","EID"])
                 get_next_line()
                 get_next_line()
-                had_blank_line = False
                 while True:
                     line = get_next_line()
-                    if len(line) >= 14 and line[0] == " " and line[0:14].strip().isdigit():
-                        # This line has data.
-                        had_blank_line = False
-                        gid = int(self.number(line, 7, 8))
-                        gid_node = self.ensure_path(gids_node, [str(gid)])
-                        self.set(gid_node, "TX", self.number(line, 27, 13))
-                        self.set(gid_node, "TY", self.number(line, 42, 13))
-                        self.set(gid_node, "TZ", self.number(line, 57, 13))
-                        self.set(gid_node, "RX", self.number(line, 72, 13))
-                        self.set(gid_node, "RY", self.number(line, 87, 13))
-                        self.set(gid_node, "RZ", self.number(line, 102, 13))
-                    else:
-                        # End of block for this page.
+                    if line[0] == "1":
                         break
+                    if line.startswith(" ***"):
+                        break
+                    eid = int(self.number(line, 2, 8))
+                    eid_node = self.ensure_path(eids_node, [str(eid)])
+                    self.set(eid_node, "SA1", self.number(line, 13, 13))
+                    self.set(eid_node, "SA2", self.number(line, 28, 13))
+                    self.set(eid_node, "SA3", self.number(line, 43, 13))
+                    self.set(eid_node, "SA4", self.number(line, 58, 13))
+                    self.set(eid_node, "AXIAL", self.number(line, 73, 13))
+                    line = get_next_line()
+                    self.set(eid_node, "SB1", self.number(line, 13, 13))
+                    self.set(eid_node, "SB2", self.number(line, 28, 13))
+                    self.set(eid_node, "SB3", self.number(line, 43, 13))
+                    self.set(eid_node, "SB4", self.number(line, 58, 13))
+
+            if "F O R C E S   I N   B A R   E L E M E N T S" in line:
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                eids_node = self.ensure_path(root, prefix + ["BARFORCES","EID"])
+                get_next_line()
+                get_next_line()
+                while True:
+                    line = get_next_line()
+                    if line[0] == "1":
+                        break
+                    if line.startswith(" ***"):
+                        break
+                    eid = int(self.number(line, 6, 8))
+                    eid_node = self.ensure_path(eids_node, [str(eid)])
+                    self.set(eid_node, "MA1", self.number(line, 18, 13))
+                    self.set(eid_node, "MA2", self.number(line, 32, 13))
+                    self.set(eid_node, "MB1", self.number(line, 47, 13))
+                    self.set(eid_node, "MB2", self.number(line, 61, 13))
+                    self.set(eid_node, "S1", self.number(line, 76, 13))
+                    self.set(eid_node, "S2", self.number(line, 90, 13))
+                    self.set(eid_node, "AXIAL", self.number(line, 105, 13))
+                    self.set(eid_node, "TORQUE", self.number(line, 120, 13))
+
+            elif "R E A L   E I G E N V A L U E S" in line:
+                # Eigenvalue summary table (not preceded by "EIGENVALUE =" line).
+                prefix = subcase_mode()
+                get_next_line()  # "MODE    EXTRACTION      EIGENVALUE ..." header
+                get_next_line()  # "NO.       ORDER ..." continuation header
+                modes_node = self.ensure_path(root, prefix + ["REALEIGENVALUES", "MODE"])
+                while True:
+                    line = get_next_line()
+                    if is_data_line(line):
+                        mode = int(self.number(line, 2, 8))
+                        mode_node = self.ensure_path(modes_node, [str(mode)])
+                        self.set(mode_node, "EIGENVALUE", self.number(line, 28, 12))
+                        self.set(mode_node, "CYCLES",     self.number(line, 68, 12))
+                    else:
+                        break
+
 
         return root
 

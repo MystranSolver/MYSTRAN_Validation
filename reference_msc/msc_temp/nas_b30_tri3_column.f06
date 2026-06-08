@@ -1,0 +1,1872 @@
+1
+ 
+ 
+ 
+ 
+                      Warning: This computer program is protected by copyright law and international treaties.       
+                  Unauthorized use, reproduction or distribution of this computer program, or any portion of it, may 
+                                          result in severe civil and criminal penalties.                             
+                         Copyright (C) 2024 Hexagon AB and/or its subsidiaries. All rights reserved.                 
+ 
+ 
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * *                                 * *
+                                              * *           Hexagon AB            * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *      M S C   N a s t r a n      * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *     Version 2024.2-af13cbfd     * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *          NOV 21, 2024           * *
+                                              * *                                 * *
+                                              * *              Intel              * *
+                                              * *MODEL Intel(R) Xeon(R) W-2223 CP * *
+                                              * *     Windows 10 Pro 6.2 9200     * *
+                                              * *        Compiled for 8664        * *
+                                              * *                                 * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+1News file
+  
+               Welcome to MSC Nastran 2024.2
+  
+   MSC Nastran brings powerful new features and enhancements for engineering
+   solutions in several releases through the year. Key enhancements in
+   Version 2024.2 are summarized below. Addtional details can be found in
+   the MSC Nastran Version 2024.2 Release Guide.
+  
+     MSC Nastran 2024.2 Features and Enhancements
+  
+     High Performance Computing (HPC) for NVH
+     - Improved performance for ACMS, especially for large solid models
+     - Improved performance for FASTFR, particularly when structural
+       damping is present
+     - General performance improvement for high frequency acoustics
+     - Improved diagnostics for linear solution available in LOG file
+       Information includes solver selection and memory use
+  
+     Topology Optimization
+     - SOL 200 NEO Topology Optimization for generative design with support for
+       manufacturing constraints. Optimized CAD geometry and mesh output for
+       every design cycle.
+  
+     High Performance SOL 400 (NLPERF)
+     - Support Lagrange Multiplier for MPC and Rigid Elements
+     - Controls distributed surface load computation for shell elements with
+       offsets and the use of an additional enhancement for computing the
+       average nodal normal vector
+     - GPFORCE and ESE can be requested in ANALYSIS=NLSTAT
+     - OUTCTRL={STD,SOLUTION,INTERM} keyword in NLOPRM case control statement is
+       available
+  
+     Linear
+     - Global-Local analysis in SOL 101 and 103. Creates a local model based on
+       a user-provided definition (CARVE) and replaces the rest of the model
+       with an external superelement. Allows for detailed local studies without
+       having to solve the entire model every time.
+     - Multiple Output requests of the same result item in linear solutions
+       (SOL 101, 103, 108, 109, 111, 112) through the use of repeated output
+       request subcase, REPCASE.
+  
+     NVH (Vibroacoustics)
+     Automated skinning of solid elements free surfaces
+     - Identify residual structure solid elements' exposed surfaces, and create
+       required triangular or quadilateral shell elements on top of it
+     - Stress and strain data recovery available for skinned shell elements
+     - Supported in Linear solution sequences
+     Acoustic Fluid Grid Participation Factors from fluid skin grids in touch
+       with either structure wetted surface or trim components
+1    Mass matrix support in Cohesive elements
+     - supports mass matrix in cohesive elements for glue line modeling.
+     Improved solution time and reduced disk space for Nastran-PEM models
+  
+     Aeroelasticity
+     - Flutter Perturbation Step available in SOL 400 Nonlinear
+  
+     HDF5 hybrid precision output file
+     - Allows writing of 32-bit real and 64-bit integer data to H5 file
+     - Combines small size of 32-bit and high value domain ID of 64-bit
+  
+      Inertia Relief with External Superelements
+     - For external superelements, inertia relief is now supported for the
+       following three options: EXTSEOUT MATDB(MATRIXDB), EXTSEOUT DMIGDB, and
+       EXTSEOUT DMIGOP2 for INREL = -1 and INREL = -2.
+     - For the above three external superelement options, checks are now
+       performed internally to insure that the inertia relief specifications
+       between external superelement and the assembly run are consistent.
+     - When verifying results, the user is reminded that with inertia relief,
+       the displacements are relative displacements and may not in any way match
+       the results of say a model containing all the external superelements
+       processed as standard part superelements. However, element results
+       such as force or stress should match closely between the two types of runs
+       if consistently modeled.
+  
+  
+     Documentation
+     - The complete documentation set is provided in a separate installer and
+       when installed is available at: MSC_DOC_DIR/doc/pdf_nastran directory,
+       where MSC_DOC_DIR is the directory where documentation was installed.
+       This help set includes cross references between documents, and links to
+       how-to videos, and example files
+  
+     Individual MSC Nastran documents are available for download from the
+       Simcompanion Website at:
+       http://simcompanion.hexagon.com/
+  
+     The documentation set includes the following:
+  
+         1.  MSC Nastran 2024.2 Installation and Operations Guide
+         2.  MSC Nastran 2024.2 Quick Reference Guide
+         3.  MSC Nastran 2024.2 Release Guide
+         4.  MSC Nastran 2024.2 Linear Statics Analysis User's Guide
+         5.  MSC Nastran 2024.2 Dynamic Analysis User's Guide
+         6.  MSC Nastran 2024.2 Superelements User's Guide
+         7.  MSC Nastran 2024.2 Rotordynamics User's Guide
+         8.  MSC Nastran 2024.2 Demonstration Problems Manual
+         9.  MSC Nastran 2024.2 Nastran Embedded Fatigue User's Guide
+        10.  MSC Nastran 2024.2 Design Sensitivity and Optimization
+        11.  MSC Nastran 2024.2 Nonlinear User's Guide SOL 400
+1       12.  MSC Nastran 2024.2 DMAP Programmer's Guide
+        13.  MSC Nastran 2024.2 High Performance Computing User's Guide
+        14.  MSC Nastran 2024.2 New Verification Manual
+        15.  MSC Nastran 2024.2 DEMATD Guide
+        16.  MSC Nastran 2024.2 Explicit Nonlinear (SOL 700) User's Guide
+        17.  MSC Nastran 2024.2 ACMS User's Guide
+  
+   Please refer to  MSC_DOC_DIR/doc/pdf_nastran/nastran_library.pdf
+   for the complete document set:
+  
+  
+   Additional information about the release can be found at the MSC Nastran
+   Product Support page: http://simcompanion.hexagon.com
+  
+   The support page provides links to these valuable information:
+      * A searchable Knowledge Base containing examples and answers to thousands
+        of frequently asked questions written by MSC Software subject-matter
+        experts.
+      * Peer-to-peer Discussion Forums enabling you to post questions for your
+        MSC Software products and receive answers from other users worldwide.
+      * A list of known issues with the product and any workarounds.
+      * Instructions on how to contact technical support
+      * A mechanism for sending us product feedback or enhancement requests.
+      * Hardware and software requirements.
+      * Examples and Tutorials
+      * and much more.
+  
+   For information on training, please visit our Training web site
+  
+      https://hexagon.com/support-success/manufacturing-intelligence/
+      design-engineering-support/training-materials
+  
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     1
+                                                                                                                                    
+0        N A S T R A N    F I L E    A N D    S Y S T E M    P A R A M E T E R    E C H O                                           
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     $ SYSFIELD=SCR*(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.SO
+     $ SYSFIELD=DBALL(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.S
+     NASTRAN BUFFSIZE=65537 $(C:/PROGRAM FILES/MSC.SOFTWARE/MSC_NASTRAN/2024.2/CONF/N
+     NASTRAN PARALLEL=1 $([3])                                                       
+     $ GENERATED BY MECWAY 29                                                        
+     $-------------EXECUTIVE CONTROL SECTION-------------                            
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     2
+                                                                                                                                    
+0        N A S T R A N    E X E C U T I V E    C O N T R O L    E C H O                                                             
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     SOL 105                                                                                 
+     CEND                                                                                    
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     3
+                                                                                                                                    
+0                                                                                                                                   
+0                                        C A S E    C O N T R O L    E C H O                                                        
+                 COMMAND                                                                                                            
+                 COUNT                                                                                                              
+                  1      $---------------CASE CONTROL SECTION----------------                                    
+                  2      DISPLACEMENT = ALL                                                                      
+                  3      $                                                                                       
+                  4        ACCELERATION(PRINT,PLOT) = ALL                                                        
+                  5        DISPLACEMENT(PRINT, PLOT) = ALL                                                       
+ *** USER WARNING MESSAGE 602 (IFP1D)
+     TWO OR MORE OF THE ABOVE CARD TYPES DETECTED WHERE ONLY ONE IS
+     LEGAL.   THE LAST FOUND WILL BE USED.
+                  6        GPFORCE(PRINT, PLOT) = ALL                                                            
+                  7        MPCFORCES(PRINT, PLOT) = ALL                                                          
+                  8        OLOAD(PRINT, PLOT)= ALL                                                               
+                  9        SPCFORCES(PRINT, PLOT) = ALL                                                          
+                 10        FORCE(PRINT, PLOT) = ALL                                                              
+                 11        STRESS(PRINT, PLOT, CORNER)= ALL                                                      
+                 12        STRAIN(PRINT, PLOT, CORNER)= ALL                                                      
+                 13      $                                                                                       
+                 14      SPC = 1                                                                                 
+                 15      SUBCASE 1                                                                               
+                 16      LOAD = 1                                                                                
+                 17      SUBCASE 2                                                                               
+                 18      METHOD = 1                                                                              
+                 19      BEGIN BULK                                                                              
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     4
+                                                                                                                                    
+0                                                                                                                                   
+                                              I N P U T   B U L K   D A T A   E C H O                                               
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+ *** USER WARNING MESSAGE 9994 (BULKEF)
+      The following lines could not be processed by the current IFPSTAR rule base.
+      They are being passed to Classic IFP for an additional attempt at resolution.
+                                PARAM, POST,-1
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     5
+                                                                                                                                    
+0                                                                                                                                   
+                                                  S O R T E D   B U L K   D A T A   E C H O                                         
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                    1-        CTRIA3 *1               1               4               12              *
+                    2-        *       3               6.7469753496E-150.
+                    3-        CTRIA3 *2               1               9               2               *
+                    4-        *       10              2.2489917832E-150.
+                    5-        CTRIA3 *3               1               11              10              *
+                    6-        *       14              0.              0.
+                    7-        CTRIA3 *4               1               13              14              *
+                    8-        *       18              2.2489917832E-150.
+                    9-        CTRIA3 *5               1               15              18              *
+                   10-        *       22              -3.3734876748-150.
+                   11-        CTRIA3 *6               1               17              22              *
+                   12-        *       8               2.2489917832E-150.
+                   13-        CTRIA3 *7               1               19              8               *
+                   14-        *       16              2.2489917832E-150.
+                   15-        CTRIA3 *8               1               21              16              *
+                   16-        *       6               2.2489917832E-150.
+                   17-        CTRIA3 *9               1               5               6               *
+                   18-        *       20              2.2489917832E-150.
+                   19-        CTRIA3 *10              1               7               20              *
+                   20-        *       12              2.2489917832E-150.
+                   21-        CTRIA3 *11              1               4               7               *
+                   22-        *       12              0.              0.
+                   23-        CTRIA3 *12              1               9               1               *
+                   24-        *       2               0.              0.
+                   25-        CTRIA3 *13              1               11              9               *
+                   26-        *       10              0.              0.
+                   27-        CTRIA3 *14              1               13              11              *
+                   28-        *       14              0.              0.
+                   29-        CTRIA3 *15              1               15              13              *
+                   30-        *       18              0.              0.
+                   31-        CTRIA3 *16              1               17              15              *
+                   32-        *       22              0.              0.
+                   33-        CTRIA3 *17              1               19              17              *
+                   34-        *       8               0.              0.
+                   35-        CTRIA3 *18              1               21              19              *
+                   36-        *       16              0.              0.
+                   37-        CTRIA3 *19              1               5               21              *
+                   38-        *       6               0.              0.
+                   39-        CTRIA3 *20              1               7               5               *
+                   40-        *       20              0.              0.
+                   41-        EIGRL  *1                                               3               *
+                   42-        *       0                               10.             MASS
+                   43-        FORCE  *1               3               0               1.              *
+                   44-        *       0.              -5000.          0.
+                   45-        FORCE  *1               4               0               1.              *
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     6
+                                                                                                                                    
+0                                                                                                                                   
+                                                  S O R T E D   B U L K   D A T A   E C H O                                         
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                   46-        *       0.              -5000.          0.
+                   47-        GRID   *1               0               .014644660941   0.              *
+                   48-        *       .035355339059   0
+                   49-        GRID   *2               0               .05             0.              *
+                   50-        *       0.              0
+                   51-        GRID   *3               0               .05             1.              *
+                   52-        *       0.              0
+                   53-        GRID   *4               0               .014644660941   1.              *
+                   54-        *       .035355339059   0
+                   55-        GRID   *5               0               .014644660941   .76             *
+                   56-        *       .035355339059   0
+                   57-        GRID   *6               0               .05             .74             *
+                   58-        *       0.              0
+                   59-        GRID   *7               0               .014644660941   .86             *
+                   60-        *       .035355339059   0
+                   61-        GRID   *8               0               .05             .54             *
+                   62-        *       0.              0
+                   63-        GRID   *9               0               .014644660941   .06             *
+                   64-        *       .035355339059   0
+                   65-        GRID   *10              0               .05             .14             *
+                   66-        *       0.              0
+                   67-        GRID   *11              0               .014644660941   .16             *
+                   68-        *       .035355339059   0
+                   69-        GRID   *12              0               .05             .94             *
+                   70-        *       0.              0
+                   71-        GRID   *13              0               .014644660941   .26             *
+                   72-        *       .035355339059   0
+                   73-        GRID   *14              0               .05             .24             *
+                   74-        *       0.              0
+                   75-        GRID   *15              0               .014644660941   .36             *
+                   76-        *       .035355339059   0
+                   77-        GRID   *16              0               .05             .64             *
+                   78-        *       0.              0
+                   79-        GRID   *17              0               .014644660941   .46             *
+                   80-        *       .035355339059   0
+                   81-        GRID   *18              0               .05             .34             *
+                   82-        *       0.              0
+                   83-        GRID   *19              0               .014644660941   .56             *
+                   84-        *       .035355339059   0
+                   85-        GRID   *20              0               .05             .84             *
+                   86-        *       0.              0
+                   87-        GRID   *21              0               .014644660941   .66             *
+                   88-        *       .035355339059   0
+                   89-        GRID   *22              0               .05             .44             *
+                   90-        *       0.              0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     7
+                                                                                                                                    
+0                                                                                                                                   
+                                                  S O R T E D   B U L K   D A T A   E C H O                                         
+                 ENTRY                                                                                                              
+                 COUNT        .   1  ..   2  ..   3  ..   4  ..   5  ..   6  ..   7  ..   8  ..   9  ..  10  .                      
+                   91-        MAT1   *1               210000000000.   77777777778.    .35             *
+                   92-        *       0.              0.              0.
+                   93-        PSHELL *1               1               .05             1               *
+                   94-        *                       1                               0.
+                   95-        SPC    *1               1               1               0.
+                   96-        SPC    *1               1               2               0.
+                   97-        SPC    *1               1               3               0.
+                   98-        SPC    *1               1               4               0.
+                   99-        SPC    *1               1               5               0.
+                  100-        SPC    *1               1               6               0.
+                  101-        SPC    *1               2               1               0.
+                  102-        SPC    *1               2               2               0.
+                  103-        SPC    *1               2               3               0.
+                  104-        SPC    *1               2               4               0.
+                  105-        SPC    *1               2               5               0.
+                  106-        SPC    *1               2               6               0.
+                              ENDDATA
+                        TOTAL COUNT= 107
+                              INPUT BULK DATA ENTRY COUNT = 112
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     8
+                                                                                                                                    
+0                                                                                                                                   
+                                        M O D E L   S U M M A R Y          BULK = 0
+                                   ENTRY NAME        NUMBER OF ENTRIES
+                                   ----------        -----------------
+                                       CTRIA3                       20
+                                        EIGRL                        1
+                                        FORCE                        2
+                                         GRID                       22
+                                         MAT1                        1
+                                       PSHELL                        1
+                                     REJ_BULK                        5
+                                          SPC                       12
+
+ ^^^     
+ ^^^ >>> IFP OPERATIONS COMPLETE <<< 
+ ^^^     
+ *** USER INFORMATION MESSAGE 4109 (OUTPX2)
+     THE LABEL IS XXXXXXXX FOR FORTRAN UNIT    12
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          7 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          8 RECORDS.)
+                (TOTAL DATA WRITTEN FOR LABEL =         17 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK GEOM1X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR GEOM168, TRL =
+                    101                 0                 0                 8                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS GEOM1   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         179 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         210 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK GEOM2X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR GEOM201, TRL =
+                    102                 0                 0                 0                32                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS GEOM2   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         263 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         294 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK GEOM3X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR GEOM301, TRL =
+                    103                 0                 0                64                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS GEOM3   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          17 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =          48 WORDS.)
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE     9
+                                                                                                                                    
+0                                                                                                                                   
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK GEOM4X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR GEOM4705, TRL =
+                    104                 0                 0                 0               512                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS GEOM4   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          51 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =          82 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK EPTX     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR EPT01, TRL =
+                    105                 0               512                 0                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS EPT     
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          14 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =          45 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK MPTS     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR MPTS, TRL =
+                    101             32768                 0                 0                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS MPT     
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          15 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =          46 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK DYNAMICS WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR DYNAMICS, TRL =
+                    103               256                 0                 0                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS DYNAMICS
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =          30 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =          61 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK CASESO   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR CASES, TRL =
+                    101                 2                 0              1000                 0                 0                 0
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS CASECC  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =        1000 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =        2028 WORDS.)
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    10
+                                                                                                                                    
+0                                                                                                                                   
+ *** USER INFORMATION MESSAGE 7310 (VECPRN)
+     ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM WILL BE USED AS REFERENCE LOCATION.
+     RESULTANTS ABOUT ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM IN SUPERELEMENT OR MODULE
+     BASIC SYSTEM COORDINATES.
+0                                                  OLOAD    RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    0.000000E+00     ----          ----          ----       0.000000E+00  0.000000E+00                             
+               FY       ----      -1.000000E+04     ----       1.767767E+02     ----      -3.232233E+02                             
+               FZ       ----          ----       0.000000E+00  0.000000E+00  0.000000E+00     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  0.000000E+00 -1.000000E+04  0.000000E+00  1.767767E+02  0.000000E+00 -3.232233E+02
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    11
+                                                                                                                                    
+0                                                                                                                                   
+ *** USER INFORMATION MESSAGE 7310 (VECPRN)
+     ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM WILL BE USED AS REFERENCE LOCATION.
+     RESULTANTS ABOUT ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM IN SUPERELEMENT OR MODULE
+     BASIC SYSTEM COORDINATES.
+0                                                  OLOAD    RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        2     FX    0.000000E+00     ----          ----          ----       0.000000E+00  0.000000E+00                             
+               FY       ----       0.000000E+00     ----       0.000000E+00     ----       0.000000E+00                             
+               FZ       ----          ----       0.000000E+00  0.000000E+00  0.000000E+00     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    12
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ *** USER INFORMATION MESSAGE 5293 (SSG3B)
+    FOR DATA BLOCK KLL     
+    LOAD SEQ. NO.             EPSILON              EXTERNAL WORK      EPSILONS LARGER THAN 0.001 ARE FLAGGED WITH ASTERISKS
+                1         -2.2004096E-14          9.4877572E-02
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    13
+                                                                                                                                    
+0                                                                                                                                   
+ *** USER INFORMATION MESSAGE 7310 (VECPRN)
+     ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM WILL BE USED AS REFERENCE LOCATION.
+     RESULTANTS ABOUT ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM IN SUPERELEMENT OR MODULE
+     BASIC SYSTEM COORDINATES.
+0                                                  SPCFORCE RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX   -2.273737E-12     ----          ----          ----       5.407850E+01  0.000000E+00                             
+               FY       ----       1.000000E+04     ----      -1.767832E+02     ----       3.232168E+02                             
+               FZ       ----          ----       2.182787E-11  0.000000E+00 -5.407850E+01     ----                                  
+               MX       ----          ----          ----       6.469932E-03     ----          ----                                  
+               MY       ----          ----          ----          ----       1.150746E-12     ----                                  
+               MZ       ----          ----          ----          ----          ----       6.469932E-03                             
+             TOTALS -2.273737E-12  1.000000E+04  2.182787E-11 -1.767767E+02 -9.094947E-13  3.232233E+02
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    14
+                                                                                                                                    
+0                                                                                                                                   
+ *** USER INFORMATION MESSAGE 7310 (VECPRN)
+     ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM WILL BE USED AS REFERENCE LOCATION.
+     RESULTANTS ABOUT ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM IN SUPERELEMENT OR MODULE
+     BASIC SYSTEM COORDINATES.
+0                                                  MPCFORCE RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    0.000000E+00     ----          ----          ----       0.000000E+00  0.000000E+00                             
+               FY       ----       0.000000E+00     ----       0.000000E+00     ----       0.000000E+00                             
+               FZ       ----          ----       0.000000E+00  0.000000E+00  0.000000E+00     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+ *** USER WARNING MESSAGE 6418 (SDR2A)
+     THE BILIN OPTION FOR STRESSES OVERRIDES ALL OTHER OPTIONS IN STRAIN AND FORCE COMMANDS.
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OQG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OQG1, TRL =
+                    101                 0               176                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OQG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         176 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         355 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OQMG1    WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OQMG1, TRL =
+                    102                 0               176                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OQMG1   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         176 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         355 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OUG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OUG1, TRL =
+                    101                 0               176                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OUG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         176 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         355 WORDS.)
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    15
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                                             D I S P L A C E M E N T   V E C T O R
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      0.0            0.0            0.0            0.0            0.0            0.0
+             2      G      0.0            0.0            0.0            0.0            0.0            0.0
+             3      G      2.889737E-06  -1.907730E-05  -2.889737E-06  -2.878892E-06  -1.673261E-20  -2.878892E-06
+             4      G      2.654035E-06  -1.887373E-05  -2.654035E-06  -2.878892E-06  -5.458037E-20  -2.878892E-06
+             5      G      1.963101E-06  -1.430230E-05  -1.963101E-06  -2.878892E-06   1.503185E-18  -2.878892E-06
+             6      G      2.141225E-06  -1.412492E-05  -2.141225E-06  -2.878892E-06   1.551202E-18  -2.878892E-06
+             7      G      2.250990E-06  -1.620706E-05  -2.250990E-06  -2.878892E-06   8.364769E-19  -2.878892E-06
+             8      G      1.565447E-06  -1.031539E-05  -1.565447E-06  -2.878892E-06  -2.241635E-19  -2.878892E-06
+             9      G     -5.541918E-08  -9.723395E-07   5.541918E-08  -2.164876E-06   1.653886E-18  -2.164876E-06
+            10      G      4.134754E-07  -2.696405E-06  -4.134754E-07  -2.838935E-06  -1.138804E-18  -2.838935E-06
+            11      G      2.356840E-07  -2.873814E-06  -2.356840E-07  -2.883321E-06   1.264798E-18  -2.883321E-06
+            12      G      2.717003E-06  -1.793444E-05  -2.717003E-06  -2.878892E-06   4.507713E-19  -2.878892E-06
+            13      G      5.236527E-07  -4.778494E-06  -5.236527E-07  -2.879001E-06   1.272434E-18  -2.879001E-06
+            14      G      7.017689E-07  -4.601110E-06  -7.017689E-07  -2.879587E-06  -8.654998E-19  -2.879587E-06
+            15      G      8.115439E-07  -6.683254E-06  -8.115439E-07  -2.878895E-06   1.126261E-18  -2.878895E-06
+            16      G      1.853336E-06  -1.222016E-05  -1.853336E-06  -2.878892E-06   7.167132E-19  -2.878892E-06
+            17      G      1.099433E-06  -8.588016E-06  -1.099433E-06  -2.878892E-06   8.165262E-19  -2.878892E-06
+            18      G      9.896681E-07  -6.505870E-06  -9.896681E-07  -2.878909E-06  -6.878471E-19  -2.878909E-06
+            19      G      1.387322E-06  -1.049278E-05  -1.387322E-06  -2.878892E-06   7.900339E-19  -2.878892E-06
+            20      G      2.429114E-06  -1.602968E-05  -2.429114E-06  -2.878892E-06   1.050186E-18  -2.878892E-06
+            21      G      1.675211E-06  -1.239754E-05  -1.675211E-06  -2.878892E-06   1.234240E-18  -2.878892E-06
+            22      G      1.277558E-06  -8.410632E-06  -1.277558E-06  -2.878892E-06  -6.646458E-19  -2.878892E-06
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    16
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                                                     L O A D   V E C T O R
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             3      G      0.0           -5.000000E+03   0.0            0.0            0.0            0.0
+             4      G      0.0           -5.000000E+03   0.0            0.0            0.0            0.0
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    17
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                               F O R C E S   O F   S I N G L E - P O I N T   C O N S T R A I N T
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      1.529571E+03   5.000183E+03  -1.529571E+03  -5.387976E-04  -3.900325E-12  -5.387976E-04
+             2      G     -1.529571E+03   4.999817E+03   1.529571E+03   7.008730E-03   5.051071E-12   7.008730E-03
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    18
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                             F O R C E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+ 
+    ELEMENT                - MEMBRANE  FORCES -                        - BENDING  MOMENTS -              - TRANSVERSE SHEAR FORCES -
+      ID              FX            FY            FXY             MX            MY            MXY             QX            QY
+          1      -1.180328E+05 -8.196721E+04  9.836066E+04    7.460699E-13  7.403855E-12 -3.851142E-12   -1.807621E-10  5.022684E-10
+          2      -1.224963E+05 -8.234202E+04  9.848134E+04   -1.928218E-10 -1.330918E-10  1.448655E-10    3.539071E-10  6.139089E-12
+          3      -2.767815E+04 -1.724278E+05  6.896299E+04   -3.513634E-11 -2.417977E-10  9.856738E-11    7.153744E-11 -2.983143E-10
+          4      -2.758849E+04 -1.724141E+05  6.896546E+04   -3.083755E-11 -2.136673E-10  8.816503E-11    1.374190E-10 -3.474270E-10
+          5      -2.758626E+04 -1.724138E+05  6.896552E+04   -2.659206E-11 -1.809681E-10  7.643752E-11    8.766676E-11 -3.499281E-10
+          6      -2.758621E+04 -1.724138E+05  6.896552E+04   -1.647393E-11 -1.323102E-10  5.657874E-11    3.082050E-10 -7.032668E-10
+          7      -2.758621E+04 -1.724138E+05  6.896552E+04   -3.293366E-12 -7.366907E-11  2.871836E-11    4.143175E-10 -7.373728E-10
+          8      -2.758621E+04 -1.724138E+05  6.896552E+04    5.151435E-12 -2.038547E-11  8.397727E-12    4.046683E-10 -6.739356E-10
+          9      -2.758621E+04 -1.724138E+05  6.896552E+04    4.160228E-12  1.332268E-11  1.159073E-12   -9.110579E-11  1.091394E-11
+         10      -2.758621E+04 -1.724138E+05  6.896552E+04   -8.633094E-13  1.308820E-11 -1.342926E-12   -1.754330E-10  1.207354E-10
+         11      -2.000000E+05  6.984919E-10 -3.419700E-10    1.054994E-11 -1.707914E-12 -4.682477E-12    1.189164E-10 -1.527667E-11
+         12      -1.939139E+05 -6.786985E+04  5.079832E+03   -3.396465E-10 -1.188774E-10  2.233257E-11   -8.458301E-11  5.713616E-10
+         13      -1.995699E+05  2.425169E+02 -2.298234E+02   -3.084317E-10  6.124466E-13 -1.641354E-12    5.470611E-10 -1.630269E-10
+         14      -1.999893E+05  6.007244E+00 -5.694588E+00   -2.775893E-10 -3.696265E-12  1.584510E-12    2.437446E-10 -2.319211E-11
+         15      -1.999997E+05  1.493755E-01 -1.416010E-01   -2.454709E-10 -5.269278E-12  8.881784E-13    3.549303E-10 -1.858780E-11
+         16      -2.000000E+05  3.714338E-03 -3.521019E-03   -2.076936E-10 -5.188402E-12  4.973799E-14    4.712319E-10  5.809397E-11
+         17      -2.000000E+05  9.236005E-05 -8.755285E-05   -1.449097E-10 -6.120436E-12  4.014566E-12    6.430128E-10 -4.155254E-11
+         18      -2.000000E+05  2.297340E-06 -2.177876E-06   -7.664763E-11 -8.071666E-12  6.757261E-12    4.441745E-10 -1.268177E-10
+         19      -2.000000E+05  5.797483E-08 -5.507172E-08   -1.641370E-11 -1.019879E-11  5.485390E-12    4.266667E-10 -1.313083E-10
+         20      -2.000000E+05  2.968591E-09 -2.306479E-09    1.110314E-11  3.629362E-13 -4.227729E-12    2.985416E-10  1.077751E-10
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    19
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                             S T R A I N S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      STRAIN               STRAINS IN ELEMENT COORD SYSTEM             PRINCIPAL  STRAINS (ZERO SHEAR)                 
+    ID.       CURVATURE          NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0       1    0.0              -8.508977E-06  -3.871975E-06   2.529274E-05    50.1944    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00     -8.489628E-19   3.266159E-18  -4.756937E-18     0.0       4.353542E-18   -1.936345E-18   3.719780E-18
+0       2    0.0              -8.921581E-06  -3.758887E-06   2.532377E-05    50.7614    6.582101E-06   -1.926257E-05   1.550855E-05
+            -1.000000E+00     -6.685070E-17  -2.999005E-17   1.788019E-16     0.0       4.286054E-17   -1.397013E-16   1.102344E-16
+0       3    0.0               3.111578E-06  -1.549909E-05   1.773334E-05    21.8086    6.659535E-06   -1.904704E-05   1.540539E-05
+            -1.000000E+00      2.261696E-17  -1.049135E-16   1.216458E-16     0.0       4.697340E-17   -1.292699E-16   1.053870E-16
+0       4    0.0               3.119663E-06  -1.550078E-05   1.773397E-05    21.8016    6.666490E-06   -1.904760E-05   1.540900E-05
+            -1.000000E+00      2.008291E-17  -9.274333E-17   1.088200E-16     0.0       4.204637E-17   -1.147068E-16   9.368636E-17
+0       5    0.0               3.119864E-06  -1.550082E-05   1.773399E-05    21.8014    6.666662E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00      1.679685E-17  -7.847591E-17   9.433914E-17     0.0       3.619921E-17   -9.787827E-17   8.009343E-17
+0       6    0.0               3.119869E-06  -1.550082E-05   1.773399E-05    21.8014    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00      1.364172E-17  -5.785235E-17   6.982770E-17     0.0       2.786295E-17   -7.207358E-17   5.955064E-17
+0       7    0.0               3.119869E-06  -1.550082E-05   1.773399E-05    21.8014    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00      1.028638E-17  -3.314948E-17   3.546696E-17     0.0       1.660673E-17   -3.946983E-17   3.326069E-17
+0       8    0.0               3.119869E-06  -1.550082E-05   1.773399E-05    21.8014    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00      5.612676E-18  -1.013729E-17   1.037277E-17     0.0       7.167111E-18   -1.169173E-17   1.099211E-17
+0       9    0.0               3.119869E-06  -1.550082E-05   1.773399E-05    21.8014    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00     -2.315589E-19   5.424399E-18   1.438262E-18     0.0       5.514401E-18   -3.215611E-19   3.788007E-18
+0      10    0.0               3.119869E-06  -1.550082E-05   1.773399E-05    21.8014    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00     -2.492011E-18   6.129130E-18  -1.663573E-18     0.0       6.208649E-18   -2.571530E-18   5.212200E-18
+0      11    0.0              -1.904762E-05   6.666667E-06  -7.284483E-20   -90.0000    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00      5.095750E-18  -2.469400E-18  -5.773377E-18     0.0       6.071415E-18   -3.445064E-18   5.563650E-18
+0      12    0.0              -1.620566E-05   0.0            1.306243E-06    87.6958    2.627951E-08   -1.623194E-05   1.083006E-05
+            -1.000000E+00     -1.362436E-16   0.0            2.756477E-17     0.0       1.380242E-18   -1.376238E-16   9.221272E-17
+0      13    0.0              -1.901474E-05   6.675428E-06  -5.909745E-08   -89.9341    6.675462E-06   -1.901478E-05   1.539200E-05
+            -1.000000E+00     -1.410954E-16   4.962840E-17  -2.026103E-18     0.0       4.963378E-17   -1.411007E-16   1.142634E-16
+0      14    0.0              -1.904680E-05   6.666883E-06  -1.464323E-09   -89.9984    6.666883E-06   -1.904680E-05   1.540867E-05
+            -1.000000E+00     -1.263096E-16   4.272814E-17   1.944788E-18     0.0       4.273373E-17   -1.263151E-16   1.014990E-16
+0      15    0.0              -1.904760E-05   6.666672E-06  -3.641167E-11   -90.0000    6.666672E-06   -1.904760E-05   1.540908E-05
+            -1.000000E+00     -1.113679E-16   3.686685E-17   1.090978E-18     0.0       3.686886E-17   -1.113699E-16   8.911578E-17
+0      16    0.0              -1.904762E-05   6.666667E-06  -9.054048E-13   -90.0000    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00     -9.411552E-17   3.086238E-17   5.421011E-20     0.0       3.086238E-17   -9.411553E-17   7.517343E-17
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    20
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                             S T R A I N S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      STRAIN               STRAINS IN ELEMENT COORD SYSTEM             PRINCIPAL  STRAINS (ZERO SHEAR)                 
+    ID.       CURVATURE          NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0      17    0.0              -1.904762E-05   6.666667E-06  -2.251363E-14   -90.0000    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00     -6.526897E-17   2.038992E-17   4.953449E-18     0.0       2.046147E-17   -6.534052E-17   5.174733E-17
+0      18    0.0              -1.904762E-05   6.666667E-06  -5.600158E-16   -90.0000    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00     -3.374579E-17   8.573716E-18   8.341580E-18     0.0       8.980851E-18   -3.415293E-17   2.627885E-17
+0      19    0.0              -1.904762E-05   6.666667E-06  -1.418611E-17   -90.0000    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00     -5.875021E-18  -2.036110E-18   6.776264E-18     0.0      -6.150005E-20   -7.849631E-18   5.212708E-18
+0      20    0.0              -1.904762E-05   6.666667E-06  -5.980053E-19   -90.0000    6.666667E-06   -1.904762E-05   1.540909E-05
+            -1.000000E+00      5.007659E-18  -1.607340E-18  -5.210947E-18     0.0       5.910628E-18   -2.510309E-18   4.992202E-18
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    21
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                           S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      FIBER               STRESSES IN ELEMENT COORD SYSTEM             PRINCIPAL STRESSES (ZERO SHEAR)                 
+    ID.       DISTANCE           NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0       1   -2.500000E-02     -2.360656E+06  -1.639344E+06   1.967213E+06    50.1944    1.210719E-08   -4.000000E+06   4.000000E+06
+             2.500000E-02     -2.360656E+06  -1.639344E+06   1.967213E+06    50.1944    7.916242E-09   -4.000000E+06   4.000000E+06
+0       2   -2.500000E-02     -2.449926E+06  -1.646840E+06   1.969627E+06    50.7614   -3.824236E+04   -4.058524E+06   4.039539E+06
+             2.500000E-02     -2.449926E+06  -1.646840E+06   1.969627E+06    50.7614   -3.824236E+04   -4.058524E+06   4.039539E+06
+0       3   -2.500000E-02     -5.535630E+05  -3.448555E+06   1.379260E+06    21.8086   -1.658616E+03   -4.000460E+06   3.999631E+06
+             2.500000E-02     -5.535630E+05  -3.448555E+06   1.379260E+06    21.8086   -1.658616E+03   -4.000460E+06   3.999631E+06
+0       4   -2.500000E-02     -5.517698E+05  -3.448283E+06   1.379309E+06    21.8016   -4.120711E+01   -4.000011E+06   3.999991E+06
+             2.500000E-02     -5.517698E+05  -3.448283E+06   1.379309E+06    21.8016   -4.120711E+01   -4.000011E+06   3.999991E+06
+0       5   -2.500000E-02     -5.517253E+05  -3.448276E+06   1.379310E+06    21.8014   -1.024649E+00   -4.000000E+06   4.000000E+06
+             2.500000E-02     -5.517253E+05  -3.448276E+06   1.379310E+06    21.8014   -1.024649E+00   -4.000000E+06   4.000000E+06
+0       6   -2.500000E-02     -5.517242E+05  -3.448276E+06   1.379310E+06    21.8014   -2.547868E-02   -4.000000E+06   4.000000E+06
+             2.500000E-02     -5.517242E+05  -3.448276E+06   1.379310E+06    21.8014   -2.547871E-02   -4.000000E+06   4.000000E+06
+0       7   -2.500000E-02     -5.517241E+05  -3.448276E+06   1.379310E+06    21.8014   -6.335278E-04   -4.000000E+06   4.000000E+06
+             2.500000E-02     -5.517241E+05  -3.448276E+06   1.379310E+06    21.8014   -6.335601E-04   -4.000000E+06   4.000000E+06
+0       8   -2.500000E-02     -5.517241E+05  -3.448276E+06   1.379310E+06    21.8014   -1.574866E-05   -4.000000E+06   4.000000E+06
+             2.500000E-02     -5.517241E+05  -3.448276E+06   1.379310E+06    21.8014   -1.578405E-05   -4.000000E+06   4.000000E+06
+0       9   -2.500000E-02     -5.517241E+05  -3.448276E+06   1.379310E+06    21.8014   -3.967434E-07   -4.000000E+06   4.000000E+06
+             2.500000E-02     -5.517241E+05  -3.448276E+06   1.379310E+06    21.8014   -4.267786E-07   -4.000000E+06   4.000000E+06
+0      10   -2.500000E-02     -5.517241E+05  -3.448276E+06   1.379310E+06    21.8014   -1.396984E-08   -4.000000E+06   4.000000E+06
+             2.500000E-02     -5.517241E+05  -3.448276E+06   1.379310E+06    21.8014   -1.443550E-08   -4.000000E+06   4.000000E+06
+0      11   -2.500000E-02     -4.000000E+06   9.870845E-09  -1.807734E-08   -90.0000    9.778887E-09   -4.000000E+06   4.000000E+06
+             2.500000E-02     -4.000000E+06   1.806883E-08   4.398544E-09    90.0000    1.816079E-08   -4.000000E+06   4.000000E+06
+0      12   -2.500000E-02     -3.878277E+06  -1.357397E+06   1.015966E+05    87.6958   -1.353309E+06   -3.882365E+06   3.413234E+06
+             2.500000E-02     -3.878277E+06  -1.357397E+06   1.015966E+05    87.6958   -1.353309E+06   -3.882365E+06   3.413234E+06
+0      13   -2.500000E-02     -3.991399E+06   4.850337E+03  -4.596469E+03   -89.9341    4.855624E+03   -3.991404E+06   3.993834E+06
+             2.500000E-02     -3.991399E+06   4.850337E+03  -4.596469E+03   -89.9341    4.855624E+03   -3.991404E+06   3.993834E+06
+0      14   -2.500000E-02     -3.999786E+06   1.201449E+02  -1.138918E+02   -89.9984    1.201481E+02   -3.999786E+06   3.999846E+06
+             2.500000E-02     -3.999786E+06   1.201449E+02  -1.138918E+02   -89.9984    1.201481E+02   -3.999786E+06   3.999846E+06
+0      15   -2.500000E-02     -3.999995E+06   2.987509E+00  -2.832019E+00   -90.0000    2.987511E+00   -3.999995E+06   3.999996E+06
+             2.500000E-02     -3.999995E+06   2.987510E+00  -2.832019E+00   -90.0000    2.987512E+00   -3.999995E+06   3.999996E+06
+0      16   -2.500000E-02     -4.000000E+06   7.428675E-02  -7.042037E-02   -90.0000    7.428675E-02   -4.000000E+06   4.000000E+06
+             2.500000E-02     -4.000000E+06   7.428677E-02  -7.042037E-02   -90.0000    7.428677E-02   -4.000000E+06   4.000000E+06
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    22
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                           S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      FIBER               STRESSES IN ELEMENT COORD SYSTEM             PRINCIPAL STRESSES (ZERO SHEAR)                 
+    ID.       DISTANCE           NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0      17   -2.500000E-02     -4.000000E+06   1.847186E-03  -1.751047E-03   -90.0000    1.847186E-03   -4.000000E+06   4.000000E+06
+             2.500000E-02     -4.000000E+06   1.847216E-03  -1.751067E-03   -90.0000    1.847215E-03   -4.000000E+06   4.000000E+06
+0      18   -2.500000E-02     -4.000000E+06   4.592743E-05  -4.354130E-05   -90.0000    4.592724E-05   -4.000000E+06   4.000000E+06
+             2.500000E-02     -4.000000E+06   4.596617E-05  -4.357374E-05   -90.0000    4.596636E-05   -4.000000E+06   4.000000E+06
+0      19   -2.500000E-02     -4.000000E+06   1.135020E-06  -1.088270E-06   -90.0000    1.134817E-06   -4.000000E+06   4.000000E+06
+             2.500000E-02     -4.000000E+06   1.183974E-06  -1.114599E-06   -90.0000    1.184177E-06   -4.000000E+06   4.000000E+06
+0      20   -2.500000E-02     -4.000000E+06   6.024286E-08  -5.627612E-08   -90.0000    6.007031E-08   -4.000000E+06   4.000000E+06
+             2.500000E-02     -4.000000E+06   5.850077E-08  -3.598302E-08   -90.0000    5.867332E-08   -4.000000E+06   4.000000E+06
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    23
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+          1                  F-OF-SPC       1.529571E+03   5.000183E+03  -1.529571E+03  -5.387976E-04  -3.900325E-12  -5.387976E-04
+          1            12    TRIA3         -1.529571E+03  -5.000183E+03   1.529571E+03   5.387976E-04   3.900325E-12   5.387976E-04
+          1                  *TOTALS*      -2.273737E-13   0.0           -2.273737E-13   0.0            0.0            0.0
+0         2                  F-OF-SPC      -1.529571E+03   4.999817E+03   1.529571E+03   7.008730E-03   5.051071E-12   7.008730E-03
+          2             2    TRIA3          8.983411E+01  -5.152153E+03  -8.983411E+01  -7.547527E-03  -1.056044E-12  -7.547527E-03
+          2            12    TRIA3          1.439737E+03   1.523364E+02  -1.439737E+03   5.387976E-04  -3.994860E-12   5.387976E-04
+          2                  *TOTALS*      -2.273737E-13   7.389644E-13  -2.273737E-13   1.110223E-16   1.665335E-16   1.387779E-16
+0         3                  APP-LOAD       0.0           -5.000000E+03   0.0            0.0            0.0            0.0
+          3             1    TRIA3         -2.859935E-11   5.000000E+03  -9.237056E-13   3.508305E-14  -8.304468E-14  -3.730349E-14
+          3                  *TOTALS*      -2.859935E-11  -4.365575E-11  -9.237056E-13   3.508305E-14  -8.304468E-14  -3.730349E-14
+0         4                  APP-LOAD       0.0           -5.000000E+03   0.0            0.0            0.0            0.0
+          4             1    TRIA3          1.780620E-11   1.782700E-11  -1.311662E-11   8.582024E-14  -2.357142E-13  -8.226753E-14
+          4            11    TRIA3         -1.446843E-12   5.000000E+03   4.440892E-12  -1.658673E-13   2.010614E-13   1.800782E-13
+          4                  *TOTALS*       1.635936E-11   3.637979E-12  -8.675727E-12  -8.004708E-14  -3.465284E-14   9.781065E-14
+0         5             9    TRIA3         -7.303917E-10   2.628960E-10   7.229808E-10   1.073586E-13  -1.760259E-13  -1.002531E-13
+          5            19    TRIA3          6.648918E-10   5.000000E+03  -6.588985E-10  -7.838175E-14   2.936540E-13   6.417089E-14
+          5            20    TRIA3          6.409628E-11  -5.000000E+03  -6.930279E-11   7.494005E-15  -1.142419E-13   1.387779E-15
+          5                  *TOTALS*      -1.403710E-12  -5.820766E-11  -5.220491E-12   3.647083E-14   3.386180E-15  -3.469447E-14
+0         6             8    TRIA3          1.385988E-09   5.000000E+03  -1.358881E-09  -2.229328E-13   7.316370E-14   1.785239E-13
+          6             9    TRIA3          6.737118E-10  -5.000000E+03  -6.636327E-10   2.136000E-13   1.934009E-13  -1.709674E-13
+          6            19    TRIA3         -2.041036E-09  -2.743931E-09   2.049871E-09   3.552714E-14  -3.371747E-13  -3.352874E-14
+          6                  *TOTALS*       1.866418E-11  -3.909372E-11   2.735767E-11   2.619432E-14  -7.061018E-14  -2.597228E-14
+0         7            10    TRIA3         -3.426237E-11  -2.866100E-11   3.485923E-11   1.161848E-13   1.272316E-13  -1.357248E-13
+          7            11    TRIA3          2.306599E-11  -5.000000E+03  -3.375433E-11   1.409428E-13  -7.338574E-14  -1.373901E-13
+          7            20    TRIA3          4.963979E-11   5.000000E+03  -3.364681E-11  -3.740341E-13  -4.640732E-14   3.385070E-13
+          7                  *TOTALS*       3.844342E-11  -2.728484E-12  -3.254191E-11  -1.169065E-13   7.438494E-15   6.539214E-14
+0         8             6    TRIA3          2.200172E-06   5.000000E+03  -2.200148E-06  -2.978640E-11   2.228218E-13  -3.399991E-11
+          8             7    TRIA3          1.065229E-06  -5.000000E+03  -1.065268E-06   1.742656E-11   1.194600E-13   2.148631E-11
+          8            17    TRIA3         -3.265419E-06  -4.379497E-06   3.265423E-06   1.239431E-11  -2.392531E-13   1.250489E-11
+          8                  *TOTALS*      -1.805844E-11  -1.826760E-11   7.139178E-12   3.447242E-14   1.030287E-13  -8.715251E-15
+0         9             2    TRIA3         -9.561932E+01   1.391080E+02   9.561932E+01  -1.654254E-03   6.528111E-13  -1.654254E-03
+          9            12    TRIA3          8.983411E+01   4.847847E+03  -8.983411E+01   3.064486E-03  -7.625567E-13   3.064486E-03
+          9            13    TRIA3          5.785211E+00  -4.986955E+03  -5.785211E+00  -1.410232E-03   1.208478E-13  -1.410232E-03
+          9                  *TOTALS*       8.881784E-14   0.0           -7.176482E-13  -3.330669E-16   1.110223E-14   4.440892E-15
+0        10             2    TRIA3          5.785211E+00   5.013045E+03  -5.785211E+00   1.806854E-04  -4.045653E-13   1.806854E-04
+         10             3    TRIA3          2.789055E+00  -5.001576E+03  -2.789055E+00  -8.112523E-05   1.665335E-13  -8.112522E-05
+         10            13    TRIA3         -8.574266E+00  -1.146963E+01   8.574266E+00  -9.956020E-05   2.386980E-13  -9.956020E-05
+         10                  *TOTALS*      -1.232792E-12   7.361223E-12   2.623679E-12   5.259682E-15   6.661338E-16   2.511880E-15
+0        11             3    TRIA3         -2.932157E+00   1.251718E+00   2.932157E+00   5.180965E-06  -1.602052E-13   5.180965E-06
+         11            13    TRIA3          2.789055E+00   4.998424E+03  -2.789055E+00  -1.325401E-05   5.617729E-14  -1.325402E-05
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    24
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+         11            14    TRIA3          1.431019E-01  -4.999676E+03  -1.431019E-01   8.073045E-06   1.345035E-13   8.073056E-06
+         11                  *TOTALS*       2.859935E-12   3.637979E-12  -3.962608E-12   1.798561E-14   3.047562E-14  -5.107026E-15
+0        12             1    TRIA3          8.817835E-12  -5.000000E+03   8.160583E-12   3.922418E-13  -1.008083E-13  -3.833600E-13
+         12            10    TRIA3          1.699618E-11   5.000000E+03  -2.212985E-11  -9.814372E-14   1.322276E-13   1.234568E-13
+         12            11    TRIA3         -2.798517E-11  -1.117013E-11   4.113643E-11  -2.087219E-13  -7.838175E-14   2.287059E-13
+         12                  *TOTALS*      -2.171152E-12  -1.117013E-11   2.716716E-11   8.537615E-14  -4.696243E-14  -3.119727E-14
+0        13             4    TRIA3         -7.284463E-02   3.118058E-02   7.284463E-02   1.276930E-07  -2.279288E-13   1.276931E-07
+         13            14    TRIA3          6.928627E-02   4.999961E+03  -6.928627E-02  -3.270980E-07   7.593925E-14  -3.271075E-07
+         13            15    TRIA3          3.558362E-03  -4.999992E+03  -3.558362E-03   1.994051E-07   1.494360E-13   1.994144E-07
+         13                  *TOTALS*      -9.065082E-12   1.091394E-11   1.674494E-12   1.110223E-16  -2.553513E-15   3.885781E-15
+0        14             3    TRIA3          1.431019E-01   5.000324E+03  -1.431019E-01  -2.079651E-06   1.100231E-13  -2.079661E-06
+         14             4    TRIA3          6.928627E-02  -5.000039E+03  -6.928627E-02   1.267221E-06   1.000311E-13   1.267231E-06
+         14            14    TRIA3         -2.123882E-01  -2.848505E-01   2.123882E-01   8.124300E-07  -1.527667E-13   8.124301E-07
+         14                  *TOTALS*       1.024958E-12  -2.679290E-11   8.526513E-13   3.899658E-15   5.728751E-14  -4.565792E-15
+0        15             5    TRIA3         -1.811340E-03   7.753283E-04   1.811340E-03   3.175186E-09  -1.916522E-13   3.175259E-09
+         15            15    TRIA3          1.722859E-03   4.999999E+03  -1.722859E-03  -8.129654E-09   1.383338E-13  -8.137810E-09
+         15            16    TRIA3          8.848145E-05  -5.000000E+03  -8.848147E-05   4.954464E-09   1.126321E-13   4.962562E-09
+         15                  *TOTALS*       1.412204E-12   2.364686E-11  -4.731049E-12  -3.996803E-15   5.931367E-14   1.065814E-14
+0        16             7    TRIA3          5.471934E-08   5.000000E+03  -5.469361E-08   3.463896E-14   7.438494E-14  -1.629363E-12
+         16             8    TRIA3          2.648755E-08  -5.000000E+03  -2.652187E-08  -4.105605E-13   1.222356E-13   1.384004E-12
+         16            18    TRIA3         -8.122052E-08  -1.089237E-07   8.121705E-08   3.632650E-13  -2.559064E-13   2.480238E-13
+         16                  *TOTALS*      -1.363532E-11  -3.631526E-11   1.568523E-12  -1.265654E-14  -5.928591E-14   2.664535E-15
+0        17             6    TRIA3         -4.504039E-05   1.927916E-05   4.504039E-05   7.879247E-11  -3.407274E-13   7.910966E-11
+         17            16    TRIA3          4.284023E-05   5.000000E+03  -4.284020E-05  -1.989348E-10   5.950795E-14  -2.055772E-10
+         17            17    TRIA3          2.200158E-06  -5.000000E+03  -2.200182E-06   1.201574E-10   3.111400E-13   1.264294E-10
+         17                  *TOTALS*       2.730038E-13   6.366463E-12   5.336342E-12   1.509903E-14   2.992051E-14  -3.819167E-14
+0        18             4    TRIA3          3.558362E-03   5.000008E+03  -3.558362E-03  -5.157671E-08   1.409983E-13  -5.158488E-08
+         18             5    TRIA3          1.722859E-03  -5.000001E+03  -1.722859E-03   3.144085E-08   1.026956E-13   3.144889E-08
+         18            15    TRIA3         -5.281221E-03  -7.083037E-03   5.281221E-03   2.013585E-08  -2.416956E-13   2.013599E-08
+         18                  *TOTALS*      -3.410605E-13  -1.604242E-11   3.524292E-12  -4.760081E-15   1.998401E-15  -3.469447E-16
+0        19             7    TRIA3         -1.119953E-06   4.794028E-07   1.119958E-06   1.670941E-12  -4.899692E-13   2.259248E-12
+         19            17    TRIA3          1.065262E-06   5.000000E+03  -1.065236E-06  -2.978062E-12   4.807266E-14  -7.069012E-12
+         19            18    TRIA3          5.471889E-08  -5.000000E+03  -5.473533E-08   1.274425E-12   4.036771E-13   4.855782E-12
+         19                  *TOTALS*       2.808931E-11  -1.637090E-11  -1.356643E-11  -3.269607E-14  -3.821943E-14   4.601874E-14
+0        20             9    TRIA3          5.939782E-11   5.000000E+03  -5.799095E-11  -1.945111E-13   2.120526E-13   2.304823E-13
+         20            10    TRIA3          2.044054E-11  -5.000000E+03  -1.273115E-11   2.974010E-13   1.043610E-14  -2.902956E-13
+         20            20    TRIA3         -1.005489E-10  -1.096461E-10   9.590195E-11  -1.618705E-13  -1.322276E-13   2.007283E-13
+         20                  *TOTALS*      -2.071054E-11  -4.598149E-11   2.517986E-11  -5.898060E-14   9.026113E-14   1.409151E-13
+0        21             8    TRIA3         -2.786901E-08   1.189663E-08   2.787574E-08  -1.964540E-13  -4.973799E-13   3.012590E-13
+         21            18    TRIA3          2.649845E-08   5.000000E+03  -2.649445E-08   8.280043E-13   1.468825E-13  -1.083800E-12
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    25
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+         21            19    TRIA3          1.379782E-09  -5.000000E+03  -1.396883E-09  -6.284973E-13   3.870237E-13   7.848167E-13
+         21                  *TOTALS*       9.227619E-12  -6.457412E-11  -1.558970E-11   3.053113E-15   3.652634E-14   2.275957E-15
+0        22             5    TRIA3          8.848145E-05   5.000000E+03  -8.848144E-05  -1.279167E-09   1.907363E-13  -1.286031E-09
+         22             6    TRIA3          4.284022E-05  -5.000000E+03  -4.284024E-05   7.785956E-10   9.203749E-14   7.852130E-10
+         22            16    TRIA3         -1.313217E-04  -1.761253E-04   1.313217E-04   5.005869E-10  -3.375078E-13   5.008043E-10
+         22                  *TOTALS*      -1.265299E-11  -6.988909E-12  -3.494094E-12   1.552231E-14  -5.473400E-14  -1.352390E-14
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OGPFB1   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OGPFB1, TRL =
+                    101                 0                 1                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OGPFB1  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         860 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =        1034 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OEF1X    WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OEF1X, TRL =
+                    101                63                 6                20                25                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OEF1X   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         180 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         359 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OES1X1   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OES1X1, TRL =
+                    101                63                 6                20                25                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OES1X1  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         340 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         519 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OSTR1X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OSTR1X, TRL =
+                    101                63                 6                20                25                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OSTR1X  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         340 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         519 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OPG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OPG, TRL =
+                    101                 0               176                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OPG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         176 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          20 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =         355 WORDS.)
+ ^^^     
+ *** USER INFORMATION MESSAGE 22713 (SUBDMAP SEKDR)
+     PARAMETER EXCLUDE IS NOT DEFINED DIFFERENTIAL STIFFNESS IS COMPUTED FOR ALL ELEMENTS.
+ ^^^     
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    26
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+ *** USER INFORMATION MESSAGE 5010 (LNCILS)
+     STURM SEQUENCE DATA FOR EIGENVALUE EXTRACTION.
+     TRIAL EIGENVALUE = -1.000000D+01, CYCLES = 5.032921D-01 THE STURM COUNT = 0
+ *** USER INFORMATION MESSAGE 5010 (LNCILS)
+     STURM SEQUENCE DATA FOR EIGENVALUE EXTRACTION.
+     TRIAL EIGENVALUE = -5.020005D+02, CYCLES = 3.565925D+00 THE STURM COUNT = 0
+ *** USER INFORMATION MESSAGE 5010 (LNCILS)
+     STURM SEQUENCE DATA FOR EIGENVALUE EXTRACTION.
+     TRIAL EIGENVALUE = 4.663631D+02, CYCLES = 3.437021D+00 THE STURM COUNT = 3
+
+ TABLE OF SHIFTS:  (LNNRIGL)
+ SHIFT #        SHIFT VALUE         FREQUENCY, CYCLES     # EIGENVALUES BELOW    # NEW EIGENVALUES FOUND
+     1.       -1.0000000E+01         -5.0329212E-01                 0                        3
+     2.       -5.0200051E+02         -3.5659250E+00                 0                       10
+     3.        4.6636314E+02          3.4370214E+00                 3                        0
+
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    27
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+0
+
+
+                          E I G E N V A L U E  A N A L Y S I S   S U M M A R Y   (READ MODULE) 
+
+
+
+                                     BLOCK SIZE USED ......................     6
+
+                                     NUMBER OF DECOMPOSITIONS .............     3
+
+                                     NUMBER OF ROOTS FOUND ................     3
+
+                                     NUMBER OF SOLVES REQUIRED ............    21
+
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    28
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+ 
+                                              R E A L   E I G E N V A L U E S
+   MODE    EXTRACTION      EIGENVALUE            RADIANS             CYCLES            GENERALIZED         GENERALIZED
+    NO.       ORDER                                                                       MASS              STIFFNESS
+        1         1        2.725331E+01        5.220470E+00        8.308637E-01        9.943833E+03        2.710024E+05
+        2         2        1.387474E+02        1.177911E+01        1.874703E+00        9.870848E+03        1.369554E+06
+        3         3        2.460003E+02        1.568440E+01        2.496249E+00        9.908920E+03        2.437597E+06
+ *** USER WARNING MESSAGE 6418 (SDR2A)
+     THE BILIN OPTION FOR STRESSES OVERRIDES ALL OTHER OPTIONS IN STRAIN AND FORCE COMMANDS.
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OQG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OQG1, TRL =
+                    101                 0               528                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OQG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         176 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          40 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =        1015 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OUG1     WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OUG1, TRL =
+                    101                 0               528                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OUG1    
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         176 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          40 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =        1015 WORDS.)
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    29
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.725331E+01
+                                         R E A L   E I G E N V E C T O R   N O .          1
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      0.0            0.0            0.0            0.0            0.0            0.0
+             2      G      0.0            0.0            0.0            0.0            0.0            0.0
+             3      G     -6.339846E-01   1.037437E-13  -6.339846E-01  -9.976495E-01  -7.366402E-03   9.976495E-01
+             4      G     -6.342859E-01  -1.148470E-13  -6.342859E-01  -1.000000E+00  -7.087789E-03   1.000000E+00
+             5      G     -3.997685E-01  -1.090627E-13  -3.997685E-01  -9.281676E-01   2.197753E-03   9.281676E-01
+             6      G     -3.811239E-01   1.001000E-13  -3.811239E-01  -9.160039E-01  -1.278985E-02   9.160039E-01
+             7      G     -4.952768E-01  -1.098319E-13  -4.952768E-01  -9.747158E-01  -8.347635E-04   9.747158E-01
+             8      G     -2.131288E-01   1.074834E-13  -2.131288E-01  -7.470114E-01  -1.779542E-02   7.470114E-01
+             9      G     -2.402975E-03  -1.009656E-14  -2.402975E-03  -8.596960E-02   2.235926E-02   8.596960E-02
+            10      G     -1.442702E-02   2.379603E-14  -1.442702E-02  -2.113165E-01  -2.420570E-02   2.113165E-01
+            11      G     -1.912615E-02  -3.389747E-14  -1.912615E-02  -2.425289E-01   1.417293E-02   2.425289E-01
+            12      G     -5.740635E-01   1.014597E-13  -5.740635E-01  -9.936814E-01  -8.428395E-03   9.936814E-01
+            13      G     -5.094327E-02  -6.158813E-14  -5.094327E-02  -3.916648E-01   1.348941E-02   3.916648E-01
+            14      G     -4.323402E-02   4.845054E-14  -4.323402E-02  -3.623701E-01  -2.260604E-02   3.623701E-01
+            15      G     -9.726412E-02  -8.962792E-14  -9.726412E-02  -5.312434E-01   1.190136E-02   5.312434E-01
+            16      G     -2.928855E-01   9.887479E-14  -2.928855E-01  -8.419743E-01  -1.543119E-02   8.419743E-01
+            17      G     -1.569333E-01  -1.063293E-13  -1.569333E-01  -6.576127E-01   9.944049E-03   6.576127E-01
+            18      G     -8.673205E-02   7.314568E-14  -8.673205E-02  -5.041953E-01  -2.145431E-02   5.041953E-01
+            19      G     -2.284679E-01  -1.175556E-13  -2.284679E-01  -7.676337E-01   7.635736E-03   7.676337E-01
+            20      G     -4.756494E-01   8.646453E-14  -4.756494E-01  -9.672091E-01  -9.881754E-03   9.672091E-01
+            21      G     -3.100893E-01  -1.158732E-13  -3.100893E-01  -8.585709E-01   5.035194E-03   8.585709E-01
+            22      G     -1.438368E-01   9.907677E-14  -1.438368E-01  -6.334773E-01  -1.981940E-02   6.334773E-01
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    30
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  1.387474E+02
+                                         R E A L   E I G E N V E C T O R   N O .          2
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      0.0            0.0            0.0            0.0            0.0            0.0
+             2      G      0.0            0.0            0.0            0.0            0.0            0.0
+             3      G     -6.271352E-01   3.584842E-02   6.271352E-01   1.000000E+00  -3.022659E-11   1.000000E+00
+             4      G     -6.270379E-01  -3.480240E-02   6.270379E-01   9.965372E-01  -3.045234E-11   9.965372E-01
+             5      G     -3.914798E-01  -3.246654E-02   3.914798E-01   9.368770E-01  -1.442200E-11   9.368770E-01
+             6      G     -3.729182E-01   3.275655E-02   3.729182E-01   9.051889E-01  -8.274694E-12   9.051889E-01
+             7      G     -4.875073E-01  -3.412907E-02   4.875073E-01   9.828661E-01  -2.829588E-11   9.828661E-01
+             8      G     -2.050464E-01   2.639966E-02   2.050464E-01   7.221548E-01  -9.235985E-12   7.221548E-01
+             9      G     -4.138948E-03  -2.651256E-03   4.138948E-03   9.877099E-02  -4.644561E-12   9.877099E-02
+            10      G     -1.299281E-02   6.580664E-03   1.299281E-02   1.511512E-01  -1.476996E-11   1.511512E-01
+            11      G     -1.691054E-02  -7.486307E-03   1.691054E-02   2.370685E-01  -1.212557E-11   2.370685E-01
+            12      G     -5.670844E-01   3.573435E-02   5.670844E-01   9.923908E-01  -2.335353E-11   9.923908E-01
+            13      G     -4.631221E-02  -1.291120E-02   4.631221E-02   3.914222E-01  -8.687125E-12   3.914222E-01
+            14      G     -3.918800E-02   1.213237E-02   3.918800E-02   3.156864E-01  -1.275161E-11   3.156864E-01
+            15      G     -9.082536E-02  -1.800755E-02   9.082536E-02   5.345680E-01  -2.261831E-12   5.345680E-01
+            16      G     -2.845314E-01   2.996089E-02   2.845314E-01   8.243824E-01  -2.747885E-11   8.243824E-01
+            17      G     -1.492744E-01  -2.262341E-02   1.492744E-01   6.637965E-01  -1.473322E-11   6.637965E-01
+            18      G     -8.075858E-02   1.736823E-02   8.075858E-02   4.645414E-01   1.228862E-12   4.645414E-01
+            19      G     -2.201399E-01  -2.663837E-02   2.201399E-01   7.757749E-01  -1.777617E-11   7.757749E-01
+            20      G     -4.679109E-01   3.471286E-02   4.679109E-01   9.625324E-01  -2.204148E-11   9.625324E-01
+            21      G     -3.015804E-01  -2.994808E-02   3.015804E-01   8.675940E-01  -3.095858E-11   8.675940E-01
+            22      G     -1.365286E-01   2.216543E-02   1.365286E-01   6.011611E-01  -1.159131E-11   6.011611E-01
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    31
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.460003E+02
+                                         R E A L   E I G E N V E C T O R   N O .          3
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      0.0            0.0            0.0            0.0            0.0            0.0
+             2      G      0.0            0.0            0.0            0.0            0.0            0.0
+             3      G      2.139524E-01   2.302782E-12   2.139524E-01  -9.797439E-01  -2.666577E-02   9.797439E-01
+             4      G      2.126669E-01  -2.451726E-12   2.126669E-01  -1.000000E+00  -2.467275E-02   1.000000E+00
+             5      G      4.063246E-01  -3.926627E-12   4.063246E-01  -4.190741E-01   5.126526E-02   4.190741E-01
+             6      G      4.139523E-01   3.449253E-12   4.139523E-01  -3.295973E-01  -5.605416E-02   3.295973E-01
+             7      G      3.441109E-01  -3.193086E-12   3.441109E-01  -7.835226E-01   3.036351E-02   7.835226E-01
+             8      G      3.879131E-01   1.520463E-12   3.879131E-01   5.677154E-01  -4.099922E-02  -5.677154E-01
+             9      G      7.274691E-03  -8.305838E-14   7.274691E-03   2.522883E-01  -7.016338E-02  -2.522883E-01
+            10      G      4.230622E-02  -4.217812E-13   4.230622E-02   5.898997E-01   5.601897E-02  -5.898997E-01
+            11      G      5.528468E-02  -3.211457E-13   5.528468E-02   6.653445E-01  -3.457357E-02  -6.653445E-01
+            12      G      2.732765E-01   2.377137E-12   2.732765E-01  -9.452589E-01  -3.617794E-02   9.452589E-01
+            13      G      1.377184E-01  -1.487505E-12   1.377184E-01   9.277805E-01  -1.070114E-02  -9.277805E-01
+            14      G      1.189653E-01   5.948222E-13   1.189653E-01   8.891611E-01   3.560407E-02  -8.891611E-01
+            15      G      2.368266E-01  -2.449438E-12   2.368266E-01   9.861326E-01   1.710293E-02  -9.861326E-01
+            16      G      4.241701E-01   1.201949E-12   4.241701E-01   1.337952E-01  -5.476444E-02  -1.337952E-01
+            17      G      3.307595E-01  -2.518942E-12   3.307595E-01   8.271627E-01   4.151197E-02  -8.271627E-01
+            18      G      2.164143E-01   1.560493E-12   2.164143E-01   9.921810E-01   9.841842E-03  -9.921810E-01
+            19      G      3.988176E-01  -1.260170E-12   3.988176E-01   4.859104E-01   5.721705E-02  -4.859104E-01
+            20      G      3.595218E-01   3.732018E-12   3.595218E-01  -7.199184E-01  -4.415511E-02   7.199184E-01
+            21      G      4.260029E-01  -2.672460E-12   4.260029E-01   3.757786E-02   6.075246E-02  -3.757786E-02
+            22      G      3.131709E-01   2.249778E-12   3.131709E-01   8.765281E-01  -1.775715E-02  -8.765281E-01
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    32
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.725331E+01
+                               F O R C E S   O F   S I N G L E - P O I N T   C O N S T R A I N T
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G     -2.360092E+05   1.045441E-04  -2.360092E+05   9.177697E+04  -5.686798E+04  -9.177697E+04
+             2      G      2.555087E+05  -1.176117E-04   2.555087E+05   8.104587E+04   7.394224E+04  -8.104587E+04
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    33
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  1.387474E+02
+                               F O R C E S   O F   S I N G L E - P O I N T   C O N S T R A I N T
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      1.063237E+07   2.459996E+07  -1.063237E+07  -4.023975E+01  -1.238562E-05  -4.023979E+01
+             2      G     -1.054102E+07  -2.460323E+07   1.054102E+07  -2.718805E+02   2.200752E-05  -2.718806E+02
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    34
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.460003E+02
+                               F O R C E S   O F   S I N G L E - P O I N T   C O N S T R A I N T
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      4.463389E+05   6.068167E-04   4.463389E+05  -2.753595E+05   1.715578E+05   2.753595E+05
+             2      G     -9.671555E+05   3.266895E-04  -9.671555E+05  -2.493824E+05  -2.136637E+05   2.493824E+05
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    35
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.725331E+01
+                             F O R C E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+ 
+    ELEMENT                - MEMBRANE  FORCES -                        - BENDING  MOMENTS -              - TRANSVERSE SHEAR FORCES -
+      ID              FX            FY            FXY             MX            MY            MXY             QX            QY
+          1       2.129284E-04  9.284130E-04 -8.340011E-05   -2.013584E+05 -9.465081E+04  7.184723E+04    6.736855E+06 -4.928310E+06
+          2       1.141420E-03 -6.145666E-04 -1.054139E-03   -2.932043E+06 -2.048578E+06  2.216514E+06    1.806916E+06  2.639925E+06
+          3       1.437170E-04  7.063522E-04 -2.188226E-03   -6.208124E+05 -4.006750E+06  1.626151E+06   -1.699194E+05 -2.328543E+06
+          4       8.214049E-04  1.440706E-03 -1.670526E-03   -5.786990E+05 -3.757291E+06  1.530149E+06    1.255261E+06 -3.187279E+06
+          5       3.466427E-04  7.380155E-04 -2.340725E-03   -5.144628E+05 -3.415466E+06  1.400852E+06    1.569169E+06 -4.157735E+06
+          6       3.280790E-04 -2.003321E-04 -1.179034E-03   -4.385144E+05 -2.988933E+06  1.237048E+06    1.929086E+06 -5.021020E+06
+          7       4.620928E-04 -1.837777E-04  7.254643E-04   -3.516607E+05 -2.488089E+06  1.042468E+06    2.236700E+06 -5.759592E+06
+          8       5.265042E-05 -7.855168E-04 -8.387163E-04   -2.560482E+05 -1.925309E+06  8.220001E+05    2.488449E+06 -6.355437E+06
+          9       4.317765E-04  2.265932E-04  1.668057E-03   -1.539574E+05 -1.313454E+06  5.804473E+05    2.689083E+06 -6.813977E+06
+         10      -4.866343E-04  4.522641E-04 -1.218575E-03   -3.973055E+04 -6.308172E+05  3.352162E+05    2.715317E+06 -7.037169E+06
+         11      -1.921350E-04  5.213605E-04 -8.564003E-05   -5.665460E+05 -2.239538E+04  6.733351E+04    7.386856E+06 -2.282307E+05
+         12      -2.013559E-03 -7.047455E-04  1.806855E-03   -5.051375E+06 -1.767981E+06  3.019190E+05   -3.690705E+06  8.049994E+06
+         13      -2.230826E-03  7.660765E-04 -1.173044E-03   -4.821152E+06  6.329236E+04 -6.404509E+04    5.575082E+06 -1.580135E+06
+         14      -2.566684E-03  9.755828E-04 -9.614337E-04   -4.625474E+06 -3.375937E+04  6.664698E+03    2.214041E+06  1.220226E+05
+         15      -2.472563E-03  1.345291E-03 -1.513278E-03   -4.333187E+06 -4.340917E+04  7.014149E+03    3.526406E+06  8.903177E+04
+         16      -1.546412E-03  5.899088E-04 -3.639781E-04   -3.928892E+06 -5.583487E+04  1.023047E+04    4.554779E+06  7.847790E+04
+         17      -1.085826E-03  2.698900E-04  1.486384E-04   -3.426914E+06 -6.660882E+04  1.296565E+04    5.474842E+06  6.792903E+04
+         18       2.852368E-04  3.031562E-04  1.321718E-04   -2.839737E+06 -7.574902E+04  1.538574E+04    6.258764E+06  5.591469E+04
+         19       4.258299E-04 -8.210370E-04  1.158198E-03   -2.182167E+06 -8.322324E+04  1.724332E+04    6.881296E+06  2.928222E+04
+         20      -5.770676E-05  6.696847E-05 -7.520547E-04   -1.472584E+06 -9.306395E+04  1.674611E+04    7.358534E+06  1.221119E+05
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    36
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  1.387474E+02
+                             F O R C E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+ 
+    ELEMENT                - MEMBRANE  FORCES -                        - BENDING  MOMENTS -              - TRANSVERSE SHEAR FORCES -
+      ID              FX            FY            FXY             MX            MY            MXY             QX            QY
+          1       5.544166E+06 -1.930017E+07 -1.612276E+07    1.714621E-04  2.235882E-04 -1.089070E-04   -7.058769E-03  1.138711E-02
+          2       1.978735E+08 -9.165894E+07 -3.191488E+08   -6.002170E-04 -1.783827E-04  2.074271E-04    6.348290E-03 -4.449487E-05
+          3       6.442028E+07  2.286877E+08 -4.375523E+08   -6.306940E-05 -3.050184E-04  1.067591E-04   -1.342241E-04  5.299747E-04
+          4       8.606934E+07  2.160547E+08 -4.167822E+08    9.974604E-05  1.643877E-05 -2.469262E-05    5.837092E-03 -1.042837E-02
+          5       8.368852E+07  1.944910E+08 -3.857418E+08    2.838485E-05  2.798159E-04 -1.912843E-05   -4.496977E-03  5.461097E-03
+          6       7.858690E+07  1.677901E+08 -3.446914E+08    6.530248E-05  4.260018E-04 -1.519129E-04    1.247354E-03 -5.076528E-03
+          7       7.142941E+07  1.367268E+08 -2.946843E+08   -1.047552E-05  5.093310E-04 -1.311016E-04   -5.946901E-03  7.477939E-03
+          8       6.241447E+07  1.021056E+08 -2.370203E+08    1.284089E-04  5.649012E-04 -3.568546E-04    7.153552E-03 -8.685231E-03
+          9       5.174041E+07  6.464014E+07 -1.732312E+08    1.145341E-04  6.542429E-04 -1.444980E-04   -2.912298E-03  5.082726E-03
+         10       3.823745E+07  1.787329E+07 -1.063052E+08    2.723932E-05  5.161129E-04 -2.145772E-04   -9.505451E-05  9.714365E-04
+         11      -3.923253E+07  3.219380E+07  1.753255E+07    4.782402E-04 -1.027554E-04 -7.496402E-05   -2.910256E-03 -3.854666E-03
+         12      -5.287406E+08 -1.850592E+08  3.793842E+08   -8.776444E-04 -3.071754E-04 -6.271591E-05    1.546676E-02 -3.551867E-03
+         13      -4.170497E+08  2.589445E+08 -3.164841E+08   -4.188548E-04  3.455193E-05 -5.696551E-05    5.514711E-03 -1.593012E-03
+         14      -5.017891E+08  1.937862E+08 -2.464369E+08   -3.308254E-04  3.194626E-05  1.483178E-05   -1.941457E-03  4.801676E-04
+         15      -4.719190E+08  1.805623E+08 -2.240741E+08    1.400961E-04 -1.599060E-04  8.971244E-05    4.822224E-03 -3.578857E-03
+         16      -4.272408E+08  1.640725E+08 -1.972428E+08    2.179232E-04  4.793834E-05 -9.356719E-05    1.512080E-03  3.116339E-03
+         17      -3.713965E+08  1.433549E+08 -1.653197E+08    5.686788E-04 -1.479694E-04  2.666377E-05    6.075740E-03 -2.056360E-06
+         18      -3.058992E+08  1.189136E+08 -1.291013E+08    4.806630E-04  1.313399E-04 -1.046807E-04    1.833856E-03  4.452676E-03
+         19      -2.324448E+08  9.141049E+07 -8.951947E+07    8.052152E-04 -1.318128E-04  1.339447E-04   -4.098415E-04 -3.235236E-03
+         20      -1.526354E+08  6.265719E+07 -4.726872E+07    6.202631E-04  6.486214E-05 -1.123380E-04    2.063811E-03  3.106594E-03
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    37
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.460003E+02
+                             F O R C E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+ 
+    ELEMENT                - MEMBRANE  FORCES -                        - BENDING  MOMENTS -              - TRANSVERSE SHEAR FORCES -
+      ID              FX            FY            FXY             MX            MY            MXY             QX            QY
+          1      -1.034199E-02 -7.303938E-03  5.206063E-03   -1.755460E+06 -8.458465E+05  6.189615E+05    5.771328E+07 -4.404182E+07
+          2       1.745520E-02  4.999974E-02  3.734945E-02    8.310511E+06  5.404969E+06 -6.193283E+06   -1.750651E+07  8.096854E+06
+          3      -3.256021E-02  4.932983E-02 -6.580525E-02    8.444076E+05  7.575798E+06 -3.470444E+06   -1.586415E+07  5.131493E+07
+          4       2.174923E-02  3.310855E-02 -8.379527E-02   -1.302625E+05  2.263464E+06 -1.421738E+06   -2.465989E+07  6.335696E+07
+          5       1.216252E-02 -1.343367E-03 -8.104669E-02   -1.096757E+06 -3.547342E+06  9.351606E+05   -2.521784E+07  6.181142E+07
+          6       3.019098E-02 -4.044792E-02  4.157996E-02   -1.819440E+06 -8.575966E+06  3.085123E+06   -2.041829E+07  4.663754E+07
+          7      -2.534626E-02  7.724547E-02  1.079037E-01   -2.141182E+06 -1.171469E+07  4.555257E+06   -1.110860E+07  2.118614E+07
+          8      -2.938476E-02  4.616604E-02 -2.079205E-01   -1.990919E+06 -1.227112E+07  5.021749E+06    6.441648E+05 -8.939222E+06
+          9       4.007512E-02 -2.981329E-02 -6.500768E-02   -1.400850E+06 -1.011274E+07  4.376543E+06    1.234802E+07 -3.723132E+07
+         10       2.824698E-02 -1.461422E-02  1.350562E-01   -4.313110E+05 -5.385190E+06  2.856318E+06    2.010770E+07 -5.776331E+07
+         11       4.134190E-02 -4.074217E-02 -1.352954E-02   -4.838942E+06 -1.583479E+05  5.530922E+05    6.246652E+07 -5.471048E+05
+         12      -1.656435E-02 -5.797522E-03  6.426454E-03    1.482388E+07  5.188357E+06 -9.474222E+05   -2.849941E+06 -2.341557E+07
+         13      -3.779455E-02 -3.655676E-02 -2.821144E-02    1.285707E+07  2.251410E+05  1.241201E+05   -4.145327E+07  8.251975E+05
+         14      -9.707726E-02  7.254185E-02 -6.956998E-02    8.360733E+06  6.915199E+05 -1.243763E+05   -5.598070E+07 -1.381975E+06
+         15      -8.873968E-02  3.504276E-02 -3.265890E-02    2.086849E+06  8.047841E+05 -1.807705E+05   -6.857912E+07 -1.334195E+05
+         16      -2.297140E-03  1.428580E-02  3.475227E-02   -4.655356E+06  7.500704E+05 -2.048998E+05   -6.565781E+07  1.124482E+06
+         17       8.941168E-02 -1.221708E-01  6.624875E-02   -1.037164E+07  5.294686E+05 -1.833682E+05   -4.827799E+07  2.128685E+06
+         18      -1.103487E-01  1.084172E-01 -1.630905E-01   -1.380234E+07  1.921097E+05 -1.214711E+05   -2.025761E+07  2.667236E+06
+         19      -1.104308E-01  6.073342E-02 -1.825876E-02   -1.419324E+07 -1.893951E+05 -3.438714E+04    1.217694E+07  2.508265E+06
+         20       6.015573E-02 -4.819369E-02  8.852754E-02   -1.147518E+07 -5.732343E+05  4.343969E+04    4.217883E+07  2.794651E+06
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    38
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.725331E+01
+                             S T R A I N S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      STRAIN               STRAINS IN ELEMENT COORD SYSTEM             PRINCIPAL  STRAINS (ZERO SHEAR)                 
+    ID.       CURVATURE          NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0       1    0.0              -1.018985E-14   7.934215E-14  -2.111226E-14   -83.3658    8.056992E-14   -1.141762E-14   5.789566E-14
+            -1.000000E+00     -7.690542E-02  -1.105160E-02   8.868001E-02    63.2988    1.125026E-02   -9.920728E-02   7.018946E-02
+0       2    0.0               1.291908E-13  -9.656417E-14  -2.710567E-13   -25.1050    1.926915E-13   -1.600648E-13   2.039541E-13
+            -1.000000E+00     -1.012590E+00  -4.673659E-01   2.735811E+00    50.6354    6.548278E-01   -2.134784E+00   1.684441E+00
+0       3    0.0              -9.807793E-15   6.249403E-14  -5.626840E-13   -48.6610    3.099982E-13   -2.573120E-13   3.280072E-13
+            -1.000000E+00      3.572801E-01  -1.732327E+00   2.007136E+00    21.9234    7.611872E-01   -2.136234E+00   1.734484E+00
+0       4    0.0               3.048123E-14   1.097778E-13  -4.296888E-13   -50.2280    2.886017E-13   -1.483427E-13   2.565657E-13
+            -1.000000E+00      3.366184E-01  -1.625027E+00   1.888641E+00    21.9569    7.173221E-01   -2.005730E+00   1.629759E+00
+0       5    0.0               8.962761E-15   5.861260E-14  -6.018072E-13   -47.3581    3.357136E-13   -2.681382E-13   3.493609E-13
+            -1.000000E+00      3.112916E-01  -1.479042E+00   1.729052E+00    22.0012    6.606041E-01   -1.828354E+00   1.488787E+00
+0       6    0.0               3.824279E-14  -2.978312E-14  -3.030738E-13   -38.6747    1.595370E-13   -1.510773E-13   1.793554E-13
+            -1.000000E+00      2.777656E-01  -1.296207E+00   1.526871E+00    22.0649    5.872194E-01   -1.605661E+00   1.310784E+00
+0       7    0.0               5.116938E-14  -3.311614E-14   1.872149E-13    32.8812    1.116831E-13   -9.362991E-14   1.186902E-13
+            -1.000000E+00      2.373351E-01  -1.081147E+00   1.286703E+00    22.1506    4.992347E-01   -1.343046E+00   1.100203E+00
+0       8    0.0               3.154741E-14  -7.702683E-14  -2.156571E-13   -31.6383    9.798346E-14   -1.434629E-13   1.402210E-13
+            -1.000000E+00      1.909989E-01  -8.391736E-01   1.014583E+00    22.2816    3.988639E-01   -1.047039E+00   8.622988E-01
+0       9    0.0               3.187478E-14   7.962890E-15   4.276973E-13    43.4000    2.341014E-13   -1.942637E-13   2.476730E-13
+            -1.000000E+00      1.397721E-01  -5.758030E-01   7.164379E-01    22.5173    2.882777E-01   -7.243086E-01   6.024133E-01
+0      10    0.0              -6.058059E-14   5.798753E-14  -3.132570E-13   -55.3659    1.661761E-13   -1.687692E-13   1.933827E-13
+            -1.000000E+00      8.276821E-02  -2.820167E-01   4.137526E-01    24.2995    1.761743E-01   -3.754227E-01   3.253165E-01
+0      11    0.0              -3.582258E-14   5.417888E-14  -2.166750E-14   -83.2319    5.546461E-14   -3.710830E-14   5.379610E-14
+            -1.000000E+00     -2.554092E-01   8.040947E-02   8.310879E-02    83.0498    8.547503E-02   -2.604747E-01   2.080781E-01
+0      12    0.0              -1.682760E-13   0.0            4.646179E-13    54.9547    1.629382E-13   -3.312142E-13   2.907608E-13
+            -1.000000E+00     -2.026323E+00   0.0            3.726543E-01    84.7897    1.699093E-02   -2.043314E+00   1.367908E+00
+0      13    0.0              -2.380092E-13   1.473821E-13  -3.016331E-13   -70.9754    1.993847E-13   -2.900118E-13   2.841635E-13
+            -1.000000E+00     -2.214082E+00   8.003180E-01  -7.904993E-02   -89.2489    8.008362E-01   -2.214600E+00   1.803617E+00
+0      14    0.0              -2.769065E-13   1.784128E-13  -2.472625E-13   -75.7478    2.098161E-13   -3.083098E-13   3.009364E-13
+            -1.000000E+00     -2.109101E+00   7.246430E-01   8.226142E-03    89.9168    7.246490E-01   -2.109107E+00   1.699910E+00
+0      15    0.0              -2.803979E-13   2.106093E-13  -3.892936E-13   -70.7955    2.784097E-13   -3.481983E-13   3.625195E-13
+            -1.000000E+00     -1.973940E+00   6.734657E-01   8.657464E-03    89.9063    6.734728E-01   -1.973947E+00   1.588771E+00
+0      16    0.0              -1.670136E-13   1.079137E-13  -9.336251E-14   -80.6215    1.156237E-13   -1.747237E-13   1.687857E-13
+            -1.000000E+00     -1.787131E+00   6.030981E-01   1.262732E-02    89.8487    6.031148E-01   -1.787148E+00   1.435347E+00
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    39
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.725331E+01
+                             S T R A I N S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      STRAIN               STRAINS IN ELEMENT COORD SYSTEM             PRINCIPAL  STRAINS (ZERO SHEAR)                 
+    ID.       CURVATURE          NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0      17    0.0              -1.122630E-13   6.261658E-14   3.786517E-14    83.8914    6.464276E-14   -1.142892E-13   1.046235E-13
+            -1.000000E+00     -1.555932E+00   5.178565E-01   1.600332E-02    89.7789    5.178873E-01   -1.555963E+00   1.246335E+00
+0      18    0.0               1.682405E-14   1.998401E-14   3.439815E-14    47.6244    3.567553E-14    1.132538E-15   2.341531E-14
+            -1.000000E+00     -1.286046E+00   4.197299E-01   1.899040E-02    89.6811    4.197827E-01   -1.286099E+00   1.026353E+00
+0      19    0.0               6.810479E-14  -9.281464E-14   2.978977E-13    30.8114    1.569363E-13   -1.816462E-13   1.956541E-13
+            -1.000000E+00     -9.842463E-01   3.111018E-01   2.128318E-02    89.5293    3.111892E-01   -9.843337E-01   7.809014E-01
+0      20    0.0              -7.691834E-15   7.993606E-15  -1.925022E-13   -47.3291    9.672096E-14   -9.641919E-14   1.115096E-13
+            -1.000000E+00     -6.582909E-01   1.930699E-01   2.066948E-02    89.3046    1.931953E-01   -6.584163E-01   5.155534E-01
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    40
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  1.387474E+02
+                             S T R A I N S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      STRAIN               STRAINS IN ELEMENT COORD SYSTEM             PRINCIPAL  STRAINS (ZERO SHEAR)                 
+    ID.       CURVATURE          NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0       1    0.0               1.171355E-03  -2.022917E-03  -4.145852E-03   -26.1933    2.191061E-03   -3.042624E-03   3.034973E-03
+            -1.000000E+00      4.261062E-11   7.477752E-11  -1.344205E-10   -51.7289    1.278019E-10   -1.041377E-11   8.887613E-11
+0       2    0.0               2.190040E-02  -1.532521E-02  -8.206684E-02   -32.8005    4.834509E-02   -4.176990E-02   5.207406E-02
+            -1.000000E+00     -2.458436E-10   1.448819E-11   2.560242E-10    67.7390    6.688805E-11   -2.982435E-10   2.244718E-10
+0       3    0.0              -1.487659E-03   1.963244E-02  -1.125134E-01   -50.3157    6.631165E-02   -4.816687E-02   6.637037E-02
+            -1.000000E+00      1.997125E-11  -1.293463E-10   1.317725E-10    20.7142    4.488621E-11   -1.542613E-10   1.206197E-10
+0       4    0.0               9.952554E-04   1.770766E-02  -1.071726E-01   -49.4316    6.358535E-02   -4.488243E-02   6.293346E-02
+            -1.000000E+00      4.296839E-11  -8.444800E-12  -3.047651E-11   -15.3292    4.714546E-11   -1.262187E-11   3.637502E-11
+0       5    0.0               1.487301E-03   1.573334E-02  -9.919074E-02   -49.0865    5.871459E-02   -4.149395E-02   5.813949E-02
+            -1.000000E+00     -3.179463E-11   1.233760E-10  -2.360823E-11   -85.6746    1.242688E-10   -3.268745E-11   9.562249E-11
+0       6    0.0               1.891463E-03   1.336045E-02  -8.863494E-02   -48.6864    5.231290E-02   -3.706099E-02   5.184988E-02
+            -1.000000E+00     -3.830716E-11   1.842952E-10  -1.875020E-10   -69.9460    2.185180E-10   -7.252987E-11   1.749410E-10
+0       7    0.0               2.245241E-03   1.064062E-02  -7.577596E-02   -48.1611    4.456274E-02   -3.167688E-02   4.422604E-02
+            -1.000000E+00     -8.627994E-11   2.345111E-10  -1.618186E-10   -76.6160    2.537625E-10   -1.055314E-10   2.132419E-10
+0       8    0.0               2.540714E-03   7.643865E-03  -6.094808E-02   -47.3931    3.567296E-02   -2.548838E-02   3.547433E-02
+            -1.000000E+00     -3.168213E-11   2.376943E-10  -4.404654E-10   -60.7244    3.611599E-10   -1.551477E-10   3.058978E-10
+0       9    0.0               2.772987E-03   4.431523E-03  -4.454517E-02   -46.0661    2.589027E-02   -1.868576E-02   2.584779E-02
+            -1.000000E+00     -5.232068E-11   2.807568E-10  -1.783484E-10   -75.9164    3.031286E-10   -7.469249E-11   2.310434E-10
+0      10    0.0               3.045885E-03   4.276364E-04  -2.733563E-02   -42.2644    1.546713E-02   -1.199360E-02   1.589668E-02
+            -1.000000E+00     -7.012605E-11   2.315765E-10  -2.648521E-10   -69.3607    2.814558E-10   -1.200054E-10   2.379495E-10
+0      11    0.0              -4.809558E-03   4.373827E-03   4.508369E-03    76.9262    4.897307E-03   -5.333038E-03   5.908278E-03
+            -1.000000E+00      2.350653E-10  -1.234923E-10  -9.252332E-11    -7.2346    2.409379E-10   -1.293649E-10   2.170051E-10
+0      12    0.0              -4.418760E-02   0.0            9.755593E-02    57.1840    3.145455E-02   -7.564215E-02   6.356244E-02
+            -1.000000E+00     -3.520606E-10   0.0           -7.740935E-11   -83.7997    4.204875E-12   -3.562655E-10   2.389243E-10
+0      13    0.0              -4.835051E-02   3.856304E-02  -8.138161E-02   -68.4413    5.463973E-02   -6.442719E-02   6.882069E-02
+            -1.000000E+00     -1.970046E-10   8.281187E-11  -7.031087E-11   -82.9475    8.716111E-11   -2.013539E-10   1.708679E-10
+0      14    0.0              -5.424898E-02   3.518213E-02  -6.336949E-02   -72.3396    4.526990E-02   -6.433675E-02   6.359978E-02
+            -1.000000E+00     -1.563452E-10   6.753599E-11   1.830713E-11    87.6626    6.790961E-11   -1.567188E-10   1.330250E-10
+0      15    0.0              -5.096341E-02   3.292704E-02  -5.761906E-02   -72.7586    4.186787E-02   -5.990424E-02   5.906494E-02
+            -1.000000E+00      8.962786E-11  -9.551504E-11   1.107301E-10    15.4414    1.049210E-10   -1.108081E-10   1.245667E-10
+0      16    0.0              -4.615868E-02   2.986731E-02  -5.071957E-02   -73.1457    3.755012E-02   -5.384149E-02   5.304368E-02
+            -1.000000E+00      9.195134E-11  -1.295271E-11  -1.154916E-10   -23.8752    1.175108E-10   -3.851218E-11   9.384994E-11
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    41
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  1.387474E+02
+                             S T R A I N S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      STRAIN               STRAINS IN ELEMENT COORD SYSTEM             PRINCIPAL  STRAINS (ZERO SHEAR)                 
+    ID.       CURVATURE          NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0      17    0.0              -4.014959E-02   2.603273E-02  -4.251079E-02   -73.6431    3.227116E-02   -4.638802E-02   4.565703E-02
+            -1.000000E+00      2.836433E-10  -1.586318E-10   3.291234E-11     2.1279    2.842548E-10   -1.592433E-10   2.594223E-10
+0      18    0.0              -3.309704E-02   2.152175E-02  -3.319748E-02   -74.3543    2.617047E-02   -3.774576E-02   3.710322E-02
+            -1.000000E+00      1.987193E-10  -1.686509E-11  -1.292051E-10   -15.4677    2.165959E-10   -3.474169E-11   1.572622E-10
+0      19    0.0              -2.518462E-02   1.645392E-02  -2.301929E-02   -75.5323    1.942360E-02   -2.815429E-02   2.762284E-02
+            -1.000000E+00      3.891873E-10  -1.890924E-10   1.653255E-10     7.9774    4.007716E-10   -2.006766E-10   3.535939E-10
+0      20    0.0              -1.662527E-02   1.105520E-02  -1.215481E-02   -78.1466    1.233075E-02   -1.790082E-02   1.755268E-02
+            -1.000000E+00      2.731735E-10  -6.959253E-11  -1.386553E-10   -11.0121    2.866646E-10   -8.308370E-11   2.240007E-10
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    42
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.460003E+02
+                             S T R A I N S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      STRAIN               STRAINS IN ELEMENT COORD SYSTEM             PRINCIPAL  STRAINS (ZERO SHEAR)                 
+    ID.       CURVATURE          NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0       1    0.0              -7.410812E-13  -3.507318E-13   1.338162E-12    53.1311    1.510600E-13   -1.242873E-12   8.832518E-13
+            -1.000000E+00     -6.671604E-01  -1.057991E-01   7.639753E-01    63.1540    8.754152E-02   -8.605011E-01   6.049629E-01
+0       2    0.0              -4.256681E-15   4.180061E-12   9.604141E-12    56.7709    7.325937E-12   -3.150132E-12   6.206461E-12
+            -1.000000E+00      2.934296E+00   1.141161E+00  -7.644281E+00   -38.3993    5.963616E+00   -1.888159E+00   4.732399E+00
+0       3    0.0              -4.745166E-12   5.783335E-12  -1.692133E-11   -60.9450    1.048378E-11   -9.445614E-12   1.151144E-11
+            -1.000000E+00     -8.261127E-01   3.328117E+00  -4.283519E+00   -67.0611    4.234547E+00   -1.732543E+00   3.544613E+00
+0       4    0.0               9.681920E-13   2.427972E-12  -2.154723E-11   -46.9379    1.249640E-11   -9.100231E-12   1.252010E-11
+            -1.000000E+00     -4.217028E-01   1.055569E+00  -1.754831E+00   -65.0459    1.463859E+00   -8.299936E-01   1.341105E+00
+0       5    0.0               1.204883E-12  -5.335054E-13  -2.084091E-11   -42.6159    1.079233E-11   -1.012095E-11   1.207636E-11
+            -1.000000E+00      6.620007E-02  -1.446161E+00   1.154255E+00    18.6757    2.612742E-01   -1.641235E+00   1.190841E+00
+0       6    0.0               4.224812E-12  -4.859171E-12   1.069051E-11    24.8223    6.697192E-12   -7.331552E-12   8.102259E-12
+            -1.000000E+00      5.404108E-01  -3.629331E+00   3.807923E+00    21.2016    1.278970E+00   -4.367890E+00   3.418942E+00
+0       7    0.0              -4.987243E-12   8.202087E-12   2.774745E-11    57.7117    1.696873E-11   -1.375389E-11   1.777005E-11
+            -1.000000E+00      8.955240E-01  -5.012697E+00   5.622489E+00    21.7902    2.019387E+00   -6.136559E+00   4.904753E+00
+0       8    0.0              -4.337966E-12   5.377043E-12  -5.346374E-11   -50.1495    2.768916E-11   -2.665008E-11   3.137469E-11
+            -1.000000E+00      1.053244E+00  -5.291107E+00   6.198273E+00    22.1664    2.315857E+00   -6.553719E+00   5.312120E+00
+0       9    0.0               4.809988E-12  -4.175803E-12  -1.671627E-11   -30.8699    9.806273E-12   -9.172088E-12   1.095920E-11
+            -1.000000E+00      9.776504E-01  -4.398832E+00   5.401904E+00    22.5676    2.100155E+00   -5.521337E+00   4.545644E+00
+0      10    0.0               3.175913E-12  -2.333570E-12   3.472870E-11    40.4928    1.800268E-11   -1.716033E-11   2.030332E-11
+            -1.000000E+00      6.644597E-01  -2.392792E+00   3.525512E+00    24.5344    1.469073E+00   -3.197405E+00   2.755100E+00
+0      11    0.0               5.295432E-12  -5.258904E-12  -3.478889E-12    -9.1216    5.574717E-12   -5.538189E-12   6.416051E-12
+            -1.000000E+00     -2.186752E+00   7.018431E-01   6.826738E-01    83.3515    7.416299E-01   -2.226539E+00   1.783724E+00
+0      12    0.0              -1.384306E-12   0.0            1.652511E-12    64.9764    3.857033E-13   -1.770010E-12   1.327387E-12
+            -1.000000E+00      5.946492E+00   0.0           -1.169390E+00    -5.5627    6.003438E+00   -5.694538E-02   4.021408E+00
+0      13    0.0              -2.380873E-12  -2.221778E-12  -7.254321E-12   -45.6282    1.326707E-12   -5.929358E-12   4.461388E-12
+            -1.000000E+00      5.841496E+00  -1.954210E+00   1.531996E-01     0.5629    5.842249E+00   -1.954963E+00   4.684496E+00
+0      14    0.0              -1.166360E-11   1.014500E-11  -1.788949E-11   -70.3191    1.334432E-11   -1.486292E-11   1.629333E-11
+            -1.000000E+00      3.711406E+00  -1.021594E+00  -1.535159E-01    -0.9289    3.712651E+00   -1.022838E+00   2.877299E+00
+0      15    0.0              -9.619327E-12   6.294965E-12  -8.397697E-12   -76.0901    7.334846E-12   -1.065921E-11   1.044780E-11
+            -1.000000E+00      8.252229E-01   3.400541E-02  -2.231225E-01    -7.8742    8.406521E-01    1.857621E-02   5.543464E-01
+0      16    0.0              -6.950412E-13   1.437073E-12   8.935956E-12    51.7099    4.964414E-12   -4.222382E-12   5.309763E-12
+            -1.000000E+00     -2.248174E+00   1.087746E+00  -2.529049E-01   -87.8323    1.092533E+00   -2.252960E+00   1.969872E+00
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    43
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.460003E+02
+                             S T R A I N S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      STRAIN               STRAINS IN ELEMENT COORD SYSTEM             PRINCIPAL  STRAINS (ZERO SHEAR)                 
+    ID.       CURVATURE          NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0      17    0.0               1.258772E-11  -1.461542E-11   1.703499E-11    16.0277    1.503453E-11   -1.706223E-11   1.854339E-11
+            -1.000000E+00     -4.826036E+00   1.901505E+00  -2.263288E-01   -89.0366    1.903408E+00   -4.827939E+00   4.006744E+00
+0      18    0.0              -1.412290E-11   1.400213E-11  -4.193760E-11   -61.9237    2.518729E-11   -2.530806E-11   2.915353E-11
+            -1.000000E+00     -6.340380E+00   2.296196E+00  -1.499301E-01   -89.5027    2.296847E+00   -6.341031E+00   5.166067E+00
+0      19    0.0              -1.254167E-11   9.466206E-12  -4.694728E-12   -83.9791    9.713791E-12   -1.278926E-11   1.303252E-11
+            -1.000000E+00     -6.458033E+00   2.184337E+00  -4.244355E-02   -89.8593    2.184389E+00   -6.458085E+00   5.189108E+00
+0      20    0.0               7.335410E-12  -6.594281E-12   2.276484E-11    29.2689    1.371480E-11   -1.297367E-11   1.541057E-11
+            -1.000000E+00     -5.154081E+00   1.573979E+00   5.361699E-02    89.7717    1.574086E+00   -5.154187E+00   4.063744E+00
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    44
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.725331E+01
+                           S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      FIBER               STRESSES IN ELEMENT COORD SYSTEM             PRINCIPAL STRESSES (ZERO SHEAR)                 
+    ID.       DISTANCE           NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0       1   -2.500000E-02     -4.832601E+08  -2.271619E+08   1.724333E+08    63.2988   -1.404325E+08   -5.699896E+08   5.143582E+08
+             2.500000E-02      4.832601E+08   2.271619E+08  -1.724333E+08   -26.7012    5.699896E+08    1.404325E+08   5.143582E+08
+0       2   -2.500000E-02     -7.036904E+09  -4.916588E+09   5.319633E+09    50.6354   -5.525006E+08   -1.140099E+10   1.113503E+10
+             2.500000E-02      7.036904E+09   4.916588E+09  -5.319633E+09   -39.3646    1.140099E+10    5.525006E+08   1.113503E+10
+0       3   -2.500000E-02     -1.489950E+09  -9.616201E+09   3.902764E+09    21.9234    8.080003E+07   -1.118695E+10   1.122757E+10
+             2.500000E-02      1.489950E+09   9.616201E+09  -3.902764E+09   -68.0766    1.118695E+10   -8.080003E+07   1.122757E+10
+0       4   -2.500000E-02     -1.388878E+09  -9.017498E+09   3.672357E+09    21.9569    9.163671E+07   -1.049801E+10   1.054413E+10
+             2.500000E-02      1.388878E+09   9.017498E+09  -3.672357E+09   -68.0431    1.049801E+10   -9.163671E+07   1.054413E+10
+0       5   -2.500000E-02     -1.234711E+09  -8.197119E+09   3.362045E+09    22.0012    1.237268E+08   -9.555556E+09   9.618017E+09
+             2.500000E-02      1.234711E+09   8.197119E+09  -3.362045E+09   -67.9988    9.555556E+09   -1.237268E+08   9.618017E+09
+0       6   -2.500000E-02     -1.052435E+09  -7.173440E+09   2.968915E+09    22.0649    1.509967E+08   -8.376871E+09   8.453381E+09
+             2.500000E-02      1.052435E+09   7.173440E+09  -2.968915E+09   -67.9351    8.376871E+09   -1.509967E+08   8.453381E+09
+0       7   -2.500000E-02     -8.439857E+08  -5.971414E+09   2.501923E+09    22.1506    1.745127E+08   -6.989913E+09   7.078782E+09
+             2.500000E-02      8.439857E+08   5.971414E+09  -2.501923E+09   -67.8494    6.989913E+09   -1.745127E+08   7.078782E+09
+0       8   -2.500000E-02     -6.145156E+08  -4.620742E+09   1.972800E+09    22.2816    1.938483E+08   -5.429106E+09   5.528579E+09
+             2.500000E-02      6.145156E+08   4.620742E+09  -1.972800E+09   -67.7184    5.429106E+09   -1.938483E+08   5.528579E+09
+0       9   -2.500000E-02     -3.694978E+08  -3.152290E+09   1.393074E+09    22.5173    2.080239E+08   -3.729812E+09   3.838054E+09
+             2.500000E-02      3.694978E+08   3.152290E+09  -1.393074E+09   -67.4827    3.729812E+09   -2.080239E+08   3.838054E+09
+0      10   -2.500000E-02     -9.535333E+07  -1.513961E+09   8.045190E+08    24.2995    2.678924E+08   -1.877207E+09   2.024491E+09
+             2.500000E-02      9.535333E+07   1.513961E+09  -8.045190E+08   -65.7005    1.877207E+09   -2.678924E+08   2.024491E+09
+0      11   -2.500000E-02     -1.359710E+09  -5.374890E+07   1.616004E+08    83.0498   -3.404952E+07   -1.379410E+09   1.362704E+09
+             2.500000E-02      1.359710E+09   5.374890E+07  -1.616004E+08    -6.9502    1.379410E+09    3.404952E+07   1.362704E+09
+0      12   -2.500000E-02     -1.212330E+10  -4.243155E+09   7.246055E+08    84.7897   -4.177079E+09   -1.218938E+10   1.072907E+10
+             2.500000E-02      1.212330E+10   4.243155E+09  -7.246055E+08    -5.2103    1.218938E+10    4.177079E+09   1.072907E+10
+0      13   -2.500000E-02     -1.157077E+10   1.519017E+08  -1.537082E+08   -89.2489    1.539167E+08   -1.157278E+10   1.165050E+10
+             2.500000E-02      1.157077E+10  -1.519017E+08   1.537082E+08     0.7511    1.157278E+10   -1.539167E+08   1.165050E+10
+0      14   -2.500000E-02     -1.110114E+10  -8.102249E+07   1.599528E+07    89.9168   -8.099927E+07   -1.110116E+10   1.106088E+10
+             2.500000E-02      1.110114E+10   8.102249E+07  -1.599528E+07    -0.0832    1.110116E+10    8.099927E+07   1.106088E+10
+0      15   -2.500000E-02     -1.039965E+10  -1.041820E+08   1.683396E+07    89.9063   -1.041545E+08   -1.039968E+10   1.034799E+10
+             2.500000E-02      1.039965E+10   1.041820E+08  -1.683396E+07    -0.0937    1.039968E+10    1.041545E+08   1.034799E+10
+0      16   -2.500000E-02     -9.429340E+09  -1.340037E+08   2.455313E+07    89.8487   -1.339388E+08   -9.429405E+09   9.363154E+09
+             2.500000E-02      9.429340E+09   1.340037E+08  -2.455313E+07    -0.1513    9.429405E+09    1.339388E+08   9.363154E+09
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    45
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.725331E+01
+                           S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      FIBER               STRESSES IN ELEMENT COORD SYSTEM             PRINCIPAL STRESSES (ZERO SHEAR)                 
+    ID.       DISTANCE           NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0      17   -2.500000E-02     -8.224593E+09  -1.598612E+08   3.111756E+07    89.7789   -1.597411E+08   -8.224713E+09   8.146017E+09
+             2.500000E-02      8.224593E+09   1.598612E+08  -3.111756E+07    -0.2211    8.224713E+09    1.597411E+08   8.146017E+09
+0      18   -2.500000E-02     -6.815370E+09  -1.817976E+08   3.692578E+07    89.6811   -1.815921E+08   -6.815575E+09   6.726618E+09
+             2.500000E-02      6.815370E+09   1.817976E+08  -3.692578E+07    -0.3189    6.815575E+09    1.815921E+08   6.726618E+09
+0      19   -2.500000E-02     -5.237201E+09  -1.997358E+08   4.138397E+07    89.5293   -1.993958E+08   -5.237540E+09   5.140744E+09
+             2.500000E-02      5.237201E+09   1.997358E+08  -4.138397E+07    -0.4707    5.237540E+09    1.993958E+08   5.140744E+09
+0      20   -2.500000E-02     -3.534201E+09  -2.233535E+08   4.019066E+07    89.3046   -2.228657E+08   -3.534689E+09   3.428693E+09
+             2.500000E-02      3.534201E+09   2.233535E+08  -4.019066E+07    -0.6954    3.534689E+09    2.228657E+08   3.428693E+09
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    46
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  1.387474E+02
+                           S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      FIBER               STRESSES IN ELEMENT COORD SYSTEM             PRINCIPAL STRESSES (ZERO SHEAR)                 
+    ID.       DISTANCE           NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0       1   -2.500000E-02      1.108833E+08  -3.860034E+08  -3.224551E+08   -26.1933    2.695044E+08   -5.446244E+08   7.183502E+08
+             2.500000E-02      1.108833E+08  -3.860034E+08  -3.224551E+08   -26.1933    2.695044E+08   -5.446244E+08   7.183502E+08
+0       2   -2.500000E-02      3.957471E+09  -1.833179E+09  -6.382976E+09   -32.8005    8.071090E+09   -5.946798E+09   1.218622E+10
+             2.500000E-02      3.957471E+09  -1.833179E+09  -6.382976E+09   -32.8005    8.071090E+09   -5.946798E+09   1.218622E+10
+0       3   -2.500000E-02      1.288406E+09   4.573754E+09  -8.751045E+09   -50.3157    1.183497E+10   -5.972805E+09   1.569805E+10
+             2.500000E-02      1.288406E+09   4.573754E+09  -8.751045E+09   -50.3157    1.183497E+10   -5.972805E+09   1.569805E+10
+0       4   -2.500000E-02      1.721387E+09   4.321095E+09  -8.335643E+09   -49.4316    1.145762E+10   -5.415143E+09   1.492131E+10
+             2.500000E-02      1.721387E+09   4.321095E+09  -8.335643E+09   -49.4316    1.145762E+10   -5.415143E+09   1.492131E+10
+0       5   -2.500000E-02      1.673770E+09   3.889821E+09  -7.714835E+09   -49.0865    1.057579E+10   -5.012202E+09   1.378324E+10
+             2.500000E-02      1.673770E+09   3.889821E+09  -7.714835E+09   -49.0865    1.057579E+10   -5.012202E+09   1.378324E+10
+0       6   -2.500000E-02      1.571738E+09   3.355803E+09  -6.893829E+09   -48.6864    9.415072E+09   -4.487532E+09   1.228951E+10
+             2.500000E-02      1.571738E+09   3.355803E+09  -6.893829E+09   -48.6864    9.415072E+09   -4.487532E+09   1.228951E+10
+0       7   -2.500000E-02      1.428588E+09   2.734536E+09  -5.893686E+09   -48.1611    8.011310E+09   -3.848186E+09   1.047944E+10
+             2.500000E-02      1.428588E+09   2.734536E+09  -5.893686E+09   -48.1611    8.011310E+09   -3.848186E+09   1.047944E+10
+0       8   -2.500000E-02      1.248289E+09   2.042113E+09  -4.740406E+09   -47.3931    6.402195E+09   -3.111792E+09   8.402003E+09
+             2.500000E-02      1.248289E+09   2.042113E+09  -4.740406E+09   -47.3931    6.402195E+09   -3.111792E+09   8.402003E+09
+0       9   -2.500000E-02      1.034808E+09   1.292803E+09  -3.464624E+09   -46.0661    4.630830E+09   -2.303219E+09   6.116798E+09
+             2.500000E-02      1.034808E+09   1.292803E+09  -3.464624E+09   -46.0661    4.630830E+09   -2.303219E+09   6.116798E+09
+0      10   -2.500000E-02      7.647489E+08   3.574658E+08  -2.126104E+09   -42.2644    2.696942E+09   -1.574727E+09   3.741685E+09
+             2.500000E-02      7.647489E+08   3.574658E+08  -2.126104E+09   -42.2644    2.696942E+09   -1.574727E+09   3.741685E+09
+0      11   -2.500000E-02     -7.846507E+08   6.438759E+08   3.506509E+08    76.9262    7.253061E+08   -8.660808E+08   1.379978E+09
+             2.500000E-02     -7.846507E+08   6.438759E+08   3.506509E+08    76.9262    7.253061E+08   -8.660809E+08   1.379978E+09
+0      12   -2.500000E-02     -1.057481E+10  -3.701184E+09   7.587683E+09    57.1840    1.191746E+09   -1.546774E+10   1.609674E+10
+             2.500000E-02     -1.057481E+10  -3.701184E+09   7.587683E+09    57.1840    1.191746E+09   -1.546774E+10   1.609674E+10
+0      13   -2.500000E-02     -8.340994E+09   5.178891E+09  -6.329681E+09   -68.4413    7.679709E+09   -1.084181E+10   1.611784E+10
+             2.500000E-02     -8.340994E+09   5.178891E+09  -6.329681E+09   -68.4413    7.679709E+09   -1.084181E+10   1.611784E+10
+0      14   -2.500000E-02     -1.003578E+10   3.875724E+09  -4.928738E+09   -72.3396    5.444932E+09   -1.160499E+10   1.508348E+10
+             2.500000E-02     -1.003578E+10   3.875724E+09  -4.928738E+09   -72.3396    5.444932E+09   -1.160499E+10   1.508348E+10
+0      15   -2.500000E-02     -9.438380E+09   3.611245E+09  -4.481482E+09   -72.7586    5.002041E+09   -1.082918E+10   1.401640E+10
+             2.500000E-02     -9.438380E+09   3.611245E+09  -4.481482E+09   -72.7586    5.002041E+09   -1.082918E+10   1.401640E+10
+0      16   -2.500000E-02     -8.544816E+09   3.281450E+09  -3.944855E+09   -73.1457    4.476553E+09   -9.739919E+09   1.258995E+10
+             2.500000E-02     -8.544816E+09   3.281450E+09  -3.944855E+09   -73.1457    4.476553E+09   -9.739919E+09   1.258995E+10
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    47
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  1.387474E+02
+                           S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      FIBER               STRESSES IN ELEMENT COORD SYSTEM             PRINCIPAL STRESSES (ZERO SHEAR)                 
+    ID.       DISTANCE           NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0      17   -2.500000E-02     -7.427929E+09   2.867098E+09  -3.306395E+09   -73.6431    3.837520E+09   -8.398352E+09   1.083917E+10
+             2.500000E-02     -7.427929E+09   2.867098E+09  -3.306395E+09   -73.6431    3.837520E+09   -8.398352E+09   1.083917E+10
+0      18   -2.500000E-02     -6.117983E+09   2.378272E+09  -2.582026E+09   -74.3543    3.101407E+09   -6.841118E+09   8.811169E+09
+             2.500000E-02     -6.117983E+09   2.378272E+09  -2.582026E+09   -74.3543    3.101407E+09   -6.841118E+09   8.811169E+09
+0      19   -2.500000E-02     -4.648896E+09   1.828210E+09  -1.790389E+09   -75.5323    2.290159E+09   -5.110846E+09   6.562791E+09
+             2.500000E-02     -4.648896E+09   1.828210E+09  -1.790389E+09   -75.5323    2.290159E+09   -5.110846E+09   6.562791E+09
+0      20   -2.500000E-02     -3.052707E+09   1.253144E+09  -9.453745E+08   -78.1466    1.451563E+09   -3.251126E+09   4.170860E+09
+             2.500000E-02     -3.052707E+09   1.253144E+09  -9.453745E+08   -78.1466    1.451563E+09   -3.251126E+09   4.170860E+09
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    48
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.460003E+02
+                           S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      FIBER               STRESSES IN ELEMENT COORD SYSTEM             PRINCIPAL STRESSES (ZERO SHEAR)                 
+    ID.       DISTANCE           NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0       1   -2.500000E-02     -4.213103E+09  -2.030032E+09   1.485508E+09    63.1540   -1.278151E+09   -4.964983E+09   4.465281E+09
+             2.500000E-02      4.213103E+09   2.030032E+09  -1.485508E+09   -26.8460    4.964983E+09    1.278151E+09   4.465281E+09
+0       2   -2.500000E-02      1.994523E+10   1.297193E+10  -1.486388E+10   -38.3993    3.172592E+10    1.191236E+09   3.114739E+10
+             2.500000E-02     -1.994523E+10  -1.297193E+10   1.486388E+10    51.6007   -1.191236E+09   -3.172592E+10   3.114739E+10
+0       3   -2.500000E-02      2.026578E+09   1.818191E+10  -8.329065E+09   -67.0611    2.170692E+10   -1.498428E+09   2.249360E+10
+             2.500000E-02     -2.026578E+09  -1.818191E+10   8.329065E+09    22.9389    1.498428E+09   -2.170692E+10   2.249360E+10
+0       4   -2.500000E-02     -3.126299E+08   5.432314E+09  -3.412171E+09   -65.0459    7.020112E+09   -1.900427E+09   8.138477E+09
+             2.500000E-02      3.126299E+08  -5.432314E+09   3.412171E+09    24.9541    1.900427E+09   -7.020112E+09   8.138477E+09
+0       5   -2.500000E-02     -2.632217E+09  -8.513621E+09   2.244385E+09    18.6757   -1.873595E+09   -9.272242E+09   8.491902E+09
+             2.500000E-02      2.632217E+09   8.513621E+09  -2.244385E+09   -71.3243    9.272242E+09    1.873595E+09   8.491902E+09
+0       6   -2.500000E-02     -4.366655E+09  -2.058232E+10   7.404294E+09    21.2016   -1.494482E+09   -2.345449E+10   2.274411E+10
+             2.500000E-02      4.366655E+09   2.058232E+10  -7.404294E+09   -68.7984    2.345449E+10    1.494482E+09   2.274411E+10
+0       7   -2.500000E-02     -5.138836E+09  -2.811525E+10   1.093262E+10    21.7902   -7.682596E+08   -3.248583E+10   3.210859E+10
+             2.500000E-02      5.138836E+09   2.811525E+10  -1.093262E+10   -68.2098    3.248583E+10    7.682596E+08   3.210859E+10
+0       8   -2.500000E-02     -4.778205E+09  -2.945068E+10   1.205220E+10    22.1664    1.319542E+08   -3.436084E+10   3.442701E+10
+             2.500000E-02      4.778205E+09   2.945068E+10  -1.205220E+10   -67.8336    3.436084E+10   -1.319542E+08   3.442701E+10
+0       9   -2.500000E-02     -3.362040E+09  -2.427058E+10   1.050370E+10    22.5676    1.003256E+09   -2.863588E+10   2.915046E+10
+             2.500000E-02      3.362040E+09   2.427058E+10  -1.050370E+10   -67.4324    2.863588E+10   -1.003256E+09   2.915046E+10
+0      10   -2.500000E-02     -1.035146E+09  -1.292446E+10   6.855162E+09    24.5344    2.093906E+09   -1.605351E+10   1.719634E+10
+             2.500000E-02      1.035146E+09   1.292446E+10  -6.855162E+09   -65.4656    1.605351E+10   -2.093906E+09   1.719634E+10
+0      11   -2.500000E-02     -1.161346E+10  -3.800349E+08   1.327421E+09    83.3515   -2.253086E+08   -1.176819E+10   1.165717E+10
+             2.500000E-02      1.161346E+10   3.800349E+08  -1.327421E+09    -6.6485    1.176819E+10    2.253086E+08   1.165717E+10
+0      12   -2.500000E-02      3.557730E+10   1.245206E+10  -2.273813E+09    -5.5627    3.579876E+10    1.223060E+10   3.151664E+10
+             2.500000E-02     -3.557730E+10  -1.245206E+10   2.273813E+09    84.4373   -1.223060E+10   -3.579876E+10   3.151664E+10
+0      13   -2.500000E-02      3.085697E+10   5.403383E+08   2.978882E+08     0.5629    3.085990E+10    5.374116E+08   3.059474E+10
+             2.500000E-02     -3.085697E+10  -5.403383E+08  -2.978882E+08   -89.4371   -5.374116E+08   -3.085990E+10   3.059474E+10
+0      14   -2.500000E-02      2.006576E+10   1.659648E+09  -2.985032E+08    -0.9289    2.007060E+10    1.654808E+09   1.929649E+10
+             2.500000E-02     -2.006576E+10  -1.659648E+09   2.985032E+08    89.0711   -1.654808E+09   -2.007060E+10   1.929649E+10
+0      15   -2.500000E-02      5.008439E+09   1.931482E+09  -4.338492E+08    -7.8742    5.068441E+09    1.871480E+09   4.439149E+09
+             2.500000E-02     -5.008439E+09  -1.931482E+09   4.338492E+08    82.1258   -1.871480E+09   -5.068441E+09   4.439149E+09
+0      16   -2.500000E-02     -1.117285E+10   1.800169E+09  -4.917595E+08   -87.8323    1.818783E+09   -1.119147E+10   1.220294E+10
+             2.500000E-02      1.117285E+10  -1.800169E+09   4.917595E+08     2.1677    1.119147E+10   -1.818783E+09   1.220294E+10
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    49
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.460003E+02
+                           S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )
+  ELEMENT      FIBER               STRESSES IN ELEMENT COORD SYSTEM             PRINCIPAL STRESSES (ZERO SHEAR)                 
+    ID.       DISTANCE           NORMAL-X       NORMAL-Y      SHEAR-XY       ANGLE         MAJOR           MINOR        VON MISES
+0      17   -2.500000E-02     -2.489193E+10   1.270725E+09  -4.400837E+08   -89.0366    1.278125E+09   -2.489933E+10   2.556237E+10
+             2.500000E-02      2.489193E+10  -1.270725E+09   4.400837E+08     0.9634    2.489933E+10   -1.278125E+09   2.556237E+10
+0      18   -2.500000E-02     -3.312562E+10   4.610633E+08  -2.915307E+08   -89.5027    4.635936E+08   -3.312815E+10   3.336237E+10
+             2.500000E-02      3.312562E+10  -4.610633E+08   2.915307E+08     0.4973    3.312815E+10   -4.635936E+08   3.336237E+10
+0      19   -2.500000E-02     -3.406377E+10  -4.545481E+08  -8.252913E+07   -89.8593   -4.543455E+08   -3.406397E+10   3.383908E+10
+             2.500000E-02      3.406377E+10   4.545481E+08   8.252913E+07     0.1407    3.406397E+10    4.543455E+08   3.383908E+10
+0      20   -2.500000E-02     -2.754044E+10  -1.375762E+09   1.042553E+08    89.7717   -1.375347E+09   -2.754086E+10   2.687958E+10
+             2.500000E-02      2.754044E+10   1.375762E+09  -1.042552E+08    -0.2283    2.754086E+10    1.375347E+09   2.687958E+10
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    50
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.725331E+01
+      CYCLES =  8.308637E-01
+                   MODE               1
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+          1                  F-OF-SPC      -2.360092E+05   1.045441E-04  -2.360092E+05   9.177697E+04  -5.686798E+04  -9.177697E+04
+          1            12    TRIA3          2.360092E+05  -1.045442E-04   2.360092E+05  -9.177697E+04   5.686798E+04   9.177697E+04
+          1                  *TOTALS*      -1.164153E-10  -7.657159E-11  -3.201421E-10   1.455192E-11   7.275958E-12   1.455192E-11
+0         2                  F-OF-SPC       2.555087E+05  -1.176117E-04   2.555087E+05   8.104587E+04   7.394224E+04  -8.104587E+04
+          2             2    TRIA3         -8.474255E+04   6.340675E-05  -8.474255E+04  -8.548359E+04  -1.486531E+04   8.548359E+04
+          2            12    TRIA3         -1.707662E+05   5.420530E-05  -1.707662E+05   4.437726E+03  -5.907693E+04  -4.437726E+03
+          2                  *TOTALS*       2.299203E-09   3.332407E-10   5.238689E-10  -1.273293E-11   2.910383E-11   1.637090E-11
+0         3             1    TRIA3          1.360874E+05  -2.522692E-05   1.360874E+05  -2.542511E-07   1.556473E-07   2.367888E-07
+          3                  *TOTALS*       1.360874E+05  -2.522692E-05   1.360874E+05  -2.542511E-07   1.556473E-07   2.367888E-07
+0         4             1    TRIA3          1.117505E+04   1.024863E-05   1.117505E+04  -3.821470E+02   1.636323E+03   3.821470E+02
+          4            11    TRIA3          1.241271E+05   8.430730E-06   1.241271E+05   3.821470E+02  -1.636323E+03  -3.821470E+02
+          4                  *TOTALS*       1.353021E+05   1.867936E-05   1.353021E+05   3.522146E-07   7.629424E-07  -3.531459E-07
+0         5             9    TRIA3         -1.198414E+03   5.703019E-05  -1.198414E+03  -1.260549E+03  -4.278656E+03   1.260549E+03
+          5            19    TRIA3          1.224735E+05  -5.686935E-05   1.224735E+05   3.348309E+04   1.555352E+03  -3.348309E+04
+          5            20    TRIA3         -1.292183E+05   5.915823E-06  -1.292183E+05  -3.222255E+04   2.723304E+03   3.222255E+04
+          5                  *TOTALS*      -7.943178E+03   6.076667E-06  -7.943178E+03   6.570190E-08  -1.611043E-07  -6.733171E-08
+0         6             8    TRIA3          1.210039E+05   1.132652E-05   1.210039E+05   3.417235E+04   2.623265E+03  -3.417235E+04
+          6             9    TRIA3         -1.285358E+05  -6.800916E-05  -1.285358E+05  -3.292483E+04   1.574499E+03   3.292483E+04
+          6            19    TRIA3         -1.035283E+03   5.806308E-05  -1.035283E+03  -1.247520E+03  -4.197765E+03   1.247520E+03
+          6                  *TOTALS*      -8.567201E+03   1.380429E-06  -8.567201E+03  -5.463662E-07  -3.281457E-07   5.436887E-07
+0         7            10    TRIA3         -3.267900E+03  -2.816464E-05  -3.267900E+03  -7.445177E+02  -5.380656E+03   7.445177E+02
+          7            11    TRIA3         -1.354239E+05  -2.319635E-06  -1.354239E+05  -1.986411E+04   3.603403E+03   1.986411E+04
+          7            20    TRIA3          1.335356E+05   3.105428E-05   1.335356E+05   2.060863E+04   1.777253E+03  -2.060863E+04
+          7                  *TOTALS*      -5.156218E+03   5.700131E-07  -5.156218E+03  -1.345470E-07   7.863418E-07   1.676090E-07
+0         8             6    TRIA3          9.559737E+04  -6.798345E-06   9.559736E+04   5.710412E+04   2.095272E+03  -5.710412E+04
+          8             7    TRIA3         -1.074555E+05  -2.702136E-05  -1.074555E+05  -5.609329E+04   1.320080E+03   5.609329E+04
+          8            17    TRIA3         -2.401654E+03   7.463303E-06  -2.401654E+03  -1.010828E+03  -3.415352E+03   1.010828E+03
+          8                  *TOTALS*      -1.425978E+04  -2.635640E-05  -1.425978E+04   4.708781E-07  -6.284681E-07  -4.715766E-07
+0         9             2    TRIA3          1.576399E+05  -4.714329E-05   1.576399E+05  -1.429195E+03   1.055994E+04   1.429195E+03
+          9            12    TRIA3         -6.524306E+04   5.033896E-05  -6.524306E+04   9.125383E+04  -9.866038E+03  -9.125383E+04
+          9            13    TRIA3         -1.097277E+05  -4.404294E-05  -1.097277E+05  -8.982463E+04  -6.939000E+02   8.982463E+04
+          9                  *TOTALS*      -1.733089E+04  -4.084726E-05  -1.733089E+04   2.789602E-07   2.329652E-07  -2.796878E-07
+0        10             2    TRIA3         -7.289731E+04  -1.625462E-05  -7.289731E+04   8.766002E+04  -6.841453E+03  -8.766002E+04
+         10             3    TRIA3         -8.180990E+03   1.090857E-04  -8.180990E+03  -8.377624E+04   1.701666E+03   8.377624E+04
+         10            13    TRIA3          5.586621E+04  -5.864563E-05   5.586621E+04  -3.883776E+03   5.139787E+03   3.883776E+03
+         10                  *TOTALS*      -2.521209E+04   3.418549E-05  -2.521209E+04  -4.185276E-07   3.411769E-07   4.181784E-07
+0        11             3    TRIA3         -3.615314E+04  -6.953820E-05  -3.615314E+04  -2.362554E+02  -4.040638E+02   2.362554E+02
+         11            13    TRIA3          5.386148E+04   1.026737E-04   5.386148E+04   8.385296E+04  -4.955490E+02  -8.385296E+04
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    51
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.725331E+01
+      CYCLES =  8.308637E-01
+                   MODE               1
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+         11            14    TRIA3         -3.827626E+04  -5.453963E-05  -3.827626E+04  -8.361671E+04   8.996128E+02   8.361671E+04
+         11                  *TOTALS*      -2.056792E+04  -2.140415E-05  -2.056792E+04   1.585286E-07  -8.476854E-08  -1.593435E-07
+0        12             1    TRIA3         -1.472625E+05   1.478195E-05  -1.472625E+05  -8.453600E+03  -2.426518E+03   8.453600E+03
+         12            10    TRIA3          1.339837E+05  -2.326733E-05   1.339837E+05   7.253173E+03   3.594791E+03  -7.253173E+03
+         12            11    TRIA3          1.129684E+04  -5.872676E-06   1.129684E+04   1.200427E+03  -1.168273E+03  -1.200427E+03
+         12                  *TOTALS*      -1.981912E+03  -1.435805E-05  -1.981912E+03   1.833541E-09  -1.002627E-07  -1.394073E-08
+0        13             4    TRIA3         -6.450505E+02  -4.981984E-05  -6.450505E+02  -5.146442E+02  -1.884668E+03   5.146442E+02
+         13            14    TRIA3          4.259041E+04   1.025890E-04   4.259041E+04   8.006949E+04   6.358275E+02  -8.006949E+04
+         13            15    TRIA3         -6.170910E+04  -4.668880E-05  -6.170910E+04  -7.955485E+04   1.248840E+03   7.955485E+04
+         13                  *TOTALS*      -1.976374E+04   6.080345E-06  -1.976374E+04  -7.780909E-08  -3.982859E-08   7.734343E-08
+0        14             3    TRIA3          4.433413E+04  -3.955003E-05   4.433413E+04   8.030215E+04   1.258811E+03  -8.030215E+04
+         14             4    TRIA3         -6.003893E+04   1.025636E-04  -6.003893E+04  -7.993546E+04   5.816861E+02   7.993546E+04
+         14            14    TRIA3         -4.314151E+03  -4.804190E-05  -4.314151E+03  -3.666912E+02  -1.840497E+03   3.666912E+02
+         14                  *TOTALS*      -2.001895E+04   1.497172E-05  -2.001895E+04   1.299486E-07  -4.147296E-08  -1.312583E-07
+0        15             5    TRIA3         -3.083257E+03  -7.803099E-05  -3.083257E+03  -7.226570E+02  -2.466179E+03   7.226570E+02
+         15            15    TRIA3          6.485684E+04   1.223545E-04   6.485684E+04   7.400871E+04   8.103288E+02  -7.400871E+04
+         15            16    TRIA3         -7.996296E+04  -3.506480E-05  -7.996296E+04  -7.328606E+04   1.655850E+03   7.328606E+04
+         15                  *TOTALS*      -1.818937E+04   9.258693E-06  -1.818937E+04   8.984352E-08   1.552617E-07  -9.182259E-08
+0        16             7    TRIA3          1.096594E+05   1.187111E-05   1.096594E+05   4.621345E+04   2.387977E+03  -4.621345E+04
+         16             8    TRIA3         -1.192403E+05   3.344472E-05  -1.192403E+05  -4.507353E+04   1.469367E+03   4.507353E+04
+         16            18    TRIA3         -1.976883E+03   6.843868E-06  -1.976883E+03  -1.139917E+03  -3.857344E+03   1.139917E+03
+         16                  *TOTALS*      -1.155779E+04   5.215971E-05  -1.155779E+04   6.147457E-08   4.458707E-08  -6.001937E-08
+0        17             6    TRIA3         -2.603879E+03  -5.165565E-05  -2.603879E+03  -8.931180E+02  -3.049948E+03   8.931180E+02
+         17            16    TRIA3          8.273757E+04   5.303867E-05   8.273757E+04   6.609071E+04   1.037796E+03  -6.609071E+04
+         17            17    TRIA3         -9.630213E+04  -2.863662E-05  -9.630213E+04  -6.519759E+04   2.012152E+03   6.519759E+04
+         17                  *TOTALS*      -1.616843E+04  -2.725360E-05  -1.616843E+04  -5.058246E-08   6.792397E-07   4.313188E-08
+0        18             4    TRIA3          6.068398E+04  -5.274665E-05   6.068398E+04   7.439461E+04   1.348594E+03  -7.439461E+04
+         18             5    TRIA3         -7.607766E+04   1.199042E-04  -7.607766E+04  -7.370688E+04   9.331548E+02   7.370688E+04
+         18            15    TRIA3         -3.147748E+03  -7.568058E-05  -3.147748E+03  -6.877306E+02  -2.281748E+03   6.877306E+02
+         18                  *TOTALS*      -1.854143E+04  -8.523017E-06  -1.854143E+04  -6.942719E-08   1.513690E-07   7.239578E-08
+0        19             7    TRIA3         -2.203880E+03   1.510272E-05  -2.203880E+03  -1.042018E+03  -3.552220E+03   1.042018E+03
+         19            17    TRIA3          9.870378E+04   2.123292E-05   9.870378E+04   5.653018E+04   1.233378E+03  -5.653018E+04
+         19            18    TRIA3         -1.102450E+05   5.771861E-06  -1.102450E+05  -5.548816E+04   2.318842E+03   5.548816E+04
+         19                  *TOTALS*      -1.374509E+04   4.210750E-05  -1.374509E+04  -5.439942E-07   3.236928E-07   5.350303E-07
+0        20             9    TRIA3          1.297343E+05   1.077348E-05   1.297343E+05   2.123592E+04   2.788897E+03  -2.123592E+04
+         20            10    TRIA3         -1.307158E+05   5.117391E-05  -1.307158E+05  -1.984167E+04   2.016940E+03   1.984167E+04
+         20            20    TRIA3         -4.317309E+03  -3.756615E-05  -4.317309E+03  -1.394255E+03  -4.805838E+03   1.394255E+03
+         20                  *TOTALS*      -5.298856E+03   2.438124E-05  -5.298856E+03   1.080807E-07  -1.464796E-07  -1.340413E-07
+0        21             8    TRIA3         -1.763647E+03  -4.494839E-05  -1.763647E+03  -1.163936E+03  -3.967923E+03   1.163936E+03
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    52
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.725331E+01
+      CYCLES =  8.308637E-01
+                   MODE               1
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+         21            18    TRIA3          1.122219E+05  -1.231771E-05   1.122219E+05   4.556404E+04   1.398716E+03  -4.556404E+04
+         21            19    TRIA3         -1.214382E+05  -1.193726E-06  -1.214382E+05  -4.440010E+04   2.569207E+03   4.440010E+04
+         21                  *TOTALS*      -1.098001E+04  -5.845982E-05  -1.098001E+04  -2.482993E-07  -5.393522E-07   2.386369E-07
+0        22             5    TRIA3          7.916092E+04  -4.188480E-05   7.916092E+04   6.657511E+04   1.751043E+03  -6.657511E+04
+         22             6    TRIA3         -9.299349E+04   5.854790E-05  -9.299349E+04  -6.571866E+04   1.138798E+03   6.571866E+04
+         22            16    TRIA3         -2.774613E+03  -1.818248E-05  -2.774613E+03  -8.564440E+02  -2.889841E+03   8.564440E+02
+         22                  *TOTALS*      -1.660718E+04  -1.519389E-06  -1.660718E+04   2.833403E-07   2.501474E-08  -2.773450E-07
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    53
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  1.387474E+02
+      CYCLES =  1.874703E+00
+                   MODE               2
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+          1                  F-OF-SPC       1.063237E+07   2.459996E+07  -1.063237E+07  -4.023975E+01  -1.238562E-05  -4.023979E+01
+          1            12    TRIA3         -1.063237E+07  -2.459996E+07   1.063237E+07   4.023975E+01   1.238562E-05   4.023979E+01
+          1                  *TOTALS*       0.0            0.0            0.0            1.563194E-13  -4.941120E-12  -7.432277E-12
+0         2                  F-OF-SPC      -1.054102E+07  -2.460323E+07   1.054102E+07  -2.718805E+02   2.200752E-05  -2.718806E+02
+          2             2    TRIA3          6.615326E+06   1.322178E+07  -6.615326E+06   2.316408E+02  -1.545617E-05   2.316408E+02
+          2            12    TRIA3          3.925698E+06   1.138145E+07  -3.925698E+06   4.023977E+01  -6.551361E-06   4.023977E+01
+          2                  *TOTALS*      -1.396984E-09  -1.862645E-09  -2.328306E-09   1.108447E-11  -1.501503E-11  -2.563638E-11
+0         3             1    TRIA3          6.945388E+05  -1.361142E+03  -6.945388E+05  -4.065223E-07  -2.039596E-07   3.599562E-07
+          3                  *TOTALS*       6.945388E+05  -1.361142E+03  -6.945388E+05  -4.065223E-07  -2.039596E-07   3.599562E-07
+0         4             1    TRIA3         -5.298319E+05  -2.791516E+05   5.298319E+05   4.039892E+00  -6.023249E-06   4.039888E+00
+          4            11    TRIA3          1.220643E+06   2.798055E+05  -1.220643E+06  -4.039890E+00   1.020994E-05  -4.039890E+00
+          4                  *TOTALS*       6.908107E+05   6.538970E+02  -6.908107E+05   2.072222E-06   4.186695E-06  -1.825887E-06
+0         5             9    TRIA3         -2.331689E+06  -6.049420E+06   2.331689E+06   3.986244E+00  -3.438938E-06   3.986237E+00
+          5            19    TRIA3          1.003097E+06   9.392157E+06  -1.003097E+06  -5.783787E+01   3.983732E-06  -5.783784E+01
+          5            20    TRIA3          1.278543E+06  -3.343134E+06  -1.278543E+06   5.385162E+01  -4.832720E-06   5.385160E+01
+          5                  *TOTALS*      -5.004819E+04  -3.967542E+02   5.004819E+04  -1.267006E-06  -4.287926E-06   1.306122E-06
+0         6             8    TRIA3          3.468081E+06  -4.922906E+06  -3.468081E+06  -6.938005E+01  -3.181281E-06  -6.938001E+01
+          6             9    TRIA3         -2.736790E+05   9.397802E+06   2.736790E+05   6.560208E+01   2.785673E-06   6.560205E+01
+          6            19    TRIA3         -3.231849E+06  -4.476296E+06   3.231849E+06   3.777973E+00  -2.547080E-06   3.777967E+00
+          6                  *TOTALS*      -3.744685E+04  -1.400390E+03   3.744685E+04  -3.100618E-06  -2.942688E-06   3.087696E-06
+0         7            10    TRIA3         -1.339449E+06  -4.199689E+06   1.339449E+06   2.395397E+00   2.335160E-06   2.395395E+00
+          7            11    TRIA3          3.728690E+05  -1.506569E+06  -3.728690E+05   3.317610E+01   3.733105E-06   3.317608E+01
+          7            20    TRIA3          9.367233E+05   5.706885E+06  -9.367233E+05  -3.557149E+01  -2.294080E-06  -3.557147E+01
+          7                  *TOTALS*      -2.985677E+04   6.263364E+02   2.985677E+04  -3.729074E-07   3.774185E-06   3.007299E-07
+0         8             6    TRIA3          4.906971E+06  -7.641716E+06  -4.906971E+06  -1.105857E+02   1.690380E-06  -1.105857E+02
+          8             7    TRIA3          9.881869E+04   1.590858E+07  -9.881869E+04   1.076099E+02   4.941830E-08   1.076098E+02
+          8            17    TRIA3         -5.068361E+06  -8.266243E+06   5.068361E+06   2.975884E+00  -7.395516E-06   2.975885E+00
+          8                  *TOTALS*      -6.257081E+04   6.173324E+02   6.257081E+04   1.554276E-06  -5.655718E-06  -1.560911E-06
+0         9             2    TRIA3         -1.420157E+07  -5.938705E+06   1.420157E+07  -3.723578E+01   3.254434E-06  -3.723579E+01
+          9            12    TRIA3          6.706674E+06   1.321851E+07  -6.706674E+06  -7.499304E+01  -5.064539E-07  -7.499306E+01
+          9            13    TRIA3          7.425885E+06  -7.261499E+06  -7.425885E+06   1.122288E+02  -2.112756E-07   1.122288E+02
+          9                  *TOTALS*      -6.900620E+04   1.830955E+04   6.900620E+04   1.187691E-06   2.536704E-06  -1.184555E-06
+0        10             2    TRIA3          7.586239E+06  -7.283079E+06  -7.586239E+06  -1.798263E+02  -1.902823E-06  -1.798263E+02
+         10             3    TRIA3          1.472222E+06   2.310269E+07  -1.472222E+06   1.694478E+02  -5.117035E-07   1.694478E+02
+         10            13    TRIA3         -9.155072E+06  -1.582372E+07   9.155072E+06   1.037848E+01   3.718960E-06   1.037849E+01
+         10                  *TOTALS*      -9.661150E+04  -4.113208E+03   9.661150E+04  -3.495083E-06   1.304434E-06   3.495592E-06
+0        11             3    TRIA3         -7.590166E+06  -1.300991E+07   7.590166E+06   2.386227E+00   1.050194E-06   2.386227E+00
+         11            13    TRIA3          1.729187E+06   2.308522E+07  -1.729187E+06  -1.566831E+02   4.750909E-07  -1.566831E+02
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    54
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  1.387474E+02
+      CYCLES =  1.874703E+00
+                   MODE               2
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+         11            14    TRIA3          5.726656E+06  -1.008033E+07  -5.726656E+06   1.542968E+02  -3.471141E-07   1.542968E+02
+         11                  *TOTALS*      -1.343233E+05  -5.021710E+03   1.343233E+05   1.959619E-06   1.178170E-06  -1.961569E-06
+0        12             1    TRIA3         -1.647070E+05   2.805128E+05   1.647070E+05   8.877391E+00  -1.146109E-07   8.877367E+00
+         12            10    TRIA3          1.752986E+06  -1.509964E+06  -1.752986E+06  -1.612497E+01  -4.863832E-07  -1.612495E+01
+         12            11    TRIA3         -1.593512E+06   1.226764E+06   1.593512E+06   7.247581E+00  -4.458634E-07   7.247587E+00
+         12                  *TOTALS*      -5.232410E+03  -2.687631E+03   5.232410E+03  -7.656054E-07  -1.046858E-06   7.048366E-07
+0        13             4    TRIA3         -6.485499E+06  -1.284911E+07   6.485499E+06   1.789266E+00  -5.494854E-06   1.789273E+00
+         13            14    TRIA3          1.124720E+06   2.240232E+07  -1.124720E+06  -1.458352E+02  -1.850640E-06  -1.458352E+02
+         13            15    TRIA3          5.237818E+06  -9.557201E+06  -5.237818E+06   1.440459E+02   6.482354E-06   1.440459E+02
+         13                  *TOTALS*      -1.229609E+05  -3.996896E+03   1.229609E+05  -1.690423E-07  -8.631396E-07   1.739027E-07
+0        14             3    TRIA3          6.117945E+06  -1.009278E+07  -6.117945E+06  -1.504819E+02  -7.195049E-07  -1.504819E+02
+         14             4    TRIA3          6.454470E+05   2.241833E+07  -6.454470E+05   1.490532E+02   8.562056E-07   1.490532E+02
+         14            14    TRIA3         -6.851376E+06  -1.232199E+07   6.851376E+06   1.428721E+00   9.977375E-07   1.428719E+00
+         14                  *TOTALS*      -8.798440E+04   3.570775E+03   8.798440E+04   4.925323E-07   1.134438E-06  -5.036500E-07
+0        15             5    TRIA3         -5.906363E+06  -1.205593E+07   5.906363E+06   2.354444E+00   1.897497E-07   2.354437E+00
+         15            15    TRIA3          1.146022E+06   2.076107E+07  -1.146022E+06  -1.342932E+02   5.986512E-06  -1.342932E+02
+         15            16    TRIA3          4.646885E+06  -8.708549E+06  -4.646885E+06   1.319388E+02  -4.310896E-06   1.319388E+02
+         15                  *TOTALS*      -1.134567E+05  -3.407906E+03   1.134567E+05   9.179348E-07   1.865366E-06  -9.193318E-07
+0        16             7    TRIA3          4.242626E+06  -6.365069E+06  -4.242626E+06  -9.116605E+01   1.923065E-06  -9.116605E+01
+         16             8    TRIA3         -8.905946E+04   1.282003E+07   8.905946E+04   8.774380E+01  -3.962399E-06   8.774378E+01
+         16            18    TRIA3         -4.204231E+06  -6.455359E+06   4.204231E+06   3.422257E+00   1.000328E-06   3.422262E+00
+         16                  *TOTALS*      -5.066487E+04  -3.952734E+02   5.066487E+04   1.596702E-06  -1.039007E-06  -1.593209E-06
+0        17             6    TRIA3         -5.191134E+06  -1.094198E+07   5.191134E+06   2.888651E+00   3.947716E-07   2.888653E+00
+         17            16    TRIA3          1.153954E+06   1.857090E+07  -1.153954E+06  -1.193389E+02  -1.981884E-06  -1.193389E+02
+         17            17    TRIA3          3.936049E+06  -7.631663E+06  -3.936049E+06   1.164503E+02   3.177091E-06   1.164503E+02
+         17                  *TOTALS*      -1.011309E+05  -2.743606E+03   1.011309E+05  -4.044123E-07   1.589979E-06   4.282774E-07
+0        18             4    TRIA3          5.840052E+06  -9.569220E+06  -5.840052E+06  -1.403870E+02   7.718918E-07  -1.403870E+02
+         18             5    TRIA3          4.625383E+05   2.077566E+07  -4.625383E+05   1.385173E+02   2.868765E-06   1.385173E+02
+         18            15    TRIA3         -6.383840E+06  -1.120387E+07   6.383840E+06   1.869666E+00  -3.521462E-06   1.869664E+00
+         18                  *TOTALS*      -8.124963E+04   2.571246E+03   8.124963E+04  -8.914576E-07   1.191947E-07   8.909919E-07
+0        19             7    TRIA3         -4.341445E+06  -9.543507E+06   4.341445E+06   3.348553E+00   4.888061E-06   3.348545E+00
+         19            17    TRIA3          1.132312E+06   1.589791E+07  -1.132312E+06  -1.012854E+02   4.224770E-06  -1.012854E+02
+         19            18    TRIA3          3.122953E+06  -6.356407E+06  -3.122953E+06   9.793687E+01  -5.841284E-06   9.793685E+01
+         19                  *TOTALS*      -8.618040E+04  -2.008339E+03   8.618040E+04  -2.568879E-06   3.271547E-06   2.550834E-06
+0        20             9    TRIA3          2.605368E+06  -3.348382E+06  -2.605368E+06  -4.589921E+01   2.704735E-06  -4.589920E+01
+         20            10    TRIA3         -4.135371E+05   5.709653E+06   4.135371E+05   4.193305E+01  -2.509652E-06   4.193303E+01
+         20            20    TRIA3         -2.215266E+06  -2.363751E+06   2.215266E+06   3.966162E+00  -6.452901E-07   3.966168E+00
+         20                  *TOTALS*      -2.343566E+04  -2.480148E+03   2.343566E+04  -2.102333E-07  -4.502072E-07   2.961478E-07
+0        21             8    TRIA3         -3.379021E+06  -7.897126E+06   3.379021E+06   3.721171E+00  -1.397231E-06   3.721181E+00
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    55
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  1.387474E+02
+      CYCLES =  1.874703E+00
+                   MODE               2
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+         21            18    TRIA3          1.081279E+06   1.281177E+07  -1.081279E+06  -8.060036E+01  -6.292830E-06  -8.060035E+01
+         21            19    TRIA3          2.228751E+06  -4.915861E+06  -2.228751E+06   7.687919E+01   6.649730E-06   7.687917E+01
+         21                  *TOTALS*      -6.899141E+04  -1.220774E+03   6.899141E+04  -1.407010E-06  -1.040331E-06   1.404449E-06
+0        22             5    TRIA3          5.443825E+06  -8.719732E+06  -5.443825E+06  -1.271321E+02   2.308632E-06  -1.271321E+02
+         22             6    TRIA3          2.841630E+05   1.858370E+07  -2.841630E+05   1.246798E+02  -2.650777E-07   1.246798E+02
+         22            16    TRIA3         -5.800839E+06  -9.862351E+06   5.800839E+06   2.452252E+00  -1.497450E-06   2.452257E+00
+         22                  *TOTALS*      -7.285117E+04   1.613895E+03   7.285117E+04   2.726492E-06   5.461043E-07  -2.722301E-06
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    56
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.460003E+02
+      CYCLES =  2.496249E+00
+                   MODE               3
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+          1                  F-OF-SPC       4.463389E+05   6.068167E-04   4.463389E+05  -2.753595E+05   1.715578E+05   2.753595E+05
+          1            12    TRIA3         -4.463389E+05  -6.068163E-04  -4.463389E+05   2.753595E+05  -1.715578E+05  -2.753595E+05
+          1                  *TOTALS*       4.656613E-10   4.491398E-10  -2.270099E-09   0.0           -2.910383E-11  -5.820766E-11
+0         2                  F-OF-SPC      -9.671555E+05   3.266895E-04  -9.671555E+05  -2.493824E+05  -2.136637E+05   2.493824E+05
+          2             2    TRIA3          4.704363E+05  -5.193975E-04   4.704363E+05   2.611790E+05   4.045131E+04  -2.611790E+05
+          2            12    TRIA3          4.967192E+05   1.927074E-04   4.967192E+05  -1.179651E+04   1.732124E+05   1.179651E+04
+          2                  *TOTALS*      -3.201421E-09  -6.736995E-10   1.123408E-08  -1.455192E-11   8.731149E-11   6.912160E-11
+0         3             1    TRIA3          1.216144E+06   3.380683E-04   1.216144E+06   3.847294E-06  -5.919370E-06  -3.695022E-06
+          3                  *TOTALS*       1.216144E+06   3.380683E-04   1.216144E+06   3.847294E-06  -5.919370E-06  -3.695022E-06
+0         4             1    TRIA3          6.604272E+04   1.731250E-05   6.604272E+04  -3.260853E+03   1.595976E+04   3.260853E+03
+          4            11    TRIA3          1.088788E+06  -4.926284E-04   1.088788E+06   3.260853E+03  -1.595976E+04  -3.260853E+03
+          4                  *TOTALS*       1.154831E+06  -4.753159E-04   1.154831E+06  -1.447363E-06  -3.380461E-06   1.494627E-06
+0         5             9    TRIA3         -8.352747E+04  -3.557416E-03  -8.352747E+04  -5.182214E+03  -1.783761E+04   5.182214E+03
+          5            19    TRIA3          2.862044E+05   3.491754E-03   2.862044E+05   2.426381E+05   3.952101E+03  -2.426381E+05
+          5            20    TRIA3         -7.258623E+05   6.188888E-04  -7.258623E+05  -2.374559E+05   1.388551E+04   2.374559E+05
+          5                  *TOTALS*      -5.231854E+05   5.532267E-04  -5.231854E+05  -5.496899E-06  -4.547772E-06   5.532289E-06
+0         6             8    TRIA3          1.701977E+05  -3.233729E-03   1.701977E+05   2.446870E+05   5.530327E+03  -2.446870E+05
+          6             9    TRIA3         -6.253358E+05   3.462379E-03  -6.253358E+05  -2.406780E+05   7.074757E+03   2.406780E+05
+          6            19    TRIA3         -8.868057E+04  -9.139114E-04  -8.868056E+04  -4.009002E+03  -1.260508E+04   4.009002E+03
+          6                  *TOTALS*      -5.438186E+05  -6.852622E-04  -5.438186E+05   4.666130E-06  -3.503512E-06  -4.566682E-06
+0         7            10    TRIA3         -9.840178E+04   4.151050E-03  -9.840179E+04  -4.951764E+03  -3.928444E+04   4.951764E+03
+          7            11    TRIA3         -1.115868E+06   1.439098E-03  -1.115868E+06  -1.673885E+05   2.800155E+04   1.673885E+05
+          7            20    TRIA3          8.246682E+05  -5.043928E-03   8.246682E+05   1.723403E+05   1.128290E+04  -1.723403E+05
+          7                  *TOTALS*      -3.896020E+05   5.462197E-04  -3.896020E+05   2.646120E-06  -1.886074E-07  -2.492452E-06
+0         8             6    TRIA3         -8.879523E+05   1.427121E-03  -8.879523E+05   2.152431E+05  -1.772764E+04  -2.152431E+05
+          8             7    TRIA3          4.898422E+05  -4.823026E-03   4.898422E+05  -2.222451E+05  -6.084931E+03   2.222451E+05
+          8            17    TRIA3         -7.526037E+04   3.311731E-03  -7.526038E+04   7.002040E+03   2.381257E+04  -7.002040E+03
+          8                  *TOTALS*      -4.733705E+05  -8.417371E-05  -4.733705E+05  -3.884226E-06  -2.453660E-06   3.992842E-06
+0         9             2    TRIA3         -2.468546E+05   6.488887E-04  -2.468546E+05  -5.999305E+02  -2.655312E+04   5.999305E+02
+          9            12    TRIA3         -5.038032E+04   4.141087E-04  -5.038032E+04  -2.605402E+05   3.346879E+04   2.605402E+05
+          9            13    TRIA3          7.386322E+05  -6.628100E-04   7.386322E+05   2.611401E+05  -6.915668E+03  -2.611401E+05
+          9                  *TOTALS*       4.413973E+05   4.001874E-04   4.413973E+05  -1.814042E-07  -3.276436E-07   1.922017E-07
+0        10             2    TRIA3         -2.235817E+05  -1.294964E-04  -2.235817E+05  -2.144663E+05   3.557067E+03   2.144663E+05
+         10             3    TRIA3          8.239755E+05   2.862265E-03   8.239755E+05   1.993852E+05  -1.378262E+04  -1.993852E+05
+         10            13    TRIA3         -2.917514E+04  -1.410185E-03  -2.917514E+04   1.508112E+04   1.022555E+04  -1.508112E+04
+         10                  *TOTALS*       5.712187E+05   1.322584E-03   5.712187E+05   1.498556E-07  -3.951005E-06  -1.341978E-07
+0        11             3    TRIA3          1.530316E+05  -9.710145E-04   1.530316E+05   8.162262E+03   2.561624E+04  -8.162262E+03
+         11            13    TRIA3         -7.094571E+05   2.073009E-03  -7.094571E+05  -2.029415E+05  -5.372878E+03   2.029415E+05
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    57
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.460003E+02
+      CYCLES =  2.496249E+00
+                   MODE               3
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+         11            14    TRIA3          9.798362E+05  -1.731162E-03   9.798362E+05   1.947793E+05  -2.024336E+04  -1.947793E+05
+         11                  *TOTALS*       4.234107E+05  -6.291674E-04   4.234107E+05  -7.368508E-07   8.241113E-06   7.440685E-07
+0        12             1    TRIA3         -1.282187E+06  -3.552437E-04  -1.282187E+06  -7.367037E+04  -2.062969E+04   7.367037E+04
+         12            10    TRIA3          1.099781E+06   1.716181E-03   1.099781E+06   6.413948E+04   3.075661E+04  -6.413948E+04
+         12            11    TRIA3          2.708031E+04  -9.464543E-04   2.708030E+04   9.530888E+03  -1.012692E+04  -9.530888E+03
+         12                  *TOTALS*      -1.553262E+05   4.144827E-04  -1.553262E+05  -4.117290E-06   6.832852E-08   3.945228E-06
+0        13             4    TRIA3          2.241689E+04  -2.838025E-03   2.241690E+04   1.131893E+04   3.823755E+04  -1.131893E+04
+         13            14    TRIA3         -1.028696E+06   5.209784E-03  -1.028696E+06  -1.063612E+05  -1.260517E+04   1.063612E+05
+         13            15    TRIA3          1.211376E+06  -1.891841E-03   1.211376E+06   9.504224E+04  -2.563238E+04  -9.504224E+04
+         13                  *TOTALS*       2.050960E+05   4.799173E-04   2.050960E+05   9.169889E-07   3.714231E-07  -8.724019E-07
+0        14             3    TRIA3         -9.770071E+05  -1.891191E-03  -9.770071E+05  -1.129074E+05  -2.265458E+04   1.129074E+05
+         14             4    TRIA3          1.183864E+06   4.503746E-03   1.183864E+06   1.023646E+05  -1.364888E+04  -1.023646E+05
+         14            14    TRIA3          4.886021E+04  -3.478547E-03   4.886021E+04   1.054273E+04   3.630346E+04  -1.054273E+04
+         14                  *TOTALS*       2.557167E+05  -8.659920E-04   2.557167E+05  -1.185981E-07   6.088172E-06   1.298904E-07
+0        15             5    TRIA3         -1.619235E+04  -3.167566E-03  -1.619235E+04   1.203613E+04   4.006401E+04  -1.203613E+04
+         15            15    TRIA3         -1.216093E+06   3.525060E-03  -1.216093E+06   1.405660E+04  -1.444005E+04  -1.405660E+04
+         15            16    TRIA3          1.168628E+06  -4.049065E-04   1.168628E+06  -2.609273E+04  -2.562395E+04   2.609273E+04
+         15                  *TOTALS*      -6.365658E+04  -4.741281E-05  -6.365658E+04   9.110809E-07   2.463988E-06  -8.875650E-07
+0        16             7    TRIA3         -4.033720E+05  -8.522712E-04  -4.033720E+05   2.584499E+05  -6.863320E+03  -2.584499E+05
+         16             8    TRIA3         -7.396573E+04   9.458786E-03  -7.396573E+04  -2.601658E+05   5.918790E+02   2.601658E+05
+         16            18    TRIA3         -9.430103E+04  -8.153182E-03  -9.430102E+04   1.715900E+03   6.271441E+03  -1.715900E+03
+         16                  *TOTALS*      -5.716388E+05   4.533326E-04  -5.716388E+05   2.645247E-06  -3.408953E-06  -2.617031E-06
+0        17             6    TRIA3         -5.788236E+04   2.880253E-04  -5.788237E+04   1.005615E+04   3.323163E+04  -1.005615E+04
+         17            16    TRIA3         -1.128872E+06  -1.332093E-03  -1.128872E+06   1.314165E+05  -1.328517E+04  -1.314165E+05
+         17            17    TRIA3          8.684944E+05   1.572900E-03   8.684944E+05  -1.414726E+05  -1.994646E+04   1.414726E+05
+         17                  *TOTALS*      -3.182600E+05   5.288316E-04  -3.182600E+05   1.898268E-06  -7.868512E-06  -1.808512E-06
+0        18             4    TRIA3         -1.206281E+06  -1.665662E-03  -1.206281E+06   6.496145E+03  -2.617378E+04  -6.496145E+03
+         18             5    TRIA3          1.193047E+06   3.944565E-03   1.193047E+06  -1.862920E+04  -1.423220E+04   1.862920E+04
+         18            15    TRIA3          4.717090E+03  -1.633099E-03   4.717092E+03   1.213306E+04   4.040598E+04  -1.213306E+04
+         18                  *TOTALS*      -8.516629E+03   6.458034E-04  -8.516629E+03  -2.467783E-06  -1.903012E-06   2.437981E-06
+0        19             7    TRIA3         -8.647017E+04   5.675136E-03  -8.647017E+04   5.861849E+03   1.906262E+04  -5.861849E+03
+         19            17    TRIA3         -7.932340E+05  -4.884511E-03  -7.932340E+05   2.198148E+05  -9.187829E+03  -2.198148E+05
+         19            18    TRIA3          3.769676E+05  -1.128034E-03   3.769676E+05  -2.256767E+05  -9.874786E+03   2.256767E+05
+         19                  *TOTALS*      -5.027366E+05  -3.374092E-04  -5.027366E+05   4.900154E-06   2.961579E-06  -4.827743E-06
+0        20             9    TRIA3          7.088633E+05   9.505563E-05   7.088633E+05   1.766445E+05   1.666914E+04  -1.766445E+05
+         20            10    TRIA3         -1.001379E+06  -5.867128E-03  -1.001379E+06  -1.671977E+05   1.548589E+04   1.671977E+05
+         20            20    TRIA3         -9.880582E+04   4.424861E-03  -9.880582E+04  -9.446724E+03  -3.215503E+04   9.446724E+03
+         20                  *TOTALS*      -3.913214E+05  -1.347211E-03  -3.913214E+05   1.903391E-08   2.473796E-06   2.887100E-08
+0        21             8    TRIA3         -9.623200E+04  -6.224914E-03  -9.623199E+04   3.835988E+02   6.824239E+02  -3.835988E+02
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    58
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+      EIGENVALUE =  2.460003E+02
+      CYCLES =  2.496249E+00
+                   MODE               3
+                                          G R I D   P O I N T   F O R C E   B A L A N C E
+ 
+   POINT-ID    ELEMENT-ID     SOURCE             T1             T2             T3             R1             R2             R3
+         21            18    TRIA3         -2.826665E+05   9.281334E-03  -2.826665E+05   2.597715E+05  -3.064744E+03  -2.597715E+05
+         21            19    TRIA3         -1.975239E+05  -2.577902E-03  -1.975239E+05  -2.601551E+05   2.382320E+03   2.601551E+05
+         21                  *TOTALS*      -5.764224E+05   4.785180E-04  -5.764224E+05   1.269800E-06   6.554303E-06  -1.331500E-06
+0        22             5    TRIA3         -1.176854E+06  -7.768748E-04  -1.176854E+06   1.246024E+05  -2.468683E+04  -1.246024E+05
+         22             6    TRIA3          9.458347E+05  -1.714975E-03   9.458347E+05  -1.353463E+05  -1.141108E+04   1.353463E+05
+         22            16    TRIA3         -3.975645E+04   1.737000E-03  -3.975645E+04   1.074398E+04   3.609792E+04  -1.074398E+04
+         22                  *TOTALS*      -2.707762E+05  -7.548497E-04  -2.707762E+05  -6.449409E-08  -1.722074E-06  -4.400499E-08
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OGPFB1   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OGPFB1, TRL =
+                    101                 0                 3                 0                 0                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OGPFB1  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         840 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          40 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =        3002 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OEF1X    WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OEF1X, TRL =
+                    101                63                 6                20                25                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OEF1X   
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         180 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          40 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =        1027 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OES1X1   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OES1X1, TRL =
+                    101                63                 6                20                25                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OES1X1  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         340 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          40 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =        1507 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPX2)
+     DATA BLOCK OSTR1X   WRITTEN ON FORTRAN UNIT    12 IN BINARY (LTLEND) FORMAT USING NDDL DESCRIPTION FOR OSTR1X, TRL =
+                    101                63                 6                20                25                 0                 3
+     NAME OF DATA BLOCK WRITTEN ON FORTRAN UNIT IS OSTR1X  
+        (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =      131074 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =         340 WORDS.)
+           (NUMBER OF FORTRAN RECORDS WRITTEN =          40 RECORDS.)
+           (TOTAL DATA WRITTEN FOR DATA BLOCK =        1507 WORDS.)
+ *** USER INFORMATION MESSAGE 4110 (OUTPX2)
+                                 END-OF-DATA SIMULATION ON FORTRAN UNIT    12
+                                 (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =      1 WORDS.)
+                                       (NUMBER OF FORTRAN RECORDS WRITTEN =      1 RECORDS.)
+                                       (TOTAL DATA WRITTEN FOR EOF MARKER =      1 WORDS.)
+1                                                                              JUNE  20, 2025  MSC Nastran 11/21/24   PAGE    59
+                                                                                                                                    
+0                                                                                                            SUBCASE 2              
+ * * * *  D B D I C T   P R I N T  * * * *      SUBDMAP = PRTSUM  ,  DMAP STATEMENT NO.     75
+
+
+
+0                                   * * * *  A N A L Y S I S  S U M M A R Y  T A B L E  * * * *
+0 SEID  PEID PROJ VERS APRCH      SEMG SEMR SEKR SELG SELR MODES DYNRED SOLLIN SOLNL LOOPID DESIGN CYCLE SENSITIVITY
+ -------------------------------------------------------------------------------------------------------------------
+     0     0    1    1 '        '    T    T    T    T    T     T      F      T     F     -1            0           F
+0SEID = SUPERELEMENT ID.
+ PEID = PRIMARY SUPERELEMENT ID OF IMAGE SUPERELEMENT.
+ PROJ = PROJECT ID NUMBER.
+ VERS = VERSION ID.
+ APRCH = BLANK FOR STRUCTURAL ANALYSIS.  HEAT FOR HEAT TRANSFER ANALYSIS.
+ SEMG = STIFFNESS AND MASS MATRIX GENERATION STEP.
+ SEMR = MASS MATRIX REDUCTION STEP (INCLUDES EIGENVALUE SOLUTION FOR MODES).
+ SEKR = STIFFNESS MATRIX REDUCTION STEP.
+ SELG = LOAD MATRIX GENERATION STEP.
+ SELR = LOAD MATRIX REDUCTION STEP. 
+ MODES = T (TRUE) IF NORMAL MODES OR BUCKLING MODES CALCULATED.
+ DYNRED = T (TRUE) MEANS GENERALIZED DYNAMIC AND/OR COMPONENT MODE REDUCTION PERFORMED.
+ SOLLIN = T (TRUE) IF LINEAR SOLUTION EXISTS IN DATABASE.
+ LOOPID = THE LAST LOOPID VALUE USED IN THE NONLINEAR ANALYSIS.  USEFUL FOR RESTARTS.
+ SOLNL = T (TRUE) IF NONLINEAR SOLUTION EXISTS IN DATABASE.
+ DESIGN CYCLE = THE LAST DESIGN CYCLE (ONLY VALID IN OPTIMIZATION).
+ SENSITIVITY = SENSITIVITY MATRIX GENERATION FLAG.
+ 
+ No PARAM values were set in the Control File.
+ 
+1                                        * * * END OF JOB * * *
+ 
+ 
+ No Symbolic Replacement variables or values were specified.
+
