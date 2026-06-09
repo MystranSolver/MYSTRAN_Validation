@@ -1337,6 +1337,9 @@ class F06Query:
 
         if value is None:
             output_file.write(f"{INDENT * 1}No value at: {"/".join(path)}\n")
+        
+            # Show the available paths to help debugging test cases.
+            # self.write_structure_dense(output_file, self.parsed_f06)
 
         return value
 

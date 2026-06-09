@@ -1,0 +1,122 @@
+# ==============================================================================================
+# Put new test case definitions at the top so they run first and you can see the results easier.
+# ==============================================================================================
+
+
+
+# For commit da0da868cb2a737f5c62fd810eb383c85e39ceac 2026-06-10
+# Location options of STRESS/STRAIN/FORCE in the second subcase are ignored.
+pth;    bilin_center_2nd_subcase.bdf;               SC/2/SHELLSTRESSES/EID/1/CORNER/0/Z1/YY;;          1e4;    1e-5%
+pth;    bilin_center_2nd_subcase.bdf;               SC/2/SHELLSTRAINS/EID/1/CORNER/0/Z1/YY;;           5e-8;   1e-5%
+pth;    bilin_center_2nd_subcase.bdf;               SC/2/SHELLFORCES/EID/1/CORNER/0/NYY;;              1000;   1e-5%
+pth;    bilin_center_2nd_subcase.bdf;               SC/2/SHELLSTRESSES/EID/1/CORNER/1/Z1/YY;   ABSENT; 0;      0
+pth;    bilin_center_2nd_subcase.bdf;               SC/2/SHELLSTRAINS/EID/1/CORNER/1/Z1/YY;    ABSENT; 0;      0
+pth;    bilin_center_2nd_subcase.bdf;               SC/2/SHELLFORCES/EID/1/CORNER/1/NYY;       ABSENT; 0;      0
+# Location option of STRESS = NONE doesn't contribue to the stress/strain/force locations.
+pth;    bilin_center_none.bdf;                      SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/YY;;           5e-8;   1e-5%
+pth;    bilin_center_none.bdf;                      SC/1/SHELLFORCES/EID/1/CORNER/0/NYY;;              1000;   1e-5%
+pth;    bilin_center_none.bdf;                      SC/1/SHELLSTRAINS/EID/1/CORNER/1/Z1/YY;    ABSENT; 0;      0
+pth;    bilin_center_none.bdf;                      SC/1/SHELLFORCES/EID/1/CORNER/1/NYY;       ABSENT; 0;      0
+# Location option before the first subcase determines location options in the 2nd subcase.
+pth;    bilin_center_pre_subcase_as_1st.bdf;        SC/2/SHELLSTRESSES/EID/1/CORNER/0/Z1/YY;;          1e4;    1e-5%
+pth;    bilin_center_pre_subcase_as_1st.bdf;        SC/2/SHELLSTRAINS/EID/1/CORNER/0/Z1/YY;;           5e-8;   1e-5%
+pth;    bilin_center_pre_subcase_as_1st.bdf;        SC/2/SHELLFORCES/EID/1/CORNER/0/NYY;;              1000;   1e-5%
+pth;    bilin_center_pre_subcase_as_1st.bdf;        SC/2/SHELLSTRESSES/EID/1/CORNER/1/Z1/YY;   ABSENT; 0;      0
+pth;    bilin_center_pre_subcase_as_1st.bdf;        SC/2/SHELLSTRAINS/EID/1/CORNER/1/Z1/YY;    ABSENT; 0;      0
+pth;    bilin_center_pre_subcase_as_1st.bdf;        SC/2/SHELLFORCES/EID/1/CORNER/1/NYY;       ABSENT; 0;      0
+# Location option of FORCE in the first subcase overrides the location option of FORCE before the 1st subcase.
+pth;    bilin_center_priority_1st_pre_subcase.bdf;  SC/1/SHELLFORCES/EID/1/CORNER/0/NYY;;              1000;   1e-5%
+pth;    bilin_center_priority_1st_pre_subcase.bdf;  SC/1/SHELLFORCES/EID/1/CORNER/1/NYY;       ABSENT; 0;      0
+# Location option of STRAIN overrides location option of FORCE.
+pth;    bilin_center_priority_strain_force.bdf;     SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/YY;;           5e-8;   1e-5%
+pth;    bilin_center_priority_strain_force.bdf;     SC/1/SHELLFORCES/EID/1/CORNER/0/NYY;;              1000;   1e-5%
+pth;    bilin_center_priority_strain_force.bdf;     SC/1/SHELLSTRAINS/EID/1/CORNER/1/Z1/YY;    ABSENT; 0;      0
+pth;    bilin_center_priority_strain_force.bdf;     SC/1/SHELLFORCES/EID/1/CORNER/1/NYY;       ABSENT; 0;      0
+# Location option of STRESS overrides location option of STRAIN.
+pth;    bilin_center_priority_stress_strain.bdf;    SC/1/SHELLSTRESSES/EID/1/CORNER/0/Z1/YY;;          1e4;    1e-5%
+pth;    bilin_center_priority_stress_strain.bdf;    SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/YY;;           5e-8;   1e-5%
+pth;    bilin_center_priority_stress_strain.bdf;    SC/1/SHELLSTRESSES/EID/1/CORNER/1/Z1/YY;   ABSENT; 0;      0
+pth;    bilin_center_priority_stress_strain.bdf;    SC/1/SHELLSTRAINS/EID/1/CORNER/1/Z1/YY;    ABSENT; 0;      0
+# Location options of STRESS/STRAIN/FORCE in the second subcase are ignored.
+pth;    bilin_corner_2nd_subcase.bdf;               SC/2/SHELLSTRESSES/EID/1/CORNER/1/Z1/YY;;          1e4;    1e-5%
+pth;    bilin_corner_2nd_subcase.bdf;               SC/2/SHELLSTRAINS/EID/1/CORNER/1/Z1/YY;;           5e-8;   1e-5%
+pth;    bilin_corner_2nd_subcase.bdf;               SC/2/SHELLFORCES/EID/1/CORNER/1/NYY;;              1000;   1e-5%
+# Location option of STRESS = NONE doesn't contribue to the stress/strain/force locations.
+pth;    bilin_corner_none.bdf;                      SC/1/SHELLSTRAINS/EID/1/CORNER/1/Z1/YY;;           5e-8;   1e-5%
+pth;    bilin_corner_none.bdf;                      SC/1/SHELLFORCES/EID/1/CORNER/1/NYY;;              1000;   1e-5%
+# Location option before the first subcase determines location options in the 2nd subcase.
+pth;    bilin_corner_pre_subcase_as_1st.bdf;        SC/2/SHELLSTRESSES/EID/1/CORNER/1/Z1/YY;;          1e4;    1e-5%
+pth;    bilin_corner_pre_subcase_as_1st.bdf;        SC/2/SHELLSTRAINS/EID/1/CORNER/1/Z1/YY;;           5e-8;   1e-5%
+pth;    bilin_corner_pre_subcase_as_1st.bdf;        SC/2/SHELLFORCES/EID/1/CORNER/1/NYY;;              1000;   1e-5%
+# Location option of FORCE in the first subcase overrides the location option of FORCE before the 1st subcase.
+pth;    bilin_corner_priority_1st_pre_subcase.bdf;  SC/1/SHELLFORCES/EID/1/CORNER/1/NYY;;              1000;   1e-5%
+# Location option of STRAIN overrides location option of FORCE.
+pth;    bilin_corner_priority_strain_force.bdf;     SC/1/SHELLSTRAINS/EID/1/CORNER/1/Z1/YY;;           5e-8;   1e-5%
+pth;    bilin_corner_priority_strain_force.bdf;     SC/1/SHELLFORCES/EID/1/CORNER/1/NYY;;              1000;   1e-5%
+# Location option of STRESS overrides location option of STRAIN.
+pth;    bilin_corner_priority_stress_strain.bdf;    SC/1/SHELLSTRESSES/EID/1/CORNER/1/Z1/YY;;          1e4;    1e-5%
+pth;    bilin_corner_priority_stress_strain.bdf;    SC/1/SHELLSTRAINS/EID/1/CORNER/1/Z1/YY;;           5e-8;   1e-5%
+
+# For commit 08d3f0a8839dc94ca3a0a2c5a8bc9b1956aa68e5 2026-06-06
+# Normal modes in multiple subcases. From Bruno.
+# Huge tolerances because we're just checking the results exist and are mostly in the right place.
+pth;    103_one_subcase.bdf;    SC/1/REALEIGENVALUES/MODE/1/EIGENVALUE;;        6e7;    50%
+pth;    103_one_subcase.bdf;    SC/1/REALEIGENVALUES/MODE/5/EIGENVALUE;;        3e9;    50%
+pth;    103_one_subcase.bdf;    SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE; ABSENT; 0;      0
+pth;    103_two_subcases.bdf;   SC/1/REALEIGENVALUES/MODE/1/EIGENVALUE;;        6e7;    50%
+pth;    103_two_subcases.bdf;   SC/1/REALEIGENVALUES/MODE/4/EIGENVALUE;;        2e9;    50%
+pth;    103_two_subcases.bdf;   SC/1/REALEIGENVALUES/MODE/5/EIGENVALUE; ABSENT;   0;    0
+pth;    103_two_subcases.bdf;   SC/1/MODE/1/EIGENVECTOR/GID/2/TX;;                0;    1e-13
+pth;    103_two_subcases.bdf;   SC/1/MODE/3/EIGENVECTOR/GID/2/TX;;                0;    1e-13
+pth;    103_two_subcases.bdf;   SC/1/MODE/5/EIGENVECTOR/GID/2/TX;       ABSENT;   0;    0
+pth;    103_two_subcases.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;        6e7;    50%
+pth;    103_two_subcases.bdf;   SC/2/REALEIGENVALUES/MODE/6/EIGENVALUE;;        1.6e10; 50%
+pth;    103_two_subcases.bdf;   SC/2/REALEIGENVALUES/MODE/15/EIGENVALUE;;       1.5e11; 50%
+pth;    103_two_subcases.bdf;   SC/2/MODE/8/EIGENVECTOR/GID/2/TX  / SC/2/MODE/8/EIGENVECTOR/GID/3/TX;;       3.179346E+01/3.737545E+01;    50%
+pth;    103_two_subcases.bdf;   SC/2/MODE/14/EIGENVECTOR/GID/2/TX / SC/2/MODE/14/EIGENVECTOR/GID/3/TX;;     -3.179346E+01/3.737545E+01;    50%
+pth;    103_two_subcases.bdf;   SC/2/MODE/16/EIGENVECTOR/GID/2/TX;      ABSENT; 0;      0
+pth;    103_three_subcases.bdf;   SC/10/REALEIGENVALUES/MODE/2/EIGENVALUE;;          6e7;    50%
+pth;    103_three_subcases.bdf;   SC/10/REALEIGENVALUES/MODE/3/EIGENVALUE; ABSENT;   0;      0
+pth;    103_three_subcases.bdf;   SC/20/REALEIGENVALUES/MODE/4/EIGENVALUE;;          2e9;    50%
+pth;    103_three_subcases.bdf;   SC/20/REALEIGENVALUES/MODE/5/EIGENVALUE; ABSENT;   0;      0
+pth;    103_three_subcases.bdf;   SC/30/REALEIGENVALUES/MODE/6/EIGENVALUE;;          1.6e10; 50%
+pth;    103_three_subcases.bdf;   SC/30/REALEIGENVALUES/MODE/7/EIGENVALUE; ABSENT;   0;      0
+pth;    103_three_subcases.bdf;   SC/30/MODE/5/EIGENVECTOR/GID/2/TX  / SC/30/MODE/5/EIGENVECTOR/GID/3/TX;;       -1.214402E+01/-2.309930E+01;    50%
+# STATSUB and buckling with multiple modes
+pth;    105_one_statsub.bdf;      SC/1/DISPLACEMENTS/GID/2/TX;;                      30/(0.15*0.2)/200e9*25;                    1e-10%
+pth;    105_one_statsub.bdf;      SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;           pi**2*200e9*0.00005625/(2*25)**2/30;       1%
+pth;    105_one_statsub.bdf;      SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;           pi**2*200e9*0.0001    /(2*25)**2/30;       1%
+pth;    105_one_statsub.bdf;      SC/2/MODE/1/EIGENVECTOR/GID/2/TX,TY,TZ; SUM;       SC/2/MODE/1/EIGENVECTOR/GID/2/TY;          1%
+pth;    105_one_statsub.bdf;      SC/2/MODE/2/EIGENVECTOR/GID/2/TX,TY,TZ; SUM;       SC/2/MODE/2/EIGENVECTOR/GID/2/TZ;          1%
+pth;    105_two_statsubs.bdf;     SC/1/DISPLACEMENTS/GID/2/TX;;                      30/(0.15*0.2)/200e9*25;                    1e-10%; PRELOAD FOR 3
+pth;    105_two_statsubs.bdf;     SC/3/REALEIGENVALUES/MODE/1/EIGENVALUE;;           pi**2*200e9*0.00005625/(2*25)**2/30;       1%; PAIR 1-3
+pth;    105_two_statsubs.bdf;     SC/3/REALEIGENVALUES/MODE/2/EIGENVALUE;;           pi**2*200e9*0.0001    /(2*25)**2/30;       1%; PAIR 1-3
+pth;    105_two_statsubs.bdf;     SC/3/MODE/1/EIGENVECTOR/GID/2/TX,TY,TZ; SUM;       SC/3/MODE/1/EIGENVECTOR/GID/2/TY;          1%; PAIR 1-3
+pth;    105_two_statsubs.bdf;     SC/3/MODE/2/EIGENVECTOR/GID/2/TX,TY,TZ; SUM;       SC/3/MODE/2/EIGENVECTOR/GID/2/TZ;          1%; PAIR 1-3
+pth;    105_two_statsubs.bdf;     SC/2/DISPLACEMENTS/GID/2/TX;;                      30*3/(0.15*0.2)/200e9*25;                  1e-10%; PRELOAD FOR 4
+pth;    105_two_statsubs.bdf;     SC/4/REALEIGENVALUES/MODE/1/EIGENVALUE;;           pi**2*200e9*0.00005625/(2*25)**2/(30*3);   1%; PAIR 2-4
+pth;    105_two_statsubs.bdf;     SC/4/REALEIGENVALUES/MODE/2/EIGENVALUE; ABSENT;    0;                                         0;  PAIR 2-4
+pth;    105_two_statsubs.bdf;     SC/4/MODE/1/EIGENVECTOR/GID/2/TX,TY,TZ; SUM;       SC/4/MODE/1/EIGENVECTOR/GID/2/TY;          1%; PAIR 2-4
+pth;    105_two_statsubs.bdf;     SC/4/MODE/2/EIGENVECTOR/GID/2/TX; ABSENT;          0;                                         0;  PAIR 2-4
+
+# From Zach
+msc;    turbo_coarse_bolted_shells_modal.bdf;   ; KNOWNFAIL Don't know why
+msc;    turbo_coarse_bolted_shells_shear.bdf;   ; KNOWNFAIL Don't know why
+
+# RBE3 bug in v18.0.0 from copper280z
+pth;    rbe3_rx_weighted_c123_c23.bdf;  SC/1/DISPLACEMENTS/GID/100/RX;; 1;  0%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/224
+msc;    rbe3_rx_weighted_c123_c23.bdf;                                        ;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/224
+
+# Macneal-Harder 3D patch test. From copper280z
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/XX; ; 1.00000000e-03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/YY; ; 1.00000000e-03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/ZZ; ; 1.00000000e-03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/XY; ; 1.00000000e-03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/YZ; ; 1.00000000e-03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRAINS/EID/1-7/CORNER/0/ZX; ; 1.00000000e-03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XX; ; 2.00000000e+03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YY; ; 2.00000000e+03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZZ; ; 2.00000000e+03; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XY; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YZ; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZX; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
