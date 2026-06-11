@@ -227,6 +227,8 @@ class F06Query:
                                 force_node = self.ensure_path(gid_node, ["SPC"])
                             elif "MPC FORCE" in line:
                                 force_node = self.ensure_path(gid_node, ["MPC"])
+                            elif "MINUS EQUIV THERM LOAD" in line:
+                                force_node = self.ensure_path(gid_node, ["THERMAL"])
                             elif "INERTIA FORCE" in line:
                                 force_node = self.ensure_path(gid_node, ["INERTIA"])
                             elif "ELEM" in line:
@@ -883,6 +885,8 @@ class F06Query:
                     force_node = self.ensure_path(gid_node, ["MPC"])
                 elif src == "APP-LOAD":
                     force_node = self.ensure_path(gid_node, ["APPLIED"])
+                elif src == "THERMAL":
+                    force_node = self.ensure_path(gid_node, ["THERMAL"])
                 elif eid_field.isdigit():
                     # Element contribution row (e.g. "BAR", "QUAD4", etc.)
                     eids_node = self.ensure_path(gid_node, ["EID"])

@@ -67,7 +67,7 @@ The paths can resolve to one or multiple values. Examples:
 - `SPCFORCES`: TX, TY, TZ, RX, RY, RZ
 - `MPCFORCES`: TX, TY, TZ, RX, RY, RZ
 - `APPLIEDFORCES`: TX, TY, TZ, RX, RY, RZ
-- `GPFORCE`: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*)
+- `GPFORCE`: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, THERMAL, INERTIA, EID/\*)
 - `ELAS1FORCES`
 - `ELAS1STRESSES`
 - `RODFORCES`: AXIAL, TORQUE
@@ -235,7 +235,7 @@ Groups:
 
     - `SPCFORCES`: TX, TY, TZ
     - `APPLIEDFORCES`: TX, TY, TZ
-    - `GPFORCE`: TX, TY, TZ for each force type (APPLIED, SPC, MPC, EID/\*)
+    - `GPFORCE`: TX, TY, TZ for each force type (APPLIED, SPC, MPC, THERMAL, EID/\*)
     - `ELAS1FORCES`
     - `RODFORCES`: AXIAL
     - `BARFORCES:` S1, S2, AXIAL
@@ -245,7 +245,7 @@ Groups:
 - E. Moments
     - `SPCFORCES`: RX, RY, RZ
     - `APPLIEDFORCES`: RX, RY, RZ
-    - `GPFORCE`: RX, RY, RZ for each force type (APPLIED, SPC, MPC, EID/\*)
+    - `GPFORCE`: RX, RY, RZ for each force type (APPLIED, SPC, MPC, THERMAL, EID/\*)
     - `RODFORCES`: TORQUE
     - `BARFORCES:` MA1, MA2, MB1, MB2, TORQUE
     - `BUSHFORCES`: RX, RY, RZ

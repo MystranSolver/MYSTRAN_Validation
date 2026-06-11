@@ -118,7 +118,6 @@ def test_bulk(root_dir: Path,
     tst_f06 = F06Query(str(test_f06_path))
 
 
-
 #   Don't bother comparing eigenvectors because we don't have a reliable way (like MAC) yet.
 
     ref_subcases_block = ref_f06.get_layer_0(["SC"])
@@ -189,13 +188,13 @@ def test_bulk(root_dir: Path,
 
         # GPFORCE
         #--------
-        block_path = prefix + [subcase,"GPFORCE","GID"]
+        block_path = prefix + ["GPFORCE","GID"]
         ref_block = ref_f06.get_layer_0(block_path)
         tst_block = tst_f06.get_layer_0(block_path)
         ref_gids = ref_block.keys() if ref_block is not None else set()
         tst_gids = tst_block.keys() if tst_block is not None else set()
         for gid in ref_gids | tst_gids:
-            for force_type in ["APPLIED", "SPC", "MPC"]:
+            for force_type in ["APPLIED", "SPC", "MPC", "THERMAL"]:
                 for component in ["TX", "TY", "TZ"]:
                     paths_force.append(block_path + [str(gid),force_type,component])
                 for component in ["RX", "RY", "RZ"]:
@@ -383,7 +382,6 @@ def test_bulk(root_dir: Path,
             for corner in ["0", "1", "2", "3", "4", "5", "6", "7", "8"]:
                 for component in ["XX", "YY", "XX", "XY", "YZ", "ZX", "VONMISES"]:
                     paths_strain.append(block_path + [str(eid), "CORNER", corner, component])
-
 
         subcase_name = "/".join(prefix)
         compare(f"{subcase_name} Eigenvalues    ", "A", paths_eigenvalues)
