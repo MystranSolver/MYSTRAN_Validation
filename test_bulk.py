@@ -346,8 +346,6 @@ def test_bulk(root_dir: Path,
                 for z in ["Z1", "Z2"]:
                     for component in ["XX", "YY", "XY", "VONMISES"]:
                         paths_stress.append(block_path + [str(eid), "CORNER", corner, z, component])
-#                for component in ["ZX", "YZ"]:
-#                    paths_stress.append(block_path + [str(eid), "CORNER", corner, component])
 
         # SHELLSTRAINS
         # ------------
@@ -361,8 +359,6 @@ def test_bulk(root_dir: Path,
                 for z in ["Z1", "Z2"]:
                     for component in ["XX", "YY", "XY", "VONMISES"]:
                         paths_strain.append(block_path + [str(eid), "CORNER", corner, z, component])
-#                for component in ["ZX", "YZ"]:
-#                    paths_strain.append(block_path + [str(eid), "CORNER", corner, component])
 
         # SOLIDSTRESSES
         # -------------

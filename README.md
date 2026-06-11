@@ -235,7 +235,7 @@ Groups:
 
     - `SPCFORCES`: TX, TY, TZ
     - `APPLIEDFORCES`: TX, TY, TZ
-    - `GPFORCE`: TX, TY, TZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*)
+    - `GPFORCE`: TX, TY, TZ for each force type (APPLIED, SPC, MPC, EID/\*)
     - `ELAS1FORCES`
     - `RODFORCES`: AXIAL
     - `BARFORCES:` S1, S2, AXIAL
@@ -245,7 +245,7 @@ Groups:
 - E. Moments
     - `SPCFORCES`: RX, RY, RZ
     - `APPLIEDFORCES`: RX, RY, RZ
-    - `GPFORCE`: RX, RY, RZ for each force type (APPLIED, SPC, MPC, INERTIA, EID/\*)
+    - `GPFORCE`: RX, RY, RZ for each force type (APPLIED, SPC, MPC, EID/\*)
     - `RODFORCES`: TORQUE
     - `BARFORCES:` MA1, MA2, MB1, MB2, TORQUE
     - `BUSHFORCES`: RX, RY, RZ
@@ -253,12 +253,12 @@ Groups:
 - F. Stresses
     - `RODSTRESSES`: AXIAL, TORSIONAL
     - `BARSTRESSES:` SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL
-    - `SHELLSTRESSES`: XX, YY, XY, ZX, YZ, VONMISES
+    - `SHELLSTRESSES`: XX, YY, XY, VONMISES
     - `SOLIDSTRESSES`: XX, YY, ZZ, XY, YZ, ZX, VONMISES
 
 - G. Strains
 
-    - `SHELLSTRAINS`: XX, YY, XY, ZX, YZ, VONMISES
+    - `SHELLSTRAINS`: XX, YY, XY, VONMISES
     - `SOLIDSTRAINS`: XX, YY, ZZ, XY, YZ, ZX, VONMISES
 
 - H. ELAS1 stresses
