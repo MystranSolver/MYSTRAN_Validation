@@ -956,6 +956,40 @@ class F06Query:
                 gids_node = self.ensure_path(root, prefix + ["GPFORCE", "GID"])
                 read_gpforce_block(gids_node)
 
+            elif "F O R C E S   I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line \
+            or   "S T R A I N S   I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line \
+            or   "S T R E S S E S   I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line:
+                # Warning. Not tested on real MSC f06. Risky guesses:
+                #   Space between "S P R I N G S" and "( C E L A S 1 )" in title
+                #   "C E L A S 1" vs "E L A S 1" in title
+                #   Column offsets
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                if "S T R E S S E S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["ELAS1STRESSES","EID"])
+                elif "S T R A I N S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["ELAS1STRAINS","EID"])
+                elif "F O R C E S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["ELAS1FORCES","EID"])
+                else:
+                    continue
+                get_next_line()
+                get_next_line()
+                while True:
+                    line = get_next_line()
+                    if line.strip() == "":
+                        continue
+                    if line[0] == "1":
+                        break
+                    if line.startswith(" ***"):
+                        break
+                    for element_col in range(4):
+                        start = element_col * 29
+                        if len(line) > start+13 and line[start+13] != " ":
+                            eid = int(self.number(line, start + 7,8))
+                            self.set(eids_node, str(eid), self.number(line, start + 17, 13))
+
             elif "F O R C E S   I N   B U S H   E L E M E N T S        ( C B U S H )" in line \
             or   "S T R A I N S   I N   B U S H   E L E M E N T S        ( C B U S H )" in line \
             or   "S T R E S S E S   I N   B U S H   E L E M E N T S        ( C B U S H )" in line:
