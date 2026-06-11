@@ -554,12 +554,14 @@ class F06Query:
                             self.set(z1_node, "YY", self.number(line, 48, 12))
                             self.set(z1_node, "XY", self.number(line, 61, 12))
                             self.set(z1_node, "PRINCIPALANGLE", self.number(line, 75, 6))
+                            self.set(z1_node, "VONMISES", self.number(line, 108, 12))
                             line = get_next_line()
                             z2_node = self.ensure_path(corner_node, ["Z2"])
                             self.set(z2_node, "XX", self.number(line, 35, 12))
                             self.set(z2_node, "YY", self.number(line, 48, 12))
                             self.set(z2_node, "XY", self.number(line, 61, 12))
                             self.set(z2_node, "PRINCIPALANGLE", self.number(line, 75, 6))
+                            self.set(z2_node, "VONMISES", self.number(line, 108, 12))
 
                     elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
                         eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
@@ -583,12 +585,14 @@ class F06Query:
                                 self.set(z1_node, "YY", self.number(line, 51, 12))
                                 self.set(z1_node, "XY", self.number(line, 64, 12))
                                 self.set(z1_node, "PRINCIPALANGLE", self.number(line, 78, 7))
+                                self.set(z1_node, "VONMISES", self.number(line, 112, 12))
                                 line = get_next_line()
                                 z2_node = self.ensure_path(corner_node, ["Z2"])
                                 self.set(z2_node, "XX", self.number(line, 38, 12))
                                 self.set(z2_node, "YY", self.number(line, 51, 12))
                                 self.set(z2_node, "XY", self.number(line, 64, 12))
                                 self.set(z2_node, "PRINCIPALANGLE", self.number(line, 78, 7))
+                                self.set(z2_node, "VONMISES", self.number(line, 112, 12))
 
                     elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
                         eids_node = self.ensure_path(root, prefix + ["BUSHSTRAINS","EID"])
@@ -780,10 +784,6 @@ class F06Query:
  
     def _read_msc(self, lines):
 
-        root = {}
-        line_no = 0
-        corner = None
-
         def get_next_line():
             nonlocal line_no
             if line_no >= len(lines):
@@ -893,6 +893,11 @@ class F06Query:
                     self.set(force_node, "RY", self.number(line, 104, 13))
                     self.set(force_node, "RZ", self.number(line, 119, 13))
 
+        root = {}
+        line_no = 0
+        corner = None
+        eid_node = None
+
         while line_no < len(lines):
             line = get_next_line()
             prefix = None # Prevent accidental reuse
@@ -917,6 +922,13 @@ class F06Query:
                 gids_node = self.ensure_path(root, prefix + ["SPCFORCES", "GID"])
                 read_gid_block(gids_node)
 
+            elif "F O R C E S   O F   M U L T I P O I N T   C O N S T R A I N T" in line:
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                gids_node = self.ensure_path(root, prefix + ["MPCFORCES", "GID"])
+                read_gid_block(gids_node)
+
             elif "L O A D   V E C T O R" in line:
                 if is_mode_block():
                     continue
@@ -937,6 +949,74 @@ class F06Query:
                     prefix = prefix + ["MODE", str(mode)]
                 gids_node = self.ensure_path(root, prefix + ["GPFORCE", "GID"])
                 read_gpforce_block(gids_node)
+
+            elif "F O R C E S   I N   B U S H   E L E M E N T S        ( C B U S H )" in line \
+            or   "S T R A I N S   I N   B U S H   E L E M E N T S        ( C B U S H )" in line \
+            or   "S T R E S S E S   I N   B U S H   E L E M E N T S        ( C B U S H )" in line:
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                if "S T R E S S E S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["BUSHSTRESSES","EID"])
+                elif "S T R A I N S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["BUSHSTRAINS","EID"])
+                elif "F O R C E S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["BUSHFORCES","EID"])
+                else:
+                    continue
+                get_next_line()
+                get_next_line()
+                while True:
+                    line = get_next_line()
+                    if line.strip() == "":
+                        continue
+                    if line[0] == "1":
+                        break
+                    if line.startswith(" ***"):
+                        break
+                    eid = int(self.number(line, 21,8))
+                    eid_node = self.ensure_path(eids_node, [str(eid)])
+                    self.set(eid_node, "TX", self.number(line, 34, 13))
+                    self.set(eid_node, "TY", self.number(line, 48, 13))
+                    self.set(eid_node, "TZ", self.number(line, 62, 13))
+                    self.set(eid_node, "RX", self.number(line, 76, 13))
+                    self.set(eid_node, "RY", self.number(line, 90, 13))
+                    self.set(eid_node, "RZ", self.number(line, 104, 13))
+
+            elif "S T R E S S E S   I N   R O D   E L E M E N T S" in line \
+            or   "S T R A I N S   I N   R O D   E L E M E N T S" in line:
+                if is_mode_block():
+                    continue
+                prefix = subcase_mode()
+                if "S T R E S S E S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["RODSTRESSES","EID"])
+                elif "S T R A I N S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["RODSTRAINS","EID"])
+                else:
+                    continue
+                get_next_line()
+                get_next_line()
+                while True:
+                    line = get_next_line()
+                    if line.strip() == "":
+                        continue
+                    if line[0] == "1":
+                        break
+                    if line.startswith(" ***"):
+                        break
+                    eid = int(self.number(line, 7, 8))
+                    eid_node = self.ensure_path(eids_node, [str(eid)])
+                    self.set(eid_node, "AXIAL", self.number(line, 18, 13))
+                    self.set(eid_node, "AXIALSAFETY", self.number(line, 32, 12, blank_is_inf=True))
+                    self.set(eid_node, "TORSIONAL", self.number(line, 44, 13))
+                    self.set(eid_node, "TORSIONALSAFETY", self.number(line, 58, 12, blank_is_inf=True))
+                    if len(line) > 78 and line[78] != " ":
+                        eid = int(self.number(line, 72,8))
+                        eid_node = self.ensure_path(eids_node, [str(eid)])
+                        self.set(eid_node, "AXIAL", self.number(line, 83, 13))
+                        self.set(eid_node, "AXIALSAFETY", self.number(line, 97, 12, blank_is_inf=True))
+                        self.set(eid_node, "TORSIONAL", self.number(line, 109, 13))
+                        self.set(eid_node, "TORSIONALSAFETY", self.number(line, 123, 12, blank_is_inf=True))
 
             elif "S T R E S S E S   I N   B A R   E L E M E N T S" in line:
                 if is_mode_block():
@@ -964,11 +1044,17 @@ class F06Query:
                     self.set(eid_node, "SB3", self.number(line, 43, 13))
                     self.set(eid_node, "SB4", self.number(line, 58, 13))
 
-            elif "S T R E S S E S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )        OPTION = BILIN" in line:
+            elif "S T R E S S E S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )        OPTION = BILIN" in line \
+            or   "S T R A I N S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )        OPTION = BILIN" in line:
                 if is_mode_block():
                     continue
                 prefix = subcase_mode()
-                eids_node = self.ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
+                if "S T R E S S E S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
+                elif "S T R A I N S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
+                else:
+                    eids_node = None # Should never happen but force a failure.
                 get_next_line()
                 get_next_line()
                 get_next_line()
@@ -1006,12 +1092,19 @@ class F06Query:
                     self.set(z2_node, "PRINCIPALANGLE", self.number(line, 82, 8))
                     self.set(z2_node, "VONMISES", self.number(line, 120, 13))
 
-            elif "S T R E S S E S   I N   Q U A D R I L A T E R A L   E L E M E N T S" in line \
-            or   "S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )" in line:
+            elif "S T R E S S E S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )" in line \
+            or   "S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )" in line \
+            or   "S T R A I N S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )" in line \
+            or   "S T R A I N S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )" in line:
                 if is_mode_block():
                     continue
                 prefix = subcase_mode()
-                eids_node = self.ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
+                if "S T R E S S E S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
+                elif "S T R A I N S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
+                else:
+                    eids_node = None # Should never happen but force a failure.
                 get_next_line()
                 get_next_line()
                 while True:
@@ -1022,11 +1115,9 @@ class F06Query:
                         break
                     if line.startswith(" ***"):
                         break
-                    else:
-                        eid = int(self.number(line, 2,8))
-                        eid_node = self.ensure_path(eids_node, [str(eid)])
-                        corner = 0
-                    corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
+                    eid = int(self.number(line, 2,8))
+                    eid_node = self.ensure_path(eids_node, [str(eid)])
+                    corner_node = self.ensure_path(eid_node, ["CORNER", "0"])
                     z1_node = self.ensure_path(corner_node, ["Z1"])
                     self.set(z1_node, "XX", self.number(line, 31, 13))
                     self.set(z1_node, "YY", self.number(line, 46, 13))
@@ -1041,15 +1132,27 @@ class F06Query:
                     self.set(z2_node, "PRINCIPALANGLE", self.number(line, 77, 8))
                     self.set(z2_node, "VONMISES", self.number(line, 119, 13))
 
-            elif "S T R A I N S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )        OPTION = BILIN" in line:
+            elif "S T R E S S E S   I N   H E X A H E D R O N   S O L I D   E L E M E N T S   ( H E X A )" in line \
+            or   "S T R E S S E S   I N    T E T R A H E D R O N   S O L I D   E L E M E N T S   ( C T E T R A )" in line \
+            or   "S T R E S S E S   I N   P E N T A H E D R O N   S O L I D   E L E M E N T S   ( P E N T A )" in line \
+            or   "S T R A I N S   I N   H E X A H E D R O N   S O L I D   E L E M E N T S   ( H E X A )" in line \
+            or   "S T R A I N S   I N    T E T R A H E D R O N   S O L I D   E L E M E N T S   ( C T E T R A )" in line \
+            or   "S T R A I N S   I N   P E N T A H E D R O N   S O L I D   E L E M E N T S   ( P E N T A )" in line:
                 if is_mode_block():
                     continue
                 prefix = subcase_mode()
-                eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
+                if "S T R E S S E S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["SOLIDSTRESSES","EID"])
+                elif "S T R A I N S" in line:
+                    eids_node = self.ensure_path(root, prefix + ["SOLIDSTRAINS","EID"])
+                else:
+                    eids_node = None # Should never happen but force a failure.
                 get_next_line()
                 get_next_line()
-                get_next_line()
-                corner = None
+                # Don't reset corner because block can be split across pages between corners.
+                # In that case, eid_node and corner will both persist from the previous loop iteration.
+                # It can also be split across pages between the element ID line and the first
+                # corner lines. In that case, only eid_node needs to persist between loop iterations.
                 while True:
                     line = get_next_line()
                     if line.strip() == "":
@@ -1058,35 +1161,34 @@ class F06Query:
                         break
                     if line.startswith(" ***"):
                         break
-                    if line[15:15+3] == "CEN":
+                    if line[3:3+8].strip() != "": # Element ID line
                         eid = int(self.number(line, 4,8))
                         eid_node = self.ensure_path(eids_node, [str(eid)])
+                        continue
+                    if line[17:17+6] == "CENTER":
                         corner = 0
                         corner_gid = None
                     else:
                         corner += 1
-                        corner_gid = int(self.number(line, 13, 8))
+                        corner_gid = int(self.number(line, 16, 8))
                     corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
                     if corner_gid is not None:
                         self.set(corner_node, "GID", corner_gid)
-                    z1_node = self.ensure_path(corner_node, ["Z1"])
-                    self.set(z1_node, "XX", self.number(line, 38, 13))
-                    self.set(z1_node, "YY", self.number(line, 52, 13))
-                    self.set(z1_node, "XY", self.number(line, 66, 13))
-                    self.set(z1_node, "PRINCIPALANGLE", self.number(line, 82, 8))
+                    self.set(corner_node, "XX", self.number(line, 29, 13))
+                    self.set(corner_node, "XY", self.number(line, 48, 13))
+                    self.set(corner_node, "VONMISES", self.number(line, 117, 13))
                     line = get_next_line()
-                    z2_node = self.ensure_path(corner_node, ["Z2"])
-                    self.set(z2_node, "XX", self.number(line, 38, 13))
-                    self.set(z2_node, "YY", self.number(line, 52, 13))
-                    self.set(z2_node, "XY", self.number(line, 66, 13))
-                    self.set(z2_node, "PRINCIPALANGLE", self.number(line, 82, 8))
+                    self.set(corner_node, "YY", self.number(line, 29, 13))
+                    self.set(corner_node, "YZ", self.number(line, 48, 13))
+                    line = get_next_line()
+                    self.set(corner_node, "ZZ", self.number(line, 29, 13))
+                    self.set(corner_node, "ZX", self.number(line, 48, 13))
 
-            elif "S T R A I N S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )" in line \
-            or   "S T R A I N S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )" in line:
+            elif "F O R C E S   I N   R O D   E L E M E N T S" in line:
                 if is_mode_block():
                     continue
                 prefix = subcase_mode()
-                eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
+                eids_node = self.ensure_path(root, prefix + ["RODFORCES","EID"])
                 get_next_line()
                 get_next_line()
                 while True:
@@ -1097,23 +1199,16 @@ class F06Query:
                         break
                     if line.startswith(" ***"):
                         break
-                    else:
-                        eid = int(self.number(line, 2,8))
+                    eid = int(self.number(line, 7, 8))
+                    eid_node = self.ensure_path(eids_node, [str(eid)])
+                    self.set(eid_node, "AXIAL", self.number(line, 22, 13))
+                    self.set(eid_node, "TORQUE", self.number(line, 37, 13))
+                    if len(line) > 73 and line[73] != " ":
+                        eid = int(self.number(line, 67,8))
                         eid_node = self.ensure_path(eids_node, [str(eid)])
-                        corner = 0
-                    corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
-                    z1_node = self.ensure_path(corner_node, ["Z1"])
-                    self.set(z1_node, "XX", self.number(line, 31, 13))
-                    self.set(z1_node, "YY", self.number(line, 46, 13))
-                    self.set(z1_node, "XY", self.number(line, 61, 13))
-                    self.set(z1_node, "PRINCIPALANGLE", self.number(line, 77, 8))
-                    line = get_next_line()
-                    z2_node = self.ensure_path(corner_node, ["Z2"])
-                    self.set(z2_node, "XX", self.number(line, 31, 13))
-                    self.set(z2_node, "YY", self.number(line, 46, 13))
-                    self.set(z2_node, "XY", self.number(line, 61, 13))
-                    self.set(z2_node, "PRINCIPALANGLE", self.number(line, 77, 8))
-                                
+                        self.set(eid_node, "AXIAL", self.number(line, 82, 13))
+                        self.set(eid_node, "TORQUE", self.number(line, 97, 13))
+                               
             elif "F O R C E S   I N   B A R   E L E M E N T S" in line:
                 if is_mode_block():
                     continue
@@ -1149,6 +1244,7 @@ class F06Query:
                 get_next_line()
                 get_next_line()
                 # Don't reset corner because block can be split across pages between corners.
+                # In that case, eid_node and corner will both persist from the previous loop iteration.
                 while True:
                     line = get_next_line()
                     if line.strip() == "":
@@ -1196,8 +1292,7 @@ class F06Query:
                         break
                     eid = int(self.number(line, 4,8))
                     eid_node = self.ensure_path(eids_node, [str(eid)])
-                    corner = 0
-                    corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
+                    corner_node = self.ensure_path(eid_node, ["CORNER", "0"])
                     self.set(corner_node, "NXX", self.number(line, 18, 13))
                     self.set(corner_node, "NYY", self.number(line, 32, 13))
                     self.set(corner_node, "NXY", self.number(line, 46, 13))
