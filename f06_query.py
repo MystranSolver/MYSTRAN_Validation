@@ -879,6 +879,8 @@ class F06Query:
                 force_node = None
                 if src == "F-OF-SPC":
                     force_node = self.ensure_path(gid_node, ["SPC"])
+                elif src == "F-OF-MPC":
+                    force_node = self.ensure_path(gid_node, ["MPC"])
                 elif src == "APP-LOAD":
                     force_node = self.ensure_path(gid_node, ["APPLIED"])
                 elif eid_field.isdigit():

@@ -5,7 +5,6 @@ import sys
 import os
 from shutil import copyfile
 from io import TextIOWrapper
-from textwrap import dedent
 from pathlib import Path
 from test_bulk import test_bulk
 from test_individual_values import test_individual_values
@@ -183,112 +182,6 @@ def run_program(program_path: Path,
     return 0
         
 
-def test_bulk_magic(root_dir: Path,
-                         working_dir: Path,
-                         test_f06_path: Path,
-                         output_file: TextIOWrapper,
-                         test_case: CaseDefinition) -> int:
-
-    def block(extraction_name, block, cols):
-        return dedent(f"""\
-        [[extractions]]
-        name          = "{extraction_name}"
-        block         = "{block}"
-        cols          = {str(cols)}
-        [[comparison]]
-        name          = "{test_case.deck_filename} {extraction_name}"
-        reference_f06 = "reference_file"
-        test_f06      = "test_file"
-        extraction    = "{extraction_name}"
-        criteria      = "only criteria"
-        predicate     = "(rmaxa != 0 and (abs(t - r) / rmaxa <= 2e-7)) or (rmaxa == 0 and t == 0)"
-        printout      = "P {extraction_name}"
-        [[printout]]
-        name          = "P {extraction_name}"
-        max           = "rmaxa"
-        error_percent = "abs(t - r) / rmaxa * 100"
-        """)
-
-    if test_case.test_type == "mys":
-        reference_f06_path = (root_dir / "reference_mystran" / test_case.deck_filename).with_suffix(".F06").resolve()
-    elif test_case.test_type == "msc":
-        reference_f06_path = (root_dir / "reference_msc" / test_case.deck_filename).with_suffix(".f06").resolve()
-    
-    # Make script for f06magic
-    script = dedent(f"""\
-        [files]
-        test_file      = \"{test_f06_path}\"
-        reference_file = \"{reference_f06_path}\"
-
-        [[criteria]]
-        name           = \"only criteria\"
-
-        {block("displacements T", "displacements", ["tx", "ty", "tz"])}
-        {block("displacements R", "displacements", ["rx", "ry", "rz"])}
-
-        {block("eigenvector T", "eigenvector", ["tx", "ty", "tz"])}
-        {block("eigenvector R", "eigenvector", ["rx", "ry", "rz"])}
-
-        {block("spc_forces T", "spc_forces", ["tx", "ty", "tz"])}
-        {block("spc_forces R", "spc_forces", ["rx", "ry", "rz"])}
-
-        {block("applied_forces T", "applied_forces", ["tx", "ty", "tz"])}
-        {block("applied_forces R", "applied_forces", ["rx", "ry", "rz"])}
-
-        {block("grid_point_force_balance T", "grid_point_force_balance", ["tx", "ty", "tz"])}
-        {block("grid_point_force_balance R", "grid_point_force_balance", ["rx", "ry", "rz"])}
-
-        {block("elas_1_forces", "elas_1_forces", ["force"])}
-
-        {block("elas_1_stresses", "elas_1_stresses", ["stress"])}
-
-        {block("rod_forces F", "rod_forces", ["axial_force"])}
-        {block("rod_forces M", "rod_forces", ["torque"])}
-
-        {block("rod_stresses", "rod_stresses", ["axial", "torsional"])}
-
-        {block("bar_forces F", "bar_forces", ["shear_plane_1", "shear_plane_2", "axial_force"])}
-        {block("bar_forces M", "bar_forces", ["bend_moment_end_a_plane_1",
-                                              "bend_moment_end_a_plane_2",
-                                              "bend_moment_end_b_plane_1",
-                                              "bend_moment_end_b_plane_2",
-                                              "torque"])}
-
-        {block("bar_stresses", "bar_stresses", ["end_a_recovery_point_1", 
-                                                "end_a_recovery_point_2",
-                                                "end_a_recovery_point_3",
-                                                "end_a_recovery_point_4", 
-                                                "end_b_recovery_point_1",
-                                                "end_b_recovery_point_2",
-                                                "end_b_recovery_point_3",
-                                                "end_b_recovery_point_4",
-                                                "axial"])}
-
-        {block("bush_forces T", "bush_forces", ["tx", "ty", "tz"])}
-        {block("bush_forces R", "bush_forces", ["rx", "ry", "rz"])}
-
-        {block("bush_stresses", "bush_stresses", ["tx", "ty", "tz", "rx", "ry", "rz"])}
-
-        {block("bush_strains", "bush_strains", ["tx", "ty", "tz", "rx", "ry", "rz"])}
-
-    """)
-
-    # Escape \ to \\ for TOML
-    script = script.replace("\\", "\\\\")
-    f06magic_script_path = working_dir / "f06magic_script.toml"
-    with open(f06magic_script_path, "w") as script_file:
-        script_file.write(script)
-
-    args = ["--verbose", f06magic_script_path]
-
-    # Run f06magic
-    fail_count = run_program(root_dir / "f06magic.exe", args, working_dir, output_file, output_file)
-
-    return fail_count, ""
-
-
-
-
 def run_case(mystran_path: Path,
              root_dir: Path,
              fails_dir: Path,
@@ -324,25 +217,12 @@ def run_case(mystran_path: Path,
 
     test_f06_path = (working_dir / deck_stem).with_suffix(".F06").resolve()
 
-#    if test_case.test_type in ["mys", "msc"]:
-    if test_case.test_type == "mys":
+    if test_case.test_type in ["mys", "msc"]:
 
         output_file.write(f"{INDENT * 0}{test_case.test_type}; {test_case.deck_filename}\n")
         #todo write atols
         fail_count, comparison_count, message = test_bulk(root_dir, test_f06_path, deck_path, output_file, test_case)
         count_suffix = "/" + str(comparison_count)
-
-    elif test_case.test_type == "msc":
-
-        output_file.write(f"{INDENT * 0}{test_case.test_type}; {test_case.deck_filename}\n")
-        #todo write atols
-
-        fail_count, message = test_bulk_magic(root_dir, working_dir, test_f06_path, output_file, test_case)
-        if fail_count == 254:
-            # 254 is the maximum that f06magic can report through the exit code.
-            count_suffix = "+"
-        else:
-            count_suffix = ""
 
     elif test_case.test_type == "pth":
 

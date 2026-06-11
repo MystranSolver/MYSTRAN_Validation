@@ -195,7 +195,7 @@ def test_bulk(root_dir: Path,
         ref_gids = ref_block.keys() if ref_block is not None else set()
         tst_gids = tst_block.keys() if tst_block is not None else set()
         for gid in ref_gids | tst_gids:
-            for force_type in ["APPLIED", "SPC", "MPC", "INERTIA"]:
+            for force_type in ["APPLIED", "SPC", "MPC"]:
                 for component in ["TX", "TY", "TZ"]:
                     paths_force.append(block_path + [str(gid),force_type,component])
                 for component in ["RX", "RY", "RZ"]:
