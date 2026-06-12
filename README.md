@@ -15,24 +15,23 @@ means it didn't find any regressions.
 If a change causes tests to fail when nothing's wrong, update those test cases
 so they pass.
 
-Test cases marked `KNOWNFAIL` must fail but are counted as passed
-when they do. These represent bugs in either Mystran, the test case, or the
-validation suite and we should aim to eventually fix them all so they pass.
-
 ## Define tests
-Each test case is described by one line in the `cases.txt` file. There are two types - individual values and bulk comparison.
+Each test case is described by one line in the `cases.txt` file and a corresponding input deck.
 
 Blank lines and white-space-only lines are ignored.
 
 Lines beginning with `#` are comments and are ignored.
 
 `INCLUDE <filename>` on a line includes the contents of the file <filename> at that
-point. Useful for organizing test cases or to temporarily disable groups of test
-cases you're not using.
+point.
+
+If the comment field at the end of a test case definition line begins with `KNOWNFAIL` then the test case's result is inverted. ie. KNOWNFAILs must fail. This is useful for unfixed bugs so they don't pollute the results with fail notices. We should aim to eventually fix them all so they pass.
 
 White space between fields is ignored.
 
-### Individual values
+There are two types of test case - individual values and bulk comparison.
+
+## Individual values
 
 Compares values from the f06 file to a reference value defined on the same line.
 This type of test is useful for comparing specific values in the solution to
@@ -127,27 +126,17 @@ should fail didn't produce a solution.
 
 #### Field 5. Reference value
 
-The reference value has the same format as test value but it must resolve to a single
-value.
+The reference value has the same format as test value but it must resolve to a single value.
 
 #### Field 6. Tolerance
-If the tolerance ends with a `%`, it means **percentage tolerance**. This
-criterion is useful for most cases except where the reference value is
-zero. Percentage test passes if:
+If the tolerance ends with a `%`, it means **percentage tolerance**. This criterion is useful for most cases except where the reference value is zero. Percentage test passes if:
 ```
 100 * |<test value> / <reference value> - 1| <= <tolerance>
 ```
-If there's no `%` symbol in the tolerance field, it means **difference tolerance**.
-This criterion is useful where the reference value is zero. Difference test
-passes if:
+If there's no `%` symbol in the tolerance field, it means **absolute tolerance** (atol). This criterion is useful where the referenc value is zero. Difference test passes if:
 ```
 |<test value> - <reference value>| <= <tolerance>
 ```
-
-#### Field 7. Comment and Known failures
-If the comment at the end of the line begins with `KNOWNFAIL` then the test case's
-result is inverted. ie. KNOWNFAILs must fail. This is useful for unfixed bugs so
-they don't pollute the results with fail notices.
 
 #### Grid point transformations
 Displacements and SPC forces can be transformed by matrices supplied in a separate
@@ -170,7 +159,7 @@ are treated as zero instead of errors at specific paths, such as
 `/SC/*/SPCFORCES/GID/#/*`.
 
 
-### Bulk comparison
+## Bulk comparison
 
 Compares most values in the solution's f06 file to a reference f06 file. This
 type of test is useful for discovering bugs -- when compared to MSC -- or detecting
@@ -198,22 +187,19 @@ If it's the same as the previous line, it will reuse the .f06 file without runni
 Values of the same dimension and that should be of similar orders of magnitude
 are grouped together and assigned the same absolute tolerance.
 
-`abs(test - ref) <= atol`
+```
+|<test value> - <reference value>| <= <atol>
+```
 
-By default, atol is chosen automatically to be 1e-8 \* the maximum magnitude
+By default, \<atol\> is chosen automatically to be 1e-8 \* the maximum magnitude
 of the group's values in the reference solution. This allows greater relative
 error for smaller values all the way to zero without the need for an arbitrary
 threshold as long as at least one value in the group has a large magnitude.
 
 However, sometimes all values in a group are near zero or there's a wider
 variation between solvers. In that case, you can set atol using the format
-`<group letter> = <absolute tolerance>` which can be repeated for different
+`<group letter> = <atol>` which can be repeated for different
 groups. Group letters are A, B, etc. and listed below.
-
-#### Field 4. Comment and Known failures
-If the comment at the end of the line begins with `KNOWNFAIL` then the test case's
-result is inverted. ie. KNOWNFAILs must fail. This is useful for unfixed bugs so
-they don't pollute the results with fail notices.
 
 #### Compared data:
 All subcases but not eigenvectors.
@@ -225,11 +211,11 @@ Groups:
 
 - B. Translations
 
-    -`DISPLACEMENTS`: TX, TY, TZ
+    - `DISPLACEMENTS`: TX, TY, TZ
 
 - C. Rotations 
 
-    -`DISPLACEMENTS`: RX, RY, RZ
+    - `DISPLACEMENTS`: RX, RY, RZ
 
 - D. Forces
 

@@ -2,6 +2,57 @@ import math
 import sys
 from io import TextIOWrapper
 
+# =======================================
+# F06 parser for Mystran and MSC variants
+# =======================================
+#
+# Example usage:
+#
+#   from f06_query import F06Query
+#   f06 = F06Query("my_filename.f06")
+#   print(f06.get_layer_0(["SC", "1", "DISPLACEMENTS", "GID", "2", "TZ"]))
+#
+# It stores the data hierarchically in a nested dictionary.
+#
+# Supported blocks and their fields:
+#
+# DISPLACEMENTS: TX, TY, TZ, RX, RY, RZ
+# SPCFORCES: TX, TY, TZ, RX, RY, RZ
+# MPCFORCES: TX, TY, TZ, RX, RY, RZ
+# APPLIEDFORCES: TX, TY, TZ, RX, RY, RZ
+# GPFORCE: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, THERMAL, INERTIA, EID/\*)
+#   MSC: No INERTIA because I havn't found examples yet
+# ELAS1FORCES
+# ELAS1STRESSES
+# ELAS1STRAINS
+#   Mystran: No because it doesn't output elas1 strains
+# RODFORCES: AXIAL, TORQUE
+# RODSTRESSES: AXIAL, AXIALSAFETY, TORSIONAL, TORSIONALSAFETY
+# RODSTRAINS: AXIAL, AXIALSAFETY, TORSIONAL, TORSIONALSAFETY
+#   Mystran: No because it doesn't output rod strains
+# BARFORCES: MA1, MA2, MB1, MB2, S1, S2, AXIAL, TORQUE
+# BARSTRESSES: SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL
+# BUSHFORCES: TX, TY, TZ, RX, RY, RZ
+# BUSHSTRESSES: TX, TY, TZ, RX, RY, RZ
+# BUSHSTRAINS: TX, TY, TZ, RX, RY, RZ
+# SHELLFORCES: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER
+# SHELLSTRESSES: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
+#   MSC: No ZX,YZ because it doesn't have them. No CQUAD8 because I don't have examples.
+# SHELLSTRAINS: XX, YY, XY, PRINCIPALANGLE for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
+#   MSC: No ZX,YZ because it doesn't have them. No CQUAD8 because I don't have examples.
+# COMPOSITESTRESSES: 11, 22, 12, 13, 23 for each PLY
+#   MSC: No because I don't have examples and it seems to be enabled differently from Mystran.
+# SOLIDSTRESSES: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
+# SOLIDSTRAINS: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
+# EIGENVECTOR: TX, TY, TZ, RX, RY, RZ
+# REALEIGENVALUES: EIGENVALUE, CYCLES
+#   Mystran: No CYCLES for SOL 105 because it doesn't have that.
+#
+# For MSC, the only blocks that can read in a mode are:
+#   EIGENVECTOR
+#   GPFORCE
+# because other blocks identify their mode by its eigenvalue which may be non-unique.
+
 
 INDENT = "  "
 
