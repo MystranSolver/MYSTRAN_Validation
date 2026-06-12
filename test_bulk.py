@@ -17,12 +17,14 @@ def test_bulk(root_dir: Path,
     comparison_count = 0
     worst_error = 0
     worst_path = []
+    detail_output = []
 
     def compare(title, group_letter, paths):
         nonlocal fail_count
         nonlocal worst_error
         nonlocal worst_path
         nonlocal comparison_count
+        nonlocal detail_output
 
         maximum = 0.0
         for path in paths:
@@ -77,13 +79,16 @@ def test_bulk(root_dir: Path,
                 batch_worst_tst_value = tst_value
                 batch_worst_ref_value = ref_value
 
-            if error <= atol:
-                pass
-            else:
-                # Fail is the else clause so that NaN fails.
+            # Fail is the else clause so that NaN fails.
+            passed = True if error <= atol else False
+
+            if not passed:
                 batch_fail_count += 1
 
+            detail_output.append((passed, atol, error, tst_value, ref_value, path))
+
         if batch_comparison_count > 0:
+
             pass_fail = "PASS  " if batch_fail_count == 0 else "FAILED"
             fails_text = f"{batch_fail_count}/{batch_comparison_count}".ljust(11)
             output_file.write(f"{INDENT * 1}{pass_fail} {fails_text} {title}")
@@ -395,12 +400,21 @@ def test_bulk(root_dir: Path,
         compare(f"{subcase_name} BUSH stresses  ", "I", paths_bush_stress)
         compare(f"{subcase_name} BUSH strains   ", "J", paths_bush_strain)
         compare(f"{subcase_name} Shell forces   ", "K", paths_shell_force)
-   
+
+    # Detailed output for every comparison if the test case failed.
+    if fail_count > 0:
+        output_file.write(f"{INDENT * 1}Every comparison in this test case:\n")
+        output_file.write(f"{INDENT * 2}Result;  {f"Atol".rjust(5)};  {f"Diff".rjust(13)};  {f"Test".rjust(13)};  {f"Ref".rjust(13)};  Path\n")
+        for passed, atol, error, tst_value, ref_value, path in detail_output:
+            pass_fail = "PASS  " if passed else "FAILED"
+            error_str = f"{error:.6e}".rjust(13) if error != 0 else " 0.0".ljust(13)
+            tst_str = f"{tst_value:.6e}".rjust(13) if tst_value != 0 else " 0.0".ljust(13)
+            ref_str = f"{ref_value:.6e}".rjust(13) if ref_value != 0 else " 0.0".ljust(13)
+            output_file.write(f"{INDENT * 2}{pass_fail};  {f"{atol:.0e}".rjust(5)};  {error_str};  {tst_str};  {ref_str};  {"/".join(path)}\n")
    
     if fail_count > 0:
         message = f"Error = {worst_error:.2g}\t{ "/".join(worst_path)}"
     else:
         message = ""
-
 
     return fail_count, comparison_count, message

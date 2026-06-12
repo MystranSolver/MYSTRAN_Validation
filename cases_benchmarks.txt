@@ -1,7 +1,5 @@
 # Benchmark decks
 
-mys;    Benchmark/RBE2-01-CBAR-01-SB.DAT;                   ;  KNOWNFAIL since v13. "ELDATA(1,PUNCH) = ALL" and other numbers no longer allowed.
-
 mys;    Benchmark/EB-BAR-CC-LANCZOS-MODE-2-DGB.DAT;         ;  KNOWNFAIL Now that mode 2 is gone, this won't solve without ART_MASS or fewer modes.
 mys;    Benchmark/EB-BAR-CC-LANCZOS-MODE-2-DPB.DAT;         ;  KNOWNFAIL Now that mode 2 is gone, this won't solve without ART_MASS or fewer modes.
 mys;    Benchmark/EB-BAR-FF-LANCZOS-MODE-2-DGB.DAT;         ;  KNOWNFAIL Now that mode 2 is gone, this won't solve without ART_MASS or fewer modes.
@@ -10,28 +8,6 @@ mys;    Benchmark/ES-BAR-CC-LANCZOS-MODE-2-DGB.DAT;         ;  KNOWNFAIL Now tha
 mys;    Benchmark/ES-BAR-CC-LANCZOS-MODE-2-DPB.DAT;         ;  KNOWNFAIL Now that mode 2 is gone, this won't solve without ART_MASS or fewer modes.
 mys;    Benchmark/ES-BAR-FF-LANCZOS-MODE-2-DGB.DAT;         ;  KNOWNFAIL Now that mode 2 is gone, this won't solve without ART_MASS or fewer modes.
 mys;    Benchmark/ES-BAR-FF-LANCZOS-MODE-2-DPB.DAT;         ;  KNOWNFAIL Now that mode 2 is gone, this won't solve without ART_MASS or fewer modes.
-
-mys;    Benchmark/EB-ALL-ELEM-TEST-GIV.DAT;                 ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/EB-ALL-ELEM-TEST-INV.DAT;                 ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/EB-ALL-ELEM-TEST-LANCZOS-MODE-2-DPB.DAT;  ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/EB-ALL-ELEM-TEST-MGIV.DAT;                ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/EB-AQ3U2S004-GIV.DAT;                     ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/EB-AQ3U2S004-INV.DAT;                     ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/EB-AQ3U2S004-LANCZOS-MODE-2-DPB.DAT;      ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/EB-AQ3U2S004-MGIV.DAT;                    ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/ES-ALL-ELEM-TEST-GIV.DAT;                 ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/ES-ALL-ELEM-TEST-INV.DAT;                 ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/ES-ALL-ELEM-TEST-LANCZOS-MODE-2-DPB.DAT;  ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/ES-ALL-ELEM-TEST-MGIV.DAT;                ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/ES-AQ3U2S004-GIV.DAT;                     ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/ES-AQ3U2S004-INV.DAT;                     ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/ES-AQ3U2S004-LANCZOS-MODE-2-DPB.DAT;      ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/ES-AQ3U2S004-MGIV.DAT;                    ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/plate_01.DAT;                             ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/SB-ALL-ELEM-TEST.DAT;                     ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/SB-AQ3U2S004.DAT;                         ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/SS-ALL-ELEM-TEST.DAT;                     ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
-mys;    Benchmark/SS-AQ3U2S004.DAT;                         ;  KNOWNFAIL Small error because of change from MIN4T to MIN4. Passes with PARAM,QUAD4TYP,MIN4T
 
 mys;    Benchmark/bar_01.DAT;                               
 mys;    Benchmark/bar_02.DAT;                               
@@ -68,6 +44,14 @@ mys;    Benchmark/bush_53.DAT;                             E = 1e-12
 mys;    Benchmark/case_0001.DAT;                           F = 1e-14
 mys;    Benchmark/case_0002.DAT;                            
 mys;    Benchmark/case_0003.DAT;                            
+mys;    Benchmark/EB-ALL-ELEM-TEST-GIV.DAT
+mys;    Benchmark/EB-ALL-ELEM-TEST-INV.DAT
+mys;    Benchmark/EB-ALL-ELEM-TEST-LANCZOS-MODE-2-DPB.DAT
+mys;    Benchmark/EB-ALL-ELEM-TEST-MGIV.DAT
+mys;    Benchmark/EB-AQ3U2S004-GIV.DAT
+mys;    Benchmark/EB-AQ3U2S004-INV.DAT
+mys;    Benchmark/EB-AQ3U2S004-LANCZOS-MODE-2-DPB.DAT
+mys;    Benchmark/EB-AQ3U2S004-MGIV.DAT
 mys;    Benchmark/EB-BAR-CC-GIV.DAT;                          
 mys;    Benchmark/EB-BAR-CC-INV.DAT;                          
 mys;    Benchmark/EB-BAR-CC-LANCZOS-MODE-3-DGB.DAT;           
@@ -82,6 +66,14 @@ mys;    Benchmark/EB-GUYAN-03-GIV.DAT;
 mys;    Benchmark/EB-GUYAN-03-INV.DAT;                        
 mys;    Benchmark/EB-GUYAN-03-LANCZOS.DAT;                    
 mys;    Benchmark/EB-GUYAN-03-MGIV.DAT;                       
+mys;    Benchmark/ES-ALL-ELEM-TEST-GIV.DAT
+mys;    Benchmark/ES-ALL-ELEM-TEST-INV.DAT
+mys;    Benchmark/ES-ALL-ELEM-TEST-LANCZOS-MODE-2-DPB.DAT
+mys;    Benchmark/ES-ALL-ELEM-TEST-MGIV.DAT
+mys;    Benchmark/ES-AQ3U2S004-GIV.DAT
+mys;    Benchmark/ES-AQ3U2S004-INV.DAT
+mys;    Benchmark/ES-AQ3U2S004-LANCZOS-MODE-2-DPB.DAT
+mys;    Benchmark/ES-AQ3U2S004-MGIV.DAT
 mys;    Benchmark/ES-BAR-CC-GIV.DAT;                          
 mys;    Benchmark/ES-BAR-CC-INV.DAT;                          
 mys;    Benchmark/ES-BAR-CC-LANCZOS-MODE-3-DGB.DAT;           
@@ -96,6 +88,10 @@ mys;    Benchmark/ES-GUYAN-03-GIV.DAT;
 mys;    Benchmark/ES-GUYAN-03-INV.DAT;                        
 mys;    Benchmark/ES-GUYAN-03-LANCZOS.DAT;                    
 mys;    Benchmark/ES-GUYAN-03-MGIV.DAT;                       
+mys;    Benchmark/plate_01.DAT
+mys;    Benchmark/RBE2-01-CBAR-01-SB.DAT
+mys;    Benchmark/SB-ALL-ELEM-TEST.DAT
+mys;    Benchmark/SB-AQ3U2S004.DAT
 mys;    Benchmark/SB-BAR-10-BUCKLING-CF-LOAD-LAN-3D.DAT;   E = 1e-12   
 mys;    Benchmark/SB-BAR-10-BUCKLING-CF-LOAD-LAN.DAT;         
 mys;    Benchmark/SB-BAR-AUTOSPC-CHECK.DAT;                   
@@ -128,8 +124,10 @@ mys;    Benchmark/SB-SOLVE_EQNS_1_BANDIT.DAT
 mys;    Benchmark/SB-SOLVE_EQNS_1_GRID.DAT;                   
 mys;    Benchmark/SB-SOLVE_EQNS_1_SEQGP.DAT;                  
 mys;    Benchmark/SB-VD0114.DAT;                              
-mys;    Benchmark/SS-BAR-10-BUCKLING-CF-LOAD-LAN.DAT;         
+mys;    Benchmark/SS-ALL-ELEM-TEST.DAT
+mys;    Benchmark/SS-AQ3U2S004.DAT
 mys;    Benchmark/SS-BAR-10-BUCKLING-CF-LOAD-LAN-3D.DAT;   E = 1e-11
+mys;    Benchmark/SS-BAR-10-BUCKLING-CF-LOAD-LAN.DAT;         
 mys;    Benchmark/SS-BAR-AUTOSPC-CHECK.DAT;                   
 mys;    Benchmark/SS-BAR-GRAV.DAT;                            
 mys;    Benchmark/SS-BAR-I12.DAT;                             
