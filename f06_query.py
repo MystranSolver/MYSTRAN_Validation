@@ -1097,7 +1097,16 @@ class F06Query:
                     eids_node = None # Should never happen but force a failure.
                 get_next_line()
                 get_next_line()
-                get_next_line()
+                line = get_next_line()
+                if line[24:24+8] == "DISTANCE":
+                    # Can currently only read strain with FIBRE DISTANCE (FIBER on STRAIN case control card).
+                    pass
+                elif line[24:24+9] == "CURVATURE":
+                    # Ignore the block if its for STRAIN CURVATURE (default STRCUR on STRAIN case control card).
+                    continue
+                else:
+                    # Ignore the block if it has an unknown header
+                    continue
                 corner = None
                 while True:
                     line = get_next_line()
@@ -1146,7 +1155,16 @@ class F06Query:
                 else:
                     eids_node = None # Should never happen but force a failure.
                 get_next_line()
-                get_next_line()
+                line = get_next_line()
+                if line[14:14+8] == "DISTANCE":
+                    # Can currently only read strain with FIBRE DISTANCE (FIBER on STRAIN case control card).
+                    pass
+                elif line[14:14+9] == "CURVATURE":
+                    # Ignore the block if its for STRAIN CURVATURE (default STRCUR on STRAIN case control card).
+                    continue
+                else:
+                    # Ignore the block if it has an unknown header
+                    continue
                 while True:
                     line = get_next_line()
                     if line.strip() == "":
