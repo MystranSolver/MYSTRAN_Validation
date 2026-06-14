@@ -2892,6 +2892,8 @@ CompareRatioSingle() has a default and minimum tolerance of 2e-5%.
         'Same as NAS S30 hemisphere with cutout 4e-4 mitc4+ SNORM.liml except with K6ROT=100.0
         'Tests that K6ROT is being applied about the correct SNORM axis, not the normal of the flat reference element
         'or the midsurface normal.
+        'HOWEVER, it doesn't test that anymore with improved K6ROT (2026-06) which is not sensitive to the normal in this
+        'model. Also K6ROT changed from 100 to 1 for less error.
         If SolveFile("NAS S30 hemisphere with cutout 4e-4 mitc4+ SNORM K6ROT.liml", testFilesFolder, model) Then
             'Reference values from Table 16 in:
             'Performance of the MITC3+ and MITC4+ shell elements in widely-used benchmark problems
