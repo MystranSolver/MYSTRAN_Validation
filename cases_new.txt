@@ -2,7 +2,38 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# Raasch hook with K6ROT=10 diverges with increasing mesh density in both MSC and Mystran.
+# Reference values are tip deflection from MSC solution because they're nowhere near the theoretical value of 1.27E-01.
+pth;    raasch_hook_k6rot_10.0.bdf; SC/1/DISPLACEMENTS/GID/40/TY;;      1.213255E-01;  4%;   9 elements along length.
+pth;    raasch_hook_k6rot_10.0.bdf; SC/1/DISPLACEMENTS/GID/98/TY;;      1.351673E-01;  4%;   18 elements along length.
+pth;    raasch_hook_k6rot_10.0.bdf; SC/1/DISPLACEMENTS/GID/311/TY;;     2.416481E-01;  1%;   72 elements along length.
+pth;    raasch_hook_k6rot_10.0.bdf; SC/1/DISPLACEMENTS/GID/2648/TY;;    3.866298E-01;  0.2%; 144 elements along length.
+msc;    raasch_hook_k6rot_10.0.bdf; B=0.005 C=0.01;       # Compare all displacements to MSC just because we have the f06 available.
 
+# Raasch hook with K6ROT=1000 gives pretty good results for this whole range of mesh densities in both MSC and Mystran.
+# Reference value is theoretical tip deflection = 0.127 (5 inch).
+pth;    raasch_hook_k6rot_1000.0.bdf; SC/1/DISPLACEMENTS/GID/40/TY;;      0.127;  10%; 9 elements along length.
+pth;    raasch_hook_k6rot_1000.0.bdf; SC/1/DISPLACEMENTS/GID/98/TY;;      0.127;  10%; 18 elements along length.
+pth;    raasch_hook_k6rot_1000.0.bdf; SC/1/DISPLACEMENTS/GID/311/TY;;     0.127;  10%; 72 elements along length.
+pth;    raasch_hook_k6rot_1000.0.bdf; SC/1/DISPLACEMENTS/GID/2648/TY;;    0.127;  10%; 144 elements along length.
+msc;    raasch_hook_k6rot_1000.0.bdf; B=0.005 C=0.005;    # Compare all displacements to MSC just because we have the f06 available.
+
+# Stiffness between drilling dof moment and grid point displacement created by the K6ROT stiffness.
+# Reference solutions from MSC run of "k6rot.bdf" in 2025.
+# Uses MIN4, not MITC4+ because its membrane behavior matches MSC well. MITC4+ is stiffer so we can't easily compare the effect of K6ROT.
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/3/TY;;	3.805505E-09;	1e-5%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/18/TY;;	0;	            0
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/7/TY;;	1.019950E-09;   20%;    Big error might be because of differenct triangle formulation.
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/43/TY;;	3.805505E-09;	1e-5%;  Composite behaves identically to equivalent homogenous element (GID 3).
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/11/TY;;  7.611010E-09;	1e-5%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/23/TY;;	3.805505E-09;	1e-5%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/27/TY;;	1.019950E-09;   20%;    Big error might be because of differenct triangle formulation.
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/47/TY;;	3.805505E-09;	1e-5%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/31/TY;;	7.611010E-09;   1e-5%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/2/TX;;	2.999968E-09;	1e-5%
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/6/TX;;	4.900046E-10;   20%;    Big error might be because of differenct triangle formulation.
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/42/TX;;  2.999968E-09;	1e-5%;  Composite behaves identically to equivalent homogenous element (GID 2).
+pth;	vic/10/NAS S30 K6ROT.bdf;	SC/1/DISPLACEMENTS/GID/10/TX;;	5.999936E-09;	1e-5%
 
 # For commit da0da868cb2a737f5c62fd810eb383c85e39ceac 2026-06-10
 # Location options of STRESS/STRAIN/FORCE in the second subcase are ignored.

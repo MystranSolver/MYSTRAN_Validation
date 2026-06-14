@@ -193,7 +193,6 @@ def run_case(mystran_path: Path,
     working_dir = (root_dir / "working").resolve()
 
     deck_path = root_dir / "decks" / test_case.deck_filename
-    deck_stem = deck_path.stem
 
     # If it's the same deck as the previous test, reuse the .f06 to save time.
     if test_case.deck_filename != previous_deck_filename:
@@ -215,7 +214,7 @@ def run_case(mystran_path: Path,
             output_file.write(f"{INDENT * 0}ERROR: {e}\n")
             fail_count = 1
 
-    test_f06_path = (working_dir / deck_stem).with_suffix(".F06").resolve()
+    test_f06_path = (working_dir / Path(test_case.deck_filename).name).with_suffix(".F06").resolve()
 
     if test_case.test_type in ["mys", "msc"]:
 
