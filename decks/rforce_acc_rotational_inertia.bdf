@@ -1,0 +1,13 @@
+SOL 101
+CEND
+SPCFORCES = ALL
+LOAD = 2
+BEGIN BULK
+GRID           1                                          123456
+GRID           2             3.0                           12346
+CELAS2         1   3.0+6       1       5       2       5
+RFORCE         2                                     1.0                +
++            1.5
+CONM2          2       2                                                +
++                           40.0                    40.0
+ENDDATA 
