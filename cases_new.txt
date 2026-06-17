@@ -2,6 +2,11 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+
+pth;    rforce_vel_unit.bdf;        SC/1/SPCFORCES/GID/1/TX;;      -7 * (2*pi*1.5)**2 * 2;      2e-5%;  https://github.com/MystranSolver/MYSTRANSolver/issues/252
+pth;    rforce_acc_unit_sign.bdf;   SC/1/SPCFORCES/GID/1/TZ;;       7 * (2*pi*1.5) * 2;         2e-5%;  https://github.com/MystranSolver/MYSTRANSolver/issues/253
+pth;    rforce_acc_negative.bdf;    SC/1/SPCFORCES/GID/1/TZ;;      -7 * (2*pi*1.5) * 2;         2e-5%;  https://github.com/MystranSolver/MYSTRANSolver/issues/254
+
 # Raasch hook with K6ROT=10 diverges with increasing mesh density in both MSC and Mystran.
 # Reference values are tip deflection from MSC solution because they're nowhere near the theoretical value of 1.27E-01.
 pth;    raasch_hook_k6rot_10.0.bdf; SC/1/DISPLACEMENTS/GID/40/TY;;      1.213255E-01;  4%;   9 elements along length.
