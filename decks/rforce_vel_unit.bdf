@@ -1,0 +1,12 @@
+SOL 101
+CEND
+SPCFORCES = ALL
+LOAD = 1
+BEGIN BULK
+GRID           1       0     0.0     0.0   0.0         0       1
+GRID           2       0     2.0     0.0   0.0         0
+CELAS2         1   3.0+6       1       1       2       1
+RFORCE         2       0       0     1.5     0.0     1.0     0.0
+CONM2          2       2       0     7.0
+LOAD           1     1.0     1.0       2
+ENDDATA 
