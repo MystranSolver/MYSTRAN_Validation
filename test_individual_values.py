@@ -245,7 +245,12 @@ def test_individual_values(root_dir: Path,
     worst_error = 0
 
     # Read f06 file
-    parsed_f06 = F06Query(str(test_f06_path))
+    try:
+        parsed_f06 = F06Query(str(test_f06_path))
+    except FileNotFoundError:
+        fail_count += 1
+        output_file.write(f"{INDENT * 1}ERROR: output file not found: {str(test_f06_path)}\n")
+        return fail_count, 0, f"ERROR: output file not found: {str(test_f06_path)}"
 
     # Read grid point transformations file
     gp_transforms = read_gp_transforms(deck_path.with_suffix(".gptransform"))

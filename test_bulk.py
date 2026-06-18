@@ -120,8 +120,12 @@ def test_bulk(root_dir: Path,
     except FileNotFoundError as e:
         output_file.write(f"{INDENT * 1}{e}\n")
         return 1, 1, "ERROR: Reference solution not found"
-    tst_f06 = F06Query(str(test_f06_path))
 
+    try:
+        tst_f06 = F06Query(str(test_f06_path))
+    except FileNotFoundError as e:
+        output_file.write(f"{INDENT * 1}{e}\n")
+        return 1, 1, "ERROR: Test solution not found"
 
 #   Don't bother comparing eigenvectors because we don't have a reliable way (like MAC) yet.
 
