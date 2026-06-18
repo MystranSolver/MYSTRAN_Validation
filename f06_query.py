@@ -53,6 +53,9 @@ from io import TextIOWrapper
 #   GPFORCE
 # because other blocks identify their mode by its eigenvalue which may be non-unique.
 
+# Caller should handle only this exception type when instantiating the class.
+class ReadFail(Exception):
+    pass
 
 INDENT = "  "
 
@@ -60,8 +63,27 @@ class F06Query:
   
     def __init__(self, file_name):
         self.file_name = file_name
-        self.parsed_f06 = self._read()
 
+        try:
+            # Unicode by default for U-dot-dot character in GPFORCE's INERTIA FORCE
+            with open(self.file_name, mode='r', encoding='utf-8') as f:
+                lines = f.readlines()
+        except FileNotFoundError as e:
+            raise ReadFail(str(e))
+        except UnicodeDecodeError:
+            # Unicode fails on older versions of Mystran that use some 
+            # other encoding for U-dot-dot.
+            # We can't always use latin1 because it treats the unicode U-dot-dot
+            # as two characters and misaligns the line.
+            with open(self.file_name, mode='r', encoding="latin1") as f:
+                lines = f.readlines()
+
+        if len(lines) > 2 and lines[2].startswith(" MYSTRAN"):
+            self.parsed_f06 =  self._read_mystran(lines)
+        elif len(lines) > 17 and "* *      M S C   N a s t r a n      * *" in lines[17]:
+            self.parsed_f06 =  self._read_msc(lines)
+        else:
+            raise ReadFail(f"ERROR reading {self.file_name}: Can't identify format.")
 
     @staticmethod
     def ensure_path(current_node, path):
@@ -93,29 +115,6 @@ class F06Query:
             segment = segment[:-4] + "E" + segment[-4:]
             return float(segment)
 
-       
-    def _read(self):
-
-        try:
-            # Unicode by default for U-dot-dot character in GPFORCE's INERTIA FORCE
-            with open(self.file_name, mode='r', encoding='utf-8') as f:
-                lines = f.readlines()
-        except UnicodeDecodeError:
-            # Unicode fails on older versions of Mystran that use some 
-            # other encoding for U-dot-dot.
-            # We can't always use latin1 because it treats the unicode U-dot-dot
-            # as two characters and misaligns the line.
-            with open(self.file_name, mode='r', encoding="latin1") as f:
-                lines = f.readlines()
-
-        if len(lines) > 2 and lines[2].startswith(" MYSTRAN"):
-            return self._read_mystran(lines)
-        elif len(lines) > 17 and "* *      M S C   N a s t r a n      * *" in lines[17]:
-            return self._read_msc(lines)
-        else:
-            print(f"ERROR reading {self.file_name}: Can't identify format.")
-            sys.exit(1)
-
 
     def _read_mystran(self, lines):
 
@@ -126,8 +125,7 @@ class F06Query:
         def get_next_line():
             nonlocal line_no
             if line_no >= len(lines):
-                print(f"ERROR: Unexpected end of file at line {line_no} of {self.file_name}")
-                return ""
+                raise ReadFail(f"ERROR: Unexpected end of file at line {line_no} of {self.file_name}")
             line = lines[line_no]
             line_no += 1
             return line
@@ -254,9 +252,7 @@ class F06Query:
                         prefix = previous_prefix
                     else:
                         # Don't know what to do.
-                        print(f"ERROR reading {self.file_name}: No previous block with subcase or eigenvector before line {line_no}:")
-                        print(line)
-                        sys.exit(1)
+                        raise ReadFail(f"ERROR reading {self.file_name}: No previous block with subcase or eigenvector before line {line_no}.")
                 get_next_line()
                 get_next_line()
                 gids_node = self.ensure_path(root, prefix + ["GPFORCE","GID"])
@@ -343,9 +339,7 @@ class F06Query:
             elif "E L E M E N T   S T R E S S E S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M" in line:
                 prefix = subcase_mode()
                 if prefix is None:
-                    print(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}:")
-                    print(line)
-                    sys.exit(1)
+                    raise ReadFail(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}")
                 line = get_next_line()
                 if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                 or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
@@ -667,9 +661,7 @@ class F06Query:
             elif "E L E M E N T   E N G I N E E R I N G   F O R C E S" in line:
                 prefix = subcase_mode()
                 if prefix is None:
-                    print(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}:")
-                    print(line)
-                    sys.exit(1)
+                    raise ReadFail(f"ERROR reading {self.file_name}: No subcase or eigenvector found before line {line_no}")
                 line = get_next_line()
                 if "F O R   E L E M E N T   T Y P E   Q U A D 4" in line \
                 or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line \
@@ -840,8 +832,7 @@ class F06Query:
         def get_next_line():
             nonlocal line_no
             if line_no >= len(lines):
-                print(f"ERROR: Unexpected end of file at line {line_no} of {self.file_name}")
-                return ""
+                raise ReadFail(f"ERROR: Unexpected end of file at line {line_no} of {self.file_name}")
             line = lines[line_no]
             line_no += 1
             return line
@@ -999,9 +990,7 @@ class F06Query:
                     # GPFORCE in a mode lists the mode number before the header, unlike most of the other blocks.
                     prev_line = peek_line_delta(-1)
                     if len(line) < 19 + 4 or prev_line[19:19+4] != "MODE":
-                        print(f'ERROR reading {self.file_name}: "MODE" expected on line:')
-                        print(f"{line}")
-                        sys.exit(1)
+                        raise ReadFail(f'ERROR reading {self.file_name}: "MODE" expected on line {line_no}')
                     mode = int(self.number(prev_line, 32, 8))
                     prefix = prefix + ["MODE", str(mode)]
                 gids_node = self.ensure_path(root, prefix + ["GPFORCE", "GID"])

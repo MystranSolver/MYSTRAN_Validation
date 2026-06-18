@@ -11,7 +11,7 @@ from math_expression import Evaluator
 from math_expression import MathExpressionError
 from grid_reader import read_grids
 from element_reader import read_elements
-from f06_query import F06Query
+from f06_query import F06Query, ReadFail
 from case_definition import CaseDefinition
 
 # Error messages with a code like ERROR 229606 are for bugs/corruption in the test suite.
@@ -247,10 +247,9 @@ def test_individual_values(root_dir: Path,
     # Read f06 file
     try:
         parsed_f06 = F06Query(str(test_f06_path))
-    except FileNotFoundError:
-        fail_count += 1
-        output_file.write(f"{INDENT * 1}ERROR: output file not found: {str(test_f06_path)}\n")
-        return fail_count, 0, f"ERROR: output file not found: {str(test_f06_path)}"
+    except ReadFail as e:
+        output_file.write(f"{INDENT * 1}ERROR: {str(e)}\n")
+        return 1, 0, str(e)
 
     # Read grid point transformations file
     gp_transforms = read_gp_transforms(deck_path.with_suffix(".gptransform"))
