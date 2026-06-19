@@ -21,7 +21,7 @@ from io import TextIOWrapper
 # MPCFORCES: TX, TY, TZ, RX, RY, RZ
 # APPLIEDFORCES: TX, TY, TZ, RX, RY, RZ
 # GPFORCE: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, THERMAL, INERTIA, EID/\*)
-#   MSC: No INERTIA because I havn't found examples yet
+#   MSC: No INERTIA because it doesn't include that.
 # ELAS1FORCES
 # ELAS1STRESSES
 # ELAS1STRAINS
@@ -997,12 +997,8 @@ class F06Query:
                 read_gpforce_block(gids_node)
 
             elif "F O R C E S   I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line \
-            or   "S T R A I N S   I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line \
+            or   "S T R A I N S    I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line \
             or   "S T R E S S E S   I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line:
-                # Warning. Not tested on real MSC f06. Risky guesses:
-                #   Space between "S P R I N G S" and "( C E L A S 1 )" in title
-                #   "C E L A S 1" vs "E L A S 1" in title
-                #   Column offsets
                 if is_mode_block():
                     continue
                 prefix = subcase_mode()
@@ -1025,10 +1021,10 @@ class F06Query:
                     if line.startswith(" ***"):
                         break
                     for element_col in range(4):
-                        start = element_col * 29
-                        if len(line) > start+13 and line[start+13] != " ":
-                            eid = int(self.number(line, start + 7,8))
-                            self.set(eids_node, str(eid), self.number(line, start + 17, 13))
+                        start = element_col * 33
+                        if len(line) > start+12 and line[start+12] != " ":
+                            eid = int(self.number(line, start + 6,8))
+                            self.set(eids_node, str(eid), self.number(line, start + 19, 13))
 
             elif "F O R C E S   I N   B U S H   E L E M E N T S        ( C B U S H )" in line \
             or   "S T R A I N S   I N   B U S H   E L E M E N T S        ( C B U S H )" in line \
@@ -1833,3 +1829,20 @@ class F06Query:
             result.append(self.get_layer_5(single_path, gp_transforms, shell_angles, gp_coordinates, gid_to_corners, output_file))
 
         return result
+
+
+def main():
+
+    if len(sys.argv) == 2:
+        filename = sys.argv[1]
+        f06 = F06Query(filename)
+        f06.dump(sys.stdout)
+    else:
+        print()
+        print(f"F06_query used as a standalone program dumps the parsed contents of an f06 file to standard output.")
+        print(f"Usage: {sys.argv[0]} <filename>")
+        print()
+
+if __name__ == "__main__":
+    main()
+    
