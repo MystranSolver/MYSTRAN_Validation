@@ -39,15 +39,13 @@ hand calcululations or published benchmark solutions.
 
 Example line in cases.txt:
 ```
-pth;    my test.dat;   SC/1/DISPLACEMENTS/GID/8/RX;            ;  1.234e-5;     2e-5%;      blah
+pth;    my test.dat;   SC/1/DISPLACEMENTS/GID/8/RX;            ;  1.234e-5;     5e-5%;      blah
 ---     -----------    ---------------------------  ---------     --------      -----       ----
 Field 1   Field 2                Field 3             Field 4      Field 5      Field 6    Field 7
        deck filename            test value          operation    reference    tolerance   comment
                                                                    value                 (optional)
 ```
-This solves the file `my test.dat` then compares rotation about X at grid point
-8 to 1.234e-5 with a tolerance that's reasonable for single precision or the 7
-digits typical of values in an f06 file.
+This solves the file `my test.dat` then compares rotation about X at grid point 8 to 1.234e-5 with a tolerance that's reasonable for the 7 digits typical of values in an f06 file.
 
 #### Field 2. Deck filename
 If it's the same as the previous line, it will reuse the .f06 file without running Mystran again.
@@ -66,20 +64,22 @@ The paths can resolve to one or multiple values. Examples:
 - `SPCFORCES`: TX, TY, TZ, RX, RY, RZ
 - `MPCFORCES`: TX, TY, TZ, RX, RY, RZ
 - `APPLIEDFORCES`: TX, TY, TZ, RX, RY, RZ
-- `GPFORCE`: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, THERMAL, INERTIA, EID/\*)
-- `ELAS1FORCES`
-- `ELAS1STRESSES`
+- `GPFORCE`: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, THERMAL, INERTIA(Mystran only), EID/\*)
+- `ELASFORCES`
+- `ELASSTRESSES`
+- `ELASSTRAINS` (MSC only)
 - `RODFORCES`: AXIAL, TORQUE
 - `RODSTRESSES`: AXIAL, AXIALSAFETY, TORSIONAL, TORSIONALSAFETY
+- `RODSTRAINS` (MSC only): AXIAL, AXIALSAFETY, TORSIONAL, TORSIONALSAFETY
 - `BARFORCES:` MA1, MA2, MB1, MB2, S1, S2, AXIAL, TORQUE
 - `BARSTRESSES:` SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL
 - `BUSHFORCES`: TX, TY, TZ, RX, RY, RZ
 - `BUSHSTRESSES`: TX, TY, TZ, RX, RY, RZ
 - `BUSHSTRAINS`: TX, TY, TZ, RX, RY, RZ
 - `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER
-- `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
-- `SHELLSTRAINS`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID, ZX, YZ for each CORNER
-- `COMPOSITESTRESSES`: 11, 22, 12, 13, 23 for each PLY
+- `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID for each CORNER. ZX, YZ for each CORNER (Mystran only).
+- `SHELLSTRAINS`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID for each CORNER. ZX, YZ for each CORNER (Mystran only).
+- `COMPOSITESTRESSES` (Mystran only): 11, 22, 12, 13, 23 for each PLY
 - `SOLIDSTRESSES`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `SOLIDSTRAINS`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `EIGENVECTOR`: TX, TY, TZ, RX, RY, RZ
@@ -222,7 +222,7 @@ Groups:
     - `SPCFORCES`: TX, TY, TZ
     - `APPLIEDFORCES`: TX, TY, TZ
     - `GPFORCE`: TX, TY, TZ for each force type (APPLIED, SPC, MPC, THERMAL, EID/\*)
-    - `ELAS1FORCES`
+    - `ELASFORCES`
     - `RODFORCES`: AXIAL
     - `BARFORCES:` S1, S2, AXIAL
     - `BUSHFORCES`: TX, TY, TZ
@@ -247,9 +247,9 @@ Groups:
     - `SHELLSTRAINS`: XX, YY, XY, VONMISES
     - `SOLIDSTRAINS`: XX, YY, ZZ, XY, YZ, ZX, VONMISES
 
-- H. ELAS1 stresses
+- H. ELAS stresses
 
-    - `ELAS1STRESSES`
+    - `ELASSTRESSES`
 
 - I. BUSH stresses
 

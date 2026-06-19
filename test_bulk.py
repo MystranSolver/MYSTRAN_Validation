@@ -151,7 +151,7 @@ def test_bulk(root_dir: Path,
         paths_moment = []
         paths_stress = []
         paths_strain = []
-        paths_elas1_stress = []
+        paths_elas_stress = []
         paths_bush_stress = []
         paths_bush_strain = []
         paths_shell_force = []
@@ -219,9 +219,9 @@ def test_bulk(root_dir: Path,
                 for component in ["RX", "RY", "RZ"]:
                     paths_moment.append(block_path + [str(gid),"EID",eid,component])
 
-        # ELAS1FORCES
+        # ELASFORCES
         # -----------
-        block_path = prefix + ["ELAS1FORCES", "EID"]
+        block_path = prefix + ["ELASFORCES", "EID"]
         ref_block = ref_f06.get_layer_1(block_path)
         tst_block = tst_f06.get_layer_1(block_path)
         ref_eids = ref_block.keys() if ref_block is not None else set()
@@ -229,18 +229,18 @@ def test_bulk(root_dir: Path,
         for eid in ref_eids | tst_eids:
             paths_force.append(block_path + [str(eid)])
 
-        # ELAS1STRESSES
+        # ELASSTRESSES
         # -------------
-        block_path = prefix + ["ELAS1STRESSES", "EID"]
+        block_path = prefix + ["ELASSTRESSES", "EID"]
         ref_block = ref_f06.get_layer_1(block_path)
         tst_block = tst_f06.get_layer_1(block_path)
         ref_eids = ref_block.keys() if ref_block is not None else set()
         tst_eids = tst_block.keys() if tst_block is not None else set()
-        # CELAS1 stresses are not included in the stress normalization
+        # CELAS stresses are not included in the stress normalization
         # group because they may represent something different from stress
         # by choice of stress recovery coefficient.
         for eid in ref_eids | tst_eids:
-            paths_elas1_stress.append(block_path + [str(eid)])
+            paths_elas_stress.append(block_path + [str(eid)])
 
         # RODFORCES
         # ---------
@@ -400,7 +400,7 @@ def test_bulk(root_dir: Path,
         compare(f"{subcase_name} Moments        ", "E", paths_moment)
         compare(f"{subcase_name} Stresses       ", "F", paths_stress)
         compare(f"{subcase_name} Strains        ", "G", paths_strain)
-        compare(f"{subcase_name} ELAS1 stresses ", "H", paths_elas1_stress)
+        compare(f"{subcase_name} ELAS stresses  ", "H", paths_elas_stress)
         compare(f"{subcase_name} BUSH stresses  ", "I", paths_bush_stress)
         compare(f"{subcase_name} BUSH strains   ", "J", paths_bush_strain)
         compare(f"{subcase_name} Shell forces   ", "K", paths_shell_force)

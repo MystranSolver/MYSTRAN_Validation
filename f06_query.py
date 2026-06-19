@@ -22,10 +22,10 @@ from io import TextIOWrapper
 # APPLIEDFORCES: TX, TY, TZ, RX, RY, RZ
 # GPFORCE: TX, TY, TZ, RX, RY, RZ for each force type (APPLIED, SPC, MPC, THERMAL, INERTIA, EID/\*)
 #   MSC: No INERTIA because it doesn't include that.
-# ELAS1FORCES
-# ELAS1STRESSES
-# ELAS1STRAINS
-#   Mystran: No because it doesn't output elas1 strains
+# ELASFORCES
+# ELASSTRESSES
+# ELASSTRAINS
+#   Mystran: No because it doesn't output elas strains
 # RODFORCES: AXIAL, TORQUE
 # RODSTRESSES: AXIAL, AXIALSAFETY, TORSIONAL, TORSIONALSAFETY
 # RODSTRAINS: AXIAL, AXIALSAFETY, TORSIONAL, TORSIONALSAFETY
@@ -478,8 +478,9 @@ class F06Query:
                                 self.set(eid_node, "TORSIONAL", self.number(line, 94, 13))
                                 self.set(eid_node, "TORSIONALSAFETY", self.number(line, 108, 9, blank_is_inf=True))
 
-                elif "F O R   E L E M E N T   T Y P E   E L A S 1" in line:
-                    eids_node = self.ensure_path(root, prefix + ["ELAS1STRESSES","EID"])
+                elif "F O R   E L E M E N T   T Y P E   E L A S 1" in line \
+                or   "F O R   E L E M E N T   T Y P E   E L A S 2" in line:
+                    eids_node = self.ensure_path(root, prefix + ["ELASSTRESSES","EID"])
                     get_next_line()
                     get_next_line()
                     while True:
@@ -777,8 +778,9 @@ class F06Query:
                             self.set(eid_node, "AXIAL", self.number(line, 98, 13))
                             self.set(eid_node, "TORQUE", self.number(line, 112, 13))
 
-                elif "F O R   E L E M E N T   T Y P E   E L A S 1" in line:
-                    eids_node = self.ensure_path(root, prefix + ["ELAS1FORCES","EID"])
+                elif "F O R   E L E M E N T   T Y P E   E L A S 1" in line \
+                or   "F O R   E L E M E N T   T Y P E   E L A S 2" in line:
+                    eids_node = self.ensure_path(root, prefix + ["ELASFORCES","EID"])
                     get_next_line()
                     get_next_line()
                     while True:
@@ -997,17 +999,20 @@ class F06Query:
                 read_gpforce_block(gids_node)
 
             elif "F O R C E S   I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line \
+            or   "F O R C E S   I N   S C A L A R   S P R I N G S        ( C E L A S 2 )" in line \
             or   "S T R A I N S    I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line \
-            or   "S T R E S S E S   I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line:
+            or   "S T R A I N S    I N   S C A L A R   S P R I N G S        ( C E L A S 2 )" in line \
+            or   "S T R E S S E S   I N   S C A L A R   S P R I N G S        ( C E L A S 1 )" in line \
+            or   "S T R E S S E S   I N   S C A L A R   S P R I N G S        ( C E L A S 2 )" in line:
                 if is_mode_block():
                     continue
                 prefix = subcase_mode()
                 if "S T R E S S E S" in line:
-                    eids_node = self.ensure_path(root, prefix + ["ELAS1STRESSES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["ELASSTRESSES","EID"])
                 elif "S T R A I N S" in line:
-                    eids_node = self.ensure_path(root, prefix + ["ELAS1STRAINS","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["ELASSTRAINS","EID"])
                 elif "F O R C E S" in line:
-                    eids_node = self.ensure_path(root, prefix + ["ELAS1FORCES","EID"])
+                    eids_node = self.ensure_path(root, prefix + ["ELASFORCES","EID"])
                 else:
                     continue
                 get_next_line()
