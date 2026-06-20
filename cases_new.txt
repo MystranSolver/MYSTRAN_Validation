@@ -2,6 +2,9 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+pth;    celas1_stress_force.bdf;            SC/1/ELASFORCES/EID/1;;           3000*(-0.021 - +0.035);   5e-5%;  f=K(u1-u2)
+pth;    celas1_stress_force.bdf;            SC/1/ELASSTRESSES/EID/1;;   1.5 * 3000*(-0.021 - +0.035);   5e-5%;  s=S*f
+
 pth;    rforce_subcase_origin.bdf;          SC/3/SPCFORCES/GID/1/TX;;   -7  * (2*pi*1.5)**2 * 2; 2e-5%;  https://github.com/MystranSolver/MYSTRANSolver/issues/259
 pth;    rforce_subcase_origin.bdf;          SC/4/SPCFORCES/GID/1/TX;;   -7  * (2*pi*1.5)**2 * 1; 2e-5%;  https://github.com/MystranSolver/MYSTRANSolver/issues/259
 pth;    rforce_acc_rotational_inertia.bdf;  SC/1/SPCFORCES/GID/1/RY;;   -40 * (2*pi*1.5);        2e-5%;  https://github.com/MystranSolver/MYSTRANSolver/issues/257

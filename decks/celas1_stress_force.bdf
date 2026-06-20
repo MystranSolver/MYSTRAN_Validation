@@ -1,0 +1,13 @@
+SOL 101
+CEND
+FORCE = ALL
+STRESS = ALL
+SPC = 1
+BEGIN BULK
+GRID           1             0.0     0.0     0.0           13456
+GRID           2             0.0     0.0     0.0           13456
+CELAS1         1       1       1       2       2       2
+PELAS          1   3000.             1.5 
+SPC            1       1       2  -0.021
+SPC            1       2       2  +0.035
+ENDDATA
