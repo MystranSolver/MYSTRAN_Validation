@@ -574,7 +574,16 @@ class F06Query:
                     or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
                         eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
                         get_next_line()
-                        get_next_line()
+                        line = get_next_line()
+                        if line[24:24+8] == "Distance":
+                            row_1_name = "Z1"
+                            row_2_name = "Z2"
+                        elif line[24:24+9] == "Curvature":
+                            row_1_name = "MEMB"
+                            row_2_name = "CURV"
+                        else:
+                            # Ignore the block if it has an unknown header
+                            continue
                         get_next_line()
                         corner = None
                         while True:
@@ -597,14 +606,14 @@ class F06Query:
                                 self.set(corner_node, "GID", corner_gid)
                             self.set(corner_node, "ZX", self.number(line, 121, 12))
                             self.set(corner_node, "YZ", self.number(line, 134, 12))
-                            z1_node = self.ensure_path(corner_node, ["Z1"])
+                            z1_node = self.ensure_path(corner_node, [row_1_name])
                             self.set(z1_node, "XX", self.number(line, 35, 12))
                             self.set(z1_node, "YY", self.number(line, 48, 12))
                             self.set(z1_node, "XY", self.number(line, 61, 12))
                             self.set(z1_node, "PRINCIPALANGLE", self.number(line, 75, 6))
                             self.set(z1_node, "VONMISES", self.number(line, 108, 12))
                             line = get_next_line()
-                            z2_node = self.ensure_path(corner_node, ["Z2"])
+                            z2_node = self.ensure_path(corner_node, [row_2_name])
                             self.set(z2_node, "XX", self.number(line, 35, 12))
                             self.set(z2_node, "YY", self.number(line, 48, 12))
                             self.set(z2_node, "XY", self.number(line, 61, 12))
@@ -614,7 +623,16 @@ class F06Query:
                     elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
                         eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
                         get_next_line()
-                        get_next_line()
+                        line = get_next_line()
+                        if line[26:26+8] == "Distance":
+                            row_1_name = "Z1"
+                            row_2_name = "Z2"
+                        elif line[26:26+9] == "Curvature":
+                            row_1_name = "MEMB"
+                            row_2_name = "CURV"
+                        else:
+                            # Ignore the block if it has an unknown header
+                            continue
                         get_next_line()
                         corner = None
                         while True:
@@ -628,14 +646,14 @@ class F06Query:
                                 corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
                                 self.set(corner_node, "ZX", self.number(line, 125, 12))
                                 self.set(corner_node, "YZ", self.number(line, 138, 12))
-                                z1_node = self.ensure_path(corner_node, ["Z1"])
+                                z1_node = self.ensure_path(corner_node, [row_1_name])
                                 self.set(z1_node, "XX", self.number(line, 38, 12))
                                 self.set(z1_node, "YY", self.number(line, 51, 12))
                                 self.set(z1_node, "XY", self.number(line, 64, 12))
                                 self.set(z1_node, "PRINCIPALANGLE", self.number(line, 78, 7))
                                 self.set(z1_node, "VONMISES", self.number(line, 112, 12))
                                 line = get_next_line()
-                                z2_node = self.ensure_path(corner_node, ["Z2"])
+                                z2_node = self.ensure_path(corner_node, [row_2_name])
                                 self.set(z2_node, "XX", self.number(line, 38, 12))
                                 self.set(z2_node, "YY", self.number(line, 51, 12))
                                 self.set(z2_node, "XY", self.number(line, 64, 12))
@@ -1140,11 +1158,11 @@ class F06Query:
                 get_next_line()
                 line = get_next_line()
                 if line[24:24+8] == "DISTANCE":
-                    # Can currently only read strain with FIBRE DISTANCE (FIBER on STRAIN case control card).
-                    pass
+                    row_1_name = "Z1"
+                    row_2_name = "Z2"
                 elif line[24:24+9] == "CURVATURE":
-                    # Ignore the block if its for STRAIN CURVATURE (default STRCUR on STRAIN case control card).
-                    continue
+                    row_1_name = "MEMB"
+                    row_2_name = "CURV"
                 else:
                     # Ignore the block if it has an unknown header
                     continue
@@ -1168,14 +1186,14 @@ class F06Query:
                     corner_node = self.ensure_path(eid_node, ["CORNER", str(corner)])
                     if corner_gid is not None:
                         self.set(corner_node, "GID", corner_gid)
-                    z1_node = self.ensure_path(corner_node, ["Z1"])
+                    z1_node = self.ensure_path(corner_node, [row_1_name])
                     self.set(z1_node, "XX", self.number(line, 38, 13))
                     self.set(z1_node, "YY", self.number(line, 52, 13))
                     self.set(z1_node, "XY", self.number(line, 66, 13))
                     self.set(z1_node, "PRINCIPALANGLE", self.number(line, 82, 8))
                     self.set(z1_node, "VONMISES", self.number(line, 120, 13))
                     line = get_next_line()
-                    z2_node = self.ensure_path(corner_node, ["Z2"])
+                    z2_node = self.ensure_path(corner_node, [row_2_name])
                     self.set(z2_node, "XX", self.number(line, 38, 13))
                     self.set(z2_node, "YY", self.number(line, 52, 13))
                     self.set(z2_node, "XY", self.number(line, 66, 13))
@@ -1198,11 +1216,11 @@ class F06Query:
                 get_next_line()
                 line = get_next_line()
                 if line[14:14+8] == "DISTANCE":
-                    # Can currently only read strain with FIBRE DISTANCE (FIBER on STRAIN case control card).
-                    pass
+                    row_1_name = "Z1"
+                    row_2_name = "Z2"
                 elif line[14:14+9] == "CURVATURE":
-                    # Ignore the block if its for STRAIN CURVATURE (default STRCUR on STRAIN case control card).
-                    continue
+                    row_1_name = "MEMB"
+                    row_2_name = "CURV"
                 else:
                     # Ignore the block if it has an unknown header
                     continue
@@ -1217,14 +1235,14 @@ class F06Query:
                     eid = int(self.number(line, 2,8))
                     eid_node = self.ensure_path(eids_node, [str(eid)])
                     corner_node = self.ensure_path(eid_node, ["CORNER", "0"])
-                    z1_node = self.ensure_path(corner_node, ["Z1"])
+                    z1_node = self.ensure_path(corner_node, [row_1_name])
                     self.set(z1_node, "XX", self.number(line, 31, 13))
                     self.set(z1_node, "YY", self.number(line, 46, 13))
                     self.set(z1_node, "XY", self.number(line, 61, 13))
                     self.set(z1_node, "PRINCIPALANGLE", self.number(line, 77, 8))
                     self.set(z1_node, "VONMISES", self.number(line, 119, 13))
                     line = get_next_line()
-                    z2_node = self.ensure_path(corner_node, ["Z2"])
+                    z2_node = self.ensure_path(corner_node, [row_2_name])
                     self.set(z2_node, "XX", self.number(line, 31, 13))
                     self.set(z2_node, "YY", self.number(line, 46, 13))
                     self.set(z2_node, "XY", self.number(line, 61, 13))

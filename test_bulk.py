@@ -155,6 +155,7 @@ def test_bulk(root_dir: Path,
         paths_bush_stress = []
         paths_bush_strain = []
         paths_shell_force = []
+        paths_curvature = []
     
         # REALEIGENVALUES
         #----------------
@@ -337,8 +338,6 @@ def test_bulk(root_dir: Path,
             for corner in ["0", "1", "2", "3", "4"]:
                 for component in ["NXX", "NYY", "NXY", "QX", "QY"]:
                     paths_shell_force.append(block_path + [str(eid), "CORNER", corner, component])
-        for eid in ref_eids | tst_eids:
-            for corner in ["0", "1", "2", "3", "4"]:
                 for component in ["MXX","MYY","MXY"]:
                     paths_force.append(block_path + [str(eid), "CORNER", corner, component])
 
@@ -362,11 +361,23 @@ def test_bulk(root_dir: Path,
         tst_block = tst_f06.get_layer_0(block_path)
         ref_eids = ref_block.keys() if ref_block is not None else set()
         tst_eids = tst_block.keys() if tst_block is not None else set()
+        fiber = False
+        for eid in tst_eids:
+            fiber = tst_f06.get_layer_0(block_path + [str(eid), "CORNER", "0", "Z1"]) is not None
+            break
+        for eid in ref_eids:
+            fiber = ref_f06.get_layer_0(block_path + [str(eid), "CORNER", "0", "Z1"]) is not None
+            break
         for eid in ref_eids | tst_eids:
             for corner in ["0", "1", "2", "3", "4"]:
-                for z in ["Z1", "Z2"]:
+                if fiber:
+                    for z in ["Z1", "Z2"]:
+                        for component in ["XX", "YY", "XY", "VONMISES"]:
+                            paths_strain.append(block_path + [str(eid), "CORNER", corner, z, component])
+                else:
                     for component in ["XX", "YY", "XY", "VONMISES"]:
-                        paths_strain.append(block_path + [str(eid), "CORNER", corner, z, component])
+                        paths_strain.append(block_path + [str(eid), "CORNER", corner, "MEMB", component])
+                        paths_curvature.append(block_path + [str(eid), "CORNER", corner, "CURV", component])
 
         # SOLIDSTRESSES
         # -------------
@@ -404,6 +415,7 @@ def test_bulk(root_dir: Path,
         compare(f"{subcase_name} BUSH stresses  ", "I", paths_bush_stress)
         compare(f"{subcase_name} BUSH strains   ", "J", paths_bush_strain)
         compare(f"{subcase_name} Shell forces   ", "K", paths_shell_force)
+        compare(f"{subcase_name} Curvatures     ", "L", paths_curvature)
 
     # Detailed output for every comparison if the test case failed.
     if fail_count > 0:
