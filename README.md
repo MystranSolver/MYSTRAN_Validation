@@ -78,7 +78,7 @@ The paths can resolve to one or multiple values. Examples:
 - `BUSHSTRAINS`: TX, TY, TZ, RX, RY, RZ
 - `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER
 - `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID for each CORNER. ZX, YZ for each CORNER (Mystran only).
-- `SHELLSTRAINS`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID for each CORNER. ZX, YZ for each CORNER (Mystran only).
+- `SHELLSTRAINS`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2 or MEMB/CURV. GID for each CORNER. ZX, YZ for each CORNER (Mystran only).
 - `COMPOSITESTRESSES` (Mystran only): 11, 22, 12, 13, 23 for each PLY
 - `SOLIDSTRESSES`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `SOLIDSTRAINS`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
@@ -244,7 +244,7 @@ Groups:
 
 - G. Strains
 
-    - `SHELLSTRAINS`: XX, YY, XY, VONMISES
+    - `SHELLSTRAINS`: XX, YY, XY, VONMISES for Z1, Z2, MEMB
     - `SOLIDSTRAINS`: XX, YY, ZZ, XY, YZ, ZX, VONMISES
 
 - H. ELAS stresses
@@ -263,6 +263,9 @@ Groups:
 
     - `SHELLFORCES`: NXX, NYY, NXY, QX, QY
 
+- L. Curvatures
+
+    - `SHELLSTRAINS`: XX, YY, XY, VONMISES for CURV
 
 
 ## Directory structure
