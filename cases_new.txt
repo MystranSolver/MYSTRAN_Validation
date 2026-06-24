@@ -2,6 +2,32 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# STRCUR output for CQUAD8
+pth;    shell_strain_curvature_quad8.bdf;     SC/1/SHELLSTRAINS/EID/1/CORNER/0-4/MEMB/YY;;  1.5e6/(0.04*0.75*200e9);               5e-5%; strain = F/(AE)
+pth;    shell_strain_curvature_quad8.bdf;     SC/1/SHELLSTRAINS/EID/2/CORNER/0-4/MEMB/XX;;  1.5e6/(0.04*0.75*200e9);               5e-5%; strain = F/(AE)
+pth;    shell_strain_curvature_quad8.bdf;     SC/1/SHELLSTRAINS/EID/1/CORNER/0-4/CURV/YY;; -2e4*-1/(0.75*0.04**3/12*200e9);        5e-5%; strain = My/(IE), y=-1
+pth;    shell_strain_curvature_quad8.bdf;     SC/1/SHELLSTRAINS/EID/2/CORNER/0-4/CURV/XX;; -2e4*-1/(0.75*0.04**3/12*200e9);        5e-5%; strain = My/(IE), y=-1
+
+# STRCUR output for CQUAD4 MITC4+
+pth;    shell_strain_curvature_mitc4+.bdf;    SC/1/SHELLSTRAINS/EID/1/CORNER/0-4/MEMB/YY;;  1.5e6/(0.04*0.75*200e9);               5e-5%; strain = F/(AE)
+pth;    shell_strain_curvature_mitc4+.bdf;    SC/1/SHELLSTRAINS/EID/2/CORNER/0-4/MEMB/XX;;  1.5e6/(0.04*0.75*200e9);               5e-5%; strain = F/(AE)
+pth;    shell_strain_curvature_mitc4+.bdf;    SC/1/SHELLSTRAINS/EID/1/CORNER/0-4/CURV/YY;; -2e4*-1/(0.75*0.04**3/12*200e9);        5e-5%; strain = My/(IE), y=-1
+pth;    shell_strain_curvature_mitc4+.bdf;    SC/1/SHELLSTRAINS/EID/2/CORNER/0-4/CURV/XX;; -2e4*-1/(0.75*0.04**3/12*200e9);        5e-5%; strain = My/(IE), y=-1
+
+# STRCUR output for CQUAD4 default(MIN4) and CTRIA3
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/1/CORNER/0-4/MEMB/YY;;  1.5e6/(0.04*0.75*200e9);               5e-5%; strain = F/(AE)
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/2/CORNER/0-4/MEMB/XX;;  1.5e6/(0.04*0.75*200e9);               5e-5%; strain = F/(AE)
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/5,6/CORNER/0/MEMB/XX;;  1.5e6/(0.04*0.75*200e9);               5e-5%; strain = F/(AE)
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/3,4/CORNER/0/MEMB/XX;;  1.5e6/(0.04*0.75*200e9) / 2;           5e-5%; strain = F/(AE) rotated 45 degrees
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/3,4/CORNER/0/MEMB/YY;;  1.5e6/(0.04*0.75*200e9) / 2;           5e-5%; strain = F/(AE) rotated 45 degrees
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/3,4/CORNER/0/MEMB/XY;;  1.5e6/(0.04*0.75*200e9) * -1;          5e-5%; strain = F/(AE) rotated 45 degrees
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/1/CORNER/0-4/CURV/YY;; -2e4*-1/(0.75*0.04**3/12*200e9);        5e-5%; strain = My/(IE), y=-1
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/2/CORNER/0-4/CURV/XX;; -2e4*-1/(0.75*0.04**3/12*200e9);        5e-5%; strain = My/(IE), y=-1
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/5,6/CORNER/0/CURV/XX;; -2e4*-1/(0.75*0.04**3/12*200e9);        5e-5%; strain = My/(IE), y=-1
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/3,4/CORNER/0/CURV/XX;; -2e4*-1/(0.75*0.04**3/12*200e9) / 2;    5e-5%; strain = My/(IE), y=-1 rotated 45 degrees
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/3,4/CORNER/0/CURV/YY;; -2e4*-1/(0.75*0.04**3/12*200e9) / 2;    5e-5%; strain = My/(IE), y=-1 rotated 45 degrees
+pth;    shell_strain_curvature.bdf;           SC/1/SHELLSTRAINS/EID/3,4/CORNER/0/CURV/XY;; -2e4*-1/(0.75*0.04**3/12*200e9) * -1;   5e-5%; strain = My/(IE), y=-1 rotated 45 degrees
+
 pth;    celas1_stress_force.bdf;            SC/1/ELASFORCES/EID/1;;           3000*(-0.021 - +0.035);   5e-5%;  f=K(u1-u2)
 pth;    celas1_stress_force.bdf;            SC/1/ELASSTRESSES/EID/1;;   1.5 * 3000*(-0.021 - +0.035);   5e-5%;  s=S*f
 
