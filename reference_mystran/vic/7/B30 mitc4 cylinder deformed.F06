@@ -1,9 +1,9 @@
-   604115552
+   627193348
 
  MYSTRAN Version 18.0.0   APR 20 2026 MYSTRAN developed by Dr Bill Case
 *** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
 
- >> MYSTRAN BEGIN  :  6/ 4/2026 at 11:55:52.678 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\B30 mitc4 cylinder deformed.bdf                                                                                                                                                                         
+ >> MYSTRAN BEGIN  :  6/27/2026 at 19:33:48.432 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\B30 mitc4 cylinder deformed.bdf                                                                                                                                                                         
 
 
  >> LINK  0 BEGIN
@@ -1550,7 +1550,7 @@ ECHO: loadb ENDDATA
 
  SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
 
- *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            = -1.116638E-13 Based on U'*(K*U - P)/(U'*P)
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            = -3.714641E-14 Based on U'*(K*U - P)/(U'*P)
 
  *WARNING    : CANNOT CALCULATE EPSILON ERROR ESTIMATE FOR INTERNAL SUBCASE NUMBER        2
                THE DOT PRODUCT OF DISPL AND LOAD VECTORS                     =    0.000000E+00 CANNOT BE INVERTED.
@@ -1771,7 +1771,7 @@ ECHO: loadb ENDDATA
             193        0 -2.358753E-11 -1.106522E-11 -4.778052E-10 -4.229417E-12 -1.031796E-11  2.154167E-11
             194        0 -2.190021E-11  7.237737E-12 -4.705265E-10  1.916361E-12 -2.380376E-12 -5.562633E-12
             195        0 -1.605160E-11  5.312017E-12 -4.581387E-10 -3.177909E-12 -3.525816E-12 -1.291957E-11
-            196        0 -3.178128E-11 -1.925213E-11 -4.798717E-10  4.517497E-16 -1.255192E-13  1.725201E-11
+            196        0 -3.178128E-11 -1.925213E-11 -4.798717E-10  4.517504E-16 -1.255192E-13  1.725201E-11
             197        0 -4.337534E-11 -1.496186E-11 -4.761856E-10 -7.836831E-13 -3.168009E-12  1.372754E-11
             198        0 -4.336330E-11 -6.466042E-12 -4.752436E-10  3.086669E-12 -5.738246E-14  1.839912E-11
             199        0 -2.233826E-11  2.796302E-12 -4.801142E-10 -2.531970E-12 -1.250926E-12  5.535706E-12
@@ -1884,7 +1884,7 @@ ECHO: loadb ENDDATA
             306        0 -5.078611E-11 -6.786252E-12 -5.615983E-10 -6.122187E-12 -4.045377E-13  1.842806E-11
             307        0 -3.847793E-11 -1.982051E-12 -5.589944E-10 -3.014096E-12 -3.778287E-13  1.938822E-11
             308        0 -3.367464E-11  1.476598E-11 -5.704760E-10 -2.951801E-12 -1.053325E-12  1.606666E-11
-            309        0 -4.619157E-11  1.362658E-11 -5.689754E-10  8.185424E-13  7.976340E-13  3.353331E-11
+            309        0 -4.619157E-11  1.362658E-11 -5.689754E-10  8.185424E-13  7.976341E-13  3.353331E-11
             310        0 -3.120022E-11 -7.330851E-12 -5.212694E-10 -1.682387E-12 -2.056694E-12  1.565536E-11
             311        0 -3.751059E-11 -1.411988E-11 -5.230683E-10 -3.688564E-12  1.395013E-12  1.391706E-11
             312        0 -4.366543E-11 -1.613954E-11 -5.173051E-10  2.234609E-12 -2.912664E-13  8.787295E-12
@@ -1981,6 +1981,8 @@ ECHO: loadb ENDDATA
 
  SUPERLU FACTORIZATION OF MATRIX KMSM SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
 
+ OUTPUT FOR SUBCASE        2
+
 
                            E I G E N V A L U E   A N A L Y S I S   S U M M A R Y   (LANCZOS  Mode 2 DGB, Shift eigen =  1.00E+07)
                                                                       (SPARSE solution)
@@ -1998,8 +2000,11 @@ ECHO: loadb ENDDATA
 
 
 
+ OUTPUT FOR SUBCASE        2
+
+
                                             R E A L   E I G E N V A L U E S
-                                           (subcase 1 buckling load factors)
+                                      (subcase       2 buckling load factors)
 
                                          MODE  EXTRACTION      EIGENVALUE
                                         NUMBER   ORDER
@@ -2021,6 +2026,7 @@ ECHO: loadb ENDDATA
 
 
 
+ OUTPUT FOR SUBCASE        2
  OUTPUT FOR EIGENVECTOR        1
 
                                                          E I G E N V E C T O R
@@ -2028,7 +2034,7 @@ ECHO: loadb ENDDATA
            GRID     COORD      T1            T2            T3            R1            R2            R3
                      SYS
               1        0  0.0           0.0          -1.069572E-01  1.010164E-01  2.035644E-01 -2.990266E-04
-              2        0  0.0           0.0           1.050728E-01  1.010467E-01  2.053121E-01 -1.200482E-07
+              2        0  0.0           0.0           1.050728E-01  1.010467E-01  2.053121E-01 -1.200481E-07
               3        0  0.0           0.0           2.187713E-01  1.030362E-01  2.066919E-01  3.970905E-05
               4        0  0.0           0.0           1.692925E-01  1.008748E-01  2.034028E-01 -1.487265E-05
               5        0  0.0           0.0          -7.376784E-03  1.004347E-01  2.044027E-01  2.098772E-05
@@ -2413,6 +2419,8 @@ ECHO: loadb ENDDATA
 
  >> LINK  9 END
 
-    Total CPU time =  5.00E-01 seconds
+    Total CPU time =  5.78E-01 seconds
 
- >> MYSTRAN END    :  6/ 4/2026 at 11:55:53.292
+ >> MYSTRAN END    :  6/27/2026 at 19:33:49. 67
+
+                                          * * * END OF JOB * * *
