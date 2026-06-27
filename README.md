@@ -77,8 +77,8 @@ The paths can resolve to one or multiple values. Examples:
 - `BUSHSTRESSES`: TX, TY, TZ, RX, RY, RZ
 - `BUSHSTRAINS`: TX, TY, TZ, RX, RY, RZ
 - `SHELLFORCES`: GID, NXX, NYY, NXY, MXX, MYY, MXY, QX, QY for each CORNER
-- `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2. GID for each CORNER. ZX, YZ for each CORNER (Mystran only).
-- `SHELLSTRAINS`: XX, YY, XY, PRINCIPALANGLE, VONMISES for each CORNER and Z1/Z2 or MEMB/CURV. GID for each CORNER. ZX, YZ for each CORNER (Mystran only).
+- `SHELLSTRESSES`: XX, YY, XY, PRINCIPALANGLE, MAJOR, MINOR, VONMISES, MAXSHEAR for each CORNER and Z1/Z2. GID for each CORNER. ZX, YZ for each CORNER (Mystran only).
+- `SHELLSTRAINS`: XX, YY, XY, PRINCIPALANGLE, MAJOR, MINOR, VONMISES, MAXSHEAR for each CORNER and Z1/Z2 or MEMB/CURV. GID for each CORNER. ZX, YZ for each CORNER (Mystran only).
 - `COMPOSITESTRESSES` (Mystran only): 11, 22, 12, 13, 23 for each PLY
 - `SOLIDSTRESSES`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES
 - `SOLIDSTRAINS`: GID, XX, YY, ZZ, XY, YZ, ZX, VONMISES

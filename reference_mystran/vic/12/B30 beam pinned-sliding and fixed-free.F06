@@ -1,9 +1,9 @@
-   604115628
+   627193425
 
  MYSTRAN Version 18.0.0   APR 20 2026 MYSTRAN developed by Dr Bill Case
 *** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
 
- >> MYSTRAN BEGIN  :  6/ 4/2026 at 11:56:28.956 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\B30 beam pinned-sliding and fixed-free.bdf                                                                                                                                                              
+ >> MYSTRAN BEGIN  :  6/27/2026 at 19:34:25.305 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\B30 beam pinned-sliding and fixed-free.bdf                                                                                                                                                              
 
 
  >> LINK  0 BEGIN
@@ -139,15 +139,17 @@ ECHO: loadb ENDDATA
 
  SUPERLU FACTORIZATION OF MATRIX KMSM SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
 
+ OUTPUT FOR SUBCASE        2
+
 
                            E I G E N V A L U E   A N A L Y S I S   S U M M A R Y   (LANCZOS  Mode 2 DGB, Shift eigen =  1.00E+00)
                                                                       (SPARSE solution)
 
                                 NUMBER OF EIGENVALUES EXTRACTED  . . . . . .         2
 
-                                LARGEST OFF-DIAGONAL GENERALIZED MASS TERM    -6.1E-14 (Vecs renormed to 1.0 for gen masses)
+                                LARGEST OFF-DIAGONAL GENERALIZED MASS TERM     0.0E+00 (Vecs renormed to 1.0 for gen masses)
 
-                                                                       . . .         2
+                                                                       . . .         1
                                           MODE PAIR . . . . . . . . . .
                                                                        . . .         1
 
@@ -156,8 +158,11 @@ ECHO: loadb ENDDATA
 
 
 
+ OUTPUT FOR SUBCASE        2
+
+
                                             R E A L   E I G E N V A L U E S
-                                           (subcase 1 buckling load factors)
+                                      (subcase       2 buckling load factors)
 
                                          MODE  EXTRACTION      EIGENVALUE
                                         NUMBER   ORDER
@@ -180,27 +185,31 @@ ECHO: loadb ENDDATA
 
 
 
+ OUTPUT FOR SUBCASE        2
  OUTPUT FOR EIGENVECTOR        1
 
                                                          E I G E N V E C T O R
                                               (in global coordinate system at each grid)
            GRID     COORD      T1            T2            T3            R1            R2            R3
                      SYS
-              1        1  0.0           0.0           0.0           0.0           2.752216E-22 -1.000000E+00
-              2        1  0.0           0.0           2.294386E-16  0.0           0.0           1.000000E+00
+              1        1  0.0           0.0           0.0           0.0           1.692356E-22 -1.000000E+00
+              2        1  0.0           0.0           1.147193E-16  5.735966E-17  0.0           1.000000E+00
 
 
+ OUTPUT FOR SUBCASE        2
  OUTPUT FOR EIGENVECTOR        2
 
                                                          E I G E N V E C T O R
                                               (in global coordinate system at each grid)
            GRID     COORD      T1            T2            T3            R1            R2            R3
                      SYS
-              1        1  0.0           0.0           0.0           0.0           1.878741E-20  1.290994E+00
-              2        1  0.0           0.0           1.548104E-14  1.241709E-14  0.0           1.290994E+00
+              1        1  0.0           0.0           0.0           0.0           1.872205E-20  1.290994E+00
+              2        1  0.0           0.0           1.548104E-14  1.244934E-14  0.0           1.290994E+00
 
  >> LINK  9 END
 
-    Total CPU time =  3.12E-02 seconds
+    Total CPU time =  4.69E-02 seconds
 
- >> MYSTRAN END    :  6/ 4/2026 at 11:56:29. 89
+ >> MYSTRAN END    :  6/27/2026 at 19:34:25.423
+
+                                          * * * END OF JOB * * *

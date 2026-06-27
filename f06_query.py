@@ -345,7 +345,11 @@ class F06Query:
                 or "F O R   E L E M E N T   T Y P E   Q U A D 8" in line:
                     eids_node = self.ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
                     get_next_line()
-                    get_next_line()
+                    line = get_next_line()
+                    if line[109:109+8] == "Shear-XY":
+                        failure = "MAXSHEAR"
+                    else:
+                        failure = "VONMISES"
                     get_next_line()
                     corner = None
                     while True:
@@ -373,19 +377,27 @@ class F06Query:
                         self.set(z1_node, "YY", self.number(line, 48, 12))
                         self.set(z1_node, "XY", self.number(line, 61, 12))
                         self.set(z1_node, "PRINCIPALANGLE", self.number(line, 75, 6))
-                        self.set(z1_node, "VONMISES", self.number(line, 108, 12))
+                        self.set(z1_node, "MAJOR", self.number(line, 82, 12))
+                        self.set(z1_node, "MINOR", self.number(line, 95, 12))
+                        self.set(z1_node, failure, self.number(line, 108, 12))
                         line = get_next_line()
                         z2_node = self.ensure_path(corner_node, ["Z2"])
                         self.set(z2_node, "XX", self.number(line, 35, 12))
                         self.set(z2_node, "YY", self.number(line, 48, 12))
                         self.set(z2_node, "XY", self.number(line, 61, 12))
                         self.set(z2_node, "PRINCIPALANGLE", self.number(line, 75, 6))
-                        self.set(z2_node, "VONMISES", self.number(line, 108, 12))
+                        self.set(z2_node, "MAJOR", self.number(line, 82, 12))
+                        self.set(z2_node, "MINOR", self.number(line, 95, 12))
+                        self.set(z2_node, failure, self.number(line, 108, 12))
 
                 elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
                     eids_node = self.ensure_path(root, prefix + ["SHELLSTRESSES","EID"])
                     get_next_line()
-                    get_next_line()
+                    line = get_next_line()
+                    if line[113:113+8] == "Shear-XY":
+                        failure = "MAXSHEAR"
+                    else:
+                        failure = "VONMISES"
                     get_next_line()
                     corner = None
                     while True:
@@ -404,14 +416,18 @@ class F06Query:
                             self.set(z1_node, "YY", self.number(line, 51, 12))
                             self.set(z1_node, "XY", self.number(line, 64, 12))
                             self.set(z1_node, "PRINCIPALANGLE", self.number(line, 78, 7))
-                            self.set(z1_node, "VONMISES", self.number(line, 112, 12))
+                            self.set(z1_node, "MAJOR", self.number(line, 86, 12))
+                            self.set(z1_node, "MINOR", self.number(line, 99, 12))
+                            self.set(z1_node, failure, self.number(line, 112, 12))
                             line = get_next_line()
                             z2_node = self.ensure_path(corner_node, ["Z2"])
                             self.set(z2_node, "XX", self.number(line, 38, 12))
                             self.set(z2_node, "YY", self.number(line, 51, 12))
                             self.set(z2_node, "XY", self.number(line, 64, 12))
                             self.set(z2_node, "PRINCIPALANGLE", self.number(line, 78, 7))
-                            self.set(z2_node, "VONMISES", self.number(line, 112, 12))
+                            self.set(z2_node, "MAJOR", self.number(line, 86, 12))
+                            self.set(z2_node, "MINOR", self.number(line, 99, 12))
+                            self.set(z2_node, failure, self.number(line, 112, 12))
 
                 elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
                     eids_node = self.ensure_path(root, prefix + ["BUSHSTRESSES","EID"])
@@ -584,6 +600,10 @@ class F06Query:
                         else:
                             # Ignore the block if it has an unknown header
                             continue
+                        if line[109:109+8] == "Shear-XY":
+                            failure = "MAXSHEAR"
+                        else:
+                            failure = "VONMISES"
                         get_next_line()
                         corner = None
                         while True:
@@ -611,14 +631,18 @@ class F06Query:
                             self.set(z1_node, "YY", self.number(line, 48, 12))
                             self.set(z1_node, "XY", self.number(line, 61, 12))
                             self.set(z1_node, "PRINCIPALANGLE", self.number(line, 75, 6))
-                            self.set(z1_node, "VONMISES", self.number(line, 108, 12))
+                            self.set(z1_node, "MAJOR", self.number(line, 82, 12))
+                            self.set(z1_node, "MINOR", self.number(line, 95, 12))
+                            self.set(z1_node, failure, self.number(line, 108, 12))
                             line = get_next_line()
                             z2_node = self.ensure_path(corner_node, [row_2_name])
                             self.set(z2_node, "XX", self.number(line, 35, 12))
                             self.set(z2_node, "YY", self.number(line, 48, 12))
                             self.set(z2_node, "XY", self.number(line, 61, 12))
                             self.set(z2_node, "PRINCIPALANGLE", self.number(line, 75, 6))
-                            self.set(z2_node, "VONMISES", self.number(line, 108, 12))
+                            self.set(z2_node, "MAJOR", self.number(line, 82, 12))
+                            self.set(z2_node, "MINOR", self.number(line, 95, 12))
+                            self.set(z2_node, failure, self.number(line, 108, 12))
 
                     elif "F O R   E L E M E N T   T Y P E   T R I A 3" in line:
                         eids_node = self.ensure_path(root, prefix + ["SHELLSTRAINS","EID"])
@@ -633,6 +657,10 @@ class F06Query:
                         else:
                             # Ignore the block if it has an unknown header
                             continue
+                        if line[113:113+8] == "Shear-XY":
+                            failure = "MAXSHEAR"
+                        else:
+                            failure = "VONMISES"
                         get_next_line()
                         corner = None
                         while True:
@@ -651,14 +679,18 @@ class F06Query:
                                 self.set(z1_node, "YY", self.number(line, 51, 12))
                                 self.set(z1_node, "XY", self.number(line, 64, 12))
                                 self.set(z1_node, "PRINCIPALANGLE", self.number(line, 78, 7))
-                                self.set(z1_node, "VONMISES", self.number(line, 112, 12))
+                                self.set(z1_node, "MAJOR", self.number(line, 86, 12))
+                                self.set(z1_node, "MINOR", self.number(line, 99, 12))
+                                self.set(z1_node, failure, self.number(line, 112, 12))
                                 line = get_next_line()
                                 z2_node = self.ensure_path(corner_node, [row_2_name])
                                 self.set(z2_node, "XX", self.number(line, 38, 12))
                                 self.set(z2_node, "YY", self.number(line, 51, 12))
                                 self.set(z2_node, "XY", self.number(line, 64, 12))
                                 self.set(z2_node, "PRINCIPALANGLE", self.number(line, 78, 7))
-                                self.set(z2_node, "VONMISES", self.number(line, 112, 12))
+                                self.set(z2_node, "MAJOR", self.number(line, 86, 12))
+                                self.set(z2_node, "MINOR", self.number(line, 99, 12))
+                                self.set(z2_node, failure, self.number(line, 112, 12))
 
                     elif "F O R   E L E M E N T   T Y P E   B U S H" in line:
                         eids_node = self.ensure_path(root, prefix + ["BUSHSTRAINS","EID"])
@@ -1166,6 +1198,10 @@ class F06Query:
                 else:
                     # Ignore the block if it has an unknown header
                     continue
+                if line[121:121+9] == "VON MISES":
+                    failure = "VONMISES"
+                else:
+                    failure = "MAXSHEAR"
                 corner = None
                 while True:
                     line = get_next_line()
@@ -1191,14 +1227,18 @@ class F06Query:
                     self.set(z1_node, "YY", self.number(line, 52, 13))
                     self.set(z1_node, "XY", self.number(line, 66, 13))
                     self.set(z1_node, "PRINCIPALANGLE", self.number(line, 82, 8))
-                    self.set(z1_node, "VONMISES", self.number(line, 120, 13))
+                    self.set(z1_node, "MAJOR", self.number(line, 92, 13))
+                    self.set(z1_node, "MINOR", self.number(line, 106, 13))
+                    self.set(z1_node, failure, self.number(line, 120, 13))
                     line = get_next_line()
                     z2_node = self.ensure_path(corner_node, [row_2_name])
                     self.set(z2_node, "XX", self.number(line, 38, 13))
                     self.set(z2_node, "YY", self.number(line, 52, 13))
                     self.set(z2_node, "XY", self.number(line, 66, 13))
                     self.set(z2_node, "PRINCIPALANGLE", self.number(line, 82, 8))
-                    self.set(z2_node, "VONMISES", self.number(line, 120, 13))
+                    self.set(z2_node, "MAJOR", self.number(line, 92, 13))
+                    self.set(z2_node, "MINOR", self.number(line, 106, 13))
+                    self.set(z2_node, failure, self.number(line, 120, 13))
 
             elif "S T R E S S E S   I N   Q U A D R I L A T E R A L   E L E M E N T S   ( Q U A D 4 )" in line \
             or   "S T R E S S E S   I N   T R I A N G U L A R   E L E M E N T S   ( T R I A 3 )" in line \
@@ -1224,6 +1264,10 @@ class F06Query:
                 else:
                     # Ignore the block if it has an unknown header
                     continue
+                if line[120:120+9] == "VON MISES":
+                    failure = "VONMISES"
+                else:
+                    failure = "MAXSHEAR"
                 while True:
                     line = get_next_line()
                     if line.strip() == "":
@@ -1240,14 +1284,18 @@ class F06Query:
                     self.set(z1_node, "YY", self.number(line, 46, 13))
                     self.set(z1_node, "XY", self.number(line, 61, 13))
                     self.set(z1_node, "PRINCIPALANGLE", self.number(line, 77, 8))
-                    self.set(z1_node, "VONMISES", self.number(line, 119, 13))
+                    self.set(z1_node, "MAJOR", self.number(line, 88, 13))
+                    self.set(z1_node, "MINOR", self.number(line, 104, 13))
+                    self.set(z1_node, failure, self.number(line, 119, 13))
                     line = get_next_line()
                     z2_node = self.ensure_path(corner_node, [row_2_name])
                     self.set(z2_node, "XX", self.number(line, 31, 13))
                     self.set(z2_node, "YY", self.number(line, 46, 13))
                     self.set(z2_node, "XY", self.number(line, 61, 13))
                     self.set(z2_node, "PRINCIPALANGLE", self.number(line, 77, 8))
-                    self.set(z2_node, "VONMISES", self.number(line, 119, 13))
+                    self.set(z2_node, "MAJOR", self.number(line, 88, 13))
+                    self.set(z2_node, "MINOR", self.number(line, 104, 13))
+                    self.set(z2_node, failure, self.number(line, 119, 13))
 
             elif "S T R E S S E S   I N   H E X A H E D R O N   S O L I D   E L E M E N T S   ( H E X A )" in line \
             or   "S T R E S S E S   I N    T E T R A H E D R O N   S O L I D   E L E M E N T S   ( C T E T R A )" in line \

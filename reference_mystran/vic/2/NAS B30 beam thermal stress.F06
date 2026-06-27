@@ -1,9 +1,9 @@
-   604115449
+   627193257
 
  MYSTRAN Version 18.0.0   APR 20 2026 MYSTRAN developed by Dr Bill Case
 *** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
 
- >> MYSTRAN BEGIN  :  6/ 4/2026 at 11:54:49. 48 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\NAS B30 beam thermal stress.bdf                                                                                                                                                                         
+ >> MYSTRAN BEGIN  :  6/27/2026 at 19:32:57.216 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\NAS B30 beam thermal stress.bdf                                                                                                                                                                         
 
 
  >> LINK  0 BEGIN
@@ -150,13 +150,15 @@ ECHO: loadb ENDDATA
 
  SUPERLU FACTORIZATION OF MATRIX KMSM SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
 
+ OUTPUT FOR SUBCASE        2
+
 
                            E I G E N V A L U E   A N A L Y S I S   S U M M A R Y   (LANCZOS  Mode 2 DGB, Shift eigen =  1.00E-04)
                                                                       (SPARSE solution)
 
                                 NUMBER OF EIGENVALUES EXTRACTED  . . . . . .         2
 
-                                LARGEST OFF-DIAGONAL GENERALIZED MASS TERM     3.1E-19 (Vecs renormed to 1.0 for gen masses)
+                                LARGEST OFF-DIAGONAL GENERALIZED MASS TERM     6.4E-19 (Vecs renormed to 1.0 for gen masses)
 
                                                                        . . .         2
                                           MODE PAIR . . . . . . . . . .
@@ -167,8 +169,11 @@ ECHO: loadb ENDDATA
 
 
 
+ OUTPUT FOR SUBCASE        2
+
+
                                             R E A L   E I G E N V A L U E S
-                                           (subcase 1 buckling load factors)
+                                      (subcase       2 buckling load factors)
 
                                          MODE  EXTRACTION      EIGENVALUE
                                         NUMBER   ORDER
@@ -191,6 +196,7 @@ ECHO: loadb ENDDATA
 
 
 
+ OUTPUT FOR SUBCASE        2
  OUTPUT FOR EIGENVECTOR        1
 
                                                          E I G E N V E C T O R
@@ -198,16 +204,17 @@ ECHO: loadb ENDDATA
            GRID     COORD      T1            T2            T3            R1            R2            R3
                      SYS
               1        0  0.0           0.0           0.0           0.0           0.0           0.0         
-              2        0  3.952374E-03  4.264668E-03  0.0          -6.698751E-02  6.208214E-02 -3.934609E-23
-              3        0  1.157623E-03  1.249092E-03  0.0          -4.736732E-02  4.389870E-02 -2.180977E-22
+              2        0 -5.810326E-03 -2.208251E-04  0.0           3.468622E-03 -9.126603E-02 -2.782769E-22
+              3        0 -1.701805E-03 -6.467816E-05  0.0           2.452686E-03 -6.453483E-02 -1.482194E-21
                          ------------- ------------- ------------- ------------- ------------- -------------
-                MAX* :    3.952374E-03  4.264668E-03  0.0           0.0           6.208214E-02  0.0         
-                MIN* :    0.0           0.0           0.0          -6.698751E-02  0.0          -2.180977E-22
+                MAX* :    0.0           0.0           0.0           3.468622E-03  0.0           0.0         
+                MIN* :   -5.810326E-03 -2.208251E-04  0.0           0.0          -9.126603E-02 -1.482194E-21
 
-                ABS* :    3.952374E-03  4.264668E-03  0.0           6.698751E-02  6.208214E-02  2.180977E-22
+                ABS* :    5.810326E-03  2.208251E-04  0.0           3.468622E-03  9.126603E-02  1.482194E-21
                 *for output set
 
 
+ OUTPUT FOR SUBCASE        2
  OUTPUT FOR EIGENVECTOR        2
 
                                                          E I G E N V E C T O R
@@ -215,17 +222,19 @@ ECHO: loadb ENDDATA
            GRID     COORD      T1            T2            T3            R1            R2            R3
                      SYS
               1        0  0.0           0.0           0.0           0.0           0.0           0.0         
-              2        0 -4.264668E-03  3.952374E-03  0.0          -6.208214E-02 -6.698751E-02  1.563500E-22
-              3        0 -1.249092E-03  1.157623E-03  0.0          -4.389870E-02 -4.736732E-02  9.882694E-22
+              2        0 -2.208251E-04  5.810326E-03  0.0          -9.126603E-02 -3.468622E-03  2.551579E-23
+              3        0 -6.467816E-05  1.701805E-03  0.0          -6.453483E-02 -2.452686E-03  2.231748E-22
                          ------------- ------------- ------------- ------------- ------------- -------------
-                MAX* :    0.0           3.952374E-03  0.0           0.0           0.0           9.882694E-22
-                MIN* :   -4.264668E-03  0.0           0.0          -6.208214E-02 -6.698751E-02  0.0         
+                MAX* :    0.0           5.810326E-03  0.0           0.0           0.0           2.231748E-22
+                MIN* :   -2.208251E-04  0.0           0.0          -9.126603E-02 -3.468622E-03  0.0         
 
-                ABS* :    4.264668E-03  3.952374E-03  0.0           6.208214E-02  6.698751E-02  9.882694E-22
+                ABS* :    2.208251E-04  5.810326E-03  0.0           9.126603E-02  3.468622E-03  2.231748E-22
                 *for output set
 
  >> LINK  9 END
 
-    Total CPU time =  3.12E-02 seconds
+    Total CPU time =  4.69E-02 seconds
 
- >> MYSTRAN END    :  6/ 4/2026 at 11:54:49.186
+ >> MYSTRAN END    :  6/27/2026 at 19:32:57.366
+
+                                          * * * END OF JOB * * *

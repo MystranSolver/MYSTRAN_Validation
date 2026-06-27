@@ -1,9 +1,9 @@
-   604115600
+   627193356
 
  MYSTRAN Version 18.0.0   APR 20 2026 MYSTRAN developed by Dr Bill Case
 *** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
 
- >> MYSTRAN BEGIN  :  6/ 4/2026 at 11:56: 0.824 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\NAS S30 mitc4+ gravity SNORM.bdf                                                                                                                                                                        
+ >> MYSTRAN BEGIN  :  6/27/2026 at 19:33:56.174 The input file is C:\Users\victo\Documents\Git\MYSTRAN_Validation\working\NAS S30 mitc4+ gravity SNORM.bdf                                                                                                                                                                        
 
 
  >> LINK  0 BEGIN
@@ -14,7 +14,7 @@ CEND
 DISPLACEMENT = ALL                                                                                                                                                                                                                                              
 SPCFORCES = ALL                                                                                                                                                                                                                                                 
 MPCFORCES = ALL                                                                                                                                                                                                                                                 
-STRAIN(CORNER) = ALL                                                                                                                                                                                                                                            
+STRAIN(CORNER,FIBER) = ALL                                                                                                                                                                                                                                      
 FORCE(CORNER) = ALL                                                                                                                                                                                                                                             
 SPC = 1                                                                                                                                                                                                                                                         
 LOAD = 1                                                                                                                                                                                                                                                        
@@ -102,7 +102,7 @@ ECHO: loadb ENDDATA
 
  SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
 
- *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            =  7.740138E-17 Based on U'*(K*U - P)/(U'*P)
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            = -1.732836E-16 Based on U'*(K*U - P)/(U'*P)
 
 
  >> LINK  3 END
@@ -144,7 +144,7 @@ ECHO: loadb ENDDATA
                      SYS
               1        0 -5.719242E+02 -5.760037E+03  1.155054E+02  8.846333E-02 -6.945053E+01 -4.423167E-02
               2        0  5.719242E+02 -5.759963E+03 -1.155054E+02 -8.846333E-02 -6.915600E+01  0.0         
-              4        0  0.0           0.0           0.0           0.0           0.0          -1.068590E-14
+              4        0  0.0           0.0           0.0           0.0           0.0          -3.240463E-15
                          ------------- ------------- ------------- ------------- ------------- -------------
                 MAX* :    5.719242E+02  0.0           1.155054E+02  8.846333E-02  0.0           0.0         
                 MIN* :   -5.719242E+02 -5.760037E+03 -1.155054E+02 -8.846333E-02 -6.945053E+01 -4.423167E-02
@@ -152,7 +152,7 @@ ECHO: loadb ENDDATA
                 ABS* :    5.719242E+02  5.760037E+03  1.155054E+02  8.846333E-02  6.945053E+01  4.423167E-02
                 *for output set
                          ------------- ------------- ------------- ------------- ------------- -------------
-     SPC FORCE TOTALS:   -2.273737E-13 -1.152000E+04 -8.526513E-14 -1.549871E-13 -1.386065E+02 -4.423167E-02
+     SPC FORCE TOTALS:   -2.273737E-13 -1.152000E+04 -1.421085E-13 -1.547235E-13 -1.386065E+02 -4.423167E-02
      (for output set)
 
                                                     SPC Force Summary on AUTOSPC'd DOF's
@@ -161,8 +161,8 @@ ECHO: loadb ENDDATA
 
                               T1             T2             T3             R1             R2             R3
 
- ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   1.068590E-14
- AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00  -1.068590E-14
+ ABS AUTOSPC FORCES  :   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   3.240463E-15
+ AUTOSPC FORCE TOTALS:   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00  -3.240463E-15
      (for output set)
 
 
@@ -190,28 +190,28 @@ ECHO: loadb ENDDATA
 
                                            E L E M E N T   S T R A I N S   I N   L O C A L   E L E M E N T   C O O R D I N A T E   S Y S T E M
                                                                        F O R   E L E M E N T   T Y P E   Q U A D 4  
-  Elem  Location         Fibre      Strains In Element Coord System       Principal Strains (Zero Shear)                 Transverse   Transverse   % Poly
-   ID                   Distance   Normal-X     Normal-Y     Shear-XY     Angle      Major        Minor      von Mises    Shear-XZ     Shear-YZ    Fit Err 
+    Elem  Location       Fiber        Strains In Element Coord System     Principal  Strains (Zero Shear)                Transverse   Transverse   % Poly
+     ID                 Distance    Normal-X     Normal-Y     Shear-XY     Angle     Major        Minor      von Mises    Shear-XZ     Shear-YZ    Fit Err
 
-        1  CENTER      -5.000E-02 -4.35057E-08  2.28133E-07  4.78633E-11   89.99  2.28133E-07 -4.35057E-08  2.52710E-07  2.38835E-08  4.31379E-09
-                        5.000E-02 -4.56328E-08  2.37930E-07  5.68056E-10   89.89  2.37932E-07 -4.56339E-08  2.63726E-07
+        1  CENTER      -5.000E-02 -4.35057E-08  2.28133E-07  4.78633E-11   89.99  2.28133E-07 -4.35057E-08  1.68474E-07  2.38835E-08  4.31379E-09
+                        5.000E-02 -4.56328E-08  2.37930E-07  5.68056E-10   89.94  2.37931E-07 -4.56331E-08  1.75817E-07
 
-           GRD       1 -5.000E-02  3.58996E-23  2.28982E-07  4.52915E-08   79.21  2.37615E-07 -8.63297E-09  2.42047E-07  2.22846E-08  2.20324E-09 -0.1E+02(7)
-                        5.000E-02  1.70399E-23  2.39687E-07  4.70437E-08   79.28  2.48589E-07 -8.90268E-09  2.53158E-07
+           GRD       1 -5.000E-02  3.57342E-23  2.28982E-07  4.52915E-08   84.41  2.31200E-07 -2.21813E-09  1.54878E-07  2.22846E-08  2.20324E-09 -0.1E+02(7)
+                        5.000E-02  1.72054E-23  2.39687E-07  4.70437E-08   84.45  2.41973E-07 -2.28653E-09  1.62083E-07
 
-           GRD       2 -5.000E-02 -1.89265E-23  2.27284E-07 -4.35326E-08  -79.52  2.35337E-07 -8.05266E-09  2.39465E-07 -2.22846E-08 -1.65646E-09  0.1E+02(7)
-                        5.000E-02 -5.58783E-24  2.36174E-07 -4.23205E-08  -80.14  2.43529E-07 -7.35446E-09  2.47288E-07
+           GRD       2 -5.000E-02 -1.50222E-23  2.27284E-07 -4.35326E-08  -84.58  2.29350E-07 -2.06572E-09  1.53593E-07 -2.22846E-08 -1.65646E-09  0.1E+02(7)
+                        5.000E-02 -1.55119E-24  2.36174E-07 -4.23205E-08  -84.92  2.38055E-07 -1.88089E-09  1.59334E-07
 
-           GRD       3 -5.000E-02 -8.70114E-08  2.27284E-07 -4.51958E-08  -81.98  2.33654E-07 -9.33815E-08  2.91776E-07  2.54824E-08 -1.00016E-09  0.1E+02(7)
-                        5.000E-02 -9.12655E-08  2.36174E-07 -4.59076E-08  -82.17  2.42489E-07 -9.75801E-08  3.03290E-07
+           GRD       3 -5.000E-02 -8.70114E-08  2.27284E-07 -4.51958E-08  -85.91  2.28901E-07 -8.86279E-08  1.89194E-07  2.54824E-08 -1.00016E-09  0.1E+02(7)
+                        5.000E-02 -9.12655E-08  2.36174E-07 -4.59076E-08  -86.01  2.37775E-07 -9.28668E-08  1.96913E-07
 
-           GRD       4 -5.000E-02 -8.70114E-08  2.28982E-07  4.36283E-08   82.28  2.34895E-07 -9.29244E-08  2.92640E-07  7.00517E-08  2.85953E-09 -0.1E+02(7)
-                        5.000E-02 -9.12655E-08  2.39687E-07  4.34566E-08   82.64  2.45298E-07 -9.68766E-08  3.05483E-07
+           GRD       4 -5.000E-02 -8.70114E-08  2.28982E-07  4.36283E-08   86.07  2.30481E-07 -8.85102E-08  1.90152E-07  7.00517E-08  2.85953E-09 -0.1E+02(7)
+                        5.000E-02 -9.12655E-08  2.39687E-07  4.34566E-08   86.26  2.41107E-07 -9.26860E-08  1.98965E-07
                                   ------------ ------------ ------------         ------------ ------------ ------------ ------------ ------------ --------
- MAX* :                            3.58996E-23  2.39687E-07  4.70437E-08          2.48589E-07 -7.35446E-09  3.05483E-07  7.00517E-08  4.31379E-09  0.1E+02
- MIN* :                           -9.12655E-08  2.27284E-07 -4.59076E-08          2.28133E-07 -9.75801E-08  2.39465E-07 -2.22846E-08 -1.65646E-09 -0.1E+02
+ MAX* :                            3.57342E-23  2.39687E-07  4.70437E-08          2.41973E-07 -1.88089E-09  1.98965E-07  7.00517E-08  4.31379E-09  0.1E+02
+ MIN* :                           -9.12655E-08  2.27284E-07 -4.59076E-08          2.28133E-07 -9.28668E-08  1.53593E-07 -2.22846E-08 -1.65646E-09 -0.1E+02
 
- ABS* :                            9.12655E-08  2.39687E-07  4.70437E-08          2.48589E-07  9.75801E-08  3.05483E-07  7.00517E-08  4.31379E-09  0.1E+02
+ ABS* :                            9.12655E-08  2.39687E-07  4.70437E-08          2.41973E-07  9.28668E-08  1.98965E-07  7.00517E-08  4.31379E-09  0.1E+02
  *for output set
  NOTE: Explanation of errors in the polynomial fit to extrapolate element corner point strains from values at the Gauss points:
        (7): Polynomial fit error is in XZ shear   strain
@@ -220,4 +220,6 @@ ECHO: loadb ENDDATA
 
     Total CPU time =  3.12E-02 seconds
 
- >> MYSTRAN END    :  6/ 4/2026 at 11:56: 0.909
+ >> MYSTRAN END    :  6/27/2026 at 19:33:56.259
+
+                                          * * * END OF JOB * * *
