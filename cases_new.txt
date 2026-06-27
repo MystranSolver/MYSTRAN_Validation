@@ -2,6 +2,32 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+
+# Correction of shell strain's principal angle, principal values, and von Mises.
+# strain_xx = 2.4e-3, strain_yy = -1.3e-3, strain_xy = 9.0e-4
+# Strain tolerance of 5e-4% is half the LSD of the 6-digit shell strain results in F06.
+# Angle tolerance is half the LSD of the 2 d.p. angle in F06.
+pth;    strain_principal_vonmises_quad4.bdf;        SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/PRINCIPALANGLE;;  (1/2*atan2(9.0e-4,2.4e-3 - -1.3e-3)) * 180/pi;                              0.005
+pth;    strain_principal_vonmises_quad4.bdf;        SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/MAJOR;;           (2.4e-3 + -1.3e-3)/2 + sqrt(((2.4e-3 - -1.3e-3)/2)**2 + (9.0e-4/2)**2 );    5e-4%
+pth;    strain_principal_vonmises_quad4.bdf;        SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/MINOR;;           (2.4e-3 + -1.3e-3)/2 - sqrt(((2.4e-3 - -1.3e-3)/2)**2 + (9.0e-4/2)**2 );    5e-4%
+pth;    strain_principal_vonmises_quad4.bdf;        SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/VONMISES;;        sqrt(4/9*(2.4e-3**2 + -1.3e-3**2 - 2.4e-3*-1.3e-3) + 1/3*9e-4**2);          5e-4%
+pth;    strain_principal_vonmises_quad4_mitc4+.bdf; SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/PRINCIPALANGLE;;  (1/2*atan2(9.0e-4,2.4e-3 - -1.3e-3)) * 180/pi;                              0.005
+pth;    strain_principal_vonmises_quad4_mitc4+.bdf; SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/MAJOR;;           (2.4e-3 + -1.3e-3)/2 + sqrt(((2.4e-3 - -1.3e-3)/2)**2 + (9.0e-4/2)**2 );    5e-4%
+pth;    strain_principal_vonmises_quad4_mitc4+.bdf; SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/MINOR;;           (2.4e-3 + -1.3e-3)/2 - sqrt(((2.4e-3 - -1.3e-3)/2)**2 + (9.0e-4/2)**2 );    5e-4%
+pth;    strain_principal_vonmises_quad4_mitc4+.bdf; SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/VONMISES;;        sqrt(4/9*(2.4e-3**2 + -1.3e-3**2 - 2.4e-3*-1.3e-3) + 1/3*9e-4**2);          5e-4%
+pth;    strain_principal_vonmises_quad8.bdf;        SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/PRINCIPALANGLE;;  (1/2*atan2(9.0e-4,2.4e-3 - -1.3e-3)) * 180/pi;                              0.005
+pth;    strain_principal_vonmises_quad8.bdf;        SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/MAJOR;;           (2.4e-3 + -1.3e-3)/2 + sqrt(((2.4e-3 - -1.3e-3)/2)**2 + (9.0e-4/2)**2 );    5e-4%
+pth;    strain_principal_vonmises_quad8.bdf;        SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/MINOR;;           (2.4e-3 + -1.3e-3)/2 - sqrt(((2.4e-3 - -1.3e-3)/2)**2 + (9.0e-4/2)**2 );    5e-4%
+pth;    strain_principal_vonmises_quad8.bdf;        SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/VONMISES;;        sqrt(4/9*(2.4e-3**2 + -1.3e-3**2 - 2.4e-3*-1.3e-3) + 1/3*9e-4**2);          5e-4%
+pth;    strain_principal_vonmises_tria3.bdf;        SC/1/SHELLSTRAINS/EID/2/CORNER/0/Z1/PRINCIPALANGLE;;  (1/2*atan2(9.0e-4,2.4e-3 - -1.3e-3)) * 180/pi;                              0.005
+pth;    strain_principal_vonmises_tria3.bdf;        SC/1/SHELLSTRAINS/EID/2/CORNER/0/Z1/MAJOR;;           (2.4e-3 + -1.3e-3)/2 + sqrt(((2.4e-3 - -1.3e-3)/2)**2 + (9.0e-4/2)**2 );    5e-4%
+pth;    strain_principal_vonmises_tria3.bdf;        SC/1/SHELLSTRAINS/EID/2/CORNER/0/Z1/MINOR;;           (2.4e-3 + -1.3e-3)/2 - sqrt(((2.4e-3 - -1.3e-3)/2)**2 + (9.0e-4/2)**2 );    5e-4%
+pth;    strain_principal_vonmises_tria3.bdf;        SC/1/SHELLSTRAINS/EID/2/CORNER/0/Z1/VONMISES;;        sqrt(4/9*(2.4e-3**2 + -1.3e-3**2 - 2.4e-3*-1.3e-3) + 1/3*9e-4**2);          5e-4%
+
+# Correction of shell strain's principal angle, principal values, and von Mises.
+# strain_xx = 2.4e-3, strain_yy = -1.3e-3, strain_xy = 9.0e-4
+pth;    strain_maxshear_quad4.bdf;                  SC/1/SHELLSTRAINS/EID/1/CORNER/0/Z1/MAXSHEAR;;        sqrt((2.4e-3 - -1.3e-3)**2 + 9.0e-4**2);                                    5e-4%
+
 # STRCUR output for CQUAD8
 pth;    shell_strain_curvature_quad8.bdf;     SC/1/SHELLSTRAINS/EID/1/CORNER/0-4/MEMB/YY;;  1.5e6/(0.04*0.75*200e9);               5e-5%; strain = F/(AE)
 pth;    shell_strain_curvature_quad8.bdf;     SC/1/SHELLSTRAINS/EID/2/CORNER/0-4/MEMB/XX;;  1.5e6/(0.04*0.75*200e9);               5e-5%; strain = F/(AE)
