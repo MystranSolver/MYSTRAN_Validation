@@ -90,6 +90,9 @@ def read_definitions(definitions_path: Path) -> list[CaseDefinition]:
             definition = CaseDefinition()
             definition.test_type = definition_fields_str[0]
             definition.deck_filename = definition_fields_str[1]
+            if "\\" in definition.deck_filename:
+                # Fail because these won't work as separators on Linux. Use forward slash on all platforms.
+                raise ValueError(f"Backslash in deck filename: {definition.deck_filename}")
             match definition.test_type:
                 case "mys" | "msc":
                     if len(definition_fields_str) > 2 and definition_fields_str[2] != "":
