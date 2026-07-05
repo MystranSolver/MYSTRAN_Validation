@@ -251,7 +251,9 @@ pth;    vic/1/NAS S30 shell laminate shear.bdf;    SC/1/DISPLACEMENTS/GID/20/TY;
 pth;    vic/1/NAS S30 shell laminate shear.bdf;    SC/1/DISPLACEMENTS/GID/23/TY;;    1.2;                  0.0001%
 pth;    vic/1/NAS S30 shell laminate shear.bdf;    SC/1/DISPLACEMENTS/GID/7/TY;;     1.2;                  0.001%
 
-pth;    vic/1/NAS S30 shell laminate coupling.bdf;    SC/1/DISPLACEMENTS/GID/3/TZ;;    -2.9999999999999997e-06;   0.0003%
+pth;    vic/1/NAS S30 shell laminate coupling.bdf;    SC/1/DISPLACEMENTS/GID/3/TZ;;    (-1 * 0.01 / 2) * 1**2 / (2 * 100000000000.0 * (0.1 * 0.01**3 / 12));   0.0003%; CQUAD4
+pth;    vic/1/NAS S30 shell laminate coupling.bdf;    SC/1/DISPLACEMENTS/GID/13/TZ;;   (-1 * 0.01 / 2) * 1**2 / (2 * 100000000000.0 * (0.1 * 0.01**3 / 12));   0.0003%; CTRIA3
+pth;    vic/1/NAS S30 shell laminate coupling.bdf;    SC/1/DISPLACEMENTS/GID/23/TZ;;   (-1 * 0.01 / 2) * 1**2 / (2 * 100000000000.0 * (0.1 * 0.01**3 / 12));   0.0003%; CTRIA3
 
 pth;    vic/1/NAS S30 shell laminate unstructured mesh.bdf;    SC/1/DISPLACEMENTS/GID/28/TY;;    0.0001666666666666667;   0.0001%
 pth;    vic/1/NAS S30 shell laminate unstructured mesh.bdf;    SC/1/DISPLACEMENTS/GID/29/TY;;    0.0001666666666666667;   0.0001%
