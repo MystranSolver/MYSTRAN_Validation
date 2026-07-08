@@ -1,0 +1,12 @@
+SOL 101
+CEND
+SPC = 1
+LOAD = 1
+FORCE = ALL
+STRESS = ALL
+BEGIN BULK
+SPOINT         1       2
+CELAS4         1   123.4       1       2
+SPC            1       1       0     0.0
+SLOAD          1       2   765.4
+ENDDATA
