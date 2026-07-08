@@ -495,7 +495,9 @@ class F06Query:
                                 self.set(eid_node, "TORSIONALSAFETY", self.number(line, 108, 9, blank_is_inf=True))
 
                 elif "F O R   E L E M E N T   T Y P E   E L A S 1" in line \
-                or   "F O R   E L E M E N T   T Y P E   E L A S 2" in line:
+                or   "F O R   E L E M E N T   T Y P E   E L A S 2" in line \
+                or   "F O R   E L E M E N T   T Y P E   E L A S 3" in line \
+                or   "F O R   E L E M E N T   T Y P E   E L A S 4" in line:
                     eids_node = self.ensure_path(root, prefix + ["ELASSTRESSES","EID"])
                     get_next_line()
                     get_next_line()
@@ -829,7 +831,9 @@ class F06Query:
                             self.set(eid_node, "TORQUE", self.number(line, 112, 13))
 
                 elif "F O R   E L E M E N T   T Y P E   E L A S 1" in line \
-                or   "F O R   E L E M E N T   T Y P E   E L A S 2" in line:
+                or   "F O R   E L E M E N T   T Y P E   E L A S 2" in line \
+                or   "F O R   E L E M E N T   T Y P E   E L A S 3" in line \
+                or   "F O R   E L E M E N T   T Y P E   E L A S 4" in line:
                     eids_node = self.ensure_path(root, prefix + ["ELASFORCES","EID"])
                     get_next_line()
                     get_next_line()

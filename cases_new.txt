@@ -2,6 +2,23 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+
+# Bugfix for issue #263 - force output was incorrectly zero when S was zero.
+pth;    celas1_force_stress.bdf;        SC/1/ELASFORCES/EID/1;;          -765.4;   5e-5%
+pth;    celas1_force_stress.bdf;        SC/1/ELASSTRESSES/EID/1;;    5 * -765.4;   5e-5%
+pth;    celas1_force_zerostress.bdf;    SC/1/ELASFORCES/EID/1;;          -765.4;   5e-5%
+pth;    celas1_force_zerostress.bdf;    SC/1/ELASSTRESSES/EID/1;;    0 * -765.4;   0
+pth;    celas2_force_stress.bdf;        SC/1/ELASFORCES/EID/1;;          -765.4;   5e-5%
+pth;    celas2_force_stress.bdf;        SC/1/ELASSTRESSES/EID/1;;    5 * -765.4;   5e-5%;   KNOWNFAIL stress coefficient is treated as 1.0 instead of 5.0.
+pth;    celas2_force_zerostress.bdf;    SC/1/ELASFORCES/EID/1;;          -765.4;   5e-5%
+pth;    celas2_force_zerostress.bdf;    SC/1/ELASSTRESSES/EID/1;;    0 * -765.4;   0;       KNOWNFAIL stress coefficient is treated as 1.0 instead of 0.0.
+pth;    celas3_force_stress.bdf;        SC/1/ELASFORCES/EID/1;;          -765.4;   5e-5%
+pth;    celas3_force_stress.bdf;        SC/1/ELASSTRESSES/EID/1;;    5 * -765.4;   5e-5%
+pth;    celas3_force_zerostress.bdf;    SC/1/ELASFORCES/EID/1;;          -765.4;   5e-5%
+pth;    celas3_force_zerostress.bdf;    SC/1/ELASSTRESSES/EID/1;;    0 * -765.4;   0
+pth;    celas4_force_zerostress.bdf;    SC/1/ELASFORCES/EID/1;;          -765.4;   5e-5%
+pth;    celas4_force_zerostress.bdf;    SC/1/ELASSTRESSES/EID/1;;    0 * -765.4;   0;       KNOWNFAIL stress coefficient is treated as 1.0 instead of 0.0.
+
 pth;    cbar_blank_offset_bug.bdf;                  SC/1/BARFORCES/EID/1/MA1;;                      0.3;        5e-5%;  Regression test for issue #274. Buggy result in v19.0.0 and earlier is 0.0.
 pth;    cbar_blank_offset_bug.bdf;                  SC/1/BARFORCES/EID/1/MB1;;                      0.3;        5e-5%;  Regression test for issue #274. Buggy result in v19.0.0 and earlier is 0.0.
 
