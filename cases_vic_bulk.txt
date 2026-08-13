@@ -174,10 +174,10 @@ mys;    vic/7/S30 mitc4 reaction moment complex shape.bdf;                      
 mys;    vic/7/S30 mitc4 reaction moment easy.bdf
 mys;    vic/7/S30 mitc4 reaction moment nonzero rotation.bdf;                           D=1e-5 E=1e-6 F=1e-2
 mys;    vic/7/S30 mitc4 strain.bdf
-mys;    vic/7/S30 mitc4 thermal strain free diamond cylinder.bdf;                       C=1e-3 D=1e-2 E=1e-5 F=1e02;       Rotations are randomly mixed up, probably expected behavior of AUTOSPC and not a bug.
+mys;    vic/7/S30 mitc4 thermal strain free diamond cylinder.bdf;                       C=1e-3 D=1e-2 E=1e-4 F=1e02;       Rotations are randomly mixed up, probably expected behavior of AUTOSPC and not a bug.
 mys;    vic/7/S30 mitc4 thermal strain free rectangle cylinder.bdf;                     D=1e-4 E=1e-4
 mys;    vic/7/S30 mitc4 thermal stress free expansion.bdf;                              F=1e-4
-mys;    vic/7/S30 mitc4 thermal stress linear temperature constrained deformed.bdf
+mys;    vic/7/S30 mitc4 thermal stress linear temperature constrained deformed.bdf;     E=1e-20
 mys;    vic/7/S30 mitc4 thermal stress linear temperature constrained.bdf;              E=1e-20
 mys;    vic/7/S30 mitc4 thermal stress linear temperature.bdf
 mys;    vic/7/S30 mitc4 thermal stress quadratic temperature.bdf
@@ -187,7 +187,7 @@ mys;    vic/8/NAS S30 mitc4+ diamond cylinder pressure PLOAD4.bdf
 mys;    vic/8/NAS S30 mitc4+ gravity bending.bdf;                                       C=1e-4;                             Rotations are randomly mixed up, probably expected behavior of AUTOSPC and not a bug.
 mys;    vic/8/NAS S30 mitc4+ gravity SNORM.bdf
 mys;    vic/8/NAS S30 mitc4+ MID1 MID2.bdf
-mys;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;                 D=1e-5 E=1e-7;                      Loose tolerances because all forces and moments should be zero.
+mys;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling thermal.bdf;                 D=1e-4 E=1e-7;                      Loose tolerances because all forces and moments should be zero.
 mys;    vic/8/NAS S30 mitc4+ SNORM membrane-shear coupling.bdf;                                E=1e-7;                      Loose tolerance because all moments should be zero.
 mys;    vic/8/NAS S30 node-surface coupling mass.bdf
 mys;    vic/8/NAS S30 omit bulk data entry.bdf

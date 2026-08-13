@@ -1,0 +1,97 @@
+$ =====================================================================
+$ RBE3 BUG TEST DECK B -- DX_BAR/DY_BAR/DZ_BAR self-coupling bug
+$ (RBE3_PROC.f90, lines ~239-241 and ~315-420; NOT covered by issue #224)
+$
+$ Full 6-DOF RBE3 (REFC=123456) with 4 independent grids, each given
+$ a DIFFERENT weight on its X, Y and Z translational components
+$ (three separate WTi/Ci groups per grid below). This is the
+$ "differential per-DOF weight" pattern that both the WRITE_L1J_456
+$ bug (Deck A) and this DX_BAR/DY_BAR/DZ_BAR bug require to manifest.
+$
+$ The 4 independent grids are driven by SPC to the EXACT rigid-body
+$ field  U_i = U0 + omega x r_i  for:
+$     U0    = ( 0.37, -0.82,  1.15)
+$     omega = ( 0.21, -0.44,  0.63)
+$
+$ Any correct weighted least-squares RBE3 fit MUST recover this U0
+$ and omega EXACTLY at the reference grid, for ANY weights -- a rigid
+$ field has zero fit residual regardless of weighting. This is
+$ independent of (and additional to) the Deck A bug: even with
+$ WRITE_L1J_456 fixed, this deck will still show a large error unless
+$ DX_BAR/DY_BAR/DZ_BAR are also corrected to the full 6-term
+$ cross-weighted sums described in the report.
+$
+$ Expected (correct formulation), grid 900:
+$   T1=0.37  T2=-0.82  T3=1.15   R1=0.21  R2=-0.44  R3=0.63
+$
+$ Actual (as-coded, buggy), grid 900 (from an independent Python
+$ re-implementation of RBE3_PROC.f90's exact formulas):
+$   T1=2.409  T2=-0.071  T3=4.349   R1=1.051  R2=-5.492  R3=0.703
+$ (off by roughly 1 to 6x on every component -- not a rounding-level
+$ discrepancy)
+$ =====================================================================
+SOL 101
+CEND
+DISP = ALL
+SPC = 1
+BEGIN BULK
+$
+$ Reference (dependent) grid -- all 6 DOF dependent on the RBE3.
+GRID,900,,0.,0.,0.
+$
+$ Independent grids.
+GRID,901,,1.0,0.5,0.2
+GRID,902,,-0.7,1.2,-0.3
+GRID,903,,0.3,-0.9,1.1
+GRID,904,,-1.1,-0.4,-0.8
+$
+$ Dummy grids + harmless CROD so the model isn't entirely empty.
+GRID,800,,5.,5.,5.
+GRID,801,,6.,5.,5.
+MAT1,1,1.,,0.
+PROD,1,1,1.
+CROD,98,1,800,801
+$
+$ RBE3: reference grid 900, REFC=123456, independent grids 901-904,
+$ each with a DIFFERENT weight per translational component
+$ (Wx, Wy, Wz respectively) -- this non-uniform per-DOF weighting is
+$ what exposes the bug; uniform per-grid weighting would mask it.
+RBE3    10              900     123456  1.0     1       901     4.0     +A1
++A1     2       901     0.8     3       901     2.0     1       902     +A2
++A2     0.3     2       902     1.7     3       902     0.5     1       +A3
++A3     903     1.5     2       903     2.9     3       903     3.0     +A4
++A4     1       904     2.2     2       904     0.6     3       904
+$
+$ Independent-grid SPC values = exact rigid-body field
+$ U_i = U0 + omega x r_i  for U0=(0.37,-0.82,1.15),
+$ omega=(0.21,-0.44,0.63). Rotational DOF (4,5,6) fixed to zero
+$ (unused by the RBE3's COMPS_I=123, but pinned to avoid singular
+$ unconnected DOF).
+SPC,1,901,1,-0.033
+SPC,1,901,2,-0.232
+SPC,1,901,3,1.695
+SPC,1,901,456,0.
+$
+SPC,1,902,1,-0.254
+SPC,1,902,2,-1.198
+SPC,1,902,3,1.094
+SPC,1,902,456,0.
+$
+SPC,1,903,1,0.453
+SPC,1,903,2,-0.862
+SPC,1,903,3,1.093
+SPC,1,903,456,0.
+$
+SPC,1,904,1,0.974
+SPC,1,904,2,-1.345
+SPC,1,904,3,0.582
+SPC,1,904,456,0.
+$
+$ Dummy CROD grids, fully fixed.
+SPC,1,800,123456,0.
+$ (grid 801 deliberately left unconstrained -- gives the model a
+$  genuine free DOF so MSC Nastran has an L-set to solve; it's an
+$  unloaded dummy CROD end, disconnected from the RBE3 under test, so
+$  this has no effect on the RBE3 results.)
+$
+ENDDATA
