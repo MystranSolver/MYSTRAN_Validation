@@ -1,0 +1,72 @@
+$ =====================================================================
+$ RBE3 TEST SERIES -- Deck 14: reference grid with a rotated OUTPUT
+$ coordinate system (CD field) -- general coverage, exercises a code
+$ path (basic-to-local coordinate transform of the RBE3 result) that
+$ no other deck in this series touches.
+$
+$ CORD2R 20 is a system rotated 30 degrees about the basic Z-axis.
+$ Grid 900 (the RBE3 reference/dependent grid) has CD=20, so its
+$ reported displacement/rotation should come out expressed in this
+$ rotated frame, not in basic coordinates.
+$
+$ Independent grids 901-904 remain in basic coordinates (CD=0,
+$ default) and are driven by SPC to an exact rigid-body field in
+$ BASIC coordinates:
+$     U0    = ( 0.20, -0.15,  0.30)   (basic)
+$     omega = ( 0.10,  0.05, -0.12)   (basic)
+$
+$ Expected result, grid 900, reported in the CD=20 (rotated) frame:
+$   T1=0.098205  T2=-0.229904  T3=0.300000
+$   R1=0.111603  R2=-0.006699  R3=-0.120000
+$ (= U0/omega rotated 30 degrees about Z into the local frame --
+$ T3/R3 unaffected since Z is the rotation axis and both fields have
+$ no other Z-axis-orthogonal peculiarity)
+$ =====================================================================
+SOL 101
+CEND
+DISP = ALL
+SPC = 1
+BEGIN BULK
+$
+CORD2R,20,0,0.,0.,0.,0.,0.,1.,+CR20
++CR20,0.8660254,0.5,0.
+$
+GRID,900,,0.,0.,0.,20
+$
+GRID,901,,1.5,0.8,-0.4
+GRID,902,,-1.0,1.2,0.6
+GRID,903,,0.5,-1.5,0.9
+GRID,904,,-0.8,-0.6,-1.1
+$
+GRID,800,,10.,10.,10.
+GRID,801,,11.,10.,10.
+MAT1,1,1.,,0.
+PROD,1,1,1.
+CROD,91,1,800,801
+$
+RBE3    60              900     123456  1.0     123     901     1.0     +A1
++A1     123     902     1.0     123     903     1.0     123     904
+$
+SPC,1,901,1,0.276
+SPC,1,901,2,-0.29
+SPC,1,901,3,0.305
+SPC,1,901,456,0.
+$
+SPC,1,902,1,0.374
+SPC,1,902,2,-0.09
+SPC,1,902,3,0.47
+SPC,1,902,456,0.
+$
+SPC,1,903,1,0.065
+SPC,1,903,2,-0.3
+SPC,1,903,3,0.125
+SPC,1,903,456,0.
+$
+SPC,1,904,1,0.073
+SPC,1,904,2,0.056
+SPC,1,904,3,0.28
+SPC,1,904,456,0.
+$
+SPC,1,800,123456,0.
+$
+ENDDATA

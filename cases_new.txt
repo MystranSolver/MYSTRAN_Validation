@@ -2,6 +2,14 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+pth;    rbe3_series_14_grid_output_coordinate_system.bdf;  SC/1/DISPLACEMENTS/GID/900/TX;;  0.098205; 1e-4%  ;   Reference values from Claude. See deck for explanation.
+pth;    rbe3_series_14_grid_output_coordinate_system.bdf;  SC/1/DISPLACEMENTS/GID/900/TY;; -0.229904; 1e-4%
+pth;    rbe3_series_14_grid_output_coordinate_system.bdf;  SC/1/DISPLACEMENTS/GID/900/TZ;;  0.300000; 0
+pth;    rbe3_series_14_grid_output_coordinate_system.bdf;  SC/1/DISPLACEMENTS/GID/900/RX;;  0.111603; 1e-3%
+pth;    rbe3_series_14_grid_output_coordinate_system.bdf;  SC/1/DISPLACEMENTS/GID/900/RY;; -0.006699; 1e-2%
+pth;    rbe3_series_14_grid_output_coordinate_system.bdf;  SC/1/DISPLACEMENTS/GID/900/RZ;; -0.120000; 0
+msc;    rbe3_series_14_grid_output_coordinate_system.bdf;                                                    ;   Needed for more precision than reference values above.
+
 #  Bugfix for #285 https://github.com/MystranSolver/MYSTRANSolver/issues/285
 pth;    rbe3_series_07_rotation_only_dependency.bdf;  SC/1/DISPLACEMENTS/GID/950/RX;;    0.12;   5e-5%  ;   Reference values from Claude. See deck for explanation.
 pth;    rbe3_series_07_rotation_only_dependency.bdf;  SC/1/DISPLACEMENTS/GID/950/RY;;   -0.25;   5e-5%
