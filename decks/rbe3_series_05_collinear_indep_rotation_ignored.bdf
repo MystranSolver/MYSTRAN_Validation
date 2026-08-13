@@ -1,0 +1,84 @@
+$ =====================================================================
+$ RBE3 TEST SERIES -- Deck 05: independent-grid ROTATION component is
+$ silently ignored (separate gap from the two DX_BAR/WRITE_L1J_456
+$ bugs -- found while reviewing RBE3_PROC.f90's WRITE_L1J_123/456).
+$
+$ Independent grids 501, 502 sit COLLINEAR along the element's local
+$ x-axis (y=z=0 for both), so their translations carry NO information
+$ about twist (rotation) about that axis -- the standard NASTRAN
+$ RBE3 documentation explicitly recommends adding a ROTATION
+$ component to one independent grid ("Ci"=4/5/6) in exactly this
+$ situation, to stabilize/define that rigid-body mode. Grid 503 does
+$ that here: it contributes ONLY comp 4 (Rx) to the independent set,
+$ weight=5.0, with a prescribed rotation of 0.5 via SPC.
+$
+$ REFC=4 -- only the reference grid's Rx is dependent, isolating
+$ this one row cleanly.
+$
+$ RBE3_PROC.f90 never reads CDOF_I(4)/(5)/(6) anywhere (neither in
+$ the EBAR_YZ/ZX/XY sums nor in WRITE_L1J_456) -- independent grid
+$ rotation components are accepted by the bulk-data reader
+$ (BD_RBE3.f90 places no restriction on Ci) but have ZERO effect on
+$ the constraint math. Combined with collinear grids 501/502 driving
+$ EBAR_YZ to (near) zero, RBE3_PROC.f90 falls back to hard-setting
+$ the pivot coefficient to 1.0 (see lines ~353-360) instead of using
+$ grid 503's contribution at all.
+$
+$ Expected (per NASTRAN's own documented stabilization technique):
+$   R1 (grid 500) = 0.5   (the reference should pick up the
+$   independent grid's prescribed rotation, since it's the only
+$   information available about twist on this collinear axis)
+$
+$ Actual (as-coded, MYSTRAN dev branch):
+$   R1 (grid 500) = 0.0   -- grid 503's rotation input is completely
+$   discarded; MYSTRAN reports zero twist no matter what value is
+$   prescribed on grid 503's Rx.
+$ =====================================================================
+SOL 101
+CEND
+DISP = ALL
+SPC = 1
+BEGIN BULK
+$
+GRID,500,,0.,0.,0.
+$
+$ Collinear independent translation grids (along local/global x).
+GRID,501,,-3.,0.,0.
+GRID,502,,3.,0.,0.
+$
+$ Stabilizing independent grid: contributes ONLY its Rx rotation.
+GRID,503,,1.,0.,0.
+$
+GRID,400,,5.,5.,5.
+GRID,401,,6.,5.,5.
+MAT1,1,1.,,0.
+PROD,1,1,1.
+CROD,96,1,400,401
+$
+$ REFC=4: only Rx of grid 500 is dependent.
+$ Group 1: grids 501,502, comp=123 (translations), weight=1.0.
+$ Group 2: grid 503, comp=4 (rotation), weight=5.0 -- the
+$ NASTRAN-recommended stabilizing DOF for a collinear independent set.
+RBE3    30              500     4       1.0     123     501     502     +A1
++A1     5.0     4       503
+$
+$ Collinear grids: translations pinned to zero (irrelevant to the Rx
+$ fit either way, since Dy=Dz=0 for both).
+SPC,1,501,123456,0.
+SPC,1,502,123456,0.
+$
+$ Stabilizing grid: prescribe Rx=0.5, pin everything else.
+SPC,1,503,123,0.
+SPC,1,503,4,0.5
+SPC,1,503,56,0.
+$
+$ Reference grid: only Rx (comp4) is dependent -- fix the rest.
+SPC,1,500,12356,0.
+$
+SPC,1,400,123456,0.
+$ (grid 401 deliberately left unconstrained -- gives the model a
+$  genuine free DOF so MSC Nastran has an L-set to solve; it's an
+$  unloaded dummy CROD end, disconnected from the RBE3 under test, so
+$  this has no effect on the RBE3 results.)
+$
+ENDDATA
