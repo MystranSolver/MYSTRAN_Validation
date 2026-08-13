@@ -2,6 +2,12 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+#  Bugfix for #285 https://github.com/MystranSolver/MYSTRANSolver/issues/285
+pth;    rbe3_series_07_rotation_only_dependency.bdf;  SC/1/DISPLACEMENTS/GID/950/RX;;    0.12;   5e-5%  ;   Reference values from Claude. See deck for explanation.
+pth;    rbe3_series_07_rotation_only_dependency.bdf;  SC/1/DISPLACEMENTS/GID/950/RY;;   -0.25;   5e-5%
+pth;    rbe3_series_07_rotation_only_dependency.bdf;  SC/1/DISPLACEMENTS/GID/950/RZ;;    0.4;    5e-5%
+msc;    rbe3_series_07_rotation_only_dependency.bdf;                                                    ;   No really needed but MSC is reassurance.
+
 #  Bug fixed at the same time as #224
 pth;    rbe3_series_02_nonuniform_weight_dbar_bug.bdf;  SC/1/DISPLACEMENTS/GID/900/TX;;  0.3700; 5e-5%  ;   Reference values from Claude. See deck for explanation.
 pth;    rbe3_series_02_nonuniform_weight_dbar_bug.bdf;  SC/1/DISPLACEMENTS/GID/900/TY;; -0.8200; 5e-5%

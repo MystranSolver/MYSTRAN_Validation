@@ -1,0 +1,83 @@
+$ =====================================================================
+$ RBE3 TEST SERIES -- Deck 07: rotation-only dependency (REFC=456)
+$
+$ Complement of Deck 04: here REFC=456 only, so the reference grid's
+$ TRANSLATIONS are not part of this RBE3 at all -- only its rotations
+$ are fit (a pure-rotation RBE3, sometimes used to pick up a
+$ "representative twist" from a patch of grids without also
+$ averaging their translations). Uniform per-grid weighting (like
+$ Deck 01), so this is a CONTROL case for the rotation-fit /
+$ EBAR_YZ/ZX/XY + SXY/SZX/SYZ machinery -- unaffected by either known
+$ bug when weights are uniform.
+$
+$ Four independent grids driven by a PURE rotation about the origin
+$ (no translation component, U0=0), omega = (0.12, -0.25, 0.40).
+$
+$ Expected result, grid 950 (a CORRECT solver would give this;
+$ MYSTRAN cannot currently produce it at all -- see WARNING below):
+$   R1=0.12   R2=-0.25   R3=0.40
+$ (T1,T2,T3 are not part of this RBE3 and are fixed externally.)
+$
+$ WARNING: this deck CRASHES MYSTRAN with *ERROR 2201: THE RMN
+$ PARTITION OF CONSTRAINT MATRIX RMG HAS 0 TERMS IN IT -- a rotation-
+$ only REFC issue (see the RBE3 series README, Bug #4). The seemingly
+$ obvious workaround (adding a trivial translation-dependent
+$ component to REFC, e.g. 456 -> 1456) avoids the crash but was
+$ tested and found to silently produce WRONG rotation results instead
+$ (near-zero, not the correct 0.12/-0.25/0.40) -- so it is NOT applied
+$ here. No working fix has been found; this deck currently cannot be
+$ run in MYSTRAN at all.
+$ =====================================================================
+SOL 101
+CEND
+DISP = ALL
+SPC = 1
+BEGIN BULK
+$
+GRID,950,,0.,0.,0.
+$
+GRID,951,,1.0,0.5,0.2
+GRID,952,,-0.7,1.2,-0.3
+GRID,953,,0.3,-0.9,1.1
+GRID,954,,-1.1,-0.4,-0.8
+$
+GRID,555,,5.,5.,5.
+GRID,556,,6.,5.,5.
+MAT1,1,1.,,0.
+PROD,1,1,1.
+CROD,94,1,555,556
+$
+$ REFC=456: only rotations of grid 950 are dependent.
+RBE3    50              950     456     1.0     123     951     2.0     +A1
++A1     123     952     0.5     123     953     3.0     123     954
+$
+SPC,1,951,1,-0.25
+SPC,1,951,2,0.376
+SPC,1,951,3,0.31
+SPC,1,951,456,0.
+$
+SPC,1,952,1,-0.405
+SPC,1,952,2,-0.244
+SPC,1,952,3,-0.031
+SPC,1,952,456,0.
+$
+SPC,1,953,1,0.085
+SPC,1,953,2,-0.012
+SPC,1,953,3,-0.033
+SPC,1,953,456,0.
+$
+SPC,1,954,1,0.360
+SPC,1,954,2,-0.344
+SPC,1,954,3,-0.323
+SPC,1,954,456,0.
+$
+$ Grid 950's translations aren't part of this RBE3 -- fix externally.
+SPC,1,950,123,0.
+$
+SPC,1,555,123456,0.
+$ (grid 556 deliberately left unconstrained -- gives the model a
+$  genuine free DOF so MSC Nastran has an L-set to solve; it's an
+$  unloaded dummy CROD end, disconnected from the RBE3 under test, so
+$  this has no effect on the RBE3 results.)
+$
+ENDDATA
