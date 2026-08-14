@@ -2,6 +2,14 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+#  Rotation DOF on a single independent grid point is transferred directly to the dependent grid point.
+pth;    rbe3_series_05_collinear_indep_rotation_ignored.bdf;  SC/1/DISPLACEMENTS/GID/500/RX;; 0.5;    5e-5%
+msc;    rbe3_series_05_collinear_indep_rotation_ignored.bdf;                                                 ;   Not really needed but MSC is reassurance.
+
+#  Rotation DOF on a single independent grid point is transferred directly to the dependent grid point. Not colinear.
+pth;    rbe3_series_11_independent_rotation_ignored.bdf;  SC/1/DISPLACEMENTS/GID/500/RX;; 0.5;    5e-5%
+msc;    rbe3_series_11_independent_rotation_ignored.bdf;                                                     ;   Not really needed but MSC is reassurance.
+
 pth;    rbe3_series_14_grid_output_coordinate_system.bdf;  SC/1/DISPLACEMENTS/GID/900/TX;;  0.098205; 1e-4%  ;   Reference values from Claude. See deck for explanation.
 pth;    rbe3_series_14_grid_output_coordinate_system.bdf;  SC/1/DISPLACEMENTS/GID/900/TY;; -0.229904; 1e-4%
 pth;    rbe3_series_14_grid_output_coordinate_system.bdf;  SC/1/DISPLACEMENTS/GID/900/TZ;;  0.300000; 0

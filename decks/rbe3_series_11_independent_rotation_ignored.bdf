@@ -1,0 +1,80 @@
+$ =====================================================================
+$ RBE3 TEST SERIES -- Deck 11: independent-grid rotation component
+$ silently ignored (a third, separate bug/gap from the two
+$ weight-indexing bugs in Decks 02/03/10).
+$
+$ Grids 501, 502 sit COLLINEAR along the local x-axis (y=z=0 for
+$ both), so their translations carry NO information about twist
+$ (rotation) about that axis. NASTRAN's own RBE3 documentation
+$ explicitly recommends adding a rotation component to one
+$ independent grid in exactly this situation, to define that rigid-
+$ body mode. Grid 503 does that here: it contributes ONLY comp 4
+$ (Rx) to the independent set, weight=5.0, with a prescribed
+$ rotation of 0.5 via SPC.
+$
+$ REFC=14 -- T1 and R1 of the reference grid are both dependent.
+$ (T1 is included only so the model has SOME translation-dependent
+$ component; T1's own equation does not couple to R1 in this
+$ formulation, so it doesn't affect what's being tested.)
+$
+$ Per NASTRAN's documented technique, grid 503's prescribed rotation
+$ is the ONLY source of information about twist on this collinear
+$ axis, and should be recovered directly at the reference grid.
+$
+$ Expected (correct formulation), grid 500:
+$   T1 = 0.3   (simple weighted average of grids 501, 502: (0.2+0.4)/2)
+$   R1 = 0.5   (recovering independent grid 503's prescribed rotation)
+$
+$ A solver that ignores independent-grid rotation components (Ci=4/5/6)
+$ entirely would instead give R1 = 0.0, discarding grid 503's input
+$ no matter what value is prescribed there.
+$ =====================================================================
+SOL 101
+CEND
+DISP = ALL
+SPC = 1
+BEGIN BULK
+$
+GRID,500,,0.,0.,0.
+$
+$ Collinear independent translation grids (along x).
+GRID,501,,-3.,0.,0.
+GRID,502,,3.,0.,0.
+$
+$ Stabilizing independent grid: contributes ONLY its Rx rotation.
+GRID,503,,1.,0.,0.
+$
+$ Dummy grids + harmless CROD so the model isn't entirely empty.
+$ (400 fixed, 401 left free -- MSC Nastran rejects a model with no
+$ free DOF at all: "NO L-SET REMAINS AFTER CONSTRAINTS AND O-SET
+$ REMOVED.")
+GRID,400,,5.,5.,5.
+GRID,401,,6.,5.,5.
+MAT1,1,1.,,0.
+PROD,1,1,1.
+CROD,96,1,400,401
+$
+$ REFC=14: T1 and Rx of grid 500 are dependent.
+$ Group 1: grids 501,502, comp=123 (translations), weight=1.0.
+$ Group 2: grid 503, comp=4 (rotation), weight=5.0 -- the
+$ NASTRAN-recommended stabilizing DOF for a collinear independent set.
+RBE3    30              500     14      1.0     123     501     502     +A1
++A1     5.0     4       503
+$
+$ Collinear grids: translations prescribed, other comps pinned.
+SPC,1,501,1,0.2
+SPC,1,501,23456,0.
+SPC,1,502,1,0.4
+SPC,1,502,23456,0.
+$
+$ Stabilizing grid: prescribe Rx=0.5, pin everything else.
+SPC,1,503,123,0.
+SPC,1,503,4,0.5
+SPC,1,503,56,0.
+$
+$ Reference grid: only T1, Rx (comps 1,4) are dependent -- fix the rest.
+SPC,1,500,2356,0.
+$
+SPC,1,400,123456,0.
+$
+ENDDATA
