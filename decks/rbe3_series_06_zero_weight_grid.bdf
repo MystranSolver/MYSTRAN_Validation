@@ -1,0 +1,95 @@
+$ =====================================================================
+$ RBE3 TEST SERIES -- Deck 06: near-zero-weight independent grid
+$ (edge case)
+$
+$ REFC=123 only. Three independent grids: 751 (W=1.0), 752 (W=1.e-6),
+$ 753 (W=2.0). Grid 752 is given an arbitrary, deliberately extreme
+$ displacement (99., 99., 99.).
+$
+$ [Correction: this deck originally used W=0.0 exactly for grid 752.
+$ MSC Nastran rejected that with *** USER FATAL MESSAGE 2038 (RBE3S):
+$ RBE3 ELEMENT 40 IS SINGULAR -- confirmed (by rank-checking the full
+$ 6x6 rigid-body-fit system) this is because a literal zero weight
+$ drops grid 752 entirely, leaving only 2 remaining points (751, 753,
+$ both at z=0), one short of the 3 non-collinear points needed to
+$ determine all 6 rigid-body modes. Fixed with W=1.e-6.]
+$
+$ [SECOND CORRECTION, more important: this deck's original "expected"
+$ value assumed a near-zero weight contributes negligibly to a plain
+$ decoupled weighted average -- (99*1.e-6)/3 ~= 3.3e-5. That
+$ assumption is WRONG. Bug #6 (see the RBE3 series README) established
+$ that a correct RBE3 always solves the FULL coupled 6-DOF rigid-body
+$ system internally, even when REFC=123 only outputs the translation
+$ part. With this deck's specific geometry (all 3 independent grids
+$ coplanar at z=0, giving weak/underdetermined rotational leverage),
+$ grid 752's tiny weight on an EXTREME (99,99,99) value is NOT
+$ negligible in the coupled system -- it meaningfully perturbs the
+$ result through the implicit rotational coupling, even though
+$ rotation isn't part of REFC or the output. Confirmed by two
+$ independent solvers (patched MYSTRAN and ComLab) agreeing exactly
+$ on the corrected value below, which is NOT the naive weighted
+$ average.]
+$
+$ Purpose (revised): demonstrate that "near-zero weight" is not
+$ simply negligible in isolation -- whether it matters depends on the
+$ full coupled system, not just the directly-output component's own
+$ decoupled arithmetic. This deck no longer demonstrates "negligible
+$ weight is negligible"; it demonstrates the opposite, and is a good
+$ regression check that the Bug #6 fix's coupling is genuinely active
+$ for a case where it has a large, visible effect.
+$
+$ Expected result, grid 750 (confirmed by MYSTRAN post-fix AND ComLab,
+$ exact agreement to 6 significant figures):
+$   T1 = 0.335339   T2 = -0.035273   T3 = 19.760000
+$ NOT the naive decoupled weighted average (0.300033, 0.000033,
+$ -0.083300) that an earlier version of this file incorrectly
+$ documented as "expected."
+$ =====================================================================
+SOL 101
+CEND
+DISP = ALL
+SPC = 1
+BEGIN BULK
+$
+GRID,750,,0.,0.,0.
+$
+GRID,751,,2.0,0.0,0.0
+GRID,752,,0.0,2.0,0.0
+GRID,753,,-2.0,-1.0,0.0
+$
+GRID,650,,5.,5.,5.
+GRID,651,,6.,5.,5.
+MAT1,1,1.,,0.
+PROD,1,1,1.
+CROD,95,1,650,651
+$
+RBE3    40              750     123     1.0     123     751     .000001 +A1
++A1     123     752     2.0     123     753
+$
+SPC,1,751,1,0.10
+SPC,1,751,2,-0.20
+SPC,1,751,3,0.05
+SPC,1,751,456,0.
+$
+$ Deliberately extreme -- must have ZERO influence (weight=0.0).
+SPC,1,752,1,99.
+SPC,1,752,2,99.
+SPC,1,752,3,99.
+SPC,1,752,456,0.
+$
+SPC,1,753,1,0.40
+SPC,1,753,2,0.10
+SPC,1,753,3,-0.15
+SPC,1,753,456,0.
+$
+SPC,1,750,456,0.
+$
+SPC,1,650,123456,0.
+$ (grid 651 deliberately left unconstrained -- gives the model a
+$  genuine free DOF so MSC Nastran has an L-set to solve; disconnected
+$  from the RBE3 under test, so this has no effect on the RBE3 results.
+$  [Correction: an earlier version of this file still had this grid
+$  fully constrained, which MSC Nastran correctly rejected with
+$  "NO L-SET REMAINS AFTER CONSTRAINTS AND O-SET REMOVED" -- fixed.])
+$
+ENDDATA

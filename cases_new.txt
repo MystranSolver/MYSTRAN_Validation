@@ -2,6 +2,15 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+#  Bug when some dependent DOFs are excluded.
+msc;    rbe3_series_04_partial_dependent_components.bdf
+
+#  Bug when some dependent DOFs are excluded.
+pth;    rbe3_series_06_zero_weight_grid.bdf;  SC/1/DISPLACEMENTS/GID/750/TX;;   0.335339;   1e-3%  ;   Reference values from Claude. See deck for explanation.
+pth;    rbe3_series_06_zero_weight_grid.bdf;  SC/1/DISPLACEMENTS/GID/750/TY;;  -0.035273;   1e-3%
+pth;    rbe3_series_06_zero_weight_grid.bdf;  SC/1/DISPLACEMENTS/GID/750/TZ;;  19.760000;   5e-5%
+msc;    rbe3_series_06_zero_weight_grid.bdf;                                                       ;   KNOWNFAIL waiting for MSC solution. Needed for more precision than reference values above.
+
 #  Rotation DOF on a single independent grid point is transferred directly to the dependent grid point.
 pth;    rbe3_series_05_collinear_indep_rotation_ignored.bdf;  SC/1/DISPLACEMENTS/GID/500/RX;; 0.5;    5e-5%
 msc;    rbe3_series_05_collinear_indep_rotation_ignored.bdf;                                                 ;   Not really needed but MSC is reassurance.
@@ -22,7 +31,7 @@ msc;    rbe3_series_14_grid_output_coordinate_system.bdf;                       
 pth;    rbe3_series_07_rotation_only_dependency.bdf;  SC/1/DISPLACEMENTS/GID/950/RX;;    0.12;   5e-5%  ;   Reference values from Claude. See deck for explanation.
 pth;    rbe3_series_07_rotation_only_dependency.bdf;  SC/1/DISPLACEMENTS/GID/950/RY;;   -0.25;   5e-5%
 pth;    rbe3_series_07_rotation_only_dependency.bdf;  SC/1/DISPLACEMENTS/GID/950/RZ;;    0.4;    5e-5%
-msc;    rbe3_series_07_rotation_only_dependency.bdf;                                                    ;   No really needed but MSC is reassurance.
+msc;    rbe3_series_07_rotation_only_dependency.bdf;                                                    ;   Not really needed but MSC is reassurance.
 
 #  Bug fixed at the same time as #224
 pth;    rbe3_series_02_nonuniform_weight_dbar_bug.bdf;  SC/1/DISPLACEMENTS/GID/900/TX;;  0.3700; 5e-5%  ;   Reference values from Claude. See deck for explanation.
@@ -31,7 +40,7 @@ pth;    rbe3_series_02_nonuniform_weight_dbar_bug.bdf;  SC/1/DISPLACEMENTS/GID/9
 pth;    rbe3_series_02_nonuniform_weight_dbar_bug.bdf;  SC/1/DISPLACEMENTS/GID/900/RX;;  0.2100; 5e-5%
 pth;    rbe3_series_02_nonuniform_weight_dbar_bug.bdf;  SC/1/DISPLACEMENTS/GID/900/RY;; -0.4400; 5e-5%
 pth;    rbe3_series_02_nonuniform_weight_dbar_bug.bdf;  SC/1/DISPLACEMENTS/GID/900/RZ;;  0.6300; 5e-5%
-msc;    rbe3_series_02_nonuniform_weight_dbar_bug.bdf;                                                  ;   No really needed but MSC is reassurance.
+msc;    rbe3_series_02_nonuniform_weight_dbar_bug.bdf;                                                  ;   Not really needed but MSC is reassurance.
 
 # Bugfix for issue #263 - force output was incorrectly zero when S was zero.
 pth;    celas1_force_stress.bdf;        SC/1/ELASFORCES/EID/1;;          -765.4;   5e-5%
