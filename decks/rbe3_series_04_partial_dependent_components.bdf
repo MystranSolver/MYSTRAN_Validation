@@ -1,0 +1,77 @@
+$ =====================================================================
+$ RBE3 TEST SERIES -- Deck 04: PARTIAL DEPENDENCY (translations only)
+$
+$ Exercises a different valid RBE3 configuration (not a bug case):
+$ REFC=123 only, so the reference grid's rotations are NOT part of
+$ this RBE3 at all (left free/governed elsewhere). This is the
+$ classic "distribute a load / average a displacement over a patch
+$ of grids" usage, with no rigid-rotation fitting involved --
+$ REFC=123 means CDOF_D(4),(5),(6) are all '0', so the code never
+$ writes the rotation-coupling terms (DX_BAR/DY_BAR/DZ_BAR) for this
+$ RBE3 at all. The dependent translation is then a PURE weighted
+$ average of the independent grids' translations:
+$   U_D = sum(Wi*Ui) / sum(Wi)
+$
+$ Three independent grids, uniform per-grid weights (1.0, 3.0, 2.0),
+$ arbitrary (non-rigid-body) prescribed translations -- there's no
+$ rigid-body-recovery property to check here since rotations aren't
+$ involved; this is a plain sanity check of the weighted-average
+$ arithmetic itself.
+$
+$ Expected result, grid 700:
+$   T1 = 0.150000   T2 = 0.033333   T3 = 0.158333
+$ (= [1.0*(.10,.20,.30) + 3.0*(.40,-.10,.05) + 2.0*(-.20,.15,.25)] / 6.0)
+$
+$ Both the current (buggy) and a corrected RBE3_PROC.f90 should give
+$ this exact answer -- confirms the weighted-average machinery itself
+$ (WT6, WRITE_L1J_123) is independent of, and unaffected by, either
+$ of the two known bugs.
+$ =====================================================================
+SOL 101
+CEND
+DISP = ALL
+SPC = 1
+BEGIN BULK
+$
+GRID,700,,0.,0.,0.
+$
+GRID,701,,2.0,0.0,0.0
+GRID,702,,0.0,2.0,0.0
+GRID,703,,-2.0,-1.0,0.0
+$
+GRID,600,,5.,5.,5.
+GRID,601,,6.,5.,5.
+MAT1,1,1.,,0.
+PROD,1,1,1.
+CROD,97,1,600,601
+$
+$ REFC = 123 only -- rotations of grid 700 are not dependent here.
+RBE3    20              700     123     1.0     123     701     3.0     +A1
++A1     123     702     2.0     123     703
+$
+SPC,1,701,1,0.10
+SPC,1,701,2,0.20
+SPC,1,701,3,0.30
+SPC,1,701,456,0.
+$
+SPC,1,702,1,0.40
+SPC,1,702,2,-0.10
+SPC,1,702,3,0.05
+SPC,1,702,456,0.
+$
+SPC,1,703,1,-0.20
+SPC,1,703,2,0.15
+SPC,1,703,3,0.25
+SPC,1,703,456,0.
+$
+$ Grid 700's rotations aren't part of this RBE3 -- fix them
+$ externally so the model is well posed.
+SPC,1,700,456,0.
+$
+SPC,1,600,123456,0.
+$ (grid 601 deliberately left unconstrained -- gives the model a
+$  genuine free DOF so MSC Nastran has an L-set to solve; it's an
+$  unloaded dummy CROD end, disconnected from the RBE3 under test, so
+$  this has no effect on the RBE3 results.)
+$
+ENDDATA
