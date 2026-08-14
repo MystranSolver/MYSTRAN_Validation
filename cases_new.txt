@@ -2,6 +2,22 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# Bug introduced in commit 6a768bb which was is a fix for omitted dependent DOFs
+# Sloppy tolerances are probably due to 4-digit grid point coordinates.
+pth;    rbe3_bug6_stress_F02_omit_T2.bdf;  SC/1/DISPLACEMENTS/GID/900/TX;;  0.1394;     1e-3%  ;   Reference values from Claude. See deck for explanation.
+pth;    rbe3_bug6_stress_F02_omit_T2.bdf;  SC/1/DISPLACEMENTS/GID/900/TZ;; -0.225;      1e-2%
+pth;    rbe3_bug6_stress_F02_omit_T2.bdf;  SC/1/DISPLACEMENTS/GID/900/RX;; -0.1661;     1e-2%
+pth;    rbe3_bug6_stress_F02_omit_T2.bdf;  SC/1/DISPLACEMENTS/GID/900/RY;;  0.1419;     1e-3%
+pth;    rbe3_bug6_stress_F02_omit_T2.bdf;  SC/1/DISPLACEMENTS/GID/900/RZ;;  0.106;      1e-3%
+
+# Bug introduced in commit 6a768bb which was is a fix for omitted dependent DOFs
+# Sloppy tolerances are probably due to 4-digit grid point coordinates.
+pth;    rbe3_bug6_stress_F04_omit_R1.bdf;  SC/1/DISPLACEMENTS/GID/900/TX;;  0.1394;     1e-3%  ;   Reference values from Claude. See deck for explanation.
+pth;    rbe3_bug6_stress_F04_omit_R1.bdf;  SC/1/DISPLACEMENTS/GID/900/TY;; -0.475;      1e-4%
+pth;    rbe3_bug6_stress_F04_omit_R1.bdf;  SC/1/DISPLACEMENTS/GID/900/TZ;; -0.225;      1e-2%
+pth;    rbe3_bug6_stress_F04_omit_R1.bdf;  SC/1/DISPLACEMENTS/GID/900/RY;;  0.1419;     1e-3%
+pth;    rbe3_bug6_stress_F04_omit_R1.bdf;  SC/1/DISPLACEMENTS/GID/900/RZ;;  0.106;      1e-3%
+
 #  Bug when some dependent DOFs are excluded.
 msc;    rbe3_series_04_partial_dependent_components.bdf
 
