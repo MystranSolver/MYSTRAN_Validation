@@ -1,0 +1,61 @@
+$ =====================================================================
+$ RBE3 BUG #6 STRESS TEST -- Deck F04: single component omitted (R1)
+$
+$ REFC=12356  (components [4] OMITTED from REFC)
+$
+$ All independent grids (901-905) are driven to the SAME underlying
+$ rigid-body field, shared across this entire deck family:
+$   U0    = (0.1394, -0.475, -0.225)
+$   omega = (-0.1661, 0.1419, 0.106)
+$ Random positions, random per-grid Ci (subset of translation comps
+$ 1/2/3 only -- no independent-grid rotation), random weights.
+$
+$ Per Bug #6's core finding, REFC only controls which of the 6
+$ solved rigid-body components are OUTPUT -- the full 6-DOF coupled
+$ system is always solved internally. So the expected output here is
+$ simply the REFC-selected subset of the SAME (U0, omega) above,
+$ regardless of which components this specific deck omits.
+$
+$ Expected, grid 900: T1=0.1394, T2=-0.475, T3=-0.225, R2=0.1419, R3=0.106
+$ =====================================================================
+SOL 101
+CEND
+DISP = ALL
+SPC = 1
+BEGIN BULK
+GRID,900,,0.,0.,0.
+GRID,901,,1.961,-2.065,-0.39
+GRID,902,,-2.351,-1.407,0.027
+GRID,903,,-2.367,-1.506,0.749
+GRID,904,,0.225,-1.398,0.446
+GRID,905,,1.547,-2.468,1.529
+GRID,800,,10.,10.,10.
+GRID,801,,11.,10.,10.
+MAT1,1,1.,,0.
+PROD,1,1,1.
+CROD,90,1,800,801
+$
+RBE3    10              900     12356   1.98    23      901     1.04    +A1     
++A1     3       902     1.68    123     903     1.83    1       904     +A2     
++A2     3.47    3       905
+$
+SPC,1,901,2,-0.331913
+SPC,1,901,3,-0.160269
+SPC,1,901,1456,0.
+SPC,1,902,3,0.34231
+SPC,1,902,12456,0.
+SPC,1,903,1,0.405319
+SPC,1,903,2,-0.601493
+SPC,1,903,3,0.361024
+SPC,1,903,456,0.
+SPC,1,904,1,0.350875
+SPC,1,904,23456,0.
+SPC,1,905,3,-0.034585
+SPC,1,905,12456,0.
+$
+SPC,1,900,4,0.
+$
+SPC,1,800,123456,0.
+$ (grid 801 deliberately left unconstrained -- free DOF for the solver)
+$
+ENDDATA
