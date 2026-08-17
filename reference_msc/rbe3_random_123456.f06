@@ -1,0 +1,333 @@
+1
+ 
+ 
+ 
+ 
+                      Warning: This computer program is protected by copyright law and international treaties.       
+                  Unauthorized use, reproduction or distribution of this computer program, or any portion of it, may 
+                                          result in severe civil and criminal penalties.                             
+                         Copyright (C) 2025 Hexagon AB and/or its subsidiaries. All rights reserved.                 
+ 
+ 
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * *                                 * *
+                                              * *           Hexagon AB            * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *      M S C   N a s t r a n      * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *     Version 2025.2-f6092448     * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *                                 * *
+                                              * *          NOV 20, 2025           * *
+                                              * *                                 * *
+                                              * *              Intel              * *
+                                              * *MODEL Intel(R) Xeon(R) W-2223 CP * *
+                                              * *      Windows 11 10.0 26200      * *
+                                              * *        Compiled for 8664        * *
+                                              * *                                 * *
+                                              * * * * * * * * * * * * * * * * * * * *
+                                              * * * * * * * * * * * * * * * * * * * *
+1News file
+  
+               Welcome to MSC Nastran 2025.2
+  
+   MSC Nastran brings powerful new features and enhancements for engineering
+   solutions in several releases through the year. Key enhancements in
+   Version 2025.2 are summarized below. Additional details can be found in
+   the MSC Nastran Version 2025.2 Release Guide.
+  
+     MSC Nastran 2025.2 Features and Enhancements
+  
+     Aeroelasticity
+     - Mach1+ New Supersonic Panel Method now available in all aeroelasticity
+       solutions
+  
+     SOL 400 Nonlinear (NLPERF) New Features and Enhancements
+     - GPFORCE and ESE output for Nonlinear Statics and Nonlinear Transient
+       analysis
+     - Nonlinear transient analysis support
+     - Enforced motion (SPCD/SPCR) with the Arc-Length Method
+     - Contact support with the Arc-Length Method
+     - Arbitrary DOF combination for all rigid elements
+     - MSC Nastran (NLSTATIC) -Adams Co-simulation enabled
+     - Improved contact output control
+     - Element formulation summary output
+     - Expanded total energy report
+     - CGAP contact result output
+  
+     SOL 400 Nonlinear (CNLS)
+     - MSC Nastran-scFlow Co-Simulation supports multiple interface group
+       definitions
+  
+     High Performance Computing (HPC)
+     - MUMPS linear solver added for frequency and transient response
+     - UMFPack unsymmetric solver retired
+  
+     SOL 200 NEO Topology Optimization Enhancements
+     - Dynamic response optimization with displacement (FRDISP) constraints
+     - Enhanced optimizer for natural frequency/eigenvalue constraints
+     - Maximum displacement constraint for design and non-design regions
+  
+     Linear
+     - Linear Gap element introduced in SOL 101 (Statics)
+     - Angled double-sided PBARL/PBEAML stiffener definition
+  
+     Frequency Analysis
+     - MONPNT3 monitor point supported added in SOL 111 Random Response analysis
+     - Frequency-dependent scaling for PBUSH via PBUSHT tables
+     - Option to export structural damping matrix to AVL EXB file.
+  
+1    Rotor Dynamics
+     - DMIG rotor matrices input at unit speed allowing frequency dependent
+       and speed scaling entry for all rotor dynamic analysis. Supported in
+       complex eigenvalue analysis and unbalance response in linear and
+       nonlinear frequency and time domains
+     - Bush element supports 6x6 frequency-dependent stiffness and damping
+  
+     Documentation
+     - The complete documentation set is provided in a separate installer and
+       when installed is available at: MSC_DOC_DIR/doc/pdf_nastran directory,
+       where MSC_DOC_DIR is the directory where documentation was installed.
+       This help set includes cross references between documents, and links to
+       how-to videos, and example files
+  
+     Individual MSC Nastran documents are available for download from the
+       Simcompanion Website at:
+       http://simcompanion.hexagon.com/
+  
+     The documentation set includes the following:
+  
+         1.  MSC Nastran 2025.2 Installation and Operations Guide
+         2.  MSC Nastran 2025.2 Quick Reference Guide
+         3.  MSC Nastran 2025.2 Release Guide
+         4.  MSC Nastran 2025.2 Linear Statics Analysis User's Guide
+         5.  MSC Nastran 2025.2 Dynamic Analysis User's Guide
+         6.  MSC Nastran 2025.2 Superelements User's Guide
+         7.  MSC Nastran 2025.2 Rotor Dynamics User's Guide
+         8.  MSC Nastran 2025.2 Demonstration Problems Manual
+         9.  MSC Nastran 2025.2 MSC Nastran Embedded Fatigue User's Guide
+        10.  MSC Nastran 2025.2 Design Sensitivity and Optimization
+        11.  MSC Nastran 2025.2 Nonlinear User's Guide SOL 400
+        12.  MSC Nastran 2025.2 DMAP Programmer's Guide
+        13.  MSC Nastran 2025.2 High Performance Computing User's Guide
+        14.  MSC Nastran 2025.2 New Verification Manual
+        15.  MSC Nastran 2025.2 DEMATD Guide
+        16.  MSC Nastran 2025.2 Explicit Nonlinear (SOL 700) User's Guide
+        17.  MSC Nastran 2025.2 ACMS User's Guide
+  
+   Please refer to  MSC_DOC_DIR/doc/pdf_nastran/nastran_library.pdf
+   for the complete document set:
+  
+   Additional information about the release can be found at the MSC Nastran
+   Product Support page: http://simcompanion.hexagon.com
+  
+   The support page provides links to these valuable information:
+      * A searchable Knowledge Base containing examples and answers to thousands
+        of frequently asked questions written by MSC Software subject-matter
+        experts.
+      * Peer-to-peer Discussion Forums enabling you to post questions for your
+        MSC Software products and receive answers from other users worldwide.
+1     * A list of known issues with the product and any workarounds.
+      * Instructions on how to contact technical support
+      * A mechanism for sending us product feedback or enhancement requests.
+      * Hardware and software requirements.
+      * Examples and Tutorials
+      * and much more.
+  
+   For information on training, please visit our Training web site
+  
+      https://hexagon.com/support-success/manufacturing-intelligence/
+      design-engineering-support/training-materials
+  
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE     1
+                                                                                                                                    
+0        N A S T R A N    F I L E    A N D    S Y S T E M    P A R A M E T E R    E C H O                                           
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     $ SYSFIELD=SCR*(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.SO
+     $ SYSFIELD=DBALL(RAW=YES,BUFFIO=YES,WNUM=16,WSIZE=16MB) $(C:/PROGRAM FILES/MSC.S
+     NASTRAN BUFFSIZE=65537 $(C:/PROGRAM FILES/MSC.SOFTWARE/MSC_NASTRAN/2025.2/CONF/N
+     NASTRAN PARALLEL=4 $([3])                                                       
+     $ RBE3 WITH:                                                                    
+     $ RANDOM GRID POINT POSITIONS                                                   
+     $ RANDOM WEIGHT ON EACH DOF OF EACH GRID POINT                                  
+     $ RANDOM DISPLACEMENT COORDINATE SYSTEM FOR EACH GRID POINT                     
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE     2
+                                                                                                                                    
+0        N A S T R A N    E X E C U T I V E    C O N T R O L    E C H O                                                             
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     SOL 101                                                                                 
+     TIME 10                                                                                 
+     CEND                                                                                    
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE     3
+                                                                                                                                    
+0                                                                                                                                   
+0                                        C A S E    C O N T R O L    E C H O                                                        
+                 COMMAND                                                                                                            
+                 COUNT                                                                                                              
+                  1      $-------------------------------------------------------------------                    
+                  2      ECHO     = NONE                                                                         
+                  3      DISPLACEMENT(PRINT) = ALL                                                               
+                  4      SPCFORCES(PRINT)    = ALL                                                               
+                  5      ELFORCE(PRINT)      = ALL                                                               
+                  6      LOAD = 1                                                                                
+                  7      $-------------------------------------------------------------------                    
+                  8      BEGIN BULK                                                                              
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE     4
+                                                                                                                                    
+0                                                                                                                                   
+                                        M O D E L   S U M M A R Y          BULK = 0
+                                   ENTRY NAME        NUMBER OF ENTRIES
+                                   ----------        -----------------
+                                       CELAS2                       36
+                                       CORD2R                        7
+                                        FORCE                        1
+                                         GRID                       13
+                                       MOMENT                        1
+                                        PARAM                        1
+                                         RBE3                        1
+
+ ^^^     
+ ^^^ >>> IFP OPERATIONS COMPLETE <<< 
+ ^^^     
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE     5
+                                                                                                                                    
+0                                                                                                                                   
+ *** USER INFORMATION MESSAGE 7310 (VECPRN)
+     ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM WILL BE USED AS REFERENCE LOCATION.
+     RESULTANTS ABOUT ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM IN SUPERELEMENT OR MODULE
+     BASIC SYSTEM COORDINATES.
+0                                                  OLOAD    RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX   -6.450000E+01     ----          ----          ----      -4.344897E+01 -9.197068E+00                             
+               FY       ----      -8.672000E+02     ----       5.841697E+02     ----      -2.037788E+02                             
+               FZ       ----          ----      -7.900000E+02  1.126463E+02  1.856380E+02     ----                                  
+               MX       ----          ----          ----       2.358500E+02     ----          ----                                  
+               MY       ----          ----          ----          ----       1.424500E+02     ----                                  
+               MZ       ----          ----          ----          ----          ----      -2.040500E+02                             
+             TOTALS -6.450000E+01 -8.672000E+02 -7.900000E+02  9.326660E+02  2.846391E+02 -4.170259E+02
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE     6
+                                                                                                                                    
+0                                                                                                                                   
+  
+ *** SYSTEM INFORMATION MESSAGE 4159 (DFMSA)
+     THE DECOMPOSITION OF KLL      YIELDS A MAXIMUM MATRIX-TO-FACTOR-DIAGONAL RATIO OF    1.000000E+00
+ ^^^     
+ *** USER INFORMATION MESSAGE 15201 (SUBDMAP SEKRRS)
+      Condition number of stiffness matrix = 1.000000E+00
+ ^^^     
+ *** USER INFORMATION MESSAGE 5293 (SSG3B)
+    FOR DATA BLOCK KLL     
+    LOAD SEQ. NO.             EPSILON              EXTERNAL WORK      EPSILONS LARGER THAN 0.001 ARE FLAGGED WITH ASTERISKS
+                1          2.0147787E-17          6.3338392E+02
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE     7
+                                                                                                                                    
+0                                                                                                                                   
+ *** USER INFORMATION MESSAGE 7310 (VECPRN)
+     ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM WILL BE USED AS REFERENCE LOCATION.
+     RESULTANTS ABOUT ORIGIN OF SUPERELEMENT OR MODULE BASIC COORDINATE SYSTEM IN SUPERELEMENT OR MODULE
+     BASIC SYSTEM COORDINATES.
+0                                                  SPCFORCE RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX    6.095006E+02     ----          ----          ----       0.000000E+00  0.000000E+00                             
+               FY       ----      -8.529196E+02     ----       0.000000E+00     ----       0.000000E+00                             
+               FZ       ----          ----      -4.211958E+01  0.000000E+00  0.000000E+00     ----                                  
+               MX       ----          ----          ----       6.889611E+01     ----          ----                                  
+               MY       ----          ----          ----          ----       3.887807E+02     ----                                  
+               MZ       ----          ----          ----          ----          ----      -8.509362E+01                             
+             TOTALS  6.095006E+02 -8.529196E+02 -4.211958E+01  6.889611E+01  3.887807E+02 -8.509362E+01
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE     8
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                                             D I S P L A C E M E N T   V E C T O R
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+             1      G      6.345608E-01   2.115426E-01  -5.707736E-01  -7.261580E-01  -2.669883E-01  -4.473125E-01
+           101      G      5.830779E-02   1.504413E-01   2.525348E-01  -1.893439E-02  -1.258916E-01   1.006489E-01
+           102      G      4.403965E-02   4.108365E-01  -1.539185E-01   1.013569E-01  -4.490380E-02   2.831329E-03
+           103      G     -2.329560E-01  -1.213160E-01   4.664195E-02   3.771239E-03   8.205183E-02   1.193313E-03
+           104      G     -1.672219E-01   3.765985E-01   4.340764E-01  -5.025666E-02  -2.237479E-01  -5.056674E-02
+           105      G     -1.316225E-02   2.808436E-01  -4.542504E-01  -3.101265E-02  -6.657906E-02   9.521329E-03
+           106      G     -2.985080E-01  -2.444843E-01  -8.296462E-02  -7.382056E-02  -9.710132E-03   2.146551E-02
+           201      G      0.0            0.0            0.0            0.0            0.0            0.0
+           202      G      0.0            0.0            0.0            0.0            0.0            0.0
+           203      G      0.0            0.0            0.0            0.0            0.0            0.0
+           204      G      0.0            0.0            0.0            0.0            0.0            0.0
+           205      G      0.0            0.0            0.0            0.0            0.0            0.0
+           206      G      0.0            0.0            0.0            0.0            0.0            0.0
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE     9
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                               F O R C E S   O F   S I N G L E - P O I N T   C O N S T R A I N T
+ 
+      POINT ID.   TYPE          T1             T2             T3             R1             R2             R3
+           201      G     -5.830779E+01  -1.504413E+02  -2.525348E+02   1.893439E+01   1.258916E+02  -1.006489E+02
+           202      G     -4.403965E+01  -4.108365E+02   1.539185E+02  -1.013569E+02   4.490380E+01  -2.831329E+00
+           203      G      2.329560E+02   1.213160E+02  -4.664195E+01  -3.771239E+00  -8.205183E+01  -1.193313E+00
+           204      G      1.672219E+02  -3.765985E+02  -4.340764E+02   5.025666E+01   2.237479E+02   5.056674E+01
+           205      G      1.316225E+01  -2.808436E+02   4.542504E+02   3.101265E+01   6.657906E+01  -9.521329E+00
+           206      G      2.985080E+02   2.444843E+02   8.296462E+01   7.382056E+01   9.710132E+00  -2.146551E+01
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE    10
+                                                                                                                                    
+0                                                                                                                                   
+ 
+                              F O R C E S   I N   S C A L A R   S P R I N G S        ( C E L A S 2 )
+      ELEMENT         FORCE            ELEMENT         FORCE            ELEMENT         FORCE            ELEMENT         FORCE
+        ID.                              ID.                              ID.                              ID.
+         1011      5.830779E+01           1012      1.504413E+02           1013      2.525348E+02           1014     -1.893439E+01
+         1015     -1.258916E+02           1016      1.006489E+02           1021      4.403965E+01           1022      4.108365E+02
+         1023     -1.539185E+02           1024      1.013569E+02           1025     -4.490380E+01           1026      2.831329E+00
+         1031     -2.329560E+02           1032     -1.213160E+02           1033      4.664195E+01           1034      3.771239E+00
+         1035      8.205183E+01           1036      1.193313E+00           1041     -1.672219E+02           1042      3.765985E+02
+         1043      4.340764E+02           1044     -5.025666E+01           1045     -2.237479E+02           1046     -5.056674E+01
+         1051     -1.316225E+01           1052      2.808436E+02           1053     -4.542504E+02           1054     -3.101265E+01
+         1055     -6.657906E+01           1056      9.521329E+00           1061     -2.985080E+02           1062     -2.444843E+02
+         1063     -8.296462E+01           1064     -7.382056E+01           1065     -9.710132E+00           1066      2.146551E+01
+1                                                                            AUGUST  17, 2026  MSC Nastran 11/20/25   PAGE    11
+                                                                                                                                    
+0                                                                                                                                   
+ * * * *  D B D I C T   P R I N T  * * * *      SUBDMAP = PRTSUM  ,  DMAP STATEMENT NO.     75
+
+
+
+0                                   * * * *  A N A L Y S I S  S U M M A R Y  T A B L E  * * * *
+0 SEID  PEID PROJ VERS APRCH      SEMG SEMR SEKR SELG SELR MODES DYNRED SOLLIN SOLNL LOOPID DESIGN CYCLE SENSITIVITY
+ -------------------------------------------------------------------------------------------------------------------
+     0     0    1    1 '        '    T    T    T    T    T     F      F      T     F     -1            0           F
+0SEID = SUPERELEMENT ID.
+ PEID = PRIMARY SUPERELEMENT ID OF IMAGE SUPERELEMENT.
+ PROJ = PROJECT ID NUMBER.
+ VERS = VERSION ID.
+ APRCH = BLANK FOR STRUCTURAL ANALYSIS.  HEAT FOR HEAT TRANSFER ANALYSIS.
+ SEMG = STIFFNESS AND MASS MATRIX GENERATION STEP.
+ SEMR = MASS MATRIX REDUCTION STEP (INCLUDES EIGENVALUE SOLUTION FOR MODES).
+ SEKR = STIFFNESS MATRIX REDUCTION STEP.
+ SELG = LOAD MATRIX GENERATION STEP.
+ SELR = LOAD MATRIX REDUCTION STEP. 
+ MODES = T (TRUE) IF NORMAL MODES OR BUCKLING MODES CALCULATED.
+ DYNRED = T (TRUE) MEANS GENERALIZED DYNAMIC AND/OR COMPONENT MODE REDUCTION PERFORMED.
+ SOLLIN = T (TRUE) IF LINEAR SOLUTION EXISTS IN DATABASE.
+ LOOPID = THE LAST LOOPID VALUE USED IN THE NONLINEAR ANALYSIS.  USEFUL FOR RESTARTS.
+ SOLNL = T (TRUE) IF NONLINEAR SOLUTION EXISTS IN DATABASE.
+ DESIGN CYCLE = THE LAST DESIGN CYCLE (ONLY VALID IN OPTIMIZATION).
+ SENSITIVITY = SENSITIVITY MATRIX GENERATION FLAG.
+ 
+ No PARAM values were set in the Control File.
+ 
+1                                        * * * END OF JOB * * *
+ 
+ 
+ No Symbolic Replacement variables or values were specified.
+
