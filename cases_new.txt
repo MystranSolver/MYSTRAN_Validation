@@ -2,6 +2,15 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+
+msc;    rbe3_random_123.bdf;        ; RBE3 with random: GP coordinates, GP CDs, translational DOF weights, 6-dof load on independent GP.
+msc;    rbe3_random_123456.bdf;     ; KNOWNFAIL. Like rbe3_random_123.bdf but with dofs 456 to test rotational dof weight scale factor L_c.
+
+# Confirm how rotated CD on dependent grid points is handled with unequal weights per DOF which
+# reveals differences. Concept from Copper280z
+msc;    RBE3_CD_WT.bdf;                             ; Only 1 high-weight DOF of 1 independent grid point and it has a rotated coordinate system.
+msc;    RBE3_CD_WT_2.bdf;                           ; Same as RBE3_CD_WT but using CELAS2 instead of CBUSH to help it solve in Nastran95.
+
 # Bug introduced in commit 6a768bb which was is a fix for omitted dependent DOFs
 # Sloppy tolerances are probably due to 4-digit grid point coordinates.
 pth;    rbe3_bug6_stress_F02_omit_T2.bdf;  SC/1/DISPLACEMENTS/GID/900/TX;;  0.1394;     1e-3%  ;   Reference values from Claude. See deck for explanation.
@@ -9,6 +18,7 @@ pth;    rbe3_bug6_stress_F02_omit_T2.bdf;  SC/1/DISPLACEMENTS/GID/900/TZ;; -0.22
 pth;    rbe3_bug6_stress_F02_omit_T2.bdf;  SC/1/DISPLACEMENTS/GID/900/RX;; -0.1661;     1e-2%
 pth;    rbe3_bug6_stress_F02_omit_T2.bdf;  SC/1/DISPLACEMENTS/GID/900/RY;;  0.1419;     1e-3%
 pth;    rbe3_bug6_stress_F02_omit_T2.bdf;  SC/1/DISPLACEMENTS/GID/900/RZ;;  0.106;      1e-3%
+msc;    rbe3_bug6_stress_F02_omit_T2.bdf
 
 # Bug introduced in commit 6a768bb which was is a fix for omitted dependent DOFs
 # Sloppy tolerances are probably due to 4-digit grid point coordinates.
@@ -17,6 +27,7 @@ pth;    rbe3_bug6_stress_F04_omit_R1.bdf;  SC/1/DISPLACEMENTS/GID/900/TY;; -0.47
 pth;    rbe3_bug6_stress_F04_omit_R1.bdf;  SC/1/DISPLACEMENTS/GID/900/TZ;; -0.225;      1e-2%
 pth;    rbe3_bug6_stress_F04_omit_R1.bdf;  SC/1/DISPLACEMENTS/GID/900/RY;;  0.1419;     1e-3%
 pth;    rbe3_bug6_stress_F04_omit_R1.bdf;  SC/1/DISPLACEMENTS/GID/900/RZ;;  0.106;      1e-3%
+msc;    rbe3_bug6_stress_F04_omit_R1.bdf
 
 #  Bug when some dependent DOFs are excluded.
 msc;    rbe3_series_04_partial_dependent_components.bdf
@@ -25,7 +36,7 @@ msc;    rbe3_series_04_partial_dependent_components.bdf
 pth;    rbe3_series_06_zero_weight_grid.bdf;  SC/1/DISPLACEMENTS/GID/750/TX;;   0.335339;   1e-3%  ;   Reference values from Claude. See deck for explanation.
 pth;    rbe3_series_06_zero_weight_grid.bdf;  SC/1/DISPLACEMENTS/GID/750/TY;;  -0.035273;   1e-3%
 pth;    rbe3_series_06_zero_weight_grid.bdf;  SC/1/DISPLACEMENTS/GID/750/TZ;;  19.760000;   5e-5%
-msc;    rbe3_series_06_zero_weight_grid.bdf;                                                       ;   KNOWNFAIL waiting for MSC solution. Needed for more precision than reference values above.
+msc;    rbe3_series_06_zero_weight_grid.bdf
 
 #  Rotation DOF on a single independent grid point is transferred directly to the dependent grid point.
 pth;    rbe3_series_05_collinear_indep_rotation_ignored.bdf;  SC/1/DISPLACEMENTS/GID/500/RX;; 0.5;    5e-5%
