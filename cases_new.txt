@@ -2,6 +2,11 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# F06 output for all four combinations of PRINT and PLOT in output requests.
+pth;    print_plot.bdf; SC/1/DISPLACEMENTS/GID/2/TX;;                1e-11;     5e-5%;      DISPLACEMENT(PRINT) = ALL
+pth;    print_plot.bdf; SC/1/SPCFORCES/GID/1/TX;        ABSENT;      0;         0;          SPCFORCES(PLOT) = ALL does not request F06 output
+pth;    print_plot.bdf; SC/1/SHELLSTRESSES/EID/1/CORNER/0/Z1/XX;;    10;        5e-5%;      STRESS(PRINT,PLOT) = ALL
+pth;    print_plot.bdf; SC/1/SHELLFORCES/EID/1/CORNER/0/NXX;;        1;         5e-5%;      FORCE() = ALL
 
 msc;    rbe3_random_123.bdf;        ; RBE3 with random: GP coordinates, GP CDs, translational DOF weights, 6-dof load on independent GP.
 msc;    rbe3_random_123456.bdf;     ; KNOWNFAIL. Like rbe3_random_123.bdf but with dofs 456 to test rotational dof weight scale factor L_c.
