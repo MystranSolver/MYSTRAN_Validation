@@ -2,6 +2,11 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+
+# Confirm fix for issue https://github.com/MystranSolver/MYSTRANSolver/issues/196
+pth;    pload4_bulk_data_load.bdf;  SC/1/DISPLACEMENTS/GID/2/RY;;    0.0;                       1e-15;      By symmetry if the PLOAD4 is the same as the PLOAD2.
+pth;    pload4_bulk_data_load.bdf;  SC/1/SPCFORCES/GID/1/TZ;;        3.0e3 * 7.0 * 1.5 / 4;     5e-5%;      Multipliers in BD LOAD entry.
+
 # F06 output for all four combinations of PRINT and PLOT in output requests.
 pth;    print_plot.bdf; SC/1/DISPLACEMENTS/GID/2/TX;;                1e-11;     5e-5%;      DISPLACEMENT(PRINT) = ALL
 pth;    print_plot.bdf; SC/1/SPCFORCES/GID/1/TX;        ABSENT;      0;         0;          SPCFORCES(PLOT) = ALL does not request F06 output
