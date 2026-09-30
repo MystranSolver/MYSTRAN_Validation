@@ -2,6 +2,45 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# Reference solution from MSC and Abaqus
+pth;    thermal_cyl_00_quad4.bdf;   SC/1/DISPLACEMENTS/GID/10/TX;;                  0.003;  5e-5%
+pth;    thermal_cyl_00_quad4.bdf;   SC/1/DISPLACEMENTS/GID/10/TY;;                 -0.003;  5e-5%
+pth;    thermal_cyl_00_quad4.bdf;   SC/1/DISPLACEMENTS/GID/10/TZ;;                  0.005;  5e-5%
+# Stress should be zero
+pth;    thermal_cyl_00_quad4.bdf;   SC/1/SHELLSTRESSES/EID/8/CORNER/3/Z1/XX;;       0;     0.001
+pth;    thermal_cyl_00_quad4.bdf;   SC/1/SHELLSTRESSES/EID/8/CORNER/3/Z1/YY;;       0;     0.001
+pth;    thermal_cyl_00_quad4.bdf;   SC/1/SHELLSTRESSES/EID/8/CORNER/3/Z1/XY;;       0;     0.0001
+pth;    thermal_cyl_00_quad4.bdf;   SC/1/SHELLFORCES/EID/8/CORNER/3/QX;;            0;     1e-7
+pth;    thermal_cyl_00_quad4.bdf;   SC/1/SHELLFORCES/EID/8/CORNER/3/QY;;            0;     1e-7
+
+# Reference solution from MSC and Abaqus
+pth;    thermal_cyl_45_quad4.bdf;   SC/1/DISPLACEMENTS/GID/10/TX;;                  0.00802;    0%; KNOWNFAIL
+pth;    thermal_cyl_45_quad4.bdf;   SC/1/DISPLACEMENTS/GID/10/TY;;                 -0.009996;   0%; KNOWNFAIL
+pth;    thermal_cyl_45_quad4.bdf;   SC/1/DISPLACEMENTS/GID/10/TZ;;                 -0.0143;     0%; KNOWNFAIL
+# Stress should be zero
+pth;    thermal_cyl_45_quad4.bdf;   SC/1/SHELLSTRESSES/EID/8/CORNER/3/Z1/XX;;       0;     1e-4
+pth;    thermal_cyl_45_quad4.bdf;   SC/1/SHELLSTRESSES/EID/8/CORNER/3/Z1/YY;;       0;     1e-2
+pth;    thermal_cyl_45_quad4.bdf;   SC/1/SHELLSTRESSES/EID/8/CORNER/3/Z1/XY;;       0;     1e-2
+pth;    thermal_cyl_45_quad4.bdf;   SC/1/SHELLFORCES/EID/8/CORNER/3/QX;;            0;     1e-6
+pth;    thermal_cyl_45_quad4.bdf;   SC/1/SHELLFORCES/EID/8/CORNER/3/QY;;            0;     1e-6
+
+# Reference solution from MSC and Abaqus
+pth;    thermal_cyl_45_quad4_fine.bdf;   SC/1/DISPLACEMENTS/GID/10/TX;;                  0.00802;    0%; KNOWNFAIL
+pth;    thermal_cyl_45_quad4_fine.bdf;   SC/1/DISPLACEMENTS/GID/10/TY;;                 -0.009996;   0%; KNOWNFAIL
+pth;    thermal_cyl_45_quad4_fine.bdf;   SC/1/DISPLACEMENTS/GID/10/TZ;;                 -0.0143;     0%; KNOWNFAIL
+# Stress should be zero
+pth;    thermal_cyl_45_quad4_fine.bdf;   SC/1/SHELLSTRESSES/EID/8/CORNER/3/Z1/XX;;       0;     1e-2
+pth;    thermal_cyl_45_quad4_fine.bdf;   SC/1/SHELLSTRESSES/EID/8/CORNER/3/Z1/YY;;       0;     1e-2
+pth;    thermal_cyl_45_quad4_fine.bdf;   SC/1/SHELLSTRESSES/EID/8/CORNER/3/Z1/XY;;       0;     1e-2
+pth;    thermal_cyl_45_quad4_fine.bdf;   SC/1/SHELLFORCES/EID/8/CORNER/3/QX;;            0;     1e-5
+pth;    thermal_cyl_45_quad4_fine.bdf;   SC/1/SHELLFORCES/EID/8/CORNER/3/QY;;            0;     1e-5
+
+# Reference solution from MSC and Abaqus
+pth;    thermal_sphere_quad4.bdf;   SC/1/DISPLACEMENTS/GID/89/TX;;                  0.00051;    0.4%
+pth;    thermal_sphere_quad4.bdf;   SC/1/DISPLACEMENTS/GID/89/TY;;                  0.0037;     0.1%
+pth;    thermal_sphere_quad4.bdf;   SC/1/DISPLACEMENTS/GID/89/TZ;;                  0.00041;    1%
+
+
 
 # Confirm fix for issue https://github.com/MystranSolver/MYSTRANSolver/issues/196
 pth;    pload4_bulk_data_load.bdf;  SC/1/DISPLACEMENTS/GID/2/RY;;    0.0;                       1e-15;      By symmetry if the PLOAD4 is the same as the PLOAD2.
