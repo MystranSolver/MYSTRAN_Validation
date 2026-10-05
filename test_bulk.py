@@ -112,7 +112,7 @@ def test_bulk(root_dir: Path,
     if test_case.test_type == "mys":
         reference_f06_path = (root_dir / "reference_mystran" / test_case.deck_filename).with_suffix(".F06").resolve()
     elif test_case.test_type == "msc":
-        reference_f06_path = (root_dir / "reference_msc" / test_case.deck_filename).with_suffix(".f06").resolve()
+        reference_f06_path = (root_dir / "reference_msc" / test_case.deck_filename.lower()).with_suffix(".f06").resolve()
 
     # Read f06 files
     try:
