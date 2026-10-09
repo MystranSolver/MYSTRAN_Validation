@@ -1,5 +1,7 @@
 $ Same as 02 with PSOLID IN=TWO, ISOP=REDUCED. MYSTRAN 3a5913a: 0.01562 at
-$ nodes 13-16 (3.9% high, symmetric).
+$ nodes 13-16 (3.9% high, symmetric)....
+$ except it has a single ux=0.015 constraint on one of the vertical midside nodes
+$ because otherwise it's singular.
 SOL 101
 CEND
 SUBCASE 1
@@ -68,6 +70,7 @@ SPC            1      11       3      0.
 SPC            1      12       1     0.0
 SPC            1      12       2      0.
 SPC            1      12       3      0.
+SPC            1      13       1   0.015
 SPC            1      13       2      0.
 SPC            1      13       3      0.
 SPC            1      14       2      0.
