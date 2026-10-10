@@ -360,3 +360,10 @@ pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZZ; ; 2.00000000e+03; 0.1%; 
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XY; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YZ; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZX; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+
+# Scalar masses at their own DOF: scalar point IDs below the grids, two masses at one DOF, a CMASS2 on a grid T3.
+# Hand eigenvalues k / m: 3, 4, 5, 8.
+pth;    scalar_masses_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/1/EIGENVALUE;;   3.0;   1e-4%
+pth;    scalar_masses_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/2/EIGENVALUE;;   4.0;   1e-4%
+pth;    scalar_masses_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/3/EIGENVALUE;;   5.0;   1e-4%
+pth;    scalar_masses_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/4/EIGENVALUE;;   8.0;   1e-4%
