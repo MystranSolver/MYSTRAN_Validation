@@ -1,0 +1,35 @@
+$ A 2 x 5 CQUAD4 strip clamped at grids 1 and 101, with ASET1 345 on the free grids 2-6 and 102-106: their T1, T2
+$ and R3 (drilling) are omitted, and AUTOSPC then holds the drilling DOFs. Static condensation is exact, so
+$ the displacements must equal those of the same strip without the ASET1 (the expected values in cases_new.txt).
+SOL 101
+CEND
+DISPLACEMENT = ALL
+SPC = 1
+LOAD = 1
+BEGIN BULK
+GRID    1               0.0     0.      0.
+GRID    101             0.0     1.      0.
+GRID    2               1.0     0.      0.
+GRID    102             1.0     1.      0.
+GRID    3               2.0     0.      0.
+GRID    103             2.0     1.      0.
+GRID    4               3.0     0.      0.
+GRID    104             3.0     1.      0.
+GRID    5               4.0     0.      0.
+GRID    105             4.0     1.      0.
+GRID    6               5.0     0.      0.
+GRID    106             5.0     1.      0.
+CQUAD4  1       1       1       2       102     101     
+CQUAD4  2       1       2       3       103     102     
+CQUAD4  3       1       3       4       104     103     
+CQUAD4  4       1       4       5       105     104     
+CQUAD4  5       1       5       6       106     105     
+PSHELL  1       1       0.05    1               1
+MAT1    1       7.E10           0.3     2700.
+SPC1    1       123456  1       101
+FORCE   1       6       0       100.    0.      0.      1.
+FORCE   1       106     0       100.    0.      0.      1.
+FORCE   1       4       0       50.     1.      0.      0.
+ASET1   345     2       THRU    6
+ASET1   345     102     THRU    106
+ENDDATA
