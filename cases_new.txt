@@ -360,3 +360,10 @@ pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZZ; ; 2.00000000e+03; 0.1%; 
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XY; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YZ; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZX; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+
+# SPC1 ID list mixing "ID1 THRU ID2" with single IDs and a continuation: every ID is held, and the free spans match
+# the clamped-beam hand values P a^3 b^3 / (3 E I L^3) and P L^3 / (192 E I).
+pth;    spc1_thru_mixed.bdf;   SC/1/DISPLACEMENTS/GID/5/TZ;;   0;   1e-15
+pth;    spc1_thru_mixed.bdf;   SC/1/DISPLACEMENTS/GID/7/TZ;;   0;   1e-15
+pth;    spc1_thru_mixed.bdf;   SC/1/DISPLACEMENTS/GID/4/TZ;;   9.8765432e-6;   1e-4%
+pth;    spc1_thru_mixed.bdf;   SC/1/DISPLACEMENTS/GID/6/TZ;;   4.1666667e-6;   1e-4%

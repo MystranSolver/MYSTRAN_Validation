@@ -1,0 +1,31 @@
+$ SPC1 with an ID list that mixes a THRU range with single IDs, on the parent line and a continuation:
+$ "1 THRU 2, 5" and then "7". Grids 1, 2, 5 and 7 are held in all six components; grids 5 and 7 must not move.
+$ A reader that takes only "ID1 THRU ID2" drops 5 and 7, and the beam then moves there.
+SOL 101
+CEND
+TITLE = SPC1 MIXED THRU LIST
+SPC = 1
+LOAD = 1
+DISP = ALL
+SPCFORCE = ALL
+BEGIN BULK
+GRID,1,,0.,0.,0.
+GRID,2,,1.,0.,0.
+GRID,3,,2.,0.,0.
+GRID,4,,3.,0.,0.
+GRID,5,,4.,0.,0.
+GRID,6,,5.,0.,0.
+GRID,7,,6.,0.,0.
+CBAR,1,1,1,2,0.,1.,0.
+CBAR,2,1,2,3,0.,1.,0.
+CBAR,3,1,3,4,0.,1.,0.
+CBAR,4,1,4,5,0.,1.,0.
+CBAR,5,1,5,6,0.,1.,0.
+CBAR,6,1,6,7,0.,1.,0.
+PBAR,1,1,1.,0.1,0.1,0.2
+MAT1,1,1.E7,,0.3
+SPC1,1,123456,1,THRU,2,5,,,+S1
++S1,7
+FORCE,1,4,,100.,0.,0.,1.
+FORCE,1,6,,100.,0.,0.,1.
+ENDDATA
