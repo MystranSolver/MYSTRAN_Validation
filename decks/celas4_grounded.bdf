@@ -1,0 +1,12 @@
+$ A grounded scalar spring: CELAS4 with its second point blank is a spring k = 10 from scalar point 1001 to ground.
+$ A unit SLOAD on 1001 gives u = 1 / 10 = 0.1 (hand value).
+SOL 101
+CEND
+TITLE = GROUNDED CELAS4
+LOAD = 1
+DISPLACEMENT = ALL
+BEGIN BULK
+SPOINT,1001
+CELAS4,1,10.,1001
+SLOAD,1,1001,1.
+ENDDATA
