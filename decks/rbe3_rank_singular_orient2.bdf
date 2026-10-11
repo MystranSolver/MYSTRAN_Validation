@@ -1,0 +1,26 @@
+$ An RBE3 that does not determine its reference grid: REFC 123, two weighting grids with 123, the reference grid 0.01
+$ off the line through them, so rotation about that line is free. Rotated here to an orientation that current MYSTRAN
+$ dev accepts (it solves 14 of 24 orientations of this element and rejects 10). The run must stop (ERROR 1957) and
+$ write no displacements.
+SOL 101
+CEND
+TITLE = RBE3 RANK ORIENTATION 2
+ECHO = NONE
+SUBCASE 1
+  LOAD = 1
+  SPC = 1
+  DISPLACEMENT = ALL
+BEGIN BULK
+GRID    1001            0.      0.      0.              123456
+GRID    1002            0.1     0.      0.              123456
+GRID    1003            0.05    0.0045360.008912
+RBE3    1001            1003    123     1.      123     1001    1002    
+FORCE   1       1003    0       1.      1.      1.      1.
+SPC1    1       123456  999999
+GRID    999998          8.      9.      9.              123456
+GRID    999999          9.      9.      9.              123456
+CROD    1       1       999998  999999
+MAT1    1       7.0E10          0.33    2700.
+PROD    1       1       1.0E-4
+PARAM   AUTOSPC YES
+ENDDATA
