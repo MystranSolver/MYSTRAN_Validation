@@ -1,0 +1,18 @@
+$ An MPC with a scalar point as its independent term: GRID 1 T3 = u(1002). Scalar point 1002 is on a spring k = 10 to
+$ the held scalar point 1001, with a unit SLOAD on it, so u(1002) = 1 / 10 = 0.1 and GRID 1 T3 = 0.1 (hand values).
+$ A scalar-point term read at the wrong DOF ties GRID 1 T3 to the held point 1001 (0) instead.
+SOL 101
+CEND
+TITLE = MPC WITH A SCALAR POINT AS INDEPENDENT TERM
+SPC = 1
+MPC = 1
+LOAD = 1
+DISPLACEMENT = ALL
+BEGIN BULK
+GRID,1,,0.,0.,0.,,12456
+SPOINT,1001,1002
+SPC1,1,0,1001
+CELAS4,11,10.,1002,1001
+MPC,1,1,3,1.,1002,0,-1.
+SLOAD,1,1002,1.
+ENDDATA
