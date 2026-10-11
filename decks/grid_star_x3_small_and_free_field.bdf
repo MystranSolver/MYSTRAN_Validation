@@ -1,0 +1,24 @@
+$ A large field GRID* (ID, CP, X1, X2 on its first line) whose X3 is on the next line, written in small field (grid 2)
+$ and in free field (grid 3). Each ends a CROD from grid 1; only its x motion is free. Under a unit x load each must move
+$ u = P L / (E A cos^2(theta)) = 1.9964893E-07, with L = sqrt(100^2 + 50^2). If the X3 line is lost the rod is 100 long
+$ and u = 1.4285714E-07, with no message.
+SOL 101
+CEND
+TITLE = GRID* WITH X3 ON A SMALL FIELD AND A FREE FIELD LINE
+SPC = 1
+LOAD = 1
+DISPLACEMENT = ALL
+BEGIN BULK
+GRID    1               0.      0.      0.              123456
+GRID*   2                               100.            0.              
++       50.
+GRID*   3                               100.            0.              
++,50.
+CROD    1       1       1       2
+CROD    2       1       1       3
+PROD    1       1       0.01
+MAT1    1       7.E10           0.3
+SPC1    1       23456   2       3
+FORCE   1       2       0       1.      1.      0.      0.
+FORCE   1       3       0       1.      1.      0.      0.
+ENDDATA
