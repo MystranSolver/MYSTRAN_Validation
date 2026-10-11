@@ -1,0 +1,24 @@
+$ One 10-node CTETRA listed with G1, G2, G3 clockwise seen from G4 (corners 1 3 2 4).
+$ Both orders must give the same displacements: those of the counterclockwise listing (the expected values in
+$ cases_new.txt), whose grid 4 moves (3.0E-2, 3.0E-2, 3.6E-2).
+SOL 101
+CEND
+LOAD = 1
+DISP = ALL
+BEGIN BULK
+GRID,1,,0.0,0.0,0.0,,123456
+GRID,2,,1.0,0.0,0.0,,23
+GRID,3,,0.0,1.0,0.0,,3
+GRID,4,,0.0,0.0,1.0,,
+GRID,113,,0.0,0.5,0.0,,
+GRID,123,,0.5,0.5,0.0,,
+GRID,112,,0.5,0.0,0.0,,
+GRID,114,,0.0,0.0,0.5,,
+GRID,134,,0.0,0.5,0.5,,
+GRID,124,,0.5,0.0,0.5,,
+CTETRA,1,1,1,3,2,4,113,123,
+,112,114,134,124
+PSOLID,1,1
+MAT1,1,1000.,,0.3
+FORCE,1,4,,1.,0.,0.,1.
+ENDDATA
