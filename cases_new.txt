@@ -360,3 +360,11 @@ pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZZ; ; 2.00000000e+03; 0.1%; 
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XY; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YZ; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZX; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+
+# CBUSH forces with its grids in a rotated output system: they must equal the load (30, 50, 80, 6, 0, 8).
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/TX;;   30.;   1e-4%
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/TY;;   50.;   1e-4%
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/TZ;;   80.;   1e-4%
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/RX;;   6.;   1e-4%
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/RY;;   0;   1e-12
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/RZ;;   8.;   1e-4%
