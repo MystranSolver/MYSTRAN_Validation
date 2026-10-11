@@ -360,3 +360,10 @@ pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZZ; ; 2.00000000e+03; 0.1%; 
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XY; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YZ; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZX; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+
+# Scalar points listed more than once (out of order, between GRIDs, by THRU): one scalar point each. A chain of springs
+# of 1000 with a unit load: u31, u32, u33, u40 = 1, 2, 3, 4 E-3 (hand values).
+pth;    spoint_repeated_unsorted.bdf;   SC/1/DISPLACEMENTS/GID/31/TX;;   1.0e-3;   1e-4%
+pth;    spoint_repeated_unsorted.bdf;   SC/1/DISPLACEMENTS/GID/32/TX;;   2.0e-3;   1e-4%
+pth;    spoint_repeated_unsorted.bdf;   SC/1/DISPLACEMENTS/GID/33/TX;;   3.0e-3;   1e-4%
+pth;    spoint_repeated_unsorted.bdf;   SC/1/DISPLACEMENTS/GID/40/TX;;   4.0e-3;   1e-4%
