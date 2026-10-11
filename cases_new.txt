@@ -360,3 +360,6 @@ pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZZ; ; 2.00000000e+03; 0.1%; 
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XY; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YZ; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZX; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+
+# Free-field data after field 10 on one line must not be dropped silently (ERROR 1003).
+pth;    free_field_more_than_10_fields.bdf;   SC/1/DISPLACEMENTS/GID/3/TZ; ABSENT;   0;   0
