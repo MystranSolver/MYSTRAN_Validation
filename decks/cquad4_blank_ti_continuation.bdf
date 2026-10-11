@@ -1,0 +1,23 @@
+$ A CQUAD4 whose continuation line has T1-T4 all blank: the element uses the PSHELL T (0.1). A unit square in uniform
+$ tension (unit total load on the free edge, the other edge held in x, lateral contraction free) must stretch
+$ u = P L / (E t w) = 1 * 1 / (7.E4 * 0.1 * 1) = 1.4285714E-4. Reading the blank Ti as 0 stops the run (ERROR 1949).
+SOL 101
+CEND
+TITLE = CQUAD4 WITH BLANK T1-T4 ON ITS CONTINUATION
+SPC = 1
+LOAD = 1
+DISP = ALL
+BEGIN BULK
+GRID,1,,0.,0.,0.,,3456
+GRID,2,,1.,0.,0.,,3456
+GRID,3,,1.,1.,0.,,3456
+GRID,4,,0.,1.,0.,,3456
+CQUAD4,1,1,1,2,3,4,,,+C1
++C1,,,,,,
+PSHELL,1,1,0.1,1,,1
+MAT1,1,7.E4,,0.3
+SPC1,1,12,1
+SPC1,1,1,4
+FORCE,1,2,,0.5,1.,0.,0.
+FORCE,1,3,,0.5,1.,0.,0.
+ENDDATA
