@@ -1,0 +1,25 @@
+$ Scalar points listed more than once, out of order and between GRID entries: each is one scalar point and
+$ the run must solve, with an INFORMATION line that the repeated listings were merged. The merge shrinks the grid table, which
+$ must not shift its columns when the table is sorted (before the fix: ERROR 910, a scalar point ID read as a coordinate system).
+$ Springs of 1000 in a chain: scalar point 30 held, 30-31-32-33, 33 to grid 40 T1, unit load on grid 40 T1:
+$ u31 = 1.0E-3, u32 = 2.0E-3, u33 = 3.0E-3, u40 T1 = 4.0E-3.
+SOL 101
+CEND
+DISPLACEMENT(PRINT) = ALL
+SPC = 1
+LOAD = 1
+BEGIN BULK
+GRID,40,,1.,0.,0.,,23456
+SPOINT,30,THRU,33
+GRID,2,,0.,0.,0.,,123456
+SPOINT,32
+SPOINT,33,30
+SPOINT,99,31
+CELAS2,1,1000.,30,1,31,1
+CELAS2,2,1000.,31,1,32,1
+CELAS2,3,1000.,32,1,33,1
+CELAS2,4,1000.,33,1,40,1
+CELAS2,5,1.,99,1,2,1
+SPC1,1,1,30
+FORCE,1,40,0,1.,1.,0.,0.
+ENDDATA
