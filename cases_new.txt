@@ -2,6 +2,11 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# Bug of using only the first 4 nodes of CHEXA for thermal stress
+pth;    chexa_linear_temperature_stress.bdf;        SC/1/SOLIDSTRESSES/EID/1,2/CORNER/0/ZZ;;     0;     1e-6
+pth;    chexa_linear_temperature_stress.bdf;        SC/1/SOLIDSTRESSES/EID/1,2/CORNER/1-4/YY;;  -2e9;   5e-5%
+pth;    chexa_linear_temperature_stress.bdf;        SC/1/SOLIDSTRESSES/EID/1,2/CORNER/5-8/YY;;  -1e9;   5e-5%
+
 pth;    hexa20_shear_in_default_isop_default.bdf;   SC/1/DISPLACEMENTS/GID/13/TX;;   0.015;  5e-5%; https://github.com/MystranSolver/MYSTRANSolver/issues/311
 pth;    hexa20_shear_in_default_isop_default.bdf;   SC/1/DISPLACEMENTS/GID/14/TX;;   0.015;  5e-5%; https://github.com/MystranSolver/MYSTRANSolver/issues/311
 pth;    hexa20_shear_in_default_isop_default.bdf;   SC/1/DISPLACEMENTS/GID/15/TX;;   0.015;  5e-5%; https://github.com/MystranSolver/MYSTRANSolver/issues/311
