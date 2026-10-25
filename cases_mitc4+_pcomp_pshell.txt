@@ -1,3 +1,44 @@
+# Thermal loads on membrane-bending coupled laminates (PCOMP and PSHELL MID4), MITC4+. Free strips, DT = 100.
+# Closed form from classical lamination theory (decks/mitc4+_pcomp_pshell/gen_thermal.py); the bimetal also matches Timoshenko.
+# Strip 5/6 (uniform alpha, B /= 0) must expand freely with no curvature. PSHELL strips are free bodies: zero N, M, Q.
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020/TX;;   1.7889487359e-03;   5e-5%; strip 1 bimetal pcomp
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1021/TY;;   1.7889487359e-04;   5e-5%; strip 1 bimetal pcomp
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020/TZ;;   -1.6443426782e-01;   5e-5%; strip 1 bimetal pcomp
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1021/TZ;;   -1.6607861049e-01;   5e-5%; strip 1 bimetal pcomp
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/1001/PLY/1/11;;   1.9129186489e+07;   1e-3%; strip 1 bimetal pcomp ply 1
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/1001/PLY/1/22;;   1.9129186489e+07;   1e-3%; strip 1 bimetal pcomp ply 1
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/1001/PLY/2/11;;   -1.2752790993e+07;   1e-3%; strip 1 bimetal pcomp ply 2
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/1001/PLY/2/22;;   -1.2752790993e+07;   1e-3%; strip 1 bimetal pcomp ply 2
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/2020/TX;;   1.7889487359e-03;   5e-5%; strip 2 bimetal pshell
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/2021/TY;;   1.7889487359e-04;   5e-5%; strip 2 bimetal pshell
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/2020/TZ;;   -1.6443426782e-01;   5e-5%; strip 2 bimetal pshell
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/2021/TZ;;   -1.6607861049e-01;   5e-5%; strip 2 bimetal pshell
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/SHELLFORCES/EID/2001-2010/CORNER/0/NXX,NYY,NXY,MXX,MYY,MXY;  NORM;   0;   1e-5; strip 2 bimetal pshell free body
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/3020/TX;;   7.4591633466e-04;   5e-5%; strip 3 crossply pcomp
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/3021/TY;;   7.4591633466e-05;   5e-5%; strip 3 crossply pcomp
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/3020/TZ;;   -6.5009960159e-01;   5e-5%; strip 3 crossply pcomp
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/3021/TZ;;   -6.4359860558e-01;   5e-5%; strip 3 crossply pcomp
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/3001/PLY/1/11;;   -2.9116610481e+07;   1e-3%; strip 3 crossply pcomp ply 1
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/3001/PLY/1/22;;   -1.3413269997e+07;   1e-3%; strip 3 crossply pcomp ply 1
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/3001/PLY/2/11;;   6.0523291450e+07;   1e-3%; strip 3 crossply pcomp ply 2
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/3001/PLY/2/22;;   -1.7993410971e+07;   1e-3%; strip 3 crossply pcomp ply 2
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/3001/PLY/3/11;;   6.0523291450e+07;   1e-3%; strip 3 crossply pcomp ply 3
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/3001/PLY/3/22;;   -1.7993410971e+07;   1e-3%; strip 3 crossply pcomp ply 3
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/3001/PLY/4/11;;   -2.9116610481e+07;   1e-3%; strip 3 crossply pcomp ply 4
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/3001/PLY/4/22;;   -1.3413269997e+07;   1e-3%; strip 3 crossply pcomp ply 4
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/4020/TX;;   7.4591633466e-04;   5e-5%; strip 4 crossply pshell
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/4021/TY;;   7.4591633466e-05;   5e-5%; strip 4 crossply pshell
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/4020/TZ;;   -6.5009960159e-01;   5e-5%; strip 4 crossply pshell
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/4021/TZ;;   -6.4359860558e-01;   5e-5%; strip 4 crossply pshell
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/SHELLFORCES/EID/4001-4010/CORNER/0/NXX,NYY,NXY,MXX,MYY,MXY;  NORM;   0;   1e-5; strip 4 crossply pshell free body
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/5020/TX;;   1.0000000000e-03;   5e-5%; strip 5 uniform_alpha pcomp
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/5021/TY;;   1.0000000000e-04;   5e-5%; strip 5 uniform_alpha pcomp
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/5020,5021/TZ,RX,RY;  NORM;   0;   1e-9; strip 5 uniform_alpha pcomp no curvature
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/6020/TX;;   1.0000000000e-03;   5e-5%; strip 6 uniform_alpha pshell
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/6021/TY;;   1.0000000000e-04;   5e-5%; strip 6 uniform_alpha pshell
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/6020,6021/TZ,RX,RY;  NORM;   0;   1e-9; strip 6 uniform_alpha pshell no curvature
+pth;    mitc4+_pcomp_pshell/thermal_coupled_mitc4+.bdf;   SC/1/SHELLFORCES/EID/6001-6010/CORNER/0/NXX,NYY,NXY,MXX,MYY,MXY;  NORM;   0;   1e-5; strip 6 uniform_alpha pshell free body
+
 # Nonsymmetric [0/0/90/90] PCOMP strip column buckling on MITC4+, exact P_cr = pi^2 b/(d11 L^2) (laminate_buckling/gen_buckle.py).
 pth;    mitc4+_pcomp_pshell/buckle_strip_unsym_pcomp_mitc4+.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;   10.804295908;   0.2%; exact, see deck header
 # PCOMP with Z0 = 0 (reference plane on the bottom surface, LAM blank) on MITC4+: eccentric axial load and offset column buckling (shell_offset/gen_offset.py).
