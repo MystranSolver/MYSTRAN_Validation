@@ -1,3 +1,33 @@
+# PSHELL with MID4 (membrane-bending coupling) on MITC4+. G4 = -B/T^2 (Nastran convention, as written by PARAM PCOMPEQ).
+# 1) PSHELL equivalent of the CQUAD4 strip of vic/1 'shell laminate coupling': in-plane load at the reference plane, free to curve.
+pth;    mitc4+_pcomp_pshell/pshell_mid4_coupling_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/3/TZ;;   (-1 * 0.01 / 2) * 1**2 / (2 * 100000000000.0 * (0.1 * 0.01**3 / 12));   5e-5%; closed form
+pth;    mitc4+_pcomp_pshell/pshell_mid4_coupling_mitc4+.bdf;   SC/1/SHELLFORCES/EID/1-4/CORNER/0-4/NYY;;   10.0;   5e-5%; Ny = F/w
+pth;    mitc4+_pcomp_pshell/pshell_mid4_coupling_mitc4+.bdf;   SC/1/SHELLFORCES/EID/1-4/CORNER/0-4/MXX,MYY,MXY;  NORM;   0;   1e-9; moment-free
+# 2) Unsymmetric [0/45/-45/90] PCOMP strip (grids 1xx) vs PSHELL with MID1/2/3/4 from CLT (grids 2xx), 30 deg material angle.
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/208/TX;;   SC/1/DISPLACEMENTS/GID/108/TX;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/208/TY;;   SC/1/DISPLACEMENTS/GID/108/TY;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/208/TZ;;   SC/1/DISPLACEMENTS/GID/108/TZ;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/208/RX;;   SC/1/DISPLACEMENTS/GID/108/RX;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/208/RY;;   SC/1/DISPLACEMENTS/GID/108/RY;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/209/TX;;   SC/1/DISPLACEMENTS/GID/109/TX;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/209/TY;;   SC/1/DISPLACEMENTS/GID/109/TY;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/209/TZ;;   SC/1/DISPLACEMENTS/GID/109/TZ;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/209/RX;;   SC/1/DISPLACEMENTS/GID/109/RX;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/209/RY;;   SC/1/DISPLACEMENTS/GID/109/RY;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/208/TX;;   SC/2/DISPLACEMENTS/GID/108/TX;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/208/TY;;   SC/2/DISPLACEMENTS/GID/108/TY;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/208/TZ;;   SC/2/DISPLACEMENTS/GID/108/TZ;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/208/RX;;   SC/2/DISPLACEMENTS/GID/108/RX;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/208/RY;;   SC/2/DISPLACEMENTS/GID/108/RY;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/209/TX;;   SC/2/DISPLACEMENTS/GID/109/TX;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/209/TY;;   SC/2/DISPLACEMENTS/GID/109/TY;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/209/TZ;;   SC/2/DISPLACEMENTS/GID/109/TZ;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/209/RX;;   SC/2/DISPLACEMENTS/GID/109/RX;   2e-5%
+pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/209/RY;;   SC/2/DISPLACEMENTS/GID/109/RY;   2e-5%
+# 3) Nonsymmetric [0/0/90/90] as PSHELL with MID4, strip column buckling on MITC4+, exact P_cr = pi^2 b/(d11 L^2) (laminate_buckling/gen_buckle.py).
+pth;    mitc4+_pcomp_pshell/buckle_strip_unsym_pshell_mid4_mitc4+.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;   10.804295908;   0.2%; exact, see deck header
+
+
 # PCOMP on QUAD4 MITC4+ (PARAM QUAD4TYP MITC4+): the vic PCOMP decks with the same reference values. For the vic/3 buckling
 # decks only mode 1 (out-of-plane) is checked: their higher modes are in-plane, where MITC4+ membrane behavior differs from
 # MIN4 for PSHELL as well, so they don't test the composite.
