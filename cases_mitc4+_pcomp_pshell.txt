@@ -1,3 +1,39 @@
+# Through-thickness temperature gradient (TEMPP1 TPRIME = 1000), free strips, MITC4+.
+# Free curvature k = D^-1 M_T. Before the fix MITC4+ ignored the gradient (no deflection).
+# Strip 1 PSHELL isotropic, strip 2 PSHELL with orthotropic MID2 CTE, strip 3 PCOMP [0/90]s. PSHELL strips: zero moments.
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020/TZ;;   -5.0000000000e-03;   5e-5%; strip 1
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1021/TZ;;   -5.0500000000e-03;   5e-5%; strip 1
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020/RY;;   1.0000000000e-02;   5e-5%; strip 1
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1021/RX;;   -1.0000000000e-03;   5e-5%; strip 1
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/SHELLFORCES/EID/1001-1010/CORNER/0/MXX,MYY,MXY;  NORM;   0;   1e-6; strip 1 free body
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/2020/TZ;;   -2.0000000000e-03;   5e-5%; strip 2
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/2021/TZ;;   -2.1250000000e-03;   5e-5%; strip 2
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/2020/RY;;   4.0000000000e-03;   5e-5%; strip 2
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/2021/RX;;   -2.5000000000e-03;   5e-5%; strip 2
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/SHELLFORCES/EID/2001-2010/CORNER/0/MXX,MYY,MXY;  NORM;   0;   1e-6; strip 2 free body
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/3020/TZ;;   -9.9981188864e-05;   5e-5%; strip 3
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/3021/TZ;;   -1.5009311512e-04;   5e-5%; strip 3
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/3020/RY;;   1.9996237773e-04;   5e-5%; strip 3
+pth;    mitc4+_pcomp_pshell/thermal_gradient_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/3021/RX;;   -1.0022385252e-03;   5e-5%; strip 3
+
+# Anisotropic shell CTE with alpha_12 /= 0 (MAT2 A3), free PSHELL strips.
+# SC1 uniform DT: free membrane strain alpha DT. SC2 through-thickness gradient: free curvature alpha(MID2) TPRIME.
+# Before the fix alpha_12 was stored in the zz row of ALPVEC and ignored (no shear strain / twist).
+pth;    mitc4+_pcomp_pshell/shell_cte_xy_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020/TX;;   1.0000000000e-03;   5e-5%; ex L
+pth;    mitc4+_pcomp_pshell/shell_cte_xy_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020/TY;;   3.0000000000e-03;   5e-5%; gamma_xy L (alpha_12)
+pth;    mitc4+_pcomp_pshell/shell_cte_xy_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1021/TY;;   3.2000000000e-03;   5e-5%; ey w + gamma_xy L
+pth;    mitc4+_pcomp_pshell/shell_cte_xy_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020,1021/TZ;  NORM;   0;   1e-12; no bending
+pth;    mitc4+_pcomp_pshell/shell_cte_xy_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/1020/TZ;;   -2.5000000000e-03;   5e-5%; -kx L^2/2
+pth;    mitc4+_pcomp_pshell/shell_cte_xy_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/1021/TZ;;   -3.5750000000e-03;   5e-5%; includes twist kxy (alpha_12)
+
+# PCOMP LAM = SYM with Z0 = -T (reference plane on the top surface) on MITC4+: eccentric axial load, ply stresses, offset column buckling.
+pth;    mitc4+_pcomp_pshell/shell_offset_static_pcomp_sym_z0_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020,1021/TZ;;   -4.2857142857e-03;   5e-5%; pcomp_sym_z0
+pth;    mitc4+_pcomp_pshell/shell_offset_static_pcomp_sym_z0_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020,1021/RY;;   8.5714285714e-03;   5e-5%; pcomp_sym_z0
+pth;    mitc4+_pcomp_pshell/shell_offset_static_pcomp_sym_z0_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020,1021/TX;;   5.7142857143e-05;   5e-5%; pcomp_sym_z0
+pth;    mitc4+_pcomp_pshell/shell_offset_static_pcomp_sym_z0_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/1001/PLY/1/11;;   -5.0000000000e+05;   1e-3%; pcomp_sym_z0 ply 1 (z = -0.0075)
+pth;    mitc4+_pcomp_pshell/shell_offset_static_pcomp_sym_z0_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/1001/PLY/2/11;;   2.5000000000e+06;   1e-3%; pcomp_sym_z0 ply 2 (z = -0.0025)
+pth;    mitc4+_pcomp_pshell/shell_offset_buckle_pcomp_sym_z0_mitc4+.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;   5.7572692340e+03;   0.2%; Euler, offset pcomp_sym_z0
+
 # Thermal loads on membrane-bending coupled laminates (PCOMP and PSHELL MID4), MITC4+. Free strips, DT = 100.
 # Closed form from classical lamination theory (decks/mitc4+_pcomp_pshell/gen_thermal.py); the bimetal also matches Timoshenko.
 # Strip 5/6 (uniform alpha, B /= 0) must expand freely with no curvature. PSHELL strips are free bodies: zero N, M, Q.
