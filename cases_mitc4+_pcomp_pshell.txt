@@ -1,3 +1,13 @@
+# Nonsymmetric [0/0/90/90] PCOMP strip column buckling on MITC4+, exact P_cr = pi^2 b/(d11 L^2) (laminate_buckling/gen_buckle.py).
+pth;    mitc4+_pcomp_pshell/buckle_strip_unsym_pcomp_mitc4+.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;   10.804295908;   0.2%; exact, see deck header
+# PCOMP with Z0 = 0 (reference plane on the bottom surface, LAM blank) on MITC4+: eccentric axial load and offset column buckling (shell_offset/gen_offset.py).
+pth;    mitc4+_pcomp_pshell/shell_offset_static_pcomp_z0_0_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020,1021/TZ;;   4.2857142857e-03;   5e-5%; pcomp_z0_0
+pth;    mitc4+_pcomp_pshell/shell_offset_static_pcomp_z0_0_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020,1021/RY;;   -8.5714285714e-03;   5e-5%; pcomp_z0_0
+pth;    mitc4+_pcomp_pshell/shell_offset_static_pcomp_z0_0_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/1020,1021/TX;;   5.7142857143e-05;   5e-5%; pcomp_z0_0
+pth;    mitc4+_pcomp_pshell/shell_offset_static_pcomp_z0_0_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/1001/PLY/1/11;;   2.5000000000e+06;   1e-3%; pcomp_z0_0 ply 1 (z = +0.0025)
+pth;    mitc4+_pcomp_pshell/shell_offset_static_pcomp_z0_0_mitc4+.bdf;   SC/1/COMPOSITESTRESSES/EID/1001/PLY/2/11;;   -5.0000000000e+05;   1e-3%; pcomp_z0_0 ply 2 (z = +0.0075)
+pth;    mitc4+_pcomp_pshell/shell_offset_buckle_pcomp_z0_0_mitc4+.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;   5.7572692340e+03;   0.2%; Euler, offset pcomp_z0_0
+
 # PSHELL with MID4 (membrane-bending coupling) on MITC4+. G4 = -B/T^2 (Nastran convention, as written by PARAM PCOMPEQ).
 # 1) PSHELL equivalent of the CQUAD4 strip of vic/1 'shell laminate coupling': in-plane load at the reference plane, free to curve.
 pth;    mitc4+_pcomp_pshell/pshell_mid4_coupling_mitc4+.bdf;   SC/1/DISPLACEMENTS/GID/3/TZ;;   (-1 * 0.01 / 2) * 1**2 / (2 * 100000000000.0 * (0.1 * 0.01**3 / 12));   5e-5%; closed form
@@ -26,7 +36,6 @@ pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENT
 pth;    mitc4+_pcomp_pshell/pshell_mid4_vs_pcomp_mitc4+.bdf;   SC/2/DISPLACEMENTS/GID/209/RY;;   SC/2/DISPLACEMENTS/GID/109/RY;   2e-5%
 # 3) Nonsymmetric [0/0/90/90] as PSHELL with MID4, strip column buckling on MITC4+, exact P_cr = pi^2 b/(d11 L^2) (laminate_buckling/gen_buckle.py).
 pth;    mitc4+_pcomp_pshell/buckle_strip_unsym_pshell_mid4_mitc4+.bdf;   SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;   10.804295908;   0.2%; exact, see deck header
-
 
 # PCOMP on QUAD4 MITC4+ (PARAM QUAD4TYP MITC4+): the vic PCOMP decks with the same reference values. For the vic/3 buckling
 # decks only mode 1 (out-of-plane) is checked: their higher modes are in-plane, where MITC4+ membrane behavior differs from
