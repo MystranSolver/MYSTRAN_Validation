@@ -369,3 +369,24 @@ pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZZ; ; 2.00000000e+03; 0.1%; 
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XY; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YZ; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
 pth; CHEXA.bdf; SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/ZX; ; 4.00000000e+02; 0.1%;  KNOWNFAIL https://github.com/MystranSolver/MYSTRANSolver/issues/225
+
+# CONM2 on six springs: eigenvalues against the exact ones from the rigid-mass matrix (offset, products of inertia,
+# rotated CID, CP and CD, and CID = -1).
+pth;    conm2_offset_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/1/EIGENVALUE;;   3.1305761E+01;   1e-4%
+pth;    conm2_offset_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/2/EIGENVALUE;;   3.3148918E+01;   1e-4%
+pth;    conm2_offset_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/3/EIGENVALUE;;   1.3222730E+02;   1e-4%
+pth;    conm2_offset_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/4/EIGENVALUE;;   4.5849378E+03;   1e-4%
+pth;    conm2_offset_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/5/EIGENVALUE;;   3.1581913E+04;   1e-4%
+pth;    conm2_offset_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/6/EIGENVALUE;;   3.6236467E+04;   1e-4%
+pth;    conm2_cid_products_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/1/EIGENVALUE;;   4.4633942E+01;   1e-4%
+pth;    conm2_cid_products_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/2/EIGENVALUE;;   4.7053212E+01;   1e-4%
+pth;    conm2_cid_products_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/3/EIGENVALUE;;   2.0385384E+02;   1e-4%
+pth;    conm2_cid_products_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/4/EIGENVALUE;;   6.5412062E+02;   1e-4%
+pth;    conm2_cid_products_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/5/EIGENVALUE;;   1.8503395E+03;   1e-4%
+pth;    conm2_cid_products_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/6/EIGENVALUE;;   4.6050788E+03;   1e-4%
+pth;    conm2_cidm1_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/1/EIGENVALUE;;   4.4633942E+01;   1e-4%
+pth;    conm2_cidm1_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/2/EIGENVALUE;;   4.7053212E+01;   1e-4%
+pth;    conm2_cidm1_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/3/EIGENVALUE;;   2.0385384E+02;   1e-4%
+pth;    conm2_cidm1_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/4/EIGENVALUE;;   6.5412062E+02;   1e-4%
+pth;    conm2_cidm1_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/5/EIGENVALUE;;   1.8503395E+03;   1e-4%
+pth;    conm2_cidm1_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/6/EIGENVALUE;;   4.6050788E+03;   1e-4%
