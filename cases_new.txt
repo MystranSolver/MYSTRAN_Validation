@@ -2,6 +2,13 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# Bug with warped MITC4+'s K6ROT causing some stiffness to ground.
+pth;    warped_quad4_rigid_rotation_k6rot.bdf;   SC/1/DISPLACEMENTS/GID/4/TX;;   6.0e-4;   5e-5%
+pth;    warped_quad4_rigid_rotation_k6rot.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;;  -3.0e-4;   5e-5%
+pth;    warped_quad4_rigid_rotation_k6rot.bdf;   SC/1/DISPLACEMENTS/GID/4/TZ;;   5.0e-3;   5e-5%
+pth;    warped_quad4_rigid_rotation_k6rot.bdf;   SC/1/DISPLACEMENTS/GID/4/RX;;   1.0e-3;   5e-5%
+pth;    warped_quad4_rigid_rotation_k6rot.bdf;   SC/1/DISPLACEMENTS/GID/4/RY;;   2.0e-3;   5e-5%
+pth;    warped_quad4_rigid_rotation_k6rot.bdf;   SC/1/DISPLACEMENTS/GID/4/RZ;;   0;        1e-12
 
 # CONM2 on six springs: eigenvalues against the exact ones from the rigid-mass matrix (offset, products of inertia,
 # rotated CID, CP and CD, and CID = -1).
