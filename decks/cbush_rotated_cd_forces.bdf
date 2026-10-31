@@ -1,0 +1,20 @@
+$ A CBUSH (CID 0) between coincident grids, the first fixed and a load on the second in basic:
+$ FORCE 100 along (.3, .5, .8) and MOMENT 10 along (.6, 0, .8). The BUSH engineering forces must equal the load,
+$ (30, 50, 80, 6, 0, 8), whatever the grids' output (CD) systems. Here both grids are in the rotated CD 5; the
+$ transform of the node forces to basic used one component three times, giving (13.7, 25.5, 39.0, 2.5, -5.8, 3.5).
+SOL 101
+CEND
+TITLE = CBUSH FORCES WITH ROTATED GRID OUTPUT SYSTEMS
+LOAD = 1
+DISPLACEMENT = ALL
+FORCE = ALL
+BEGIN BULK
+CORD2R,5,,0.,0.,0.,.2,.3,.9,+C5
++C5,1.,.4,.1
+GRID,1,,0.,0.,0.,5,123456
+GRID,2,,0.,0.,0.,5
+CBUSH,10,20,1,2,,,,0
+PBUSH,20,K,1.E4,2.E4,3.E4,4.E4,5.E4,6.E4
+FORCE,1,2,0,100.,.3,.5,.8
+MOMENT,1,2,0,10.,.6,.0,.8
+ENDDATA
