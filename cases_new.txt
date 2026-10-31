@@ -2,6 +2,14 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# CBUSH forces with its grids in a rotated output system: they must equal the load (30, 50, 80, 6, 0, 8).
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/TX;;   30.;   1e-4%
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/TY;;   50.;   1e-4%
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/TZ;;   80.;   1e-4%
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/RX;;   6.;   1e-4%
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/RY;;   0;   1e-12
+pth;    cbush_rotated_cd_forces.bdf;   SC/1/BUSHFORCES/EID/10/RZ;;   8.;   1e-4%
+
 # Bug of wrong transform for solid stress transformation
 pth;    hexa_rotated_cordm_stress.bdf;        SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/XX;;     -1;     5e-5%
 pth;    hexa_rotated_cordm_stress.bdf;        SC/1/SOLIDSTRESSES/EID/1-7/CORNER/0/YY;;      0;     1e-13
