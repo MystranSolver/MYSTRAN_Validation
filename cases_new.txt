@@ -2,6 +2,45 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+
+# Fixed-fixed column with ry and rz released at both ends buckles like a pinned-pinned column, pi^2 E I / L^2.
+pth;	105_pinflag_pinned_column.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	pi**2 * 200000000000.0 * (0.03 * 0.01**3 / 12) / 2**2 / 1000;	1%
+pth;	105_pinflag_pinned_column.bdf;	SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;	4 * pi**2 * 200000000000.0 * (0.03 * 0.01**3 / 12) / 2**2 / 1000;	2%
+
+# Portal frame with a beam pinned at both ends, so each column sways as a cantilever, pi^2 E I / (4 h^2).
+pth;	105_pinflag_portal_frame.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	pi**2 * 200000000000.0 * (0.02**4 / 12) / (4 * 2**2) / 1000;	1%
+
+# Releases compared with a duplicate node tied by constraint equations in every DOF except the released ones.
+# The two beams are separate, so their buckling factors interleave in pairs. Reference values are the internal solver's.
+# Bending hinge, ry and rz released at the middle.
+pth;	105_pinflag_vs_duplicate_node_hinge.bdf;	SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;	0.1%
+pth;	105_pinflag_vs_duplicate_node_hinge.bdf;	SC/2/REALEIGENVALUES/MODE/4/EIGENVALUE;;	SC/2/REALEIGENVALUES/MODE/3/EIGENVALUE;	0.1%
+pth;	105_pinflag_vs_duplicate_node_hinge.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	0.6792668622351;	1%
+pth;	105_pinflag_vs_duplicate_node_hinge.bdf;	SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;	0.6792668622351;	1%
+pth;	105_pinflag_vs_duplicate_node_hinge.bdf;	SC/2/REALEIGENVALUES/MODE/3/EIGENVALUE;;	4.934963894696;	1%
+pth;	105_pinflag_vs_duplicate_node_hinge.bdf;	SC/2/REALEIGENVALUES/MODE/4/EIGENVALUE;;	4.934965119693;	1%
+
+# Releases compared with a duplicate node tied by constraint equations in every DOF except the released ones.
+# Sliding joint, ty and tz released at the middle. It buckles like a pinned-pinned column, pi^2 E I / L^2.
+pth;	105_pinflag_vs_duplicate_node_slide.bdf;	SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;	0.1%
+pth;	105_pinflag_vs_duplicate_node_slide.bdf;	SC/2/REALEIGENVALUES/MODE/4/EIGENVALUE;;	SC/2/REALEIGENVALUES/MODE/3/EIGENVALUE;	0.1%
+pth;	105_pinflag_vs_duplicate_node_slide.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	1.23370309182;	1%
+pth;	105_pinflag_vs_duplicate_node_slide.bdf;	SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;	1.234191300753;	1%
+pth;	105_pinflag_vs_duplicate_node_slide.bdf;	SC/2/REALEIGENVALUES/MODE/3/EIGENVALUE;;	4.934963894696;	1%
+pth;	105_pinflag_vs_duplicate_node_slide.bdf;	SC/2/REALEIGENVALUES/MODE/4/EIGENVALUE;;	4.935258898369;	1%
+pth;	105_pinflag_vs_duplicate_node_slide.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	pi**2 * 200000000000.0 * (0.03 * 0.01**3 / 12) / 2**2 / 1000;	1%
+
+# All 3 valid combinations of ty and rz releases that involve ty, excluding their symmetric equivalents, compared
+# with 6 DOF springs in the same file. Modes are in matching pairs of the reference and test meshes.
+# Make sure reference solution is present and sensible.
+pth;	103_pinflag_ty_rz_combinations.bdf;	SC/1/REALEIGENVALUES/MODE/1/CYCLES;;	141.4;	10%
+pth;	103_pinflag_ty_rz_combinations.bdf;	SC/1/REALEIGENVALUES/MODE/3/CYCLES;;	143.6;	10%
+pth;	103_pinflag_ty_rz_combinations.bdf;	SC/1/REALEIGENVALUES/MODE/5/CYCLES;;	165.6;	10%
+pth;	103_pinflag_ty_rz_combinations.bdf;	SC/1/REALEIGENVALUES/MODE/2/CYCLES;;	SC/1/REALEIGENVALUES/MODE/1/CYCLES;	1%
+pth;	103_pinflag_ty_rz_combinations.bdf;	SC/1/REALEIGENVALUES/MODE/4/CYCLES;;	SC/1/REALEIGENVALUES/MODE/3/CYCLES;	1%
+pth;	103_pinflag_ty_rz_combinations.bdf;	SC/1/REALEIGENVALUES/MODE/6/CYCLES;;	SC/1/REALEIGENVALUES/MODE/5/CYCLES;	1%
+
+
 # Bug with warped MITC4+'s K6ROT causing some stiffness to ground.
 pth;    warped_quad4_rigid_rotation_k6rot.bdf;   SC/1/DISPLACEMENTS/GID/4/TX;;   6.0e-4;   5e-5%
 pth;    warped_quad4_rigid_rotation_k6rot.bdf;   SC/1/DISPLACEMENTS/GID/4/TY;;  -3.0e-4;   5e-5%
