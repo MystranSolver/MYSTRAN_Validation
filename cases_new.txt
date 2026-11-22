@@ -3,6 +3,52 @@
 # ==============================================================================================
 
 
+# CBARs with zero moments of inertia (I1 and/or I2 blank or 0) have no bending stiffness or bending stress in that plane.
+# Cantilever with I1 blank: axial, torsion and plane 2 bending as normal, nothing in plane 1.
+pth;	101_bar_zero_i1.bdf;	SC/1/DISPLACEMENTS/GID/5/TX;;	1000 * 1 / (200000000000.0 * 1e-4);	1e-4%
+pth;	101_bar_zero_i1.bdf;	SC/1/DISPLACEMENTS/GID/5/TZ;;	10 * 1**3 / (3 * 200000000000.0 * 1e-8 / 12);	1e-4%
+pth;	101_bar_zero_i1.bdf;	SC/1/DISPLACEMENTS/GID/5/RY;;	-10 * 1**2 / (2 * 200000000000.0 * 1e-8 / 12);	1e-4%
+pth;	101_bar_zero_i1.bdf;	SC/1/DISPLACEMENTS/GID/5/RX;;	1 * 1 / (200000000000.0 / 2.6 * 1.406e-9);	1e-4%
+pth;	101_bar_zero_i1.bdf;	SC/1/DISPLACEMENTS/GID/2-5/TY,RZ;	NORM;	0;	1e-12
+pth;	101_bar_zero_i1.bdf;	SC/1/BARFORCES/EID/1/MA2;;	10 * 1;	1e-4%
+pth;	101_bar_zero_i1.bdf;	SC/1/BARFORCES/EID/1-4/MA1,MB1,S1;	NORM;	0;	1e-9
+pth;	101_bar_zero_i1.bdf;	SC/1/BARSTRESSES/EID/1/AXIAL;;	1000 / 1e-4;	1e-4%
+pth;	101_bar_zero_i1.bdf;	SC/1/BARSTRESSES/EID/1/SA1,SA2;;	-10 * 1 * 0.005 / (1e-8 / 12);	1e-4%
+pth;	101_bar_zero_i1.bdf;	SC/1/BARSTRESSES/EID/1/SA3,SA4;;	10 * 1 * 0.005 / (1e-8 / 12);	1e-4%
+
+# V truss of bars with I1 = I2 = 0 on pinned supports. Axial force only, and exactly zero bending moment and bending stress.
+pth;	101_bar_zero_i1_i2_truss.bdf;	SC/1/DISPLACEMENTS/GID/2/TY;;	-1000 * sqrt(2) / (2 * 200000000000.0 * 1e-4 * 0.5);	1e-4%
+pth;	101_bar_zero_i1_i2_truss.bdf;	SC/1/BARFORCES/EID/1,2/AXIAL;;	-1000 / sqrt(2);	1e-4%
+pth;	101_bar_zero_i1_i2_truss.bdf;	SC/1/BARSTRESSES/EID/1,2/AXIAL;;	-1000 / sqrt(2) / 1e-4;	1e-4%
+pth;	101_bar_zero_i1_i2_truss.bdf;	SC/1/BARFORCES/EID/1,2/MA1,MA2,MB1,MB2,S1,S2;	NORM;	0;	1e-6
+pth;	101_bar_zero_i1_i2_truss.bdf;	SC/1/BARSTRESSES/EID/1,2/SA1,SA2,SA3,SA4,SB1,SB2,SB3,SB4;	NORM;	0;	1e-3;	Buggy result when I = 0 was replaced by 10*EPS is 150000 from a round-off moment.
+
+# Uniform temperature rise on bars with I1 blank. Elements 1-2 fixed at both ends, elements 3-4 a free cantilever.
+pth;	101_bar_zero_i1_thermal.bdf;	SC/1/SPCFORCES/GID/1/TX;;	200000000000.0 * 1e-4 * 1.2e-5 * 100;	1e-4%
+pth;	101_bar_zero_i1_thermal.bdf;	SC/1/BARSTRESSES/EID/1,2/AXIAL;;	-200000000000.0 * 1.2e-5 * 100;	1e-4%
+pth;	101_bar_zero_i1_thermal.bdf;	SC/1/DISPLACEMENTS/GID/6/TX;;	1.2e-5 * 100 * 1;	1e-4%
+pth;	101_bar_zero_i1_thermal.bdf;	SC/1/DISPLACEMENTS/GID/5,6/TY,TZ;	NORM;	0;	1e-12
+pth;	101_bar_zero_i1_thermal.bdf;	SC/1/BARSTRESSES/EID/1-4/SA1,SA2,SA3,SA4,SB1,SB2,SB3,SB4;	NORM;	0;	1e-3
+
+# Modes of a column with I1 blank, clamped at both ends with ry released at both ends, so pinned-pinned in plane 2.
+pth;	103_bar_zero_i1_pinflag.bdf;	SC/1/REALEIGENVALUES/MODE/1/CYCLES;;	pi / (2 * 2**2) * sqrt(200000000000.0 * (1e-8 / 12) / (7850 * 1e-4));	0.1%
+pth;	103_bar_zero_i1_pinflag.bdf;	SC/1/REALEIGENVALUES/MODE/2/CYCLES;;	4 * pi / (2 * 2**2) * sqrt(200000000000.0 * (1e-8 / 12) / (7850 * 1e-4));	0.1%
+
+# Pin flag on rz of a bar with I1 blank. DOF 6 has no stiffness to release, so this must be a fatal error.
+pth;	101_bar_zero_i1_pinflag_error.bdf;	SC/1/DISPLACEMENTS/GID/3/TZ;	ABSENT;	0;	0
+
+# I12^2 = I1*I2 makes I1*I2 - I12^2 zero, so this must be a fatal error.
+pth;	101_bar_i12_degenerate.bdf;	SC/1/DISPLACEMENTS/GID/3/TZ;	ABSENT;	0;	0;	Older versions solve it with NaN bar stresses.
+
+# 1 mm long cantilever with a 0.1 mm square section in SI units. I = 8.33E-18 m^4 is below machine epsilon but must be used as is.
+pth;	101_bar_small_i.bdf;	SC/1/DISPLACEMENTS/GID/3/TY;;	1e-6 * 0.001**3 / (3 * 200000000000.0 * 0.0001**4 / 12);	1e-4%;	Buggy result when I was replaced by 10*EPS is 7.506E-13.
+pth;	101_bar_small_i.bdf;	SC/1/DISPLACEMENTS/GID/3/TZ;;	2e-6 * 0.001**3 / (3 * 200000000000.0 * 0.0001**4 / 12);	1e-4%
+pth;	101_bar_small_i.bdf;	SC/1/BARSTRESSES/EID/1/SA1;;	-(1e-6 + 2e-6) * 0.001 * 5e-5 / (0.0001**4 / 12);	1e-4%
+pth;	101_bar_small_i.bdf;	SC/1/BARSTRESSES/EID/1/SA2;;	-(-1e-6 + 2e-6) * 0.001 * 5e-5 / (0.0001**4 / 12);	1e-4%
+pth;	101_bar_small_i.bdf;	SC/1/BARSTRESSES/EID/1/SA3;;	(1e-6 + 2e-6) * 0.001 * 5e-5 / (0.0001**4 / 12);	1e-4%
+pth;	101_bar_small_i.bdf;	SC/1/BARSTRESSES/EID/1/SA4;;	(-1e-6 + 2e-6) * 0.001 * 5e-5 / (0.0001**4 / 12);	1e-4%
+
+
 # Fixed-fixed column with ry and rz released at both ends buckles like a pinned-pinned column, pi^2 E I / L^2.
 pth;	105_pinflag_pinned_column.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	pi**2 * 200000000000.0 * (0.03 * 0.01**3 / 12) / 2**2 / 1000;	1%
 pth;	105_pinflag_pinned_column.bdf;	SC/2/REALEIGENVALUES/MODE/2/EIGENVALUE;;	4 * pi**2 * 200000000000.0 * (0.03 * 0.01**3 / 12) / 2**2 / 1000;	2%
