@@ -31,7 +31,8 @@ from io import TextIOWrapper
 # RODSTRAINS: AXIAL, AXIALSAFETY, TORSIONAL, TORSIONALSAFETY
 #   Mystran: No because it doesn't output rod strains
 # BARFORCES: MA1, MA2, MB1, MB2, S1, S2, AXIAL, TORQUE
-# BARSTRESSES: SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL
+# BARSTRESSES: SA1, SA2, SA3, SA4, SB1, SB2, SB3, SB4, AXIAL, TORSIONAL
+#   Mystran: TORSIONAL only if a PBAR has a torsional stress coefficient. MSC: No TORSIONAL.
 # BUSHFORCES: TX, TY, TZ, RX, RY, RZ
 # BUSHSTRESSES: TX, TY, TZ, RX, RY, RZ
 # BUSHSTRAINS: TX, TY, TZ, RX, RY, RZ
@@ -465,6 +466,9 @@ class F06Query:
                             self.set(eid_node, "SA3", self.number(line, 39, 13))
                             self.set(eid_node, "SA4", self.number(line, 53, 13))
                             self.set(eid_node, "AXIAL", self.number(line, 67, 13))
+                            # Torsional stress is only printed if a PBAR has a torsional stress coefficient
+                            if line[120:133].strip() != "":
+                                self.set(eid_node, "TORSIONAL", self.number(line, 121, 13))
                             line = get_next_line()
                             self.set(eid_node, "SB1", self.number(line, 11, 13))
                             self.set(eid_node, "SB2", self.number(line, 25, 13))
