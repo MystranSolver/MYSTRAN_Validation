@@ -3,6 +3,21 @@
 # ==============================================================================================
 
 
+# Torsion of a large and a 1/100 scale square CBAR cantilever with torsional stress coefficient C = a/2, tau = T*C/J.
+# The small bar's J = 8.8E-19 m^4 is below machine epsilon but must be used as is.
+pth;	101_bar_small_j_torsion.bdf;	SC/1/BARSTRESSES/EID/1,2/TORSIONAL;;	1 * 0.0025 / (0.1406 * 0.005**4);	1e-4%
+pth;	101_bar_small_j_torsion.bdf;	SC/1/BARSTRESSES/EID/3,4/TORSIONAL;;	1e-6 * 2.5e-5 / (0.1406 * 5e-5**4);	1e-4%;	Buggy result when J below machine epsilon was treated as zero is 0.
+pth;	101_bar_small_j_torsion.bdf;	SC/1/DISPLACEMENTS/GID/3,6/RX;;	1 * 0.1 / (200000000000.0 / 2.6 * 0.1406 * 0.005**4);	1e-4%
+
+# Unsymmetric (I12 not zero) CBAR cantilevers with K1, K2, a large one and a 1E-4 scale one. Mystran ignores K1, K2 when
+# I12 is not zero, so the tip deflection is L^3/(3E) * inverse([[I1, I12], [I12, I2]]) * [Fy, Fz].
+# The small bar's I12 = 5E-25 m^4 is below machine epsilon but must be used as is.
+pth;	101_bar_small_i12.bdf;	SC/1/DISPLACEMENTS/GID/3/TY;;	0.1**3 / (3 * 200000000000.0) * (1e-8 * 200 - 5e-9 * 100) / (2e-8 * 1e-8 - 5e-9**2);	1e-4%
+pth;	101_bar_small_i12.bdf;	SC/1/DISPLACEMENTS/GID/3/TZ;;	0.1**3 / (3 * 200000000000.0) * (2e-8 * 100 - 5e-9 * 200) / (2e-8 * 1e-8 - 5e-9**2);	1e-4%
+pth;	101_bar_small_i12.bdf;	SC/1/DISPLACEMENTS/GID/6/TY;;	1e-5**3 / (3 * 200000000000.0) * (1e-24 * 2e-6 - 5e-25 * 1e-6) / (2e-24 * 1e-24 - 5e-25**2);	1e-4%;	Buggy result when I12 below machine epsilon was treated as zero includes shear deformation from K1, K2.
+pth;	101_bar_small_i12.bdf;	SC/1/DISPLACEMENTS/GID/6/TZ;;	1e-5**3 / (3 * 200000000000.0) * (2e-24 * 1e-6 - 5e-25 * 2e-6) / (2e-24 * 1e-24 - 5e-25**2);	1e-4%
+
+
 # CBARs with zero moments of inertia (I1 and/or I2 blank or 0) have no bending stiffness or bending stress in that plane.
 # Cantilever with I1 blank: axial, torsion and plane 2 bending as normal, nothing in plane 1.
 pth;	101_bar_zero_i1.bdf;	SC/1/DISPLACEMENTS/GID/5/TX;;	1000 * 1 / (200000000000.0 * 1e-4);	1e-4%
