@@ -1,0 +1,25 @@
+$ V truss of two CBARs with I1 = I2 = 0 on pinned supports with a load at the apex.
+$ The members carry axial force only and must have exactly zero bending moment and bending stress.
+SOL 101
+CEND
+TITLE = 101_bar_zero_i1_i2_truss
+ECHO = NONE
+SPC = 1
+LOAD = 1
+DISPLACEMENT = ALL
+SPCFORCES = ALL
+STRESS = ALL
+ELFORCE = ALL
+BEGIN BULK
+PARAM,POST,-1
+MAT1,1,2.E+11,,0.3,0.,0.,0.0
+PBAR,1,1,0.0001,0.0,0.0,1.406E-09,,,+P1
++P1,0.005,0.005,-0.005,0.005,-0.005,-0.005,0.005,-0.005
+GRID,1,,-1.0,0.0,0.0
+GRID,2,,0.0,1.0,0.0
+GRID,3,,1.0,0.0,0.0
+CBAR,1,1,1,2,0.0,0.0,1.0
+CBAR,2,1,2,3,0.0,0.0,1.0
+SPC1,1,123456,1,3
+FORCE,1,2,,1.0,0.0,-1000.0,0.0
+ENDDATA
