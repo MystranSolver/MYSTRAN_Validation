@@ -2,6 +2,13 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# Micron-scale cantilever, element masses ~5e-18 kg (below machine precision).
+# References are the exact eigensolution of this 10-CBAR lumped-mass mesh (see deck header).
+pth;    103_bar_micron.bdf;   SC/1/REALEIGENVALUES/MODE/1/CYCLES;;    1.37353e+08;   0.01%; 1st bending, Y
+pth;    103_bar_micron.bdf;   SC/1/REALEIGENVALUES/MODE/2/CYCLES;;    2.74706e+08;   0.01%; 1st bending, Z
+pth;    103_bar_micron.bdf;   SC/1/REALEIGENVALUES/MODE/3/CYCLES;;    8.51199e+08;   0.01%; 2nd bending, Y
+pth;    103_bar_micron.bdf;   SC/1/MODE/1/EIGENVECTOR/GID/11; ANGLEFROMY;   0;   0.01
+pth;    103_bar_micron.bdf;   SC/1/MODE/2/EIGENVECTOR/GID/11; ANGLEFROMZ;   0;   0.01
 
 # Torsion of a large and a 1/100 scale square CBAR cantilever with torsional stress coefficient C = a/2, tau = T*C/J.
 # The small bar's J = 8.8E-19 m^4 is below machine epsilon but must be used as is.
