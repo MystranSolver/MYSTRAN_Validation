@@ -2,6 +2,13 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# Scalar masses at their own DOF: scalar point IDs below the grids, two masses at one DOF, a CMASS2 on a grid T3.
+# Hand eigenvalues k / m: 3, 4, 5, 8.
+pth;    scalar_masses_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/1/EIGENVALUE;;   3.0;   1e-4%
+pth;    scalar_masses_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/2/EIGENVALUE;;   4.0;   1e-4%
+pth;    scalar_masses_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/3/EIGENVALUE;;   5.0;   1e-4%
+pth;    scalar_masses_eigen.bdf;   SC/1/REALEIGENVALUES/MODE/4/EIGENVALUE;;   8.0;   1e-4%
+
 # Micron-scale cantilever, element masses ~5e-18 kg (below machine precision).
 # References are the exact eigensolution of this 10-CBAR lumped-mass mesh (see deck header).
 pth;    103_bar_micron.bdf;   SC/1/REALEIGENVALUES/MODE/1/CYCLES;;    1.37353e+08;   0.01%; 1st bending, Y

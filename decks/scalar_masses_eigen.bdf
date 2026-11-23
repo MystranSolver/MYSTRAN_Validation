@@ -1,0 +1,27 @@
+$ Scalar masses at their own DOF. Three independent systems, hand eigenvalues k / m:
+$ - scalar points 1 and 2 (IDs below the grids'): CELAS4 k = 12 and 10 to the held scalar point 9, CMASS4 1.5 and 2.5:
+$   lambda = 8 and 4;
+$ - two CMASS4 of 1.5 and 2.5 on scalar point 31, CELAS4 k = 12 to the held scalar point 39: lambda = 12 / 4 = 3;
+$ - a CMASS2 of 2 on grid 5's T3 (its only free DOF), CELAS2 k = 10 in T3 to the held grid 99: lambda = 5.
+$ Expected eigenvalues 3, 4, 5, 8. Masses at another DOF, or only the first of two masses at one DOF, change them.
+SOL 103
+CEND
+TITLE = SCALAR MASSES AT THEIR OWN DOF
+METHOD = 1
+SPC = 1
+BEGIN BULK
+EIGR,1,GIV,,,,4
+GRID,5,,0.,0.,0.,,12456
+GRID,99,,1.,0.,0.,,123456
+SPOINT,1,2,9,31,39
+SPC1,1,0,9,39
+CELAS4,11,12.,1,9
+CELAS4,12,10.,2,9
+CMASS4,21,1.5,1
+CMASS4,22,2.5,2
+CELAS4,13,12.,31,39
+CMASS4,23,1.5,31
+CMASS4,24,2.5,31
+CELAS2,14,10.,5,3,99,3
+CMASS2,25,2.,5,3
+ENDDATA
