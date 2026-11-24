@@ -1,0 +1,20 @@
+SOL 101
+CEND
+SPCFORCES = ALL
+SPC = 1
+LOAD = 1
+BEGIN BULK
+PARAM,QUAD4TYP,MITC4+
+GRID, 1, ,0. ,0. ,0.
+GRID, 2, ,1. ,0. ,0.
+GRID, 3, ,1. ,1. ,0.
+GRID, 4, ,0. ,1. ,0.
+MAT1, 1, 1.0+09, 5.0+08
+SPC, 1, 1, 123456                                                       
+SPC, 1, 2, 123456                                                       
+SPC, 1, 3, 123456                                                       
+SPC, 1, 4, 123456                                                       
+PSHELL, 1, 1, 1.0, 1, , 1
+CQUAD4, 1, 1, 1, 2, 3, 4
+PLOAD4,1,1,0.,0.,80.,80.
+ENDDATA
