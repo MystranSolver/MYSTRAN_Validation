@@ -1,0 +1,17 @@
+$ Point mass at radius 2 with RFORCE angular velocity and angular acceleration in a LOAD combination with S = 2, S1 = 3.
+$ The load must be 6 times that of the RFORCE alone. The bug scaled the angular velocity, so the centrifugal part was
+$ 36 times. The angular acceleration part was right.
+SOL 101
+CEND
+SPCFORCES = ALL
+LOAD = 1
+BEGIN BULK
+GRID           1       0     0.0     0.0     0.0       0      13
+GRID           2       0     2.0     0.0     0.0       0
+CELAS2         1   3.0+6       1       1       2       1
+CELAS2         2   3.0+6       1       3       2       3
+RFORCE         2       0       0     1.5     0.0     1.0     0.0        +
++            1.5
+CONM2          2       2       0     7.0
+LOAD           1     2.0     3.0       2
+ENDDATA

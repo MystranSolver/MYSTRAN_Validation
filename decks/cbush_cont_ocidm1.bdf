@@ -1,0 +1,17 @@
+$ CBUSH of nonzero length with a continuation entry that has OCID = -1 and a blank S. Blank S means the default 0.5
+$ (spring at the midpoint). The bug read it as 0 (spring at GA).
+SOL 101
+CEND
+SPC = 1
+LOAD = 1
+DISP = ALL
+BEGIN BULK
+GRID,1,,0.,0.,0.
+GRID,2,,2.,1.,0.5
+CBUSH,1,1,1,2,0.,0.,1.,,+B1
++B1,,-1
+PBUSH,1,K,1000.,2000.,3000.,4000.,5000.,6000.
+SPC1,1,123456,1
+FORCE,1,2,,1.,1.,2.,3.
+MOMENT,1,2,,1.,.4,.5,.6
+ENDDATA
