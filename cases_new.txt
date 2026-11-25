@@ -2,6 +2,13 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# PLOAD4 continuation. A load direction (CID, N1-N3) is not supported so it must be a fatal error, not normal pressure.
+# The defaults of SORL and LDIR are accepted. TZ is the reaction to 1200 pressure less 5.25 from the FORCEs.
+pth;	bar_plate_pload4_direction.bdf;	SC/1/SPCFORCES/GID/1/TZ;	ABSENT;	0;	0;	Large field CID + N1-N3. Must stop with ERROR 1204. Buggy version runs with normal pressure.
+pth;	pload4_direction_small_field.bdf;	SC/1/SPCFORCES/GID/1/TZ;	ABSENT;	0;	0;	Small field N1-N3. Must stop with ERROR 1204.
+pth;	pload4_default_sorl_ldir_accepted.bdf;	SC/1/SPCFORCES/GID/1,2,3,8/TZ;	SUM;	-1194.75;	1e-3%;	SURF and NORM are the defaults so it must run.
+pth;	pload4_normal_reference.bdf;	SC/1/SPCFORCES/GID/1,2,3,8/TZ;	SUM;	-1194.75;	1e-3%;	No continuation.
+
 # RFORCE in a LOAD combination. The load is linear in the LOAD scale factor, 2 * 3 = 6.
 pth;	rforce_load_scale.bdf;	SC/1/SPCFORCES/GID/1/TX;;	-7 * (2*pi*1.5)**2 * 2 * 6;	2e-5%;	Buggy result is 6 times larger (factor squared).
 pth;	rforce_load_scale.bdf;	SC/1/SPCFORCES/GID/1/TZ;;	7 * (2*pi*1.5) * 2 * 6;	2e-5%;	Angular acceleration was right with the bug too.
