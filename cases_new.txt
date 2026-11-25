@@ -2,6 +2,14 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# Plate offsets (ZOFFS) in stress recovery and GPFORCE. NXX = 1 / 0.2 and MXX = NXX * 0.05 by statics.
+pth;	strip_xz_plane_zoffs.bdf;	SC/1/SHELLFORCES/EID/5,15/CORNER/0/NXX;;	5;	0.1%;	Buggy result is about 380 (offset applied along global z).
+pth;	strip_xz_plane_zoffs.bdf;	SC/1/SHELLFORCES/EID/5,15/CORNER/0/MXX;;	0.25;	0.1%;	Right with the bug too.
+pth;	strip_xz_plane_zoffs_ctria3.bdf;	SC/1/SHELLFORCES/EID/9/CORNER/0/NXX;;	5;	1%;	MITC3+, separate code path. Element x axis along the strip.
+pth;	strip_xz_plane_zoffs_ctria3.bdf;	SC/1/SHELLFORCES/EID/10/CORNER/0/NXX;;	5 / 2;	1%;	Element x axis at 45 degrees to the strip (NXX cos^2 45).
+pth;	strip_xy_plane_zoffs_negative_normal.bdf;	SC/1/SHELLFORCES/EID/5,15/CORNER/0/NXX;;	5;	0.1%;	Normal along -z. Buggy version applied the offset along +z.
+pth;	strip_xy_plane_zoffs_gpforce.bdf;	SC/1/GPFORCE/GID/12/SPC/TX + SC/1/GPFORCE/GID/12/EID/1/TX + SC/1/GPFORCE/GID/12/EID/11/TX;;	0;	1e-4;	GPFORCE must balance. Buggy sum is -36.4.
+
 # PLOAD4 continuation. A load direction (CID, N1-N3) is not supported so it must be a fatal error, not normal pressure.
 # The defaults of SORL and LDIR are accepted. TZ is the reaction to 1200 pressure less 5.25 from the FORCEs.
 pth;	bar_plate_pload4_direction.bdf;	SC/1/SPCFORCES/GID/1/TZ;	ABSENT;	0;	0;	Large field CID + N1-N3. Must stop with ERROR 1204. Buggy version runs with normal pressure.
