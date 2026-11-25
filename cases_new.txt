@@ -2,6 +2,21 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# RFORCE in a LOAD combination. The load is linear in the LOAD scale factor, 2 * 3 = 6.
+pth;	rforce_load_scale.bdf;	SC/1/SPCFORCES/GID/1/TX;;	-7 * (2*pi*1.5)**2 * 2 * 6;	2e-5%;	Buggy result is 6 times larger (factor squared).
+pth;	rforce_load_scale.bdf;	SC/1/SPCFORCES/GID/1/TZ;;	7 * (2*pi*1.5) * 2 * 6;	2e-5%;	Angular acceleration was right with the bug too.
+
+# CBUSH with a blank S on the continuation entry (default is 0.5), and a CBUSH followed by an empty line (must not reset CID).
+# References are the closed form with rigid links from the grids to the spring at the midpoint.
+pth;	cbush_cont_ocidm1.bdf;	SC/1/DISPLACEMENTS/GID/2/TX;;	1.344786e-03;	1e-4%;	Buggy result with S = 0 is 5.102857e-04.
+pth;	cbush_cont_ocidm1.bdf;	SC/1/DISPLACEMENTS/GID/2/TY;;	1.683643e-03;	1e-4%;	Buggy result with S = 0 is 2.565143e-03.
+pth;	cbush_blank_line.bdf;	SC/1/DISPLACEMENTS/GID/2/TX;;	1.344786e-03;	1e-4%;	Expected buggy result in basic axes is 7.125000e-04.
+
+# Cantilever plate tilted 60 degrees about X with GRID PS = 6. AUTOSPC must not constrain R2 because PS = 6 already removed
+# the drilling singularity. Deflection along the plate normal (0, -sin 60, cos 60) at the tip corners equals that of the same
+# flat mesh from an independent MITC4 plate calculation.
+pth;	plate_tilt_60_ps6.bdf;	0.5 * SC/1/DISPLACEMENTS/GID/9,27/TZ - sqrt(3) / 2 * SC/1/DISPLACEMENTS/GID/9,27/TY;;	0.1984521;	1e-3%;	Buggy result when AUTOSPC constrained R2 is 3.3e-5.
+
 pth;    pload4_nonuniform.bdf;  SC/1/SPCFORCES/GID/1/TZ;;   -40 * 1/6;    5e-5%
 pth;    pload4_nonuniform.bdf;  SC/1/SPCFORCES/GID/2/TZ;;   -40 * 1/6;    5e-5%
 pth;    pload4_nonuniform.bdf;  SC/1/SPCFORCES/GID/3/TZ;;   -40 * 2/6;    5e-5%

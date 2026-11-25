@@ -1,0 +1,17 @@
+$ CBUSH followed by an empty line, which is read as a blank continuation entry. It must not change the element: V vector
+$ orientation and S = 0.5. The bug reset CID to 0, so the element axes were basic instead of those from the V vector.
+SOL 101
+CEND
+SPC = 1
+LOAD = 1
+DISP = ALL
+BEGIN BULK
+GRID,1,,0.,0.,0.
+GRID,2,,2.,1.,0.5
+CBUSH,1,1,1,2,0.,0.,1.
+
+PBUSH,1,K,1000.,2000.,3000.,4000.,5000.,6000.
+SPC1,1,123456,1
+FORCE,1,2,,1.,1.,2.,3.
+MOMENT,1,2,,1.,.4,.5,.6
+ENDDATA
