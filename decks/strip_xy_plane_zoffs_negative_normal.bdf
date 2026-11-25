@@ -16,6 +16,8 @@ SUBCASE 3
 DISP = ALL
 STRESS = ALL
 BEGIN BULK
+$ Drilling DOFs rely on AUTOSPC, so no drilling stiffness whatever the default is.
+PARAM,K6ROT,0.0
 PARAM,POST,-1
 
 PARAM,QUAD4TYP,MITC4+

@@ -11,6 +11,8 @@ SUBCASE 1
 SUBCASE 2
   METHOD = 1
 BEGIN BULK
+$ Drilling DOFs rely on AUTOSPC, so no drilling stiffness whatever the default is.
+PARAM,K6ROT,0.0
 PARAM,QUAD4TYP,MITC4+
 EIGRL,1,,,2
 GRID,1000,,0.00000000,0.00000000,0.
