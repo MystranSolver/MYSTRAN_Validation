@@ -2,6 +2,14 @@
 # Put new test case definitions at the top so they run first and you can see the results easier.
 # ==============================================================================================
 
+# Differential stiffness of offset elements in SOL 105. A shell offset must not change the Euler load, and a CBAR with
+# WA, WB must buckle like the same bar on RBE2 links.
+pth;	105_shell_zoffs_large.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	5.7572692340e+03;	0.2%;	Euler. Buggy result is about 5244 (-9%).
+pth;	cbar_wa_wb_offset_buckling.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	61617.0;	1e-3%;	Buggy result is 61054.0.
+pth;	cbar_wa_wb_offset_buckling.bdf;	SC/2/REALEIGENVALUES/MODE/3/EIGENVALUE;;	498001.7;	1e-3%;	Buggy result is 371382.2 (-25%).
+pth;	cbar_rbe2_offset_buckling_reference.bdf;	SC/2/REALEIGENVALUES/MODE/1/EIGENVALUE;;	61617.0;	1e-3%;	Same structure with RBE2 links.
+pth;	cbar_rbe2_offset_buckling_reference.bdf;	SC/2/REALEIGENVALUES/MODE/3/EIGENVALUE;;	498001.7;	1e-3%
+
 # Plate offsets (ZOFFS) in stress recovery and GPFORCE. NXX = 1 / 0.2 and MXX = NXX * 0.05 by statics.
 pth;	strip_xz_plane_zoffs.bdf;	SC/1/SHELLFORCES/EID/5,15/CORNER/0/NXX;;	5;	0.1%;	Buggy result is about 380 (offset applied along global z).
 pth;	strip_xz_plane_zoffs.bdf;	SC/1/SHELLFORCES/EID/5,15/CORNER/0/MXX;;	0.25;	0.1%;	Right with the bug too.
